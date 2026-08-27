@@ -4,6 +4,7 @@ import MarketOverview from './components/MarketOverview.jsx'
 import StockTable from './components/StockTable.jsx'
 import DetailPanel from './components/DetailPanel.jsx'
 import OptionsChain from './components/OptionsChain.jsx'
+import InstitutionalOptions from './components/InstitutionalOptions.jsx'
 import { useWebSocket } from './hooks/useWebSocket.js'
 import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.js'
 
@@ -216,13 +217,18 @@ export default function App(){
 
       <div style={{display:'flex', gap:6, padding:'8px 16px', background:'#0a0e13', borderBottom:'1px solid #232d38'}}>
         <button className={`btn ${view==='screener'?'active':''}`} onClick={()=> setView('screener')}>📊 Screener (500)</button>
-        <button className={`btn ${view==='options'?'active':''}`} onClick={()=> setView('options')}>⛓ Options Chain — NIFTY/SENSEX • Greeks • OI • ATM</button>
-        <span style={{marginLeft:'auto', fontSize:10, color:'#5a6b84'}}>Live + Last-Day • Option analytics complete</span>
+        <button className={`btn ${view==='options'?'active':''}`} onClick={()=> setView('options')}>⛓ Options — T-Shape (mock)</button>
+        <button className={`btn ${view==='institutional'?'active':''}`} onClick={()=> setView('institutional')}>🏛 Institutional — Full Analytics (Live, No Mock)</button>
+        <span style={{marginLeft:'auto', fontSize:10, color:'#5a6b84'}}>Live / Last-Day • No dummy when closed</span>
       </div>
 
       {view==='options' ? (
         <div style={{flex:1, overflow:'auto'}}>
           <OptionsChain />
+        </div>
+      ) : view==='institutional' ? (
+        <div style={{flex:1, overflow:'auto'}}>
+          <InstitutionalOptions />
         </div>
       ) : (
       <>
