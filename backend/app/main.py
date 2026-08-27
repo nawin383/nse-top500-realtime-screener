@@ -75,10 +75,30 @@ async def lifespan(app: FastAPI):
     # start data engine
     await data_engine.start()
 
+    # start daily token refresher if creds present (auto live)
+    refresher_task = None
+    try:
+        from pathlib import Path as _P
+        from .services.token_refresher import token_refresher_loop
+        _cache = _P(__file__).resolve().parents[2] / "data" / "access_token.json"
+        # also try project root
+        if not _cache.parent.exists():
+            _cache.parent.mkdir(parents=True, exist_ok=True)
+        refresher_task = asyncio.create_task(token_refresher_loop(settings, data_engine, _cache))
+        logger.info("Token refresher task scheduled")
+    except Exception as e:
+        logger.warning(f"Token refresher not started: {e}")
+
     logger.info(f"API ready at http://{settings.host}:{settings.port}")
     yield
     # shutdown
     logger.info("Shutting down...")
+    if refresher_task:
+        refresher_task.cancel()
+        try:
+            await refresher_task
+        except asyncio.CancelledError:
+            pass
     try:
         await data_engine.stop()
     except Exception as e:

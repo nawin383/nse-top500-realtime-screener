@@ -9,8 +9,14 @@ from pydantic import Field
 class Settings(BaseSettings):
     # Kit / Kite creds - backend only
     kite_api_key: str = Field(default="", alias="KITE_API_KEY")
+    kite_api_secret: str = Field(default="", alias="KITE_API_SECRET")
     kite_access_token: str = Field(default="", alias="KITE_ACCESS_TOKEN")
     kite_client_id: str = Field(default="", alias="KITE_CLIENT_ID")
+    kite_user_id: str = Field(default="", alias="KITE_USER_ID")
+    kite_password: str = Field(default="", alias="KITE_PASSWORD")
+    kite_totp_secret: str = Field(default="", alias="KITE_TOTP_SECRET")
+    render_api_key: str = Field(default="", alias="RENDER_API_KEY")
+    render_service_id: str = Field(default="", alias="RENDER_SERVICE_ID")
     websocket_url: str = Field(default="wss://ws.kite.trade/", alias="WEBSOCKET_URL")
 
     data_mode: str = Field(default="mock", alias="DATA_MODE")  # mock | live | replay
