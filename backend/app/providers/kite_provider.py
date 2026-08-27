@@ -42,6 +42,26 @@ class KiteProvider(BaseProvider):
         # token -> symbol
         self._token_to_symbol = {u["instrument_token"]: u["symbol"] for u in universe}
         self._symbol_to_token = {u["symbol"]: u["instrument_token"] for u in universe}
+        # Load Nifty/Sensex options (up to 300 nearest expiry to stay <1000 total with 500 equities)
+        self._options_tokens=[]
+        try:
+            from pathlib import Path
+            import json
+            opt_path = Path(__file__).resolve().parents[2] / "config" / "nifty_sensex_options.json"
+            if opt_path.exists():
+                data=json.loads(opt_path.read_text())
+                # take nearest expiry: sort by expiry, take 150 NIFTY + 150 SENSEX = 300
+                nifty = sorted(data.get("NIFTY",[]), key=lambda x: (x["expiry"] or "", x["strike"]))[:200]
+                sensex = sorted(data.get("SENSEX",[]), key=lambda x: (x["expiry"] or "", x["strike"]))[:150]
+                for r in nifty+sensex:
+                    token=r["instrument_token"]; sym=r["tradingsymbol"]
+                    if token not in self._token_to_symbol:
+                        self._token_to_symbol[token]=sym
+                        self._symbol_to_token[sym]=token
+                        self._options_tokens.append(token)
+                logger.info(f"Options loaded {len(self._options_tokens)} (NIFTY {len(nifty)} + SENSEX {len(sensex)})")
+        except Exception as e:
+            logger.warning(f"Options load failed {e}")
         self._mode_map = {}
         self._ticks_processed = 0
         self._subscribed = set()
@@ -105,7 +125,7 @@ class KiteProvider(BaseProvider):
 
     def _on_open(self, ws):
         logger.info("Kite WS connected")
-        # subscribe in batches of 200 (Kite limit ~1000 per connection; we have 500)
+        # subscribe equity + options in batches of 200 (total up to 800 < 1000 limit)
         tokens = list(self._token_to_symbol.keys())
         for i in range(0, len(tokens), 200):
             chunk = tokens[i:i+200]
@@ -119,7 +139,9 @@ class KiteProvider(BaseProvider):
                 time.sleep(0.2)
             except Exception as e:
                 logger.error(f"subscribe failed {e}")
-        logger.info(f"Subscribed {len(self._subscribed)}/500 instruments in mode full")
+        equity_cnt = len(self.universe)
+        opts_cnt = len(self._options_tokens)
+        logger.info(f"Subscribed {len(self._subscribed)}/{len(tokens)} instruments (EQ {equity_cnt} + OPT {opts_cnt}) in mode full")
 
     def _on_message(self, ws, message):
         try:

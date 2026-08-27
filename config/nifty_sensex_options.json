@@ -1,0 +1,7007 @@
+{
+  "NIFTY": [
+    {
+      "tradingsymbol": "NIFTY2690122000CE",
+      "instrument_token": 12007682,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122000PE",
+      "instrument_token": 12007938,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122050CE",
+      "instrument_token": 12008194,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122050PE",
+      "instrument_token": 12008450,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122100CE",
+      "instrument_token": 12008706,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122100PE",
+      "instrument_token": 12008962,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122150CE",
+      "instrument_token": 12009218,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122150PE",
+      "instrument_token": 12009474,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122200CE",
+      "instrument_token": 12009730,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122200PE",
+      "instrument_token": 12009986,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122250CE",
+      "instrument_token": 12010242,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122250PE",
+      "instrument_token": 12010498,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122300CE",
+      "instrument_token": 12010754,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122300PE",
+      "instrument_token": 12011010,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122350CE",
+      "instrument_token": 12011266,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122350PE",
+      "instrument_token": 12011522,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122400CE",
+      "instrument_token": 12011778,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122400PE",
+      "instrument_token": 12012034,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122450CE",
+      "instrument_token": 12012290,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122450PE",
+      "instrument_token": 12012546,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122500CE",
+      "instrument_token": 12012802,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122500PE",
+      "instrument_token": 12013058,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122550CE",
+      "instrument_token": 12013314,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122550PE",
+      "instrument_token": 12013570,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122600CE",
+      "instrument_token": 12013826,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122600PE",
+      "instrument_token": 12014082,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122650CE",
+      "instrument_token": 12014338,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122650PE",
+      "instrument_token": 12014594,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122700CE",
+      "instrument_token": 12014850,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122700PE",
+      "instrument_token": 12015106,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122750CE",
+      "instrument_token": 12015362,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122750PE",
+      "instrument_token": 12015618,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122800CE",
+      "instrument_token": 12015874,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122800PE",
+      "instrument_token": 12016130,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122850CE",
+      "instrument_token": 12016386,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122850PE",
+      "instrument_token": 12016642,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122900CE",
+      "instrument_token": 12016898,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122900PE",
+      "instrument_token": 12017154,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122950CE",
+      "instrument_token": 12017410,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690122950PE",
+      "instrument_token": 12017666,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 22950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123000CE",
+      "instrument_token": 12017922,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123000PE",
+      "instrument_token": 12018178,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123050CE",
+      "instrument_token": 12018434,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123050PE",
+      "instrument_token": 12018690,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123100CE",
+      "instrument_token": 12018946,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123100PE",
+      "instrument_token": 12019202,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123150CE",
+      "instrument_token": 12019458,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123150PE",
+      "instrument_token": 12019714,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123200CE",
+      "instrument_token": 12019970,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123200PE",
+      "instrument_token": 12020226,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123250CE",
+      "instrument_token": 12020482,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123250PE",
+      "instrument_token": 12020738,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123300CE",
+      "instrument_token": 12020994,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123300PE",
+      "instrument_token": 12021250,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123350CE",
+      "instrument_token": 12021506,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123350PE",
+      "instrument_token": 12021762,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123400CE",
+      "instrument_token": 12022018,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123400PE",
+      "instrument_token": 12022274,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123450CE",
+      "instrument_token": 12022530,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123450PE",
+      "instrument_token": 12022786,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123500CE",
+      "instrument_token": 12023042,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123500PE",
+      "instrument_token": 12023298,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123550CE",
+      "instrument_token": 12023554,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123550PE",
+      "instrument_token": 12023810,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123600CE",
+      "instrument_token": 12024066,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123600PE",
+      "instrument_token": 12024322,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123650CE",
+      "instrument_token": 12024578,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123650PE",
+      "instrument_token": 12024834,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123700CE",
+      "instrument_token": 12025090,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123700PE",
+      "instrument_token": 12025346,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123750CE",
+      "instrument_token": 12025602,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123750PE",
+      "instrument_token": 12025858,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123800CE",
+      "instrument_token": 12026114,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123800PE",
+      "instrument_token": 12026370,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123850CE",
+      "instrument_token": 12026626,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123850PE",
+      "instrument_token": 12026882,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123900CE",
+      "instrument_token": 12027138,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123900PE",
+      "instrument_token": 12027394,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123950CE",
+      "instrument_token": 12027650,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690123950PE",
+      "instrument_token": 12027906,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 23950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124000CE",
+      "instrument_token": 12028162,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124000PE",
+      "instrument_token": 12028418,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124050CE",
+      "instrument_token": 12028674,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124050PE",
+      "instrument_token": 12028930,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124100CE",
+      "instrument_token": 12029186,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124100PE",
+      "instrument_token": 12029442,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124150CE",
+      "instrument_token": 12029698,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124150PE",
+      "instrument_token": 12029954,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124200CE",
+      "instrument_token": 12030210,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124200PE",
+      "instrument_token": 12030466,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124250CE",
+      "instrument_token": 12030722,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124250PE",
+      "instrument_token": 12030978,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124300CE",
+      "instrument_token": 12031234,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124300PE",
+      "instrument_token": 12031490,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124350CE",
+      "instrument_token": 12031746,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124350PE",
+      "instrument_token": 12032002,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124400CE",
+      "instrument_token": 12032258,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124400PE",
+      "instrument_token": 12032514,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124450CE",
+      "instrument_token": 12032770,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124450PE",
+      "instrument_token": 12033026,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124500CE",
+      "instrument_token": 12033282,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124500PE",
+      "instrument_token": 12033538,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124550CE",
+      "instrument_token": 12033794,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124550PE",
+      "instrument_token": 12034050,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124600PE",
+      "instrument_token": 12034562,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124600CE",
+      "instrument_token": 12034306,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124650CE",
+      "instrument_token": 12034818,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124650PE",
+      "instrument_token": 12035074,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124700CE",
+      "instrument_token": 12035330,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124700PE",
+      "instrument_token": 12035586,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124750CE",
+      "instrument_token": 12035842,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124750PE",
+      "instrument_token": 12036098,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124800CE",
+      "instrument_token": 12036354,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124800PE",
+      "instrument_token": 12036610,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124850CE",
+      "instrument_token": 12036866,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124850PE",
+      "instrument_token": 12037122,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124900CE",
+      "instrument_token": 12037378,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124900PE",
+      "instrument_token": 12037634,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124950CE",
+      "instrument_token": 12037890,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690124950PE",
+      "instrument_token": 12038146,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 24950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125000CE",
+      "instrument_token": 12038402,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125000PE",
+      "instrument_token": 12038658,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125050CE",
+      "instrument_token": 12038914,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125050PE",
+      "instrument_token": 12039170,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125100CE",
+      "instrument_token": 12039426,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125100PE",
+      "instrument_token": 12039682,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125150CE",
+      "instrument_token": 12039938,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125150PE",
+      "instrument_token": 12040194,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125200CE",
+      "instrument_token": 12040450,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125200PE",
+      "instrument_token": 12040706,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125250CE",
+      "instrument_token": 12040962,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125250PE",
+      "instrument_token": 12041218,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125300CE",
+      "instrument_token": 12041474,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125300PE",
+      "instrument_token": 12041730,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125350CE",
+      "instrument_token": 12041986,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125350PE",
+      "instrument_token": 12042242,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125400CE",
+      "instrument_token": 12042498,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125400PE",
+      "instrument_token": 12042754,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125450CE",
+      "instrument_token": 12043010,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125450PE",
+      "instrument_token": 12043266,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125500CE",
+      "instrument_token": 12043522,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125500PE",
+      "instrument_token": 12043778,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125550CE",
+      "instrument_token": 12044034,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125550PE",
+      "instrument_token": 12044290,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125600CE",
+      "instrument_token": 12044546,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125600PE",
+      "instrument_token": 12044802,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125650CE",
+      "instrument_token": 12045058,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125650PE",
+      "instrument_token": 12045314,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125700CE",
+      "instrument_token": 12045570,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125700PE",
+      "instrument_token": 12045826,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125750CE",
+      "instrument_token": 12046082,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125750PE",
+      "instrument_token": 12046338,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125800CE",
+      "instrument_token": 12046594,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125800PE",
+      "instrument_token": 12046850,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125850CE",
+      "instrument_token": 12047106,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125850PE",
+      "instrument_token": 12047362,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125900CE",
+      "instrument_token": 12047618,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125900PE",
+      "instrument_token": 12047874,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125950CE",
+      "instrument_token": 12048130,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690125950PE",
+      "instrument_token": 12048386,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 25950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126000CE",
+      "instrument_token": 12048642,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126000PE",
+      "instrument_token": 12048898,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126050CE",
+      "instrument_token": 12049154,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126050PE",
+      "instrument_token": 12049410,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126100CE",
+      "instrument_token": 12049666,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126100PE",
+      "instrument_token": 12049922,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126150CE",
+      "instrument_token": 12050178,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126150PE",
+      "instrument_token": 12050434,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126200CE",
+      "instrument_token": 12050690,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126200PE",
+      "instrument_token": 12050946,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126250CE",
+      "instrument_token": 12051202,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126250PE",
+      "instrument_token": 12051458,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126300CE",
+      "instrument_token": 12051714,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126300PE",
+      "instrument_token": 12051970,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126350CE",
+      "instrument_token": 12052226,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126350PE",
+      "instrument_token": 12052482,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126400CE",
+      "instrument_token": 12052738,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126400PE",
+      "instrument_token": 12052994,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126450CE",
+      "instrument_token": 12053250,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126450PE",
+      "instrument_token": 12053506,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126500CE",
+      "instrument_token": 12053762,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126500PE",
+      "instrument_token": 12054018,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126550CE",
+      "instrument_token": 12054274,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126550PE",
+      "instrument_token": 12054530,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126600CE",
+      "instrument_token": 12054786,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126600PE",
+      "instrument_token": 12055042,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126650CE",
+      "instrument_token": 12056066,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126650PE",
+      "instrument_token": 12056322,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126700CE",
+      "instrument_token": 12056834,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126700PE",
+      "instrument_token": 12057346,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126750CE",
+      "instrument_token": 12057602,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126750PE",
+      "instrument_token": 12057858,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126800CE",
+      "instrument_token": 12058114,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126800PE",
+      "instrument_token": 12058370,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126850CE",
+      "instrument_token": 12058626,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126850PE",
+      "instrument_token": 12058882,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126900CE",
+      "instrument_token": 12059138,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126900PE",
+      "instrument_token": 12059394,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126950CE",
+      "instrument_token": 12059650,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690126950PE",
+      "instrument_token": 12059906,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 26950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127000CE",
+      "instrument_token": 12060162,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127000PE",
+      "instrument_token": 12060418,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127050CE",
+      "instrument_token": 12060674,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127050PE",
+      "instrument_token": 12060930,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127100CE",
+      "instrument_token": 12061186,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127100PE",
+      "instrument_token": 12061442,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127150CE",
+      "instrument_token": 12061954,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127150PE",
+      "instrument_token": 12062210,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127200CE",
+      "instrument_token": 12062466,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690127200PE",
+      "instrument_token": 12062722,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-01",
+      "strike": 27200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822350CE",
+      "instrument_token": 10896642,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822350PE",
+      "instrument_token": 10896898,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822400CE",
+      "instrument_token": 10897154,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822400PE",
+      "instrument_token": 10897410,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822450CE",
+      "instrument_token": 10897666,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822450PE",
+      "instrument_token": 10897922,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822500CE",
+      "instrument_token": 10898178,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822500PE",
+      "instrument_token": 10898434,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822550CE",
+      "instrument_token": 10898690,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822550PE",
+      "instrument_token": 10898946,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822600CE",
+      "instrument_token": 10899202,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822600PE",
+      "instrument_token": 10899458,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822650CE",
+      "instrument_token": 10899714,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822650PE",
+      "instrument_token": 10899970,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822700CE",
+      "instrument_token": 10900226,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822700PE",
+      "instrument_token": 10900482,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822750CE",
+      "instrument_token": 10900738,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822750PE",
+      "instrument_token": 10900994,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822800CE",
+      "instrument_token": 10901250,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822800PE",
+      "instrument_token": 10901506,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822850CE",
+      "instrument_token": 10901762,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822850PE",
+      "instrument_token": 10902018,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822900CE",
+      "instrument_token": 10902274,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822900PE",
+      "instrument_token": 10902530,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822950CE",
+      "instrument_token": 10902786,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690822950PE",
+      "instrument_token": 10903042,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 22950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823000CE",
+      "instrument_token": 10903298,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823000PE",
+      "instrument_token": 10903554,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823050CE",
+      "instrument_token": 10903810,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823050PE",
+      "instrument_token": 10904066,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823100CE",
+      "instrument_token": 10904322,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823100PE",
+      "instrument_token": 10904578,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823150CE",
+      "instrument_token": 10904834,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823150PE",
+      "instrument_token": 10905090,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823200CE",
+      "instrument_token": 10905346,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823200PE",
+      "instrument_token": 10905602,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823250CE",
+      "instrument_token": 10905858,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823250PE",
+      "instrument_token": 10906114,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823300CE",
+      "instrument_token": 10906370,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823300PE",
+      "instrument_token": 10906626,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823350CE",
+      "instrument_token": 10906882,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823350PE",
+      "instrument_token": 10907394,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823400CE",
+      "instrument_token": 10907650,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823400PE",
+      "instrument_token": 10907906,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823450CE",
+      "instrument_token": 10908162,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823450PE",
+      "instrument_token": 10908418,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823500CE",
+      "instrument_token": 10908674,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823500PE",
+      "instrument_token": 10909186,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823550CE",
+      "instrument_token": 10909442,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823550PE",
+      "instrument_token": 10910978,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823600CE",
+      "instrument_token": 10911490,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823600PE",
+      "instrument_token": 10911746,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823650CE",
+      "instrument_token": 10912002,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823650PE",
+      "instrument_token": 10912258,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823700CE",
+      "instrument_token": 10912514,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823700PE",
+      "instrument_token": 10912770,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823750CE",
+      "instrument_token": 10913026,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823750PE",
+      "instrument_token": 10913282,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823800CE",
+      "instrument_token": 10913538,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823800PE",
+      "instrument_token": 10913794,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823850CE",
+      "instrument_token": 10914050,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823850PE",
+      "instrument_token": 10914306,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823900CE",
+      "instrument_token": 10914562,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823900PE",
+      "instrument_token": 10914818,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823950CE",
+      "instrument_token": 10915074,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690823950PE",
+      "instrument_token": 10915330,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 23950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824000CE",
+      "instrument_token": 10915586,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824000PE",
+      "instrument_token": 10915842,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824050CE",
+      "instrument_token": 10916098,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824050PE",
+      "instrument_token": 10916354,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824100CE",
+      "instrument_token": 10916610,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824100PE",
+      "instrument_token": 10916866,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824150CE",
+      "instrument_token": 10917122,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824150PE",
+      "instrument_token": 10917378,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824200CE",
+      "instrument_token": 10917634,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824200PE",
+      "instrument_token": 10917890,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824250CE",
+      "instrument_token": 10918146,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824250PE",
+      "instrument_token": 10918402,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824300CE",
+      "instrument_token": 10918658,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824300PE",
+      "instrument_token": 10918914,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824350CE",
+      "instrument_token": 10919170,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824350PE",
+      "instrument_token": 10919426,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824400CE",
+      "instrument_token": 10920194,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824400PE",
+      "instrument_token": 10920450,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824450CE",
+      "instrument_token": 10920706,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824450PE",
+      "instrument_token": 10920962,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824500CE",
+      "instrument_token": 10921218,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824500PE",
+      "instrument_token": 10921474,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824550CE",
+      "instrument_token": 10921730,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824550PE",
+      "instrument_token": 10921986,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824600PE",
+      "instrument_token": 10922498,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824600CE",
+      "instrument_token": 10922242,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824650CE",
+      "instrument_token": 10922754,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824650PE",
+      "instrument_token": 10923010,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824700CE",
+      "instrument_token": 10923266,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824700PE",
+      "instrument_token": 10923522,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824750CE",
+      "instrument_token": 10923778,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824750PE",
+      "instrument_token": 10924034,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824800CE",
+      "instrument_token": 10924290,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824800PE",
+      "instrument_token": 10924546,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824850CE",
+      "instrument_token": 10924802,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824850PE",
+      "instrument_token": 10925058,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824900CE",
+      "instrument_token": 10925314,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824900PE",
+      "instrument_token": 10926082,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824950CE",
+      "instrument_token": 10926338,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690824950PE",
+      "instrument_token": 10926594,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 24950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825000CE",
+      "instrument_token": 10926850,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825000PE",
+      "instrument_token": 10927106,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825050CE",
+      "instrument_token": 10927874,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825050PE",
+      "instrument_token": 10928130,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825100CE",
+      "instrument_token": 10928898,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825100PE",
+      "instrument_token": 10929154,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825150CE",
+      "instrument_token": 10929666,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825150PE",
+      "instrument_token": 10929922,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825200CE",
+      "instrument_token": 10930434,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825200PE",
+      "instrument_token": 10930690,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825250CE",
+      "instrument_token": 10930946,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825250PE",
+      "instrument_token": 10931202,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825300CE",
+      "instrument_token": 10931458,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825300PE",
+      "instrument_token": 10931714,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825350CE",
+      "instrument_token": 10932482,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825350PE",
+      "instrument_token": 10932738,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825400CE",
+      "instrument_token": 10932994,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825400PE",
+      "instrument_token": 10933250,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825450CE",
+      "instrument_token": 10933506,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825450PE",
+      "instrument_token": 10933762,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825500CE",
+      "instrument_token": 10934018,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825500PE",
+      "instrument_token": 10934274,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825550CE",
+      "instrument_token": 10934786,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825550PE",
+      "instrument_token": 10935042,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825600CE",
+      "instrument_token": 10937090,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825600PE",
+      "instrument_token": 10937346,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825650CE",
+      "instrument_token": 10937602,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825650PE",
+      "instrument_token": 10937858,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825700CE",
+      "instrument_token": 10938114,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825700PE",
+      "instrument_token": 10938370,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825750CE",
+      "instrument_token": 10938626,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825750PE",
+      "instrument_token": 10939394,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825800CE",
+      "instrument_token": 10939650,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825800PE",
+      "instrument_token": 10939906,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825850CE",
+      "instrument_token": 10940162,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825850PE",
+      "instrument_token": 10940418,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825900CE",
+      "instrument_token": 10941698,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825900PE",
+      "instrument_token": 10941954,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825950CE",
+      "instrument_token": 10942210,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690825950PE",
+      "instrument_token": 10942466,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 25950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826000CE",
+      "instrument_token": 10942722,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26000.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826000PE",
+      "instrument_token": 10942978,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26000.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826050CE",
+      "instrument_token": 10943234,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26050.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826050PE",
+      "instrument_token": 10944002,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26050.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826100CE",
+      "instrument_token": 10944770,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26100.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826100PE",
+      "instrument_token": 10945026,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26100.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826150CE",
+      "instrument_token": 10946306,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26150.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826150PE",
+      "instrument_token": 10946562,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26150.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826200CE",
+      "instrument_token": 10946818,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26200.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826200PE",
+      "instrument_token": 10947074,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26200.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826250CE",
+      "instrument_token": 10947330,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26250.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826250PE",
+      "instrument_token": 10947586,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26250.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826300CE",
+      "instrument_token": 10947842,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26300.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826300PE",
+      "instrument_token": 10948098,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26300.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826350CE",
+      "instrument_token": 10948354,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826350PE",
+      "instrument_token": 10948610,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826400CE",
+      "instrument_token": 10948866,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2690826400PE",
+      "instrument_token": 10949122,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-08",
+      "strike": 26400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522350CE",
+      "instrument_token": 12096258,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22350.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522350PE",
+      "instrument_token": 12096514,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22350.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522400CE",
+      "instrument_token": 12096770,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22400.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522400PE",
+      "instrument_token": 12097026,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22400.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522450CE",
+      "instrument_token": 12097282,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22450.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522450PE",
+      "instrument_token": 12097538,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22450.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522500CE",
+      "instrument_token": 12097794,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22500.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522500PE",
+      "instrument_token": 12098050,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22500.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522550CE",
+      "instrument_token": 12098306,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22550.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522550PE",
+      "instrument_token": 12098562,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22550.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522600CE",
+      "instrument_token": 12098818,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22600.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522600PE",
+      "instrument_token": 12099074,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22600.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522650CE",
+      "instrument_token": 12099330,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22650.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522650PE",
+      "instrument_token": 12099586,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22650.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522700CE",
+      "instrument_token": 12099842,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22700.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522700PE",
+      "instrument_token": 12100098,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22700.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522750CE",
+      "instrument_token": 12100354,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22750.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522750PE",
+      "instrument_token": 12100610,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22750.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522800CE",
+      "instrument_token": 12100866,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22800.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522800PE",
+      "instrument_token": 12101122,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22800.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522850CE",
+      "instrument_token": 12101378,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22850.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522850PE",
+      "instrument_token": 12101634,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22850.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522900CE",
+      "instrument_token": 12101890,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22900.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522900PE",
+      "instrument_token": 12102146,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22900.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522950CE",
+      "instrument_token": 12102402,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22950.0,
+      "type": "CE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    },
+    {
+      "tradingsymbol": "NIFTY2691522950PE",
+      "instrument_token": 12102658,
+      "underlying": "NIFTY",
+      "expiry": "2026-09-15",
+      "strike": 22950.0,
+      "type": "PE",
+      "exchange": "NFO",
+      "segment": "NFO-OPT"
+    }
+  ],
+  "SENSEX": [
+    {
+      "tradingsymbol": "SENSEX26AUG66800CE",
+      "instrument_token": 214202117,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 66800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG66800PE",
+      "instrument_token": 214233093,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 66800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG66900CE",
+      "instrument_token": 214078981,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 66900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG66900PE",
+      "instrument_token": 214197509,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 66900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67000PE",
+      "instrument_token": 214121733,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67000CE",
+      "instrument_token": 214185989,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67100CE",
+      "instrument_token": 214141957,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67100PE",
+      "instrument_token": 214181125,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67200CE",
+      "instrument_token": 213997317,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67200PE",
+      "instrument_token": 214015749,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67300CE",
+      "instrument_token": 213479173,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67300PE",
+      "instrument_token": 213531397,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67400CE",
+      "instrument_token": 213417477,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67400PE",
+      "instrument_token": 213472517,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67500CE",
+      "instrument_token": 213497861,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67500PE",
+      "instrument_token": 213552645,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67600CE",
+      "instrument_token": 213436421,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67600PE",
+      "instrument_token": 213486085,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67700PE",
+      "instrument_token": 213426181,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67700CE",
+      "instrument_token": 213512965,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67800CE",
+      "instrument_token": 213193733,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67800PE",
+      "instrument_token": 213241093,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67900CE",
+      "instrument_token": 213135621,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG67900PE",
+      "instrument_token": 213187845,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 67900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68000CE",
+      "instrument_token": 213271301,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68000PE",
+      "instrument_token": 213326085,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68100CE",
+      "instrument_token": 213108485,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68100PE",
+      "instrument_token": 213160709,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68200CE",
+      "instrument_token": 213287429,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68200PE",
+      "instrument_token": 213343237,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68300CE",
+      "instrument_token": 213125381,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68300PE",
+      "instrument_token": 213177093,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68400PE",
+      "instrument_token": 213116165,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68400CE",
+      "instrument_token": 213303301,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68500CE",
+      "instrument_token": 213141253,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68500PE",
+      "instrument_token": 213294085,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68600PE",
+      "instrument_token": 213132293,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68600CE",
+      "instrument_token": 213320453,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68700CE",
+      "instrument_token": 213256709,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68700PE",
+      "instrument_token": 213310981,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68800PE",
+      "instrument_token": 213148677,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68800CE",
+      "instrument_token": 213337349,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68900CE",
+      "instrument_token": 212233989,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG68900PE",
+      "instrument_token": 212793861,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 68900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69000CE",
+      "instrument_token": 211384325,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69000PE",
+      "instrument_token": 211821573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69100CE",
+      "instrument_token": 212016901,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69100PE",
+      "instrument_token": 212588293,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69200CE",
+      "instrument_token": 211520005,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69200PE",
+      "instrument_token": 211953413,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69300PE",
+      "instrument_token": 211447557,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69300CE",
+      "instrument_token": 212143365,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69400CE",
+      "instrument_token": 211643653,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69400PE",
+      "instrument_token": 212076549,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69500CE",
+      "instrument_token": 211131909,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69500PE",
+      "instrument_token": 211576837,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69600CE",
+      "instrument_token": 211777029,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69600PE",
+      "instrument_token": 212204805,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69700CE",
+      "instrument_token": 211261445,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69700PE",
+      "instrument_token": 211698949,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69800PE",
+      "instrument_token": 211189765,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69800CE",
+      "instrument_token": 211904773,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69900CE",
+      "instrument_token": 211399941,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG69900PE",
+      "instrument_token": 211837701,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 69900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70000CE",
+      "instrument_token": 210958853,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70000PE",
+      "instrument_token": 211401221,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70100PE",
+      "instrument_token": 210883589,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70100CE",
+      "instrument_token": 211601413,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70200CE",
+      "instrument_token": 211089413,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70200PE",
+      "instrument_token": 211533317,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70300PE",
+      "instrument_token": 211022341,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70300CE",
+      "instrument_token": 212762373,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70400CE",
+      "instrument_token": 211213573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70400PE",
+      "instrument_token": 211655429,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70500PE",
+      "instrument_token": 211149573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70500CE",
+      "instrument_token": 212887045,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70600CE",
+      "instrument_token": 211356165,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70600PE",
+      "instrument_token": 212823301,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70700CE",
+      "instrument_token": 210837765,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70700PE",
+      "instrument_token": 211280133,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70800PE",
+      "instrument_token": 210765061,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70800CE",
+      "instrument_token": 212528389,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70900CE",
+      "instrument_token": 210974213,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG70900PE",
+      "instrument_token": 211415813,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 70900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71000CE",
+      "instrument_token": 212172293,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71000PE",
+      "instrument_token": 212739077,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71100CE",
+      "instrument_token": 211668741,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71100PE",
+      "instrument_token": 212105733,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71200CE",
+      "instrument_token": 212304901,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71200PE",
+      "instrument_token": 212864005,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71300CE",
+      "instrument_token": 211805701,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71300PE",
+      "instrument_token": 212235781,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71400PE",
+      "instrument_token": 211730181,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71400CE",
+      "instrument_token": 212571397,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71500CE",
+      "instrument_token": 211937029,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71500PE",
+      "instrument_token": 212498949,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71600CE",
+      "instrument_token": 211430661,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71600PE",
+      "instrument_token": 211863813,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71700CE",
+      "instrument_token": 212059653,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71700PE",
+      "instrument_token": 212623877,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71800CE",
+      "instrument_token": 211557893,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71800PE",
+      "instrument_token": 211992325,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71900PE",
+      "instrument_token": 211495685,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG71900CE",
+      "instrument_token": 212184837,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 71900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72000CE",
+      "instrument_token": 211338501,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72000PE",
+      "instrument_token": 211779845,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72100CE",
+      "instrument_token": 210823941,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72100PE",
+      "instrument_token": 211263749,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72200CE",
+      "instrument_token": 211474437,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72200PE",
+      "instrument_token": 212934661,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72300CE",
+      "instrument_token": 210960133,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72300PE",
+      "instrument_token": 211401989,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72400PE",
+      "instrument_token": 210884613,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72400CE",
+      "instrument_token": 212637701,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72500CE",
+      "instrument_token": 211090437,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72500PE",
+      "instrument_token": 211533829,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72600PE",
+      "instrument_token": 211023365,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72600CE",
+      "instrument_token": 212763653,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72700CE",
+      "instrument_token": 211214597,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72700PE",
+      "instrument_token": 212701189,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72800PE",
+      "instrument_token": 211150341,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72800CE",
+      "instrument_token": 212888325,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72900CE",
+      "instrument_token": 212263685,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG72900PE",
+      "instrument_token": 212824325,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 72900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73000PE",
+      "instrument_token": 211850501,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73000CE",
+      "instrument_token": 212683525,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73100CE",
+      "instrument_token": 212045317,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73100PE",
+      "instrument_token": 212613125,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73200CE",
+      "instrument_token": 211547653,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73200PE",
+      "instrument_token": 211981317,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73300CE",
+      "instrument_token": 212173317,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73300PE",
+      "instrument_token": 212740101,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73400CE",
+      "instrument_token": 211669765,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73400PE",
+      "instrument_token": 212107525,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73500PE",
+      "instrument_token": 211607045,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73500CE",
+      "instrument_token": 212306437,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73600CE",
+      "instrument_token": 211806469,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73600PE",
+      "instrument_token": 212236805,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73700CE",
+      "instrument_token": 211299077,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73700PE",
+      "instrument_token": 211731461,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73800CE",
+      "instrument_token": 211938053,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73800PE",
+      "instrument_token": 212500229,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73900CE",
+      "instrument_token": 211431685,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG73900PE",
+      "instrument_token": 211864581,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 73900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74000PE",
+      "instrument_token": 211010053,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74000CE",
+      "instrument_token": 212749573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74100CE",
+      "instrument_token": 211201285,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74100PE",
+      "instrument_token": 211645189,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74200PE",
+      "instrument_token": 211135749,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74200CE",
+      "instrument_token": 212875525,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74300CE",
+      "instrument_token": 211340037,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74300PE",
+      "instrument_token": 212811269,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74400CE",
+      "instrument_token": 210825221,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74400PE",
+      "instrument_token": 211265029,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74500PE",
+      "instrument_token": 210753797,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74500CE",
+      "instrument_token": 212515077,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74600CE",
+      "instrument_token": 210962181,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74600PE",
+      "instrument_token": 211403269,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74700PE",
+      "instrument_token": 210885637,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74700CE",
+      "instrument_token": 212639237,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74800CE",
+      "instrument_token": 211091973,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74800PE",
+      "instrument_token": 211534341,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74900PE",
+      "instrument_token": 211024645,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG74900CE",
+      "instrument_token": 212764421,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 74900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75000CE",
+      "instrument_token": 211792645,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75000PE",
+      "instrument_token": 212221701,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75100PE",
+      "instrument_token": 211718405,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75100CE",
+      "instrument_token": 212558341,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75200CE",
+      "instrument_token": 211922437,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75200PE",
+      "instrument_token": 212482565,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75300CE",
+      "instrument_token": 211417349,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75300PE",
+      "instrument_token": 211851013,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75400CE",
+      "instrument_token": 212046085,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75400PE",
+      "instrument_token": 212613637,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75500CE",
+      "instrument_token": 211548677,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75500PE",
+      "instrument_token": 211981573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75600PE",
+      "instrument_token": 211481861,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75600CE",
+      "instrument_token": 212174853,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75700CE",
+      "instrument_token": 211671301,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75700PE",
+      "instrument_token": 212109061,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75800PE",
+      "instrument_token": 211607557,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75800CE",
+      "instrument_token": 212306949,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75900CE",
+      "instrument_token": 211807493,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG75900PE",
+      "instrument_token": 212237573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 75900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76000CE",
+      "instrument_token": 210943749,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76000PE",
+      "instrument_token": 211388933,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76100PE",
+      "instrument_token": 210872581,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76100CE",
+      "instrument_token": 212626181,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76200CE",
+      "instrument_token": 211078661,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76200PE",
+      "instrument_token": 211523333,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76300PE",
+      "instrument_token": 211012101,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76300CE",
+      "instrument_token": 212750341,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76400CE",
+      "instrument_token": 211202565,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76400PE",
+      "instrument_token": 212689669,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76500PE",
+      "instrument_token": 211136773,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76500CE",
+      "instrument_token": 212877573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76600CE",
+      "instrument_token": 212251397,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76600PE",
+      "instrument_token": 212812293,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76700CE",
+      "instrument_token": 210826501,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76700PE",
+      "instrument_token": 211266565,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76800PE",
+      "instrument_token": 210755589,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76800CE",
+      "instrument_token": 212516357,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76900CE",
+      "instrument_token": 210963973,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG76900PE",
+      "instrument_token": 211404805,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 76900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77000CE",
+      "instrument_token": 212159749,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77000PE",
+      "instrument_token": 212730885,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77100CE",
+      "instrument_token": 211657733,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77100PE",
+      "instrument_token": 212092677,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77200PE",
+      "instrument_token": 211596037,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77200CE",
+      "instrument_token": 212290309,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77300CE",
+      "instrument_token": 211794181,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77300PE",
+      "instrument_token": 212222981,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77400CE",
+      "instrument_token": 211282437,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77400PE",
+      "instrument_token": 211719429,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77500CE",
+      "instrument_token": 211923717,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77500PE",
+      "instrument_token": 212483845,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77600CE",
+      "instrument_token": 211418117,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77600PE",
+      "instrument_token": 211852549,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77700CE",
+      "instrument_token": 212046597,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77700PE",
+      "instrument_token": 212614405,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77800CE",
+      "instrument_token": 211549701,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77800PE",
+      "instrument_token": 211982853,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77900PE",
+      "instrument_token": 211483653,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG77900CE",
+      "instrument_token": 212175877,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 77900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78000CE",
+      "instrument_token": 211325445,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78000PE",
+      "instrument_token": 212800005,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78100CE",
+      "instrument_token": 210812421,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78100PE",
+      "instrument_token": 211250693,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78200CE",
+      "instrument_token": 212501765,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78200PE",
+      "instrument_token": 212923909,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78300PE",
+      "instrument_token": 211390469,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78300CE",
+      "instrument_token": 210945797,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78400PE",
+      "instrument_token": 210873093,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78400CE",
+      "instrument_token": 212627461,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78500CE",
+      "instrument_token": 211079429,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78500PE",
+      "instrument_token": 211523589,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78600PE",
+      "instrument_token": 211012869,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78600CE",
+      "instrument_token": 212751365,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78700CE",
+      "instrument_token": 211203589,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78700PE",
+      "instrument_token": 212690693,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78800PE",
+      "instrument_token": 211137541,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78800CE",
+      "instrument_token": 212878341,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78900CE",
+      "instrument_token": 212252165,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG78900PE",
+      "instrument_token": 212813573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 78900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79000CE",
+      "instrument_token": 211405829,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79000PE",
+      "instrument_token": 211841797,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79100CE",
+      "instrument_token": 212032005,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79100PE",
+      "instrument_token": 212603653,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79200CE",
+      "instrument_token": 211536133,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79200PE",
+      "instrument_token": 211973893,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79300PE",
+      "instrument_token": 211467269,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79300CE",
+      "instrument_token": 212161029,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79400CE",
+      "instrument_token": 211659269,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79400PE",
+      "instrument_token": 212094213,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79500PE",
+      "instrument_token": 211597061,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79500CE",
+      "instrument_token": 212291333,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79600CE",
+      "instrument_token": 211794949,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79600PE",
+      "instrument_token": 212224773,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79700CE",
+      "instrument_token": 211283461,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79700PE",
+      "instrument_token": 211720453,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79800CE",
+      "instrument_token": 211924997,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79800PE",
+      "instrument_token": 212486661,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79900CE",
+      "instrument_token": 211419397,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG79900PE",
+      "instrument_token": 211854597,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 79900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80000CE",
+      "instrument_token": 210979333,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80000PE",
+      "instrument_token": 211420933,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80100CE",
+      "instrument_token": 211618821,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80100PE",
+      "instrument_token": 212048901,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80200CE",
+      "instrument_token": 211108357,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80200PE",
+      "instrument_token": 211550981,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80300PE",
+      "instrument_token": 211042565,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80300CE",
+      "instrument_token": 211744773,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80400CE",
+      "instrument_token": 211232261,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80400PE",
+      "instrument_token": 211674373,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80500PE",
+      "instrument_token": 211166213,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80500CE",
+      "instrument_token": 212905989,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80600CE",
+      "instrument_token": 211372549,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80600PE",
+      "instrument_token": 211808773,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80700CE",
+      "instrument_token": 210856709,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80700PE",
+      "instrument_token": 211302661,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80800PE",
+      "instrument_token": 210786821,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80800.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80800CE",
+      "instrument_token": 211508229,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80800.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80900CE",
+      "instrument_token": 210994181,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80900.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG80900PE",
+      "instrument_token": 211434501,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 80900.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81000CE",
+      "instrument_token": 212188165,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81000.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81000PE",
+      "instrument_token": 212753157,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81000.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81100CE",
+      "instrument_token": 210765573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81100.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81100PE",
+      "instrument_token": 212123653,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81100.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81200CE",
+      "instrument_token": 212324101,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81200.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81200PE",
+      "instrument_token": 212880133,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81200.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81300CE",
+      "instrument_token": 211822341,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81300.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81300PE",
+      "instrument_token": 212254725,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81300.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81400PE",
+      "instrument_token": 210829317,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81400.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81400CE",
+      "instrument_token": 212589061,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81400.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81500CE",
+      "instrument_token": 211954181,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81500.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81500PE",
+      "instrument_token": 212519685,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81500.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81600PE",
+      "instrument_token": 211881221,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81600.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81600CE",
+      "instrument_token": 212717829,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81600.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81700CE",
+      "instrument_token": 212077573,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81700.0,
+      "type": "CE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    },
+    {
+      "tradingsymbol": "SENSEX26AUG81700PE",
+      "instrument_token": 212642053,
+      "underlying": "SENSEX",
+      "expiry": "2026-08-27",
+      "strike": 81700.0,
+      "type": "PE",
+      "exchange": "BFO",
+      "segment": "BFO-OPT"
+    }
+  ],
+  "total": 700
+}

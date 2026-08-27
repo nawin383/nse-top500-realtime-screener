@@ -142,9 +142,19 @@ class MarketState:
     def on_tick(self, tick: MarketTick):
         sym = tick.symbol
         if sym not in self.states:
-            # unknown symbol - create on fly if token mapped? else ignore
-            logger.warning(f"Unknown symbol {sym} token {tick.token}")
-            return
+            # auto-create for options (NIFTY/SENSEX) - dynamic subscription
+            if tick.token and tick.symbol:
+                from .models import StockState
+                # infer sector from symbol prefix
+                sector = "Options" if any(x in sym for x in ["NIFTY","BANKNIFTY","SENSEX"]) else "Unknown"
+                state = StockState(symbol=sym, token=tick.token, company=sym, sector=sector, exchange="NSE", ltp=tick.ltp, previous_close=tick.previousClose or tick.ltp, volume=tick.volume or 0, freshness="LIVE", timestamp=tick.timestamp)
+                self.states[sym]=state
+                self.token_to_symbol[tick.token]=sym
+                self.universe_map[sym]={"symbol":sym,"instrument_token":tick.token,"sector":sector,"avg_volume":1000000,"prev_close":tick.previousClose or tick.ltp}
+                logger.info(f"Dynamic options state created {sym} token {tick.token}")
+            else:
+                logger.warning(f"Unknown symbol {sym} token {tick.token}")
+                return
         state = self.states[sym]
         # duplicate detection via timestamp+ltp
         now = datetime.now(tz=IST)
