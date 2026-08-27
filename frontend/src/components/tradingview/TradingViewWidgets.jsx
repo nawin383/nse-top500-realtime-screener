@@ -85,6 +85,22 @@ export function EconomicCalendar({ theme='dark', height=400 }){
   }} />
 }
 
+export function TechnicalAnalysis({ symbol='NSE:RELIANCE', theme='dark', height=425, interval='1D' }){
+  const tvSym = symbol.includes(':') ? symbol : `NSE:${symbol}`
+  const ct = theme==='light'?'light':'dark'
+  return <TVWrap title={`Technical Analysis ${tvSym}`} height={height} src="https://s.tradingview.com/external-embedding/embed-widget-technical-analysis.js" config={{
+    interval, width:'100%', isTransparent:false, height, symbol: tvSym, showIntervalTabs:true, displayMode:'single', locale:'en', colorTheme: ct
+  }} />
+}
+
+export function SymbolInfo({ symbol='NSE:RELIANCE', theme='dark', height=180 }){
+  const tvSym = symbol.includes(':') ? symbol : `NSE:${symbol}`
+  const ct = theme==='light'?'light':'dark'
+  return <TVWrap title={`Symbol Info ${tvSym}`} height={height} src="https://s.tradingview.com/external-embedding/embed-widget-symbol-info.js" config={{
+    symbol: tvSym, width:'100%', locale:'en', colorTheme: ct, isTransparent:false
+  }} />
+}
+
 export function Heatmap({ theme='dark', height=400, dataSource='SPX500' }){
   const ct = theme==='light'?'light':'dark'
   return <TVWrap title="Heatmap" height={height} src="https://s.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" config={{
@@ -105,4 +121,4 @@ export function LazyTV({ children, fallback }){
   return <div ref={ref}>{vis ? children : (fallback || <div style={{height:120, display:'grid', placeItems:'center', color:'#5b728c', background:'rgba(255,255,255,0.03)', borderRadius:12, border:'1px solid rgba(255,255,255,0.06)'}}>Loading widget…</div>)}</div>
 }
 
-export default { TickerTape, AdvancedChart, MarketOverviewTV, ScreenerTV, EconomicCalendar, Heatmap }
+export default { TickerTape, AdvancedChart, MarketOverviewTV, ScreenerTV, EconomicCalendar, Heatmap, TechnicalAnalysis, SymbolInfo }

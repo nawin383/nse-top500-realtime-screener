@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense, lazy } from 'react'
 import { fetchStockDetail } from '../services/api.js'
 import MiniChart from '../charts/MiniChart.jsx'
 import { fmtPrice, fmtPct, fmtVol } from '../utils/format.js'
 
-export default function DetailPanel({ symbol, onClose, liveState }){
+const TechnicalAnalysis = lazy(()=> import('./tradingview/TradingViewWidgets.jsx').then(m=>({default:m.TechnicalAnalysis})))
+const SymbolInfo = lazy(()=> import('./tradingview/TradingViewWidgets.jsx').then(m=>({default:m.SymbolInfo})))
+
+export default function DetailPanel({ symbol, onClose, liveState, theme='dark' }){
   const [detail, setDetail] = useState(null)
   const [interval, setInterval] = useState('1m')
 
@@ -41,7 +44,7 @@ export default function DetailPanel({ symbol, onClose, liveState }){
     <div className="detail-panel open" style={{padding:16, gap:14, display:'flex', flexDirection:'column'}}>
       <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:12}}>
         <div style={{minWidth:0}}>
-          <div style={{fontSize:18, fontWeight:900, letterSpacing:'-0.02em', display:'flex', gap:8, alignItems:'center', flexWrap:'wrap'}}>{state.symbol} <span className={`signal ${state.signal}`} style={{fontSize:9}}>{state.signal}</span> {state.synthetic && <span style={{fontSize:9, background:'rgba(255,176,32,0.12)', color:'#ffb020', padding:'3px 8px', borderRadius:999, border:'1px solid rgba(255,176,32,0.2)', fontWeight:800}}>CLOSED • SYNTHETIC</span>}</div>
+          <div style={{fontSize:18, fontWeight:900, letterSpacing:'-0.02em', display:'flex', gap:8, alignItems:'center', flexWrap:'wrap'}}>{state.symbol} <span className={`signal ${state.signal}`} style={{fontSize:9}}>{state.signal}</span> {state.synthetic && <span style={{fontSize:9, background:'rgba(255,176,32,0.12)', color:'#ffb020', padding:'3px 8px', borderRadius:999, border:'1px solid rgba(255,176,32,0.2)', fontWeight:800}}>MARKET CLOSED</span>}</div>
           <div style={{fontSize:11, color:'#8ea0b8', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', fontWeight:600}}>{state.companyName}</div>
           <div style={{fontSize:10, color:'#5b728c', background:'rgba(255,255,255,0.04)', padding:'3px 8px', borderRadius:999, display:'inline-block', marginTop:6, border:'1px solid rgba(255,255,255,0.06)'}}>{state.sector} • {state.industry}</div>
         </div>
@@ -93,7 +96,7 @@ export default function DetailPanel({ symbol, onClose, liveState }){
         <div className="legend" style={{position:'absolute', top:10, left:14, background:'rgba(15,20,28,0.85)', padding:'6px 10px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)', backdropFilter:'blur(8px)'}}>
           <span style={{color:'#ffb020'}}>─ VWAP</span> <span style={{color:'#2f8bff'}}>─ EMA9</span> <span style={{color:'#8b5cf6'}}>─ EMA20</span>
         </div>
-        {state.synthetic && <div style={{position:'absolute', bottom:10, right:14, background:'rgba(255,176,32,0.12)', color:'#ffb020', padding:'4px 8px', borderRadius:999, fontSize:10, fontWeight:800, border:'1px solid rgba(255,176,32,0.2)'}}>SYNTHETIC • LAST CLOSE</div>}
+        {state.synthetic && <div style={{position:'absolute', bottom:10, right:14, background:'rgba(255,176,32,0.12)', color:'#ffb020', padding:'4px 8px', borderRadius:999, fontSize:10, fontWeight:800, border:'1px solid rgba(255,176,32,0.2)'}}>LAST CLOSE</div>}
       </div>
 
       <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14, backdropFilter:'blur(12px)'}}>
@@ -103,6 +106,20 @@ export default function DetailPanel({ symbol, onClose, liveState }){
             <span style={{textTransform:'capitalize', color:'#8ea0b8', fontWeight:600}}>{k}</span><span style={{fontFamily:'JetBrains Mono', fontWeight:700, color:'#eef4ff'}}>{typeof v==='number'? v.toFixed(1): String(v)}</span>
           </div>
         )) : <div style={{fontSize:11, color:'#5b728c', textAlign:'center', padding:12}}>Scoring after first ticks • Momentum 25 + Volume 25 + RelVol 20 + Breakout 15 + VWAP 10 + Volatility 5</div>}
+      </div>
+
+      <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14, backdropFilter:'blur(12px)'}}>
+        <div style={{fontSize:11, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10}}>Symbol Info</div>
+        <Suspense fallback={<div style={{height:180, background:'rgba(255,255,255,0.04)', borderRadius:10}} />}>
+          <SymbolInfo symbol={`NSE:${state.symbol}`} theme={theme} height={180} />
+        </Suspense>
+      </div>
+
+      <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14, backdropFilter:'blur(12px)'}}>
+        <div style={{fontSize:11, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10}}>TradingView Technical Rating</div>
+        <Suspense fallback={<div style={{height:425, background:'rgba(255,255,255,0.04)', borderRadius:10}} />}>
+          <TechnicalAnalysis symbol={`NSE:${state.symbol}`} theme={theme} height={425} />
+        </Suspense>
       </div>
     </div>
   )

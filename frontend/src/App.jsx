@@ -13,6 +13,7 @@ import { useStore } from './store/useStore.js'
 import { DashboardLayouts, LayoutSwitcher, BentoGrid, BentoCard } from './components/layouts/DashboardLayouts.jsx'
 
 const OptionsChain = lazy(()=> import('./components/OptionsChain.jsx'))
+const OpenInterestChart = lazy(()=> import('./components/OpenInterestChart.jsx'))
 const InstitutionalOptions = lazy(()=> import('./components/InstitutionalOptions.jsx'))
 const AgileInstitutional = lazy(()=> import('./components/AgileInstitutional.jsx'))
 const TickerTape = lazy(()=> import('./components/tradingview/TradingViewWidgets.jsx').then(m=>({default:m.TickerTape})))
@@ -112,7 +113,13 @@ export default function App(){
 
       <div id="main-content" tabIndex={-1} style={{flex:1, overflow:'auto', padding:'14px 20px 0 20px', display:'flex', flexDirection:'column', gap:16}}>
         <Suspense fallback={<div style={{color:'#5b728c',textAlign:'center'}}>Loading view…</div>}>
-          {view==='options'?<div style={{flex:1}}><OptionsChain/></div>
+          {view==='options'?<div style={{flex:1, display:'flex', flexDirection:'column', gap:14}}>
+            <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14}}>
+              <h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Open Interest — Weekly / Monthly</h3>
+              <Suspense fallback={<div style={{height:320,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><OpenInterestChart theme={theme} /></Suspense>
+            </div>
+            <OptionsChain/>
+          </div>
           :view==='institutional'?<div style={{flex:1}}><InstitutionalOptions/></div>
           :view==='agile'?<div style={{flex:1}}><AgileInstitutional/></div>
           :(<>
@@ -150,7 +157,7 @@ export default function App(){
                 <div className="table-wrap" style={{flex:1}}><StockTable stocks={filtered} onSelect={handleSelect} selectedSymbol={selected} sortBy={sortBy} sortDir={sortDir} onSort={(k,dir)=>{setSortBy(k); setSortDir(dir)}} />
                   {filtered.length===0 && allStocks.length===0 && <div style={{position:'absolute',inset:0,display:'grid',placeItems:'center',textAlign:'center'}}><div><div style={{width:48,height:48,borderRadius:16,background:'linear-gradient(135deg, rgba(47,139,255,0.15), rgba(0,230,160,0.1))',display:'grid',placeItems:'center',margin:'0 auto 12px'}}>◈</div><div style={{fontWeight:700,color:'#eef4ff'}}>Waiting for market data…</div><div style={{fontSize:11,marginTop:6,color:'#5b728c'}}>Backend in <b style={{color:'#eef4ff'}}>{dataMode}</b> mode • Establishing stream</div></div></div>}
                 </div>
-                {(selected||showDetail)&& <DetailPanel symbol={selected} onClose={()=>{setSelected(null);setShowDetail(false)}} liveState={liveSelectedState} />}
+                {(selected||showDetail)&& <DetailPanel symbol={selected} onClose={()=>{setSelected(null);setShowDetail(false)}} liveState={liveSelectedState} theme={theme} />}
               </div>
             </section>
 

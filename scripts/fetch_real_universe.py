@@ -43,34 +43,60 @@ except Exception as e:
 
 print(f"Selected {len(selected)} for universe")
 
-# Build universe JSON
-# Need sector mapping: infer from existing file or use generic
+# Real per-symbol prev_close / avg_volume / sector / industry: NSE's stockIndices API
+# returns all Nifty 500 constituents in one response with previousClose,
+# totalTradedVolume (source for a real avg_volume — see NOTE below) and a real
+# NSE sector/industry classification under meta. This is the same
+# session-cookie-warmup pattern already used by options/fetcher_v2.py.
+# NOTE: totalTradedVolume here is a single day's volume, not a rolling average;
+# for a real N-day average volume, run backend/app/services/history_warmer.py
+# against Kite's historical daily candles once credentials + network access
+# are available (it patches avg_volume onto the running MarketState directly).
+real_data = {}
 try:
-    old = json.loads((ROOT / "config" / "nse_top500.json").read_text())
-    old_map = {x["symbol"]: x for x in old}
-except: old_map = {}
+    import requests
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+    }
+    s = requests.Session()
+    s.headers.update(headers)
+    s.get("https://www.nseindia.com/market-data/live-equity-market", timeout=10)
+    r = s.get("https://www.nseindia.com/api/equity-stockIndices?index=NIFTY%20500", timeout=15)
+    if r.status_code == 200:
+        for row in r.json().get("data", []):
+            sym = (row.get("symbol") or "").strip()
+            if not sym:
+                continue
+            real_data[sym] = {
+                "prev_close": row.get("previousClose"),
+                "day_volume": row.get("totalTradedVolume"),
+                "industry": (row.get("meta") or {}).get("industry"),
+                "sector": (row.get("meta") or {}).get("sector") or (row.get("meta") or {}).get("industry"),
+            }
+        print(f"NSE stockIndices: real data fetched for {len(real_data)} symbols")
+    else:
+        print(f"NSE stockIndices HTTP {r.status_code} — universe will have null prev_close/sector, not fabricated placeholders")
+except Exception as e:
+    print(f"NSE stockIndices fetch failed ({e}) — universe will have null prev_close/sector, not fabricated placeholders")
 
-sector_fallback = {
-    "RELIANCE":"Energy", "TCS":"Information Technology", "INFY":"Information Technology", "HDFCBANK":"Financial Services"
-}
 universe=[]
+missing_real_data = []
 for r in selected:
     sym = r["tradingsymbol"]
-    # try to keep previous sector if exists
-    prev = old_map.get(sym, {})
-    sector = prev.get("sector") or "Financial Services"
-    # simple heuristic based on name
-    industry = prev.get("industry") or "EQ"
+    real = real_data.get(sym, {})
+    if not real:
+        missing_real_data.append(sym)
     universe.append({
         "symbol": sym,
         "trading_symbol": sym,
         "company": r["name"] or sym,
         "exchange": "NSE",
         "instrument_token": int(r["instrument_token"]),
-        "sector": sector,
-        "industry": industry,
-        "prev_close": float(r["last_price"]) if r["last_price"] and float(r["last_price"])>0 else 100.0,
-        "avg_volume": 1000000,
+        "sector": real.get("sector"),
+        "industry": real.get("industry"),
+        "prev_close": real.get("prev_close"),
+        "avg_volume": real.get("day_volume"),
         "index_membership": ["Nifty 500"]
     })
 
@@ -78,6 +104,9 @@ for r in selected:
 assert len(universe)==500
 OUT.write_text(json.dumps(universe, indent=2))
 print(f"Wrote {OUT} {len(universe)} entries, sample {universe[0]['symbol']} {universe[0]['instrument_token']}")
+if missing_real_data:
+    print(f"WARNING: {len(missing_real_data)}/500 symbols have no real prev_close/sector/volume "
+          f"(NSE fetch above failed or didn't cover them) — left null rather than fabricated: {missing_real_data[:15]}{'...' if len(missing_real_data)>15 else ''}")
 
 # --- Options: Nifty/Sensex ---
 print("Fetching NFO/BFO options...")

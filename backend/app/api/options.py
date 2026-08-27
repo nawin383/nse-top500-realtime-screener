@@ -117,10 +117,20 @@ async def unusual(symbol: str = Query("NIFTY"), expiry: Optional[str] = None):
     return {"symbol": symbol.upper(), "expiry": data["expiry"], "unusual": unusual_activity(data["chain"])}
 
 @router.get("/options/term-structure")
-async def term_structure(symbol: str = Query("NIFTY")):
+async def term_structure(symbol: str = Query("NIFTY"), max_expiries: int = Query(6, ge=1, le=10)):
     from ..options.institutional import term_structure as _ts
+    from ..options.greeks import days_to_expiry
     data = _get_chain_live(symbol, None)
-    return _ts(data["expiries"], data["spot"])
+    points = []
+    for exp in data["expiries"][:max_expiries]:
+        try:
+            exp_data = data if exp == data["expiry"] else _get_chain_live(symbol, exp)
+            atm_iv = next((c["CE"]["iv"] for c in exp_data["chain"] if c["isATM"]), None)
+            days = round(days_to_expiry(exp) * 365)
+        except Exception:
+            atm_iv, days = None, None
+        points.append({"expiry": exp, "atmIv": atm_iv, "days": days})
+    return _ts(points)
 
 @router.get("/options/scenario")
 async def scenario(symbol: str = Query("NIFTY"), expiry: Optional[str] = None):

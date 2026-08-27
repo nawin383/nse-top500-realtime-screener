@@ -59,20 +59,13 @@ class MarketState:
             token = entry["instrument_token"]
             self.token_to_symbol[token] = sym
             self.universe_map[sym] = entry
-            prev_close = entry.get("prev_close") or 100.0
-            avg_vol = entry.get("avg_volume") or 1000000
+            prev_close = entry.get("prev_close") or None
+            avg_vol = entry.get("avg_volume") or None
             self._prev_close_map[sym] = prev_close
-            # if market is closed, pre-populate synthetic last trading day OHLC so UI shows data
+            # If market is closed, show the last known close as a flat placeholder (no
+            # open/high/low guessing) until a real REST snapshot (services/quote_fallback)
+            # or the next live tick replaces it with actual last-trading-day OHLC.
             if not _is_live:
-                # synthetic last day: open ~prev_close ±0.5%, high +1.5%, low -1.2%, volume = avg
-                import random
-                # deterministic per symbol
-                rnd = random.Random(hash(sym) % 100000)
-                open_p = prev_close * rnd.uniform(0.995, 1.005)
-                high_p = max(open_p, prev_close) * rnd.uniform(1.005, 1.015)
-                low_p = min(open_p, prev_close) * rnd.uniform(0.985, 0.995)
-                # last trading day close is prev_close; ltp = prev_close
-                # set timestamp to last trading day 15:30 IST
                 last_close = self._last_trading_close_time()
                 state = StockState(
                     symbol=sym,
@@ -81,16 +74,14 @@ class MarketState:
                     sector=entry.get("sector"),
                     industry=entry.get("industry"),
                     exchange=entry.get("exchange","NSE"),
-                    ltp=prev_close,
-                    open=round(open_p,2), high=round(high_p,2), low=round(low_p,2),
+                    ltp=prev_close or 0,
+                    open=prev_close, high=prev_close, low=prev_close,
                     previous_close=prev_close,
                     change=0, change_pct=0,
-                    volume=avg_vol,
-                    freshness="CLOSED",
-                    timestamp=last_close,
+                    volume=0,
+                    freshness="CLOSED" if prev_close else "NO_DATA",
+                    timestamp=last_close if prev_close else None,
                 )
-                # set indicators with synthetic
-                state.indicators.vwap = round((open_p+high_p+low_p+prev_close)/4,2)
             else:
                 state = StockState(
                     symbol=sym,
@@ -131,6 +122,38 @@ class MarketState:
                 except:
                     return cand.replace(hour=15, minute=30, second=0, microsecond=0)
         return now.replace(hour=15, minute=30, second=0, microsecond=0)
+
+    def apply_last_close_snapshot(self, symbol: str, ohlc: Dict[str, Any], prev_close: Optional[float] = None, timestamp: Optional[datetime] = None):
+        """Patch a symbol with a REAL last-trading-day OHLC snapshot fetched over REST
+        (services/quote_fallback), replacing the flat placeholder set at startup.
+        Never overwrites a symbol that already has a live tick flowing."""
+        state = self.states.get(symbol)
+        if not state or state.freshness == "LIVE":
+            return
+        pc = prev_close if prev_close is not None else state.previous_close
+        o = ohlc.get("open"); h = ohlc.get("high"); l = ohlc.get("low")
+        close = ohlc.get("close") or ohlc.get("last_price")
+        if close is None:
+            return
+        state.previous_close = pc
+        state.open = o if o is not None else state.open
+        state.high = h if h is not None else state.high
+        state.low = l if l is not None else state.low
+        state.ltp = close
+        if pc:
+            state.change = state.ltp - pc
+            state.change_pct = (state.change / pc) * 100 if pc else None
+        state.freshness = "CLOSED"
+        state.timestamp = timestamp or self._last_trading_close_time()
+        if state.open and state.high and state.low:
+            state.indicators.vwap = round((state.open + state.high + state.low + state.ltp) / 4, 2)
+        self._prev_close_map[symbol] = pc
+
+    def set_avg_volume(self, symbol: str, avg_volume: float):
+        """Update a symbol's average daily volume with a real value computed from
+        Kite historical daily candles (services/history_warmer), replacing any placeholder."""
+        if symbol in self.universe_map and avg_volume:
+            self.universe_map[symbol]["avg_volume"] = avg_volume
 
     def symbol_for_token(self, token: int) -> Optional[str]:
         return self.token_to_symbol.get(token)
@@ -233,11 +256,14 @@ class MarketState:
         if cum_vol > 0:
             state.indicators.vwap = cum_pv / cum_vol
 
-        # rel volume approx: current vol / expected avg vol at this time of day
-        # we simulate avg daily vol from universe if present
-        avg_vol = self.universe_map[sym].get("avg_volume", 1000000)
-        # intraday expected volume = avg_vol * time_progress (9:15-15:30 = 375 min)
+        # rel volume: current vol / expected avg vol at this time of day, using a REAL
+        # average daily volume (from history_warmer's Kite historical candles, or the
+        # universe file if pre-populated). Without one, leave rel_volume unset rather
+        # than dividing against a guessed baseline that would misrepresent every stock.
+        avg_vol = self.universe_map[sym].get("avg_volume")
         try:
+            if not avg_vol:
+                raise ValueError("no real avg_volume available yet")
             ist_now = tick.timestamp if tick.timestamp.tzinfo else tick.timestamp.replace(tzinfo=IST)
             market_start = ist_now.replace(hour=9, minute=15, second=0, microsecond=0)
             elapsed_min = max(1, (ist_now - market_start).total_seconds()/60)

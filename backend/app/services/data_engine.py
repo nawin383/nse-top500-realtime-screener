@@ -23,9 +23,13 @@ from ..providers.mock_provider import MockProvider
 from ..providers.kite_provider import KiteProvider
 from ..providers.replay_provider import ReplayProvider
 from .broadcaster import broadcaster
+from .kite_rest import get_kite_client, fetch_ltp
 from ..config import settings
 
 logger = logging.getLogger(__name__)
+
+REST_FALLBACK_INTERVAL_SEC = 5
+REST_FALLBACK_STALE_SEC = 8  # only poll symbols the WS hasn't updated recently
 
 class DataEngine:
     def __init__(self, universe: List[Dict[str, Any]], market_state: MarketState, alert_engine: AlertEngine):
@@ -36,6 +40,7 @@ class DataEngine:
         self._running = False
         self._task: Optional[asyncio.Task] = None
         self._broadcast_task: Optional[asyncio.Task] = None
+        self._rest_fallback_task: Optional[asyncio.Task] = None
         self._tick_count = 0
         self._last_broadcast = datetime.now(tz=IST)
         self._pending_ticks: List[MarketTick] = []
@@ -64,6 +69,10 @@ class DataEngine:
         self._task = asyncio.create_task(self.provider.start(self.on_ticks))
         # start batched broadcaster
         self._broadcast_task = asyncio.create_task(self._broadcast_loop())
+        # REST quote/ltp fallback: supplements the WebSocket when it's down/stale
+        # (Kite Connect docs recommend this for reconnect gaps + market-closed polling)
+        if settings.data_mode.lower() == "live" and settings.kite_api_key and settings.kite_access_token:
+            self._rest_fallback_task = asyncio.create_task(self._rest_fallback_loop())
         logger.info("DataEngine started")
 
     async def stop(self):
@@ -77,7 +86,46 @@ class DataEngine:
             self._task.cancel()
         if self._broadcast_task:
             self._broadcast_task.cancel()
+        if self._rest_fallback_task:
+            self._rest_fallback_task.cancel()
         logger.info("DataEngine stopped")
+
+    async def _rest_fallback_loop(self):
+        """Poll GET /quote/ltp for symbols the WebSocket hasn't updated recently.
+        Only fires for stale/no-data symbols, so on a healthy connection this is a
+        near-empty no-op batch every interval, not a duplicate full-universe poll."""
+        kite = get_kite_client(settings.kite_api_key, settings.kite_access_token)
+        if not kite:
+            return
+        instrument_key = {f"{e.get('exchange','NSE')}:{e['symbol']}": e["symbol"] for e in self.universe}
+        while self._running:
+            await asyncio.sleep(REST_FALLBACK_INTERVAL_SEC)
+            try:
+                now = datetime.now(tz=IST)
+                stale_instruments = []
+                for key, sym in instrument_key.items():
+                    state = self.market_state.states.get(sym)
+                    if not state:
+                        continue
+                    if state.freshness == "LIVE":
+                        continue
+                    if state.timestamp and (now - state.timestamp).total_seconds() < REST_FALLBACK_STALE_SEC:
+                        continue
+                    stale_instruments.append(key)
+                if not stale_instruments:
+                    continue
+                result = await fetch_ltp(kite, stale_instruments)
+                ticks = []
+                for key, data in result.items():
+                    sym = instrument_key.get(key)
+                    ltp = data.get("last_price")
+                    if not sym or not ltp:
+                        continue
+                    ticks.append(MarketTick(symbol=sym, token=data.get("instrument_token", 0), timestamp=now, ltp=ltp, volume=self.market_state.states[sym].volume or 0))
+                if ticks:
+                    await self.on_ticks(ticks)
+            except Exception as e:
+                logger.debug(f"REST fallback poll error {e}")
 
     async def on_ticks(self, ticks: List[MarketTick]):
         # This is called by provider (could be from thread). Ensure thread-safe

@@ -314,87 +314,6 @@ def fetch_bse_sensex(expiry: str | None) -> Optional[Dict]:
         logger.debug(f"BSE fetch failed {e}")
         return None
 
-def _synthetic_last_day_from_universe(symbol: str, expiry: str | None) -> Optional[Dict]:
-    """Fallback synthetic last trading day based on universe prev_close/avg_volume - used only when no cache and NSE unreachable at night."""
-    try:
-        from pathlib import Path
-        import json, random
-        # try to find prev_close for symbol's spot: for indices, use known prev closes
-        # For NIFTY, try to get from market_state universe or config
-        # For now, use mock-like but deterministic synthetic based on known index levels
-        if symbol == "NIFTY":
-            spot = 24500
-            step = 50
-        elif symbol == "SENSEX":
-            spot = 80000
-            step = 100
-        elif symbol == "BANKNIFTY":
-            spot = 51000
-            step = 100
-        else:
-            spot = 1000
-            step = 50
-        # try to load universe to get more accurate spot? fallback is fine
-        # Use tomorrow's expiry logic
-        from datetime import timedelta
-        now = datetime.now(tz=IST)
-        if not expiry:
-            # next Thu
-            days_ahead = 3 - now.weekday()
-            if days_ahead <= 0:
-                days_ahead += 7
-            expiry = (now + timedelta(days=days_ahead)).strftime("%Y-%m-%d")
-        atm = round(spot / step) * step
-        # build synthetic chain around ATM using BS with 16% IV
-        from .greeks import days_to_expiry, black_scholes_greeks
-        T = days_to_expiry(expiry)
-        chain = []
-        for i in range(-10, 11):
-            strike = atm + step*i
-            iv = 0.16
-            ce_g = black_scholes_greeks(spot, strike, T, iv, 0.06, "CE")
-            pe_g = black_scholes_greeks(spot, strike, T, iv, 0.06, "PE")
-            # use prev_close-like OI
-            ce_oi = int(random.Random(hash(f"{symbol}{strike}CE") % 100000).uniform(800000, 2000000))
-            pe_oi = int(random.Random(hash(f"{symbol}{strike}PE") % 100000).uniform(800000, 2000000))
-            chain.append({
-                "strike": strike,
-                "isATM": strike == atm,
-                "isITM_CE": spot > strike,
-                "isITM_PE": spot < strike,
-                "CE": {"ltp": ce_g["price"], "bid": round(ce_g["price"]*0.99,2), "ask": round(ce_g["price"]*1.01,2), "volume": 100000, "oi": ce_oi, "oiChange": 0, "iv": round(iv*100,2), "delta": ce_g["delta"], "gamma": ce_g["gamma"], "theta": ce_g["theta"], "vega": ce_g["vega"], "rho": ce_g["rho"], "premium": ce_g["price"]},
-                "PE": {"ltp": pe_g["price"], "bid": round(pe_g["price"]*0.99,2), "ask": round(pe_g["price"]*1.01,2), "volume": 100000, "oi": pe_oi, "oiChange": 0, "iv": round(iv*100,2), "delta": pe_g["delta"], "gamma": pe_g["gamma"], "theta": pe_g["theta"], "vega": pe_g["vega"], "rho": pe_g["rho"], "premium": pe_g["price"]},
-            })
-        expiries = [expiry]
-        # generate 5 expiries
-        for i in range(1,5):
-            days_ahead = 3 - now.weekday()
-            if days_ahead <= 0:
-                days_ahead += 7
-            exp = (now + timedelta(days=days_ahead + i*7)).strftime("%Y-%m-%d")
-            expiries.append(exp)
-        from .fetcher import _analytics
-        analytics = _analytics(chain, spot, atm)
-        data = {
-            "symbol": symbol,
-            "spot": round(spot,2),
-            "expiry": expiry,
-            "expiries": expiries,
-            "generatedAt": datetime.now(tz=IST).isoformat(),
-            "source": "synthetic_last_close",
-            "atmStrike": atm,
-            "chain": chain,
-            "analytics": analytics,
-            "isLastTradingDay": True,
-            "note": "Market closed, NSE unreachable, showing synthetic last close (prev_close based). Will update at next open with real NSE.",
-        }
-        # save as cache so next time it's cached
-        _save_disk_cache(symbol, expiry, data)
-        return data
-    except Exception as e:
-        logger.debug(f"synthetic last day failed {e}")
-        return None
-
 def get_chain_live_or_last_day(symbol: str, expiry: str | None) -> Dict:
     """Institutional: live if market open, else last trading day cached. No mock. SENSEX via BSE."""
     symbol = symbol.upper()
@@ -413,11 +332,7 @@ def get_chain_live_or_last_day(symbol: str, expiry: str | None) -> Dict:
         if is_open:
             raise RuntimeError(f"Live BSE fetch failed for SENSEX {expiry or ''} and no cached last day. BSE unreachable.")
         else:
-            # market closed and no cache: generate synthetic last close (prev_close based) so UI shows last day
-            synth = _synthetic_last_day_from_universe(symbol, expiry)
-            if synth:
-                return synth
-            raise RuntimeError(f"Market closed and no last trading day cache for SENSEX {expiry or ''}.")
+            raise RuntimeError(f"Market closed, BSE unreachable, and no last trading day cache for SENSEX {expiry or ''}. No fabricated data will be returned.")
     # NIFTY/BANKNIFTY
     if is_open:
         live = fetch_nse_real(symbol, expiry)
@@ -442,8 +357,4 @@ def get_chain_live_or_last_day(symbol: str, expiry: str | None) -> Dict:
         cached = _load_disk_cache(symbol, expiry)
         if cached:
             return cached
-        # no cached and NSE unreachable at night: generate synthetic last close so UI shows yesterday's data (not mock random, deterministic)
-        synth = _synthetic_last_day_from_universe(symbol, expiry)
-        if synth:
-            return synth
-        raise RuntimeError(f"Market closed and no last trading day cache for {symbol} {expiry or ''}. No data.")
+        raise RuntimeError(f"Market closed, NSE unreachable, and no last trading day cache for {symbol} {expiry or ''}. No fabricated data will be returned.")

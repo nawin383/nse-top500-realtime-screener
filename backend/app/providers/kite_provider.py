@@ -125,23 +125,33 @@ class KiteProvider(BaseProvider):
 
     def _on_open(self, ws):
         logger.info("Kite WS connected")
-        # subscribe equity + options in batches of 200 (total up to 800 < 1000 limit)
-        tokens = list(self._token_to_symbol.keys())
+        # Mode split per Kite Connect best practice (websocket/#modes): equities only need
+        # LTP (8 bytes/tick) for the screener's ranking/score columns, while NIFTY/SENSEX
+        # options need full depth (184 bytes/tick) for OI and best bid/ask. Subscribing
+        # ~500 equities as "full" instead of "ltp" wastes ~23x the bandwidth per tick for
+        # fields the screener never reads.
+        equity_tokens = [u["instrument_token"] for u in self.universe]
+        option_tokens = list(self._options_tokens)
+        self._subscribe_batch(ws, equity_tokens, "ltp")
+        self._subscribe_batch(ws, option_tokens, "full")
+        logger.info(f"Subscribed {len(self._subscribed)}/{len(equity_tokens)+len(option_tokens)} instruments "
+                    f"(EQ {len(equity_tokens)} mode=ltp + OPT {len(option_tokens)} mode=full)")
+
+    def _subscribe_batch(self, ws, tokens: List[int], mode: str):
         for i in range(0, len(tokens), 200):
             chunk = tokens[i:i+200]
+            if not chunk:
+                continue
             try:
                 ws.send(json.dumps({"a":"subscribe","v":chunk}))
                 self._subscribed.update(chunk)
                 for t in chunk:
-                    self._mode_map[t] = "full"
-                ws.send(json.dumps({"a":"mode","v":["full", chunk]}))
-                logger.info(f"Subscribed {len(chunk)} tokens (batch {i//200+1})")
+                    self._mode_map[t] = mode
+                ws.send(json.dumps({"a":"mode","v":[mode, chunk]}))
+                logger.info(f"Subscribed {len(chunk)} tokens mode={mode} (batch {i//200+1})")
                 time.sleep(0.2)
             except Exception as e:
-                logger.error(f"subscribe failed {e}")
-        equity_cnt = len(self.universe)
-        opts_cnt = len(self._options_tokens)
-        logger.info(f"Subscribed {len(self._subscribed)}/{len(tokens)} instruments (EQ {equity_cnt} + OPT {opts_cnt}) in mode full")
+                logger.error(f"subscribe failed mode={mode} {e}")
 
     def _on_message(self, ws, message):
         try:
@@ -182,60 +192,89 @@ class KiteProvider(BaseProvider):
         logger.error(f"Kite WS error {error}")
 
     def _parse_binary(self, data: bytes):
+        """Kite WS binary framing (websocket/#message-structure): 2 bytes packet count,
+        then per packet: 2 bytes packet length + that many bytes of payload (payload
+        starts with a 4-byte instrument token). The packet's own declared length tells
+        us unambiguously whether it's LTP (8B) / quote (44B) / full (184B) — trusting
+        that length instead of the subscribed mode also keeps parsing correct if Kite
+        ever sends a smaller packet than requested (e.g. right after a mode change)."""
         ticks=[]
         try:
+            if len(data) < 2:
+                return ticks
             count = struct.unpack(">H", data[:2])[0]
-            offset=2
+            offset = 2
             for _ in range(count):
-                if offset>=len(data):
+                if offset + 2 > len(data):
                     break
-                instrument_token = struct.unpack(">I", data[offset:offset+4])[0]
-                offset+=4
-                mode = self._mode_map.get(instrument_token, "full")
-                tick={"instrument_token": instrument_token, "mode": mode}
-                if mode=="ltp":
-                    tick["last_price"] = struct.unpack(">I", data[offset:offset+4])[0]/100.0
-                    offset+=8
-                elif mode=="quote":
-                    tick["last_price"] = struct.unpack(">I", data[offset:offset+4])[0]/100.0
-                    tick["last_quantity"] = struct.unpack(">I", data[offset+4:offset+8])[0]
-                    tick["average_price"] = struct.unpack(">I", data[offset+8:offset+12])[0]/100.0
-                    tick["volume"] = struct.unpack(">I", data[offset+12:offset+16])[0]
-                    tick["buy_quantity"] = struct.unpack(">I", data[offset+16:offset+20])[0]
-                    tick["sell_quantity"] = struct.unpack(">I", data[offset+20:offset+24])[0]
-                    tick["ohlc"]={"open": struct.unpack(">I", data[offset+24:offset+28])[0]/100.0,
-                                  "high": struct.unpack(">I", data[offset+28:offset+32])[0]/100.0,
-                                  "low": struct.unpack(">I", data[offset+32:offset+36])[0]/100.0,
-                                  "close": struct.unpack(">I", data[offset+36:offset+40])[0]/100.0}
-                    offset+=44
-                else: # full 184 bytes
-                    tick["last_price"] = struct.unpack(">I", data[offset:offset+4])[0]/100.0
-                    tick["last_quantity"] = struct.unpack(">I", data[offset+4:offset+8])[0]
-                    tick["average_price"] = struct.unpack(">I", data[offset+8:offset+12])[0]/100.0
-                    tick["volume"] = struct.unpack(">I", data[offset+12:offset+16])[0]
-                    tick["buy_quantity"] = struct.unpack(">I", data[offset+16:offset+20])[0]
-                    tick["sell_quantity"] = struct.unpack(">I", data[offset+20:offset+24])[0]
-                    tick["ohlc"]={"open": struct.unpack(">I", data[offset+24:offset+28])[0]/100.0,
-                                  "high": struct.unpack(">I", data[offset+28:offset+32])[0]/100.0,
-                                  "low": struct.unpack(">I", data[offset+32:offset+36])[0]/100.0,
-                                  "close": struct.unpack(">I", data[offset+36:offset+40])[0]/100.0}
-                    tick["change"] = struct.unpack(">I", data[offset+40:offset+44])[0]/100.0
-                    timestamp = struct.unpack(">I", data[offset+44:offset+48])[0]
-                    from datetime import datetime
-                    try:
-                        from zoneinfo import ZoneInfo
-                        IST2=ZoneInfo("Asia/Kolkata")
-                    except ImportError:
-                        import pytz
-                        IST2=pytz.timezone("Asia/Kolkata")
-                    tick["timestamp"]=datetime.fromtimestamp(timestamp, tz=IST2)
-                    tick["oi"]=struct.unpack(">I", data[offset+48:offset+52])[0]
-                    # depth skipped for brevity
-                    offset+=184
-                ticks.append(tick)
+                packet_len = struct.unpack(">H", data[offset:offset+2])[0]
+                offset += 2
+                if offset + packet_len > len(data):
+                    logger.warning(f"truncated tick packet: declared {packet_len}B, {len(data)-offset}B left")
+                    break
+                packet = data[offset:offset+packet_len]
+                offset += packet_len
+                tick = self._parse_packet(packet)
+                if tick:
+                    ticks.append(tick)
         except Exception as e:
             logger.error(f"binary parse error {e}", exc_info=True)
         return ticks
+
+    def _parse_packet(self, packet: bytes):
+        if len(packet) < 4:
+            return None
+        instrument_token = struct.unpack(">I", packet[0:4])[0]
+        plen = len(packet)
+        tick = {"instrument_token": instrument_token}
+        if plen == 8:
+            tick["mode"] = "ltp"
+            tick["last_price"] = struct.unpack(">I", packet[4:8])[0] / 100.0
+        elif plen in (28, 32):
+            # index packet (NIFTY 50 / SENSEX spot) — not currently subscribed by this
+            # provider (only equities + NIFTY/SENSEX options are), kept as a safe no-op
+            # rather than mis-parsed as an equity packet.
+            return None
+        elif plen in (44, 184):
+            tick["mode"] = "quote" if plen == 44 else "full"
+            tick["last_price"] = struct.unpack(">I", packet[4:8])[0] / 100.0
+            tick["last_quantity"] = struct.unpack(">I", packet[8:12])[0]
+            tick["average_price"] = struct.unpack(">I", packet[12:16])[0] / 100.0
+            tick["volume"] = struct.unpack(">I", packet[16:20])[0]
+            tick["buy_quantity"] = struct.unpack(">I", packet[20:24])[0]
+            tick["sell_quantity"] = struct.unpack(">I", packet[24:28])[0]
+            tick["ohlc"] = {
+                "open": struct.unpack(">I", packet[28:32])[0] / 100.0,
+                "high": struct.unpack(">I", packet[32:36])[0] / 100.0,
+                "low": struct.unpack(">I", packet[36:40])[0] / 100.0,
+                "close": struct.unpack(">I", packet[40:44])[0] / 100.0,
+            }
+            if plen == 184:
+                tick["change"] = struct.unpack(">I", packet[44:48])[0] / 100.0
+                timestamp = struct.unpack(">I", packet[48:52])[0]
+                tick["timestamp"] = datetime.fromtimestamp(timestamp, tz=IST)
+                tick["oi"] = struct.unpack(">I", packet[52:56])[0]
+                tick["oi_day_high"] = struct.unpack(">I", packet[56:60])[0]
+                tick["oi_day_low"] = struct.unpack(">I", packet[60:64])[0]
+                tick["depth"] = self._parse_depth(packet[64:184])
+        else:
+            logger.debug(f"unexpected tick packet length {plen} for token {instrument_token}")
+            return None
+        return tick
+
+    def _parse_depth(self, buf: bytes) -> Dict[str, List[Dict[str, Any]]]:
+        """Market depth (websocket/#market-depth-structure): 10 entries x 12 bytes
+        (qty int32, price int32, orders int16 + 2 pad), first 5 = buy, last 5 = sell."""
+        entries = []
+        for i in range(10):
+            chunk = buf[i*12:(i+1)*12]
+            if len(chunk) < 12:
+                break
+            qty = struct.unpack(">I", chunk[0:4])[0]
+            price = struct.unpack(">I", chunk[4:8])[0] / 100.0
+            orders = struct.unpack(">H", chunk[8:10])[0]
+            entries.append({"quantity": qty, "price": price, "orders": orders})
+        return {"buy": entries[:5], "sell": entries[5:10]}
 
     def _normalize_tick(self, raw: Dict[str,Any]) -> MarketTick:
         token = raw.get("instrument_token")
