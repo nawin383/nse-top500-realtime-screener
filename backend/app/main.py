@@ -104,6 +104,15 @@ async def lifespan(app: FastAPI):
     # start data engine
     await data_engine.start()
 
+    # historical warmup (live mode only): real last-close snapshot + real avg volume
+    # from daily candles + intraday candle seeding, so indicators don't start blank.
+    # Runs in the background so it never blocks app startup.
+    warmup_task = None
+    if settings.data_mode.lower() == "live" and settings.kite_api_key and settings.kite_access_token:
+        from .services.history_warmer import run_warmup
+        warmup_task = asyncio.create_task(run_warmup(market_state, universe, settings))
+        logger.info("History warmer task scheduled")
+
     # start daily token refresher if creds present (auto live)
     refresher_task = None
     try:
@@ -134,6 +143,12 @@ async def lifespan(app: FastAPI):
         refresher_task.cancel()
         try:
             await refresher_task
+        except asyncio.CancelledError:
+            pass
+    if warmup_task:
+        warmup_task.cancel()
+        try:
+            await warmup_task
         except asyncio.CancelledError:
             pass
     try:

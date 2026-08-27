@@ -8,6 +8,7 @@ export default function OptionsChain(){
   const [expiries, setExpiries] = useState([])
   const [expiry, setExpiry] = useState('')
   const [data, setData] = useState(null)
+  const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const [windowSize, setWindowSize] = useState(10)
   const [showGreeks, setShowGreeks] = useState(true)
@@ -29,9 +30,11 @@ export default function OptionsChain(){
       const url = `${apiBase}/api/options/tshape?symbol=${symbol}&window=${windowSize}${expiry?`&expiry=${expiry}`:''}`
       const r = await fetch(url)
       const j = await r.json()
+      if(!r.ok) throw new Error(j.detail || 'No data available')
       setData(j)
+      setError(null)
       if(j.expiries && j.expiries.length) setExpiries(j.expiries)
-    }catch(e){ console.error(e)}
+    }catch(e){ setError(e.message); setData(null) }
     setLoading(false)
   }
 
@@ -90,6 +93,7 @@ export default function OptionsChain(){
       )}
 
       {loading && <div style={{color:'#5a6b84', padding:20}}>Loading chain…</div>}
+      {!loading && error && <div style={{color:'#8b9bb4', padding:20, textAlign:'center'}}>No data available<div style={{fontSize:11, color:'#5a6b84', marginTop:6}}>{error}</div></div>}
 
       {data && (
         <div style={{overflow:'auto', border:'1px solid #232d38', borderRadius:8, background:'#0d1218'}}>

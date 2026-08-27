@@ -84,34 +84,33 @@ def get_history(symbol: str, days: int = 365) -> List[Dict]:
     except:
         return []
 
-def hv_cone(symbol: str) -> Dict[str, Any]:
-    """Historical volatility cone 1M/3M/6M/1Y + current IV positioning."""
+def hv_cone(symbol: str, current_iv: Optional[float] = None) -> Dict[str, Any]:
+    """Historical volatility cone 1M/3M/6M/1Y (from real ingested daily closes,
+    see ingest_nse_bhavcopy) + where the option chain's real current ATM IV
+    (pass current_iv from the caller's live chain fetch) sits within it."""
     hist = get_history(symbol, 365)
     if len(hist) < 30:
-        # not enough history, generate synthetic cone from available
-        return {"currentIv": 16.0, "cone": {"1M": [12,18], "3M": [13,19], "6M": [14,20], "1Y": [15,22]}, "position": "insufficient history", "hv": None}
+        return {"currentIv": current_iv, "cone": None, "position": None, "hv": None,
+                "note": f"Only {len(hist)} days of ingested history for {symbol} — need 30+. Run /historical/bhavcopy to ingest more."}
     closes = [d["close"] for d in hist]
     def hv(window: int):
         if len(closes) < window+1:
             return None
         rets = [math.log(closes[i]/closes[i-1]) for i in range(1, len(closes))][-window:]
         return round(statistics.stdev(rets) * math.sqrt(252) * 100, 2)
-    cone = {
-        "1M": [hv(21)*0.7 if hv(21) else 12, hv(21)*1.3 if hv(21) else 18],
-        "3M": [hv(63)*0.75 if hv(63) else 13, hv(63)*1.25 if hv(63) else 19],
-        "6M": [hv(126)*0.8 if hv(126) else 14, hv(126)*1.2 if hv(126) else 20],
-        "1Y": [hv(252)*0.85 if hv(252) else 15, hv(252)*1.15 if hv(252) else 22],
-    }
-    # HV values
+    def band(window: int):
+        h = hv(window)
+        return [round(h*0.7, 2), round(h*1.3, 2)] if h else None
+    cone = {"1M": band(21), "3M": band(63), "6M": band(126), "1Y": band(252)}
     hv_30 = hv(30)
-    # current IV from options would be passed, here we estimate
-    current_iv = 16.0
-    position = "mid"
-    if hv_30 and current_iv:
+    position = None
+    if current_iv and cone["1M"]:
         if current_iv < cone["1M"][0]:
             position = "low"
         elif current_iv > cone["1M"][1]:
             position = "high"
+        else:
+            position = "mid"
     return {"currentIv": current_iv, "hv30": hv_30, "cone": cone, "position": position, "hv": hv_30}
 
 def iv_percentile(symbol: str, current_iv: float) -> Dict[str, Any]:
@@ -146,7 +145,5 @@ def iv_percentile(symbol: str, current_iv: float) -> Dict[str, Any]:
     }
 
 def earnings_iv_crush(symbol: str) -> Dict[str, Any]:
-    """Stub: would integrate earnings calendar API."""
-    # For now return next earnings as 30 days from now
-    nxt = (datetime.now(tz=IST) + timedelta(days=30)).strftime("%Y-%m-%d")
-    return {"nextEarnings": nxt, "historicalCrush": "-25% IV post-earnings avg", "expectedMove": "±4.2%"}
+    return {"nextEarnings": None, "historicalCrush": None, "expectedMove": None,
+            "note": "Earnings calendar/IV-crush history requires a corporate-announcements feed that isn't wired up yet."}

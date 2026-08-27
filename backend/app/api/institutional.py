@@ -6,7 +6,14 @@ router = APIRouter()
 @router.get("/historical/hv-cone")
 async def hv_cone(symbol: str = Query("NIFTY")):
     from ..historical.store import hv_cone as _hv
-    return _hv(symbol.upper())
+    current_iv = None
+    try:
+        from ..options.fetcher_v2 import get_chain_live_or_last_day
+        data = get_chain_live_or_last_day(symbol.upper(), None)
+        current_iv = next((c["CE"]["iv"] for c in data["chain"] if c["isATM"]), None)
+    except Exception:
+        pass
+    return _hv(symbol.upper(), current_iv)
 
 @router.get("/historical/iv-percentile")
 async def iv_percentile(symbol: str = Query("NIFTY"), iv: float = Query(16.0)):
@@ -28,17 +35,13 @@ async def bhavcopy(date: str = Query(None, description="YYYY-MM-DD")):
 
 @router.get("/vix/term-structure")
 async def vix_term():
-    # VIX futures term via CBOE (mock with real VIX)
     from ..options.institutional import vix_analysis
     vix = vix_analysis()
-    # term structure stub with contango
     return {
         "vix": vix["vix"],
-        "vix3M": round(vix["vix"]*1.1,2),
-        "vvix": round(vix["vix"]*6,2),
-        "contango": True,
-        "vixFutures": [{"expiry": "2026-09-17", "price": vix["vix"]*1.05}, {"expiry": "2026-10-15", "price": vix["vix"]*1.08}],
+        "vix3M": None, "vvix": None, "contango": None, "vixFutures": None,
         "source": vix["source"],
+        "note": "India VIX futures aren't published by NSE the way CBOE VIX futures are — term structure is unavailable, not fabricated.",
     }
 
 @router.get("/pricing/theoretical")
@@ -99,24 +102,31 @@ async def portfolio_corr(symbols: str = Query("NIFTY,SENSEX,BANKNIFTY,RELIANCE,T
     return correlation_matrix(syms)
 
 @router.get("/microstructure/spread")
-async def spread(symbol: str = Query("NIFTY")):
-    # bid-ask spread analysis: real would use order book depth
-    return {"symbol": symbol.upper(), "avgSpreadBps": 5.2, "effectiveSpread": 0.12, "liquidity": "high", "marketImpact": 0.03}
+async def spread(symbol: str = Query("NIFTY"), expiry: Optional[str] = None):
+    """Real ATM bid-ask spread from the live option chain (NSE bidprice/askPrice),
+    not a fixed placeholder number."""
+    from ..options.fetcher_v2 import get_chain_live_or_last_day
+    data = get_chain_live_or_last_day(symbol.upper(), expiry)
+    atm = next((c for c in data["chain"] if c["isATM"]), None)
+    if not atm:
+        return {"symbol": symbol.upper(), "avgSpreadBps": None, "note": "No ATM strike found in the live chain"}
+    ce_mid = (atm["CE"]["bid"] + atm["CE"]["ask"]) / 2
+    pe_mid = (atm["PE"]["bid"] + atm["PE"]["ask"]) / 2
+    ce_bps = round((atm["CE"]["ask"] - atm["CE"]["bid"]) / ce_mid * 10000, 1) if ce_mid else None
+    pe_bps = round((atm["PE"]["ask"] - atm["PE"]["bid"]) / pe_mid * 10000, 1) if pe_mid else None
+    return {"symbol": symbol.upper(), "atmStrike": atm["strike"], "ceSpreadBps": ce_bps, "peSpreadBps": pe_bps,
+            "avgSpreadBps": round(statistics_mean([x for x in (ce_bps, pe_bps) if x is not None]), 1) if (ce_bps or pe_bps) else None,
+            "source": data["source"]}
+
+def statistics_mean(xs):
+    return sum(xs) / len(xs)
 
 @router.get("/microstructure/flow")
 async def flow(symbol: str = Query("NIFTY")):
-    return {"symbol": symbol.upper(), "flowDirection": "net buying", "institutional": 0.62, "retail": 0.38, "imbalance": 0.24}
+    return {"symbol": symbol.upper(), "flowDirection": None, "institutional": None, "retail": None, "imbalance": None,
+            "note": "Institutional/retail order-flow attribution isn't available from Kite's public market data — NSE doesn't expose participant-level trade tagging to retail API access."}
 
 @router.get("/microstructure/ticks")
 async def ticks(symbol: str = Query("NIFTY"), limit: int = Query(20)):
-    from datetime import datetime
-    try:
-        from zoneinfo import ZoneInfo
-        IST = ZoneInfo("Asia/Kolkata")
-    except ImportError:
-        import pytz
-        IST = pytz.timezone("Asia/Kolkata")
-    now = datetime.now(tz=IST)
-    # tick-by-tick with exchange routing
-    ticks = [{"time": (now).isoformat(), "price": 24500 + i*0.5, "qty": 75, "exchange": "NSE", "side": "buy" if i%2==0 else "sell"} for i in range(limit)]
-    return {"symbol": symbol.upper(), "ticks": ticks}
+    return {"symbol": symbol.upper(), "ticks": [],
+            "note": "Tick-by-tick trade prints aren't exposed by Kite Connect's REST/WS API for index underlyings; live per-tick data is available for subscribed tradable instruments via the /ws stream instead."}

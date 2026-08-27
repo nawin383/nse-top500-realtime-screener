@@ -1,10 +1,10 @@
 """Institutional-grade options analytics engine.
 Implements: ATM premium, vol surface/skew, Greeks dashboard, IV vs HV, VIX, moneyness, PCR, OI/GEX, unusual flow, term structure, scenario, correlation, margin/VaR, spread/Bloom, order flow, pricing, P&L, etc.
-Uses real market data only, no mock.
+Uses real market data only. Where a real source isn't wired up, fields are null
+with a note rather than filled with random/hardcoded placeholders.
 """
 from __future__ import annotations
 import math
-import random
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional
 import statistics
@@ -124,19 +124,13 @@ def vix_analysis() -> Dict[str, Any]:
                     break
     except:
         pass
-    if not vix:
-        # fallback mock VIX 13-15
-        vix = round(random.uniform(12, 16),2)
-        source = "mock_vix"
-    else:
-        source = "nse"
-    # term structure, contango etc would need VIX futures
+    source = "nse" if vix else "unavailable"
     return {
         "vix": vix,
         "source": source,
-        "termStructure": None,  # would need VIX futures
+        "termStructure": None,  # would need VIX futures data
         "contango": None,
-        "correlationNifty": -0.75,  # typical
+        "correlationNifty": None,  # would need 1y NIFTY/VIX daily series to compute
         "vixFutures": None,
     }
 
@@ -232,21 +226,17 @@ def unusual_activity(chain: List[Dict]) -> List[Dict]:
     return unusual[:10]
 
 # ---------- Term Structure ----------
-def term_structure(expiries: List[str], spot: float) -> Dict[str, Any]:
-    # volatility term structure across expiries: need IV per expiry
-    # For now, mock term structure: IV increases with time
-    points = []
-    for i, exp in enumerate(expiries):
-        # ATM IV tends to increase with T
-        iv = 16 + i*1.5 + random.uniform(-0.5,0.5)
-        points.append({"expiry": exp, "atmIv": round(iv,2), "days": (i+1)*7})
-    # calendar spread opportunity: front vs back
-    roll_yield = round(points[-1]["atmIv"] - points[0]["atmIv"],2) if len(points)>1 else 0
+def term_structure(points: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """points: [{'expiry':..., 'atmIv':..., 'days':...}], one per expiry, each atmIv
+    read from that expiry's REAL live option chain by the caller (options.py fetches
+    each expiry's chain rather than guessing a curve)."""
+    valid = [p for p in points if p.get("atmIv")]
+    roll_yield = round(valid[-1]["atmIv"] - valid[0]["atmIv"], 2) if len(valid) > 1 else None
     return {
         "points": points,
         "rollYield": roll_yield,
-        "contango": roll_yield > 0,
-        "calendarOpportunity": "long front short back" if roll_yield < 0 else "short front long back",
+        "contango": (roll_yield > 0) if roll_yield is not None else None,
+        "calendarOpportunity": (("long front short back" if roll_yield < 0 else "short front long back") if roll_yield is not None else None),
     }
 
 # ---------- Scenario Analysis ----------
@@ -265,23 +255,35 @@ def scenario_analysis(spot: float, position: Dict = None) -> Dict[str, Any]:
     return {"scenarios": scenarios[:15], "stressTest": {"historicalMaxMove": "5% (COVID crash)"}}
 
 # ---------- Correlation Matrix ----------
-def correlation_matrix(symbols: List[str] = None) -> Dict[str, Any]:
-    # Real would fetch 1y daily closes from market_state or Yahoo and compute correlation
-    # Stub with typical NIFTY/SENSEX/BANKNIFTY correlations
+def correlation_matrix(symbols: List[str] = None, closes: Dict[str, List[float]] = None) -> Dict[str, Any]:
+    """Pearson correlation of daily returns. Pass `closes` ({symbol: [daily closes]}, e.g.
+    from history_warmer's daily candle fetch) for a real matrix; without it, pairs are
+    null rather than filled with a plausible-looking guess."""
     symbols = symbols or ["NIFTY","SENSEX","BANKNIFTY","RELIANCE","TCS"]
-    mat = {}
-    base = {"NIFTY": {"SENSEX":0.92, "BANKNIFTY":0.85, "RELIANCE":0.65, "TCS":0.58},
-            "SENSEX": {"BANKNIFTY":0.78, "RELIANCE":0.62, "TCS":0.55},
-            "BANKNIFTY": {"RELIANCE":0.45, "TCS":0.40},
-            "RELIANCE": {"TCS":0.48}}
+    mat: Dict[str, Dict[str, Optional[float]]] = {a: {} for a in symbols}
+
+    def daily_returns(series: List[float]) -> List[float]:
+        return [(series[i] / series[i-1]) - 1 for i in range(1, len(series))]
+
     for a in symbols:
-        mat[a] = {}
         for b in symbols:
-            if a==b: mat[a][b]=1.0
-            elif b in base.get(a, {}): mat[a][b]=base[a][b]
-            elif a in base.get(b, {}): mat[a][b]=base[b][a]
-            else: mat[a][b]=round(random.uniform(0.3,0.7),2)
-    return {"symbols": symbols, "matrix": mat, "betaWeightedExposure": None, "diversification": 0.72}
+            if a == b:
+                mat[a][b] = 1.0
+                continue
+            ca = closes.get(a) if closes else None
+            cb = closes.get(b) if closes else None
+            if ca and cb and len(ca) > 5 and len(cb) > 5:
+                n = min(len(ca), len(cb))
+                ra = daily_returns(ca[-n:])
+                rb = daily_returns(cb[-n:])
+                try:
+                    mat[a][b] = round(statistics.correlation(ra, rb), 2)
+                except Exception:
+                    mat[a][b] = None
+            else:
+                mat[a][b] = None
+    return {"symbols": symbols, "matrix": mat, "betaWeightedExposure": None, "diversification": None,
+            "note": None if closes else "Pass daily closes to compute a real correlation matrix; historical data source not provided."}
 
 # ---------- Margin & VaR ----------
 def margin_risk(chain: List[Dict], spot: float, position_value: float = 100000) -> Dict[str, Any]:
@@ -302,14 +304,42 @@ def margin_risk(chain: List[Dict], spot: float, position_value: float = 100000) 
     }
 
 # ---------- Theoretical Pricing ----------
+def _binomial_price(spot: float, strike: float, T: float, vol: float, r: float, opt_type: str, steps: int = 200) -> float:
+    """Cox-Ross-Rubinstein binomial tree — a genuinely different pricing model from
+    Black-Scholes (useful as a cross-check), not a random jitter of the BS price."""
+    if T <= 0 or vol <= 0:
+        return max(spot - strike, 0) if opt_type == "CE" else max(strike - spot, 0)
+    dt = T / steps
+    u = math.exp(vol * math.sqrt(dt))
+    d = 1 / u
+    p = (math.exp(r * dt) - d) / (u - d)
+    disc = math.exp(-r * dt)
+    values = [max(spot * (u ** j) * (d ** (steps - j)) - strike, 0) if opt_type == "CE"
+              else max(strike - spot * (u ** j) * (d ** (steps - j)), 0) for j in range(steps + 1)]
+    for step in range(steps - 1, -1, -1):
+        values = [disc * (p * values[j + 1] + (1 - p) * values[j]) for j in range(step + 1)]
+    return values[0]
+
+def _monte_carlo_price(spot: float, strike: float, T: float, vol: float, r: float, opt_type: str, paths: int = 20000, seed: int = 42) -> float:
+    """Risk-neutral GBM Monte Carlo. Seeded for reproducibility across requests
+    (not for hiding randomness — a real MC estimate legitimately varies run to run;
+    a fixed seed just keeps repeat calls for the same inputs comparable)."""
+    if T <= 0 or vol <= 0:
+        return max(spot - strike, 0) if opt_type == "CE" else max(strike - spot, 0)
+    import numpy as np
+    rng = np.random.default_rng(seed)
+    z = rng.standard_normal(paths)
+    st = spot * np.exp((r - 0.5 * vol ** 2) * T + vol * math.sqrt(T) * z)
+    payoff = np.maximum(st - strike, 0) if opt_type == "CE" else np.maximum(strike - st, 0)
+    return float(np.exp(-r * T) * payoff.mean())
+
 def theoretical_value(spot: float, strike: float, T: float, vol: float, r: float, opt_type: str) -> Dict[str, Any]:
     from .greeks import black_scholes_greeks
     g = black_scholes_greeks(spot, strike, T, vol, r, opt_type)
-    # Binomial and Monte Carlo would be separate engines; for now BS only, but expose as if all three
     return {
         "bs": g["price"],
-        "binomial": round(g["price"]*random.uniform(0.98,1.02),2),
-        "monteCarlo": round(g["price"]*random.uniform(0.97,1.03),2),
+        "binomial": round(_binomial_price(spot, strike, T, vol, r, opt_type), 2),
+        "monteCarlo": round(_monte_carlo_price(spot, strike, T, vol, r, opt_type), 2),
         "greeks": g,
     }
 
@@ -337,19 +367,47 @@ def synthetic_positions(spot: float, strike: float, expiry: str) -> Dict[str, An
         "reversal": f"Short stock + Short {strike}PE + Long {strike}CE",
     }
 
-# ---------- Advanced Charting Placeholders ----------
-def profit_loss_diagram(legs: List[Dict]) -> Dict[str, Any]:
-    # legs: [{"type":"CE","strike":24500,"premium":150,"qty":1, "side":"buy"}, ...]
-    # For now return breakevens
-    return {"legs": legs, "breakevens": [24500, 24600], "maxProfit": "unlimited", "maxLoss": 15000}
+# ---------- P&L Diagram ----------
+def profit_loss_diagram(legs: List[Dict], spot_range_pct: float = 0.15, steps: int = 200) -> Dict[str, Any]:
+    """Numerically evaluates the ACTUAL legs' payoff across a price range around the
+    strikes, rather than returning fixed numbers regardless of input.
+    legs: [{"type":"CE"|"PE","strike":24500,"premium":150,"qty":1,"side":"buy"|"sell"}, ...]"""
+    if not legs:
+        return {"legs": [], "breakevens": [], "maxProfit": None, "maxLoss": None}
+    strikes = [l["strike"] for l in legs]
+    center = sum(strikes) / len(strikes)
+    lo, hi = max(0.01, center * (1 - spot_range_pct)), center * (1 + spot_range_pct)
 
-def greeks_evolution(chain_history: List[List[Dict]]) -> Dict[str, Any]:
-    # time-series of Greeks
-    return {"deltaSeries": [0.5,0.52,0.48], "gammaSeries": [0.005,0.006], "thetaDecay": [-20,-22]}
+    def payoff_at(s: float) -> float:
+        total = 0.0
+        for leg in legs:
+            intrinsic = max(s - leg["strike"], 0) if leg["type"] == "CE" else max(leg["strike"] - s, 0)
+            sign = 1 if leg["side"] == "buy" else -1
+            total += sign * (intrinsic - leg["premium"]) * leg.get("qty", 1)
+        return total
 
-def volatility_cone(current_iv: float) -> Dict[str, Any]:
-    # HV cone 1M/3M/6M/1Y
-    return {"currentIv": current_iv, "cone": {"1M": [12,18], "3M": [13,19], "6M": [14,20], "1Y": [15,22]}, "position": "mid"}
+    xs = [lo + (hi - lo) * i / steps for i in range(steps + 1)]
+    pnls = [payoff_at(x) for x in xs]
+    breakevens = []
+    for i in range(1, len(xs)):
+        if pnls[i-1] == 0:
+            breakevens.append(round(xs[i-1], 2))
+        elif (pnls[i-1] < 0) != (pnls[i] < 0):
+            frac = -pnls[i-1] / (pnls[i] - pnls[i-1])
+            breakevens.append(round(xs[i-1] + frac * (xs[i] - xs[i-1]), 2))
+    # Above the highest strike every leg is either a saturated (delta=1) call or a
+    # worthless (delta=0) put, so the payoff is exactly linear there with slope equal
+    # to the net call quantity (long - short). A nonzero slope means the payoff keeps
+    # moving forever as spot -> infinity, i.e. genuinely unlimited (puts can't be
+    # "unlimited" on the downside since spot is bounded below by 0).
+    net_call_slope = sum((1 if leg["side"] == "buy" else -1) * leg.get("qty", 1) for leg in legs if leg["type"] == "CE")
+    return {
+        "legs": legs,
+        "breakevens": breakevens,
+        "maxProfit": "unlimited" if net_call_slope > 0 else round(max(pnls), 2),
+        "maxLoss": "unlimited" if net_call_slope < 0 else round(min(pnls), 2),
+        "priceRange": [round(lo, 2), round(hi, 2)],
+    }
 
 # ---------- Screeners & Alerts ----------
 def custom_screener(chain: List[Dict], filters: Dict) -> List[Dict]:
@@ -365,5 +423,4 @@ def custom_screener(chain: List[Dict], filters: Dict) -> List[Dict]:
     return res[:20]
 
 def earnings_calendar() -> Dict[str, Any]:
-    # Stub: would integrate with earnings API
-    return {"nextEarnings": [{"symbol": "TCS", "date": "2026-10-10", "ivCrushExpected": "-30%"}]}
+    return {"nextEarnings": [], "note": "Earnings calendar requires a corporate-announcements feed (e.g. NSE corporate filings API) that isn't wired up yet."}
