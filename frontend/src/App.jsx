@@ -197,9 +197,19 @@ export default function App(){
 
   const liveSelectedState = selected ? stocksMap[selected] : null
 
+  const isClosed = marketStatus && !marketStatus.is_open
+  const lastTradingLabel = isClosed ? `MARKET CLOSED — Showing last trading day close (prev close) • Next open ${marketStatus?.next_open ? new Date(marketStatus.next_open).toLocaleString('en-IN') : ''}` : null
+
   return (
     <div className="app">
       <Header marketStatus={marketStatus} connectionStatus={wsStatus} lastUpdate={lastUpdate} dataMode={dataMode} />
+      {isClosed && (
+        <div style={{background:'#1a2129', borderBottom:'1px solid #232d38', padding:'6px 16px', fontSize:12, color:'#f6c343', display:'flex', gap:8, alignItems:'center'}}>
+          <span style={{fontWeight:700}}>● {lastTradingLabel}</span>
+          <span style={{color:'#8b9bb4', fontSize:11}}>Live ticks resume 09:15 IST • Data shown is last close + synthetic OHLC based on prev_close (labels CLOSED)</span>
+          <span style={{marginLeft:'auto', fontSize:10, color:'#5a6b84'}}>Switch to DATA_MODE=mock for simulated live even when closed</span>
+        </div>
+      )}
       <MarketOverview data={overview} />
 
       <div className="filters">
