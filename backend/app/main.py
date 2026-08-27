@@ -25,6 +25,7 @@ from .api.market import router as market_router
 from .api.stocks import router as stocks_router
 from .api.screener import router as screener_router
 from .api.alerts_api import router as alerts_router
+from .api.options import router as options_router
 
 logger = logging.getLogger(__name__)
 
@@ -127,6 +128,7 @@ app.include_router(market_router, prefix="/api", tags=["market"])
 app.include_router(stocks_router, prefix="/api", tags=["stocks"])
 app.include_router(screener_router, prefix="/api", tags=["screener"])
 app.include_router(alerts_router, prefix="/api", tags=["alerts"])
+app.include_router(options_router, prefix="/api", tags=["options"])
 
 @app.get("/api/info")
 async def api_info():

@@ -3,6 +3,7 @@ import Header from './components/Header.jsx'
 import MarketOverview from './components/MarketOverview.jsx'
 import StockTable from './components/StockTable.jsx'
 import DetailPanel from './components/DetailPanel.jsx'
+import OptionsChain from './components/OptionsChain.jsx'
 import { useWebSocket } from './hooks/useWebSocket.js'
 import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.js'
 
@@ -21,6 +22,7 @@ export default function App(){
   const [alerts, setAlerts] = useState([])
   const [dataMode, setDataMode] = useState('mock')
   const [columnFilters, setColumnFilters] = useState({})
+  const [view, setView] = useState('screener') // screener | options
 
   // normalize helper
   const normalizeStock = (s)=>{
@@ -212,6 +214,18 @@ export default function App(){
       )}
       <MarketOverview data={overview} />
 
+      <div style={{display:'flex', gap:6, padding:'8px 16px', background:'#0a0e13', borderBottom:'1px solid #232d38'}}>
+        <button className={`btn ${view==='screener'?'active':''}`} onClick={()=> setView('screener')}>📊 Screener (500)</button>
+        <button className={`btn ${view==='options'?'active':''}`} onClick={()=> setView('options')}>⛓ Options Chain — NIFTY/SENSEX • Greeks • OI • ATM</button>
+        <span style={{marginLeft:'auto', fontSize:10, color:'#5a6b84'}}>Live + Last-Day • Option analytics complete</span>
+      </div>
+
+      {view==='options' ? (
+        <div style={{flex:1, overflow:'auto'}}>
+          <OptionsChain />
+        </div>
+      ) : (
+      <>
       <div className="filters">
         <input className="input" placeholder="Search symbol / company (e.g., RELIANCE)" value={search} onChange={e=> setSearch(e.target.value)} style={{minWidth:260}} />
         <select className="input" value={sectorFilter} onChange={e=> setSectorFilter(e.target.value)}>
@@ -252,7 +266,8 @@ export default function App(){
           <DetailPanel symbol={selected} onClose={()=> {setSelected(null); setShowDetail(false)}} liveState={liveSelectedState} />
         )}
       </div>
-
+      </>
+      )}
       {/* alerts ticker */}
       <div style={{height:32, background:'#0f141a', borderTop:'1px solid #232d38', display:'flex', alignItems:'center', padding:'0 16px', gap:12, overflow:'hidden', flexShrink:0}}>
         <span style={{fontSize:11, color:'#f6c343', fontWeight:700, whiteSpace:'nowrap'}}>● LIVE ALERTS</span>
