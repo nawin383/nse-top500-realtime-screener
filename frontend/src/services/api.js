@@ -19,7 +19,8 @@ export async function fetchStockDetail(symbol) {
   return r.json()
 }
 export async function fetchOverview() {
-  const r = await fetch(`${BASE}/api/overview`)
+  const r = await fetch(`${BASE}/api/market/overview`)
+  if(!r.ok) throw new Error('overview failed')
   return r.json()
 }
 export async function fetchScreener(name, params={}) {
@@ -33,6 +34,14 @@ export async function fetchAlerts(params={}) {
   return r.json()
 }
 export async function fetchSectors() {
-  const r = await fetch(`${BASE}/api/sectors`)
-  return r.json()
+  // try universe -> derive sectors; fallback to stocks distinct
+  try{
+    const r = await fetch(`${BASE}/api/universe`)
+    if(r.ok){ const j=await r.json(); const data=j.data||j; if(Array.isArray(data)){ const map={}; data.forEach(x=>{ const s=x.sector||'Unknown'; map[s]=(map[s]||0)+1}); return {data: Object.entries(map).map(([sector,count])=>({sector,count}))} } }
+  }catch(e){}
+  try{
+    const r2 = await fetch(`${BASE}/api/stocks?limit=500`)
+    if(r2.ok){ const j=await r2.json(); const rows=j.data||[]; const map={}; rows.forEach(x=>{ const s=x.sector||'Unknown'; map[s]=(map[s]||0)+1}); return {data: Object.entries(map).map(([sector,count])=>({sector,count}))} }
+  }catch(e){}
+  return {data:[]}
 }

@@ -26,6 +26,7 @@ from .api.stocks import router as stocks_router
 from .api.screener import router as screener_router
 from .api.alerts_api import router as alerts_router
 from .api.options import router as options_router
+from .api.institutional import router as institutional_router
 
 logger = logging.getLogger(__name__)
 
@@ -129,6 +130,7 @@ app.include_router(stocks_router, prefix="/api", tags=["stocks"])
 app.include_router(screener_router, prefix="/api", tags=["screener"])
 app.include_router(alerts_router, prefix="/api", tags=["alerts"])
 app.include_router(options_router, prefix="/api", tags=["options"])
+app.include_router(institutional_router, prefix="/api", tags=["institutional"])
 
 @app.get("/api/info")
 async def api_info():
@@ -179,20 +181,18 @@ async def websocket_endpoint(ws: WebSocket):
             for s in states:
                 is_above = s.indicators.vwap and s.ltp and s.ltp > s.indicators.vwap
                 chg = round(s.change_pct,2) if s.change_pct is not None else None
+                is_synth = s.freshness=="CLOSED"
                 data.append({
                     "symbol": s.symbol,
                     "token": s.token,
                     "ltp": s.ltp,
-                    "change_pct": chg,
                     "changePercent": chg,
                     "change": s.change,
                     "volume": s.volume,
-                    "rel_volume": round(s.rel_volume,2) if s.rel_volume else None,
                     "relVolume": round(s.rel_volume,2) if s.rel_volume else None,
                     "high": s.high,
                     "low": s.low,
                     "open": s.open,
-                    "previous_close": s.previous_close,
                     "previousClose": s.previous_close,
                     "vwap": round(s.indicators.vwap,2) if s.indicators.vwap else None,
                     "rsi": round(s.indicators.rsi,1) if s.indicators.rsi else None,
@@ -200,16 +200,14 @@ async def websocket_endpoint(ws: WebSocket):
                     "ema20": round(s.indicators.ema20,2) if s.indicators.ema20 else None,
                     "score": s.score,
                     "signal": s.signal,
-                    "signal_strength": s.signal_strength,
-                    "signalStrength": s.signal_strength,
+                    "signalStrength": round(s.signal_strength,2) if s.signal_strength else 0,
                     "freshness": s.freshness,
+                    "synthetic": bool(is_synth),
                     "timestamp": s.timestamp.isoformat() if s.timestamp else None,
                     "sector": s.sector,
-                    "company": s.company,
                     "companyName": s.company,
                     "industry": s.industry,
                     "isAboveVwap": is_above,
-                    "is_above_vwap": is_above,
                     "volumeSpike": bool(s.volume_spike),
                     "isBreakout": bool(s.momentum.day_high_breakout),
                     "isBreakdown": bool(s.momentum.day_low_breakdown),

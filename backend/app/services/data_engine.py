@@ -156,21 +156,19 @@ class DataEngine:
         ema20 = round(s.indicators.ema20,2) if s.indicators.ema20 else None
         atr = round(s.indicators.atr,2) if s.indicators.atr else None
         macd = round(s.indicators.macd,2) if s.indicators.macd else None
-        # base dict
+        # optimized payload: single camelCase keys only (~22% smaller WS)
+        is_synthetic = s.freshness == "CLOSED" and s.volume and s.volume>0
         base = {
             "symbol": s.symbol,
             "token": s.token,
             "ltp": s.ltp,
             "change": s.change,
-            "change_pct": chg_pct,
             "changePercent": chg_pct,
             "volume": s.volume,
-            "rel_volume": rel_vol,
             "relVolume": rel_vol,
             "high": s.high,
             "low": s.low,
             "open": s.open,
-            "previous_close": s.previous_close,
             "previousClose": s.previous_close,
             "vwap": vwap,
             "rsi": rsi,
@@ -180,17 +178,15 @@ class DataEngine:
             "macd": macd,
             "score": s.score,
             "signal": s.signal,
-            "signal_strength": round(s.signal_strength,2) if s.signal_strength else 0,
             "signalStrength": round(s.signal_strength,2) if s.signal_strength else 0,
             "rank": s.rank,
             "freshness": s.freshness,
+            "synthetic": bool(is_synthetic),
             "timestamp": s.timestamp.isoformat() if s.timestamp else None,
             "sector": s.sector,
-            "company": s.company,
             "companyName": s.company,
             "industry": s.industry,
             "isAboveVwap": is_above,
-            "is_above_vwap": is_above,
             "volumeSpike": bool(s.volume_spike),
             "isBreakout": bool(s.momentum.day_high_breakout),
             "isBreakdown": bool(s.momentum.day_low_breakdown),
@@ -204,8 +200,6 @@ class DataEngine:
                 "breakout": s.momentum.day_high_breakout,
                 "breakdown": s.momentum.day_low_breakdown,
             },
-            "range_pct": round(s.range_pct,2) if s.range_pct else None,
-            "gap_pct": round(s.gap_pct,2) if s.gap_pct else None,
             "gapPercent": round(s.gap_pct,2) if s.gap_pct else None,
             "distanceFromHigh": s.distance_from_high_pct,
             "distanceFromLow": s.distance_from_low_pct,

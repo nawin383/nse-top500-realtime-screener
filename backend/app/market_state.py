@@ -40,6 +40,8 @@ class MarketState:
         self._opening_range: Dict[str, Dict] = {}  # first 15m high/low
         self._first_tick_time: Optional[datetime] = None
         self._last_data_received: Optional[datetime] = None
+        self._last_candle_count: Dict[str, int] = {}
+        self._tick_counter: Dict[str, int] = {}
         self._init_universe(universe)
 
     def _init_universe(self, universe: List[Dict[str, Any]]):
@@ -260,7 +262,23 @@ class MarketState:
 
     def _update_indicators(self, symbol: str):
         state = self.states[symbol]
+        # perf: skip heavy calc if no new 1m candle and not every 3rd tick
         candles_1m = self.candle_engine.get_candles(symbol, 1, limit=100)
+        cnt = len(candles_1m)
+        last = self._last_candle_count.get(symbol, -1)
+        tc = self._tick_counter.get(symbol, 0) + 1
+        self._tick_counter[symbol]=tc
+        is_new_candle = cnt != last
+        # only compute heavy indicators on new candle or every 3 ticks
+        if not is_new_candle and tc % 3 != 0 and cnt>10:
+            closes = [c.close for c in candles_1m]
+            # still quick EMA9 update from last close
+            if len(closes) >= 9:
+                try: state.indicators.ema9 = ema_series(closes, 9)[-1]
+                except: pass
+            self._last_candle_count[symbol]=cnt
+            return
+        self._last_candle_count[symbol]=cnt
         closes = [c.close for c in candles_1m]
         if len(closes) >= 9:
             ema9 = ema_series(closes, 9)
@@ -273,7 +291,6 @@ class MarketState:
             state.indicators.ema50 = ema50[-1]
         if len(closes) >= 15:
             state.indicators.rsi = rsi(closes, 14)
-        # ATR needs OHLC candles
         if len(candles_1m) >= 15:
             dict_candles = [{"high":c.high,"low":c.low,"close":c.close} for c in candles_1m]
             state.indicators.atr = atr(dict_candles, 14)
