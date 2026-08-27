@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useMemo } from 'react'
 import { fmt, fmtPct, fmtVol, fmtPrice } from '../utils/format.js'
+import Papa from 'papaparse'
 
 const Row = React.memo(function Row({ s, idx, flashClass, isSelected, onSelect }){
   const isPos = (s.changePercent||0) >=0
@@ -28,14 +29,33 @@ const Row = React.memo(function Row({ s, idx, flashClass, isSelected, onSelect }
       </td>
       <td><span className={`signal ${s.signal}`} style={{fontSize:9, padding:'3px 7px'}}>{s.signal || '—'}</span></td>
       <td><span style={{fontSize:10, color:'#8ea0b8', background:'rgba(255,255,255,0.04)', padding:'3px 7px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)', fontWeight:600}}>{s.sector}</span></td>
-      <td><span className={`fresh-${s.freshness}`} style={s.freshness==='CLOSED'?{background:'rgba(255,255,255,0.06)', padding:'3px 7px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)'}:null}>{s.freshness}</span></td>
     </tr>
   )
 })
 
+const DEFAULT_COLS=[
+  { key:'rank', label:'#', sortable:false, width:50, pinned:false },
+  { key:'symbol', label:'Symbol', sortable:true, width:150, pinned:true },
+  { key:'ltp', label:'LTP', sortable:true, width:90 },
+  { key:'changePercent', label:'Chg %', sortable:true, width:90 },
+  { key:'volume', label:'Volume', sortable:true, width:90 },
+  { key:'relVolume', label:'Rel Vol', sortable:true, width:80 },
+  { key:'vwap', label:'VWAP', sortable:true, width:90 },
+  { key:'rsi', label:'RSI', sortable:true, width:70 },
+  { key:'momentum5m', label:'Mom 5m', sortable:true, width:80 },
+  { key:'score', label:'Score', sortable:true, width:110 },
+  { key:'signal', label:'Signal', sortable:true, width:90 },
+  { key:'sector', label:'Sector', sortable:false, width:120 },
+]
+
 export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, sortDir, onSort }){
   const containerRef = useRef(null)
   const [flashMap, setFlashMap] = useState({})
+  const [cols,setCols]=useState(()=>{
+    try{ const v=JSON.parse(localStorage.getItem('st_layout')); if(Array.isArray(v) && v.length) return v }catch{}
+    return DEFAULT_COLS
+  })
+  const [multiSort,setMultiSort]=useState([])
   const oldRef = useRef({})
 
   React.useEffect(()=>{
@@ -53,35 +73,59 @@ export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, s
     const nxt={}; stocks.forEach(x=> nxt[x.symbol]=x.ltp); oldRef.current=nxt
   }, [stocks])
 
-  const headers = [
-    { key:'rank', label:'#', sortable:false, width:50 },
-    { key:'symbol', label:'Symbol', sortable:true },
-    { key:'ltp', label:'LTP', sortable:true },
-    { key:'changePercent', label:'Chg %', sortable:true },
-    { key:'volume', label:'Volume', sortable:true },
-    { key:'relVolume', label:'Rel Vol', sortable:true },
-    { key:'vwap', label:'VWAP', sortable:true },
-    { key:'rsi', label:'RSI', sortable:true },
-    { key:'momentum5m', label:'Mom 5m', sortable:true },
-    { key:'score', label:'Score', sortable:true },
-    { key:'signal', label:'Signal', sortable:true },
-    { key:'sector', label:'Sector', sortable:false },
-  ]
+  React.useEffect(()=>{ localStorage.setItem('st_layout', JSON.stringify(cols)) },[cols])
 
-  const thClick = (k)=>{
+  const thClick = (k, e)=>{
     if(!k) return
+    if(e.shiftKey){
+      setMultiSort(prev=>{
+        const exists=prev.find(x=>x.key===k)
+        const next= exists? prev.map(x=>x.key===k? {...x,dir:x.dir==='asc'?'desc':'asc'}:x) : [...prev,{key:k,dir:'desc'}]
+        // apply multi-sort externally if parent supports? fallback to single
+        if(next.length) { const first=next[0]; onSort(first.key, first.dir) }
+        return next.slice(0,3)
+      })
+      return
+    }
+    setMultiSort([])
     if(sortBy===k) onSort(k, sortDir==='asc'?'desc':'asc')
     else onSort(k, 'desc')
   }
 
+  const onResize=(idx, delta)=>{
+    setCols(c=> c.map((col,i)=> i===idx? {...col,width: Math.max(50, (col.width||100)+delta)}:col))
+  }
+
+  const exportCSV=()=>{
+    const csv=Papa.unparse(stocks.map(s=>({symbol:s.symbol,company:s.companyName,ltp:s.ltp,change:s.changePercent,volume:s.volume,relVol:s.relVolume,vwap:s.vwap,rsi:s.rsi,mom5:s.momentum5m,score:s.score,signal:s.signal,sector:s.sector})))
+    const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='screener.csv'; a.click(); URL.revokeObjectURL(url)
+  }
+
+  const togglePin=(idx)=> setCols(c=> c.map((col,i)=> i===idx? {...col,pinned:!col.pinned}:col))
+
   return (
-    <div ref={containerRef} style={{height:'100%', overflow:'auto'}}>
+    <div ref={containerRef} style={{height:'100%', overflow:'auto', position:'relative'}}>
+      <div style={{position:'sticky',top:0,zIndex:3,display:'flex',gap:6,padding:'6px 8px',background:'rgba(15,20,28,0.95)',borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+        <button className="btn sm" onClick={exportCSV}>⬇ CSV</button>
+        <button className="btn sm" onClick={()=>setCols(DEFAULT_COLS)}>Reset Layout</button>
+        {multiSort.length>0 && <span style={{fontSize:10,color:'var(--text2)',alignSelf:'center'}}>Multi: {multiSort.map(s=>`${s.key} ${s.dir}`).join(', ')}</span>}
+        <span style={{marginLeft:'auto',fontSize:10,color:'var(--text3)'}}>Shift+click multi-sort • drag edge to resize • pin 📌</span>
+      </div>
       <table style={{minWidth:980}}>
         <thead>
           <tr>
-            {headers.map(h=>(
-              <th key={h.key} style={h.width?{width:h.width}:null} onClick={()=> h.sortable && thClick(h.key)}>
-                <span style={{display:'flex', gap:6, alignItems:'center'}}>{h.label} {sortBy===h.key ? <span style={{background: 'linear-gradient(135deg,#2f8bff,#00e6a0)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', fontSize:11}}>{sortDir==='asc'?'▲':'▼'}</span> : h.sortable ? <span style={{opacity:0.25, fontSize:9}}>↕</span> : null}</span>
+            {cols.map((h,i)=>(
+              <th key={h.key} style={{width:h.width, position: h.pinned?'sticky':undefined, left: h.pinned? (cols.slice(0,i).filter(c=>c.pinned).reduce((a,c)=>a+(c.width||100),0)):undefined, background: h.pinned?'rgba(15,20,28,0.98)':'', zIndex: h.pinned?2:1, borderRight: h.pinned?'1px solid var(--border)':''}} onClick={(e)=> h.sortable && thClick(h.key,e)}>
+                <span style={{display:'flex', gap:6, alignItems:'center', position:'relative'}}>
+                  {h.label} {sortBy===h.key ? <span style={{color:'#2f8bff'}}>{sortDir==='asc'?'▲':'▼'}</span> : h.sortable ? <span style={{opacity:0.25, fontSize:9}}>↕</span> : null}
+                  <button onClick={(e)=>{e.stopPropagation(); togglePin(i)}} style={{background:'none',border:'none',cursor:'pointer',fontSize:10,opacity:h.pinned?1:0.3}}>📌</button>
+                  <span onMouseDown={e=>{
+                    const start=e.clientX, initW=h.width||100
+                    const onMove=(ev)=> onResize(i, ev.clientX-start)
+                    const onUp=()=>{ window.removeEventListener('mousemove',onMove); window.removeEventListener('mouseup',onUp)}
+                    window.addEventListener('mousemove',onMove); window.addEventListener('mouseup',onUp)
+                  }} style={{position:'absolute',right:-8,top:0,bottom:0,width:8,cursor:'col-resize'}} />
+                </span>
               </th>
             ))}
             <th style={{width:90}}>Status</th>

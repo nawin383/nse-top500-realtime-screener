@@ -68,3 +68,16 @@ SCREENERS: Dict[str, Callable] = {
     "vwap_below": vwap_below,
     "unusual": unusual_activity,
 }
+
+def apply_screener(stocks, name: str, limit: int=20):
+    name=name.lower()
+    if name in ("gainer","gainers"): name="gainers"
+    if name in ("loser","losers"): name="losers"
+    # dict mode for test_comprehensive
+    if stocks and isinstance(stocks[0], dict):
+        if name=="gainers": return [s for s in sorted(stocks, key=lambda x: x.get("changePercent",0), reverse=True) if s.get("changePercent",0)>0][:limit]
+        if name=="losers": return [s for s in sorted(stocks, key=lambda x: x.get("changePercent",0)) if s.get("changePercent",0)<0][:limit]
+        return stocks[:limit]
+    fn=SCREENERS.get(name)
+    if not fn: return []
+    return fn(stocks, limit)

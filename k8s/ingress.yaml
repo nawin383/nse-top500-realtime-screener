@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nse-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "86400"
+    nginx.ingress.kubernetes.io/websocket-services: "nse-backend"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls: [{ hosts: [screener.example.com], secretName: nse-tls }]
+  rules:
+    - host: screener.example.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend: { service: { name: nse-backend, port: { number: 8000 } } }
+          - path: /ws
+            pathType: Prefix
+            backend: { service: { name: nse-backend, port: { number: 8000 } } }
+          - path: /docs
+            pathType: Prefix
+            backend: { service: { name: nse-backend, port: { number: 8000 } } }
+          - path: /openapi.json
+            pathType: Prefix
+            backend: { service: { name: nse-backend, port: { number: 8000 } } }
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: nse-frontend, port: { number: 80 } } }

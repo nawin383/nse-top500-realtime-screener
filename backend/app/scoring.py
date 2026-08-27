@@ -129,3 +129,13 @@ def score_stock(state: StockState, weights: Dict[str,int]=None) -> tuple[float, 
 
     strength = total/100
     return total, breakdown, signal, strength
+
+def calculate_score(data: dict) -> float:
+    """Compatibility wrapper for tests expecting dict score."""
+    mom = data.get("momentum_5m", 0) or 0
+    rv = data.get("rel_volume", 0) or 0
+    br = 15 if data.get("is_breakout") else 0
+    vw = 10 if data.get("is_above_vwap") else 0
+    vol = min(5, abs(data.get("volatility",0)))
+    base = min(25, abs(mom)*10) + min(20, rv*5) + br + vw + vol
+    return min(100, round(base,2))

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata: { name: nse-backend, labels: { app: nse-backend } }
+spec:
+  selector: { app: nse-backend }
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata: { name: nse-frontend, labels: { app: nse-frontend } }
+spec:
+  selector: { app: nse-frontend }
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nse-backend-headless
+  labels: { app: nse-backend }
+  annotations: { service.alpha.kubernetes.io/tolerate-unready-endpoints: "true" }
+spec:
+  clusterIP: None
+  selector: { app: nse-backend }
+  ports: [{ port: 8000, targetPort: 8000 }]

@@ -1,0 +1,18 @@
+{
+  "title": "NSE Screener - Realtime",
+  "uid": "nse-screener",
+  "timezone": "Asia/Kolkata",
+  "panels": [
+    { "id": 1, "title": "Tick Latency p95 (ms)", "type": "timeseries", "targets": [{ "expr": "histogram_quantile(0.95, rate(tick_process_duration_seconds_bucket[5m]))*1000" }] },
+    { "id": 2, "title": "Ticks/sec", "type": "stat", "targets": [{ "expr": "rate(ticks_processed_total[1m])" }] },
+    { "id": 3, "title": "WS Connections", "type": "stat", "targets": [{ "expr": "ws_connections_current" }] },
+    { "id": 4, "title": "WS Broadcast Lag (ms)", "type": "timeseries", "targets": [{ "expr": "ws_broadcast_duration_ms" }] },
+    { "id": 5, "title": "HTTP 5xx Rate", "type": "timeseries", "targets": [{ "expr": "rate(http_requests_total{code=~\"5..\"}[5m])" }] },
+    { "id": 6, "title": "Stale Symbols", "type": "stat", "targets": [{ "expr": "stale_symbols_count" }] },
+    { "id": 7, "title": "CPU / Memory", "type": "timeseries", "targets": [{ "expr": "process_cpu_seconds_total" }, { "expr": "process_resident_memory_bytes" }] },
+    { "id": 8, "title": "Alerts Fired / min", "type": "timeseries", "targets": [{ "expr": "rate(alerts_fired_total[1m])" }] }
+  ],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "schemaVersion": 39
+}

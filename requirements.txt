@@ -15,3 +15,36 @@ anyio>=4.3.0
 kiteconnect>=4.2.0
 pyotp>=2.9.0
 requests>=2.31.0
+
+# Redis for state management and caching
+redis>=5.0.0
+aioredis>=2.0.1
+
+# Structured logging
+loguru>=0.7.2
+
+# Monitoring and metrics
+prometheus-client>=0.20.0
+prometheus-fastapi-instrumentator>=7.0.0
+
+# Rate limiting
+slowapi>=0.1.9
+
+# Advanced ML and analytics
+scikit-learn>=1.4.0
+numpy>=1.26.0
+pandas>=2.2.0
+ta>=0.11.0
+
+# Security
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+
+# Database support
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+
+# Advanced testing
+pytest-cov>=4.1.0
+locust>=2.20.0
+faker>=22.0.0

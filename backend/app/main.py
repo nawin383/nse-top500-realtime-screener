@@ -27,6 +27,14 @@ from .api.screener import router as screener_router
 from .api.alerts_api import router as alerts_router
 from .api.options import router as options_router
 from .api.institutional import router as institutional_router
+from .api.watchlists import router as watchlists_router
+from .api.webhooks import router as webhooks_router
+
+# Monitoring and metrics
+from .utils.metrics import setup_metrics
+from .utils.redis_manager import redis_manager
+from .utils.rate_limiter import limiter, get_rate_limit_handler
+from slowapi.errors import RateLimitExceeded
 
 logger = logging.getLogger(__name__)
 
@@ -54,8 +62,13 @@ def load_universe() -> list:
 async def lifespan(app: FastAPI):
     # startup
     setup_logging(settings.log_level)
-    logger.info("=== NSE Top500 Realtime Screener starting ===")
+    logger.info("=== NSE Top500 Realtime Screener v2.0 starting ===")
     logger.info(f"DATA_MODE={settings.data_mode} UNIVERSE={UNIVERSE_PATH}")
+
+    # Initialize Redis if enabled
+    if settings.redis_enabled:
+        await redis_manager.connect()
+
     universe = load_universe()
     if len(universe)==0:
         logger.error("No universe loaded! App will run with empty universe - check config/nse_top500.json")
@@ -92,9 +105,17 @@ async def lifespan(app: FastAPI):
         logger.warning(f"Token refresher not started: {e}")
 
     logger.info(f"API ready at http://{settings.host}:{settings.port}")
+    logger.info(f"Redis: {'enabled' if settings.redis_enabled else 'disabled'}")
+    logger.info(f"ML Anomaly Detection: {'enabled' if settings.ml_anomaly_detection else 'disabled'}")
+    logger.info(f"Metrics: {'enabled' if settings.enable_metrics else 'disabled'}")
     yield
     # shutdown
     logger.info("Shutting down...")
+
+    # Disconnect Redis
+    if settings.redis_enabled:
+        await redis_manager.disconnect()
+
     if refresher_task:
         refresher_task.cancel()
         try:
@@ -109,10 +130,31 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="NSE Top 500 Realtime Screener",
-    version="1.0.0",
-    description="Production-quality NSE Top500 intraday screener with Kite WebSocket + mock/replay modes",
+    version="2.0.0",
+    description="World-class NSE Top500 intraday screener with ML anomaly detection, advanced indicators, and real-time analytics",
     lifespan=lifespan,
+    openapi_tags=[
+        {"name": "health", "description": "Liveness / readiness probes"},
+        {"name": "market", "description": "Market status & overview"},
+        {"name": "stocks", "description": "Universe & per-symbol detail"},
+        {"name": "screener", "description": "Ranked screeners"},
+        {"name": "alerts", "description": "Real-time alerts"},
+        {"name": "options", "description": "Options chain & Greeks"},
+        {"name": "institutional", "description": "FII/DII & sector flows"},
+        {"name": "watchlists", "description": "User watchlists"},
+        {"name": "webhooks", "description": "Webhook subscriptions"},
+    ],
 )
+try:
+    from .docs.openapi_extra import enhance_openapi
+    enhance_openapi(app)
+except Exception:
+    pass
+
+# Add rate limiting state
+if settings.rate_limit_enabled:
+    app.state.limiter = limiter
+    app.add_exception_handler(RateLimitExceeded, get_rate_limit_handler())
 
 # CORS - safe config
 app.add_middleware(
@@ -123,6 +165,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Setup monitoring metrics
+if settings.enable_metrics:
+    setup_metrics(app)
+
 # include routers
 app.include_router(health_router, prefix="/api", tags=["health"])
 app.include_router(market_router, prefix="/api", tags=["market"])
@@ -131,17 +177,54 @@ app.include_router(screener_router, prefix="/api", tags=["screener"])
 app.include_router(alerts_router, prefix="/api", tags=["alerts"])
 app.include_router(options_router, prefix="/api", tags=["options"])
 app.include_router(institutional_router, prefix="/api", tags=["institutional"])
+app.include_router(watchlists_router, prefix="/api", tags=["watchlists"])
+app.include_router(webhooks_router, prefix="/api", tags=["webhooks"])
+try:
+    from .api.v1 import router as v1_router
+    app.include_router(v1_router, prefix="/api/v1", tags=["v1"])
+except Exception as e:
+    logger.warning(f"v1 router not loaded {e}")
+
+# in-memory rate limit middleware (fallback) + monitoring metrics extra endpoint
+try:
+    from .middleware.rate_limit import RateLimitMiddleware
+    app.add_middleware(RateLimitMiddleware)
+except: pass
+try:
+    from .monitoring.metrics import get_metrics
+    @app.get("/api/monitoring/metrics")
+    async def monitoring_metrics(): return get_metrics()
+except: pass
+try:
+    from fastapi import Depends as _Dep
+    from .auth.jwt_auth import jwt_or_api_key
+    @app.get("/api/v1/premium/overview")
+    async def premium_overview(user=_Dep(jwt_or_api_key)):
+        ms=app_state.get("market_state")
+        return ms.market_overview().model_dump() if ms else {"error":"not ready"}
+except Exception as _e:
+    logger.debug(f"premium route failed {_e}")
 
 @app.get("/api/info")
 async def api_info():
     return {
         "name": "NSE Top 500 Realtime Screener",
-        "version": "1.0.0",
+        "version": "2.0.0",
         "data_mode": settings.data_mode,
         "universe": len(app_state.get("universe",[])),
+        "features": {
+            "redis": settings.redis_enabled,
+            "ml_anomaly_detection": settings.ml_anomaly_detection,
+            "rate_limiting": settings.rate_limit_enabled,
+            "metrics": settings.enable_metrics,
+            "watchlists": True,
+            "webhooks": True,
+            "advanced_indicators": True,
+        },
         "docs": "/docs",
         "health": "/api/health",
         "websocket": "/ws",
+        "metrics": "/metrics" if settings.enable_metrics else None,
     }
 
 @app.get("/api/root")

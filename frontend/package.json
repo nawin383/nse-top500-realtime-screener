@@ -10,17 +10,18 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "framer-motion": "^11.0.0",
+    "jspdf": "^2.5.1",
+    "lightweight-charts": "^4.1.0",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-grid-layout": "^1.4.4",
-    "framer-motion": "^11.0.0",
-    "lightweight-charts": "^4.1.0",
-    "three": "^0.160.0",
-    "jspdf": "^2.5.1",
-    "papaparse": "^5.4.1",
-    "recharts": "^2.12.0"
+    "recharts": "^2.12.0",
+    "three": "^0.160.0"
   },
   "devDependencies": {
+    "@types/papaparse": "^5.5.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",

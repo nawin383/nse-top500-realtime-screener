@@ -140,3 +140,14 @@ def vwap_from_ticks(ticks_price_vol: List[tuple]) -> Optional[float]:
 def calc_vwap_incremental(prev_vwap: Optional[float], prev_cum_vol: int, ltp: float, vol_delta: int, cum_pv: float):
     # maintain externally
     pass
+
+# Compatibility wrappers for test_comprehensive
+def calculate_vwap(prices, volumes):
+    return vwap_from_ticks(list(zip(prices, volumes)))
+
+def calculate_rsi(closes, period=14):
+    return rsi(closes, period)
+
+def calculate_ema(prices, period=9):
+    s = ema_series(prices, period)
+    return next((x for x in reversed(s) if x is not None), None)

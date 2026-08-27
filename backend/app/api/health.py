@@ -11,7 +11,12 @@ router = APIRouter()
 
 @router.get("/health")
 async def health():
-    return {"status":"ok", "timestamp": datetime.now(tz=IST).isoformat(), "service":"nse-top500-screener"}
+    # compatible with both "ok" and "healthy" checks
+    return {"status":"ok", "healthy": True, "timestamp": datetime.now(tz=IST).isoformat(), "service":"nse-top500-screener"}
+
+@router.get("/healthz")
+async def healthz():
+    return {"status":"healthy", "timestamp": datetime.now(tz=IST).isoformat()}
 
 @router.get("/ready")
 async def ready():

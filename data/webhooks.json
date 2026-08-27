@@ -1,0 +1,80 @@
+{
+  "dd40cfbd-43a3-4980-b414-f0a3c26496d1": {
+    "id": "dd40cfbd-43a3-4980-b414-f0a3c26496d1",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:22:18.041977",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  },
+  "ced4d5c6-2fd9-4fb4-a028-d02f6797390c": {
+    "id": "ced4d5c6-2fd9-4fb4-a028-d02f6797390c",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:22:26.616068",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  },
+  "2ca8e5a6-c82b-4601-b73a-bb5c37afad62": {
+    "id": "2ca8e5a6-c82b-4601-b73a-bb5c37afad62",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:23:31.619469",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  },
+  "88dba6a9-df5f-4b8a-b6d4-afd55fd5801c": {
+    "id": "88dba6a9-df5f-4b8a-b6d4-afd55fd5801c",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:24:14.571760",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  },
+  "764b8ffc-054d-417d-9a29-ebf29dd82210": {
+    "id": "764b8ffc-054d-417d-9a29-ebf29dd82210",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:25:54.629729",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  },
+  "7f9822b9-a669-4ace-8a21-9bc54430d60a": {
+    "id": "7f9822b9-a669-4ace-8a21-9bc54430d60a",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:26:30.161975",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  }
+}

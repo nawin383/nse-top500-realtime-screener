@@ -1,0 +1,62 @@
+{
+  "2a0c09b3-80a1-4525-9af9-0cdacfa401ff": {
+    "id": "2a0c09b3-80a1-4525-9af9-0cdacfa401ff",
+    "name": "My Watchlist",
+    "description": "Test watchlist",
+    "created_at": "2026-08-28T02:22:18.094837",
+    "updated_at": "2026-08-28T02:22:18.094837",
+    "stocks": [],
+    "color": "#3b82f6",
+    "is_default": false
+  },
+  "2a5c4473-9533-4ea4-87cf-82dc1c8a494a": {
+    "id": "2a5c4473-9533-4ea4-87cf-82dc1c8a494a",
+    "name": "My Watchlist",
+    "description": "Test watchlist",
+    "created_at": "2026-08-28T02:22:26.628118",
+    "updated_at": "2026-08-28T02:22:26.628118",
+    "stocks": [],
+    "color": "#3b82f6",
+    "is_default": false
+  },
+  "df1a75b7-0143-4ac2-952b-47aedbe0471e": {
+    "id": "df1a75b7-0143-4ac2-952b-47aedbe0471e",
+    "name": "My Watchlist",
+    "description": "Test watchlist",
+    "created_at": "2026-08-28T02:23:31.629511",
+    "updated_at": "2026-08-28T02:23:31.629511",
+    "stocks": [],
+    "color": "#3b82f6",
+    "is_default": false
+  },
+  "03ee9240-bfe6-4c5e-92e4-f5e141a0c83a": {
+    "id": "03ee9240-bfe6-4c5e-92e4-f5e141a0c83a",
+    "name": "My Watchlist",
+    "description": "Test watchlist",
+    "created_at": "2026-08-28T02:24:14.578623",
+    "updated_at": "2026-08-28T02:24:14.578623",
+    "stocks": [],
+    "color": "#3b82f6",
+    "is_default": false
+  },
+  "8f2bea21-491b-4cb4-8690-947d1ee03d4c": {
+    "id": "8f2bea21-491b-4cb4-8690-947d1ee03d4c",
+    "name": "My Watchlist",
+    "description": "Test watchlist",
+    "created_at": "2026-08-28T02:25:54.637770",
+    "updated_at": "2026-08-28T02:25:54.637770",
+    "stocks": [],
+    "color": "#3b82f6",
+    "is_default": false
+  },
+  "38729b70-7abf-4de6-9bfd-e7193359f63c": {
+    "id": "38729b70-7abf-4de6-9bfd-e7193359f63c",
+    "name": "My Watchlist",
+    "description": "Test watchlist",
+    "created_at": "2026-08-28T02:26:30.168973",
+    "updated_at": "2026-08-28T02:26:30.168973",
+    "stocks": [],
+    "color": "#3b82f6",
+    "is_default": false
+  }
+}

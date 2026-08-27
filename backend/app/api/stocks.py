@@ -72,7 +72,10 @@ async def list_stocks(
             "momentum": s.momentum.model_dump(),
             "indicators": s.indicators.model_dump(),
         }
-    return {"total": total, "count": len(paged), "offset": offset, "limit": limit, "data": [minimal(s) for s in paged]}
+    payload={"total": total, "count": len(paged), "offset": offset, "limit": limit, "data": [minimal(s) for s in paged]}
+    # compat for tests expecting "stocks" key
+    payload["stocks"]=payload["data"]
+    return payload
 
 @router.get("/stocks/{symbol}")
 async def get_stock(symbol: str):

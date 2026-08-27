@@ -42,6 +42,22 @@ class Settings(BaseSettings):
 
     cors_origins: str = Field(default="http://localhost:5173,http://localhost:3000", alias="CORS_ORIGINS")
 
+    # Redis configuration
+    redis_url: str = Field(default="redis://localhost:6379/0", alias="REDIS_URL")
+    redis_enabled: bool = Field(default=False, alias="REDIS_ENABLED")
+
+    # Rate limiting
+    rate_limit_enabled: bool = Field(default=True, alias="RATE_LIMIT_ENABLED")
+
+    # Monitoring
+    enable_metrics: bool = Field(default=True, alias="ENABLE_METRICS")
+
+    # ML features
+    ml_anomaly_detection: bool = Field(default=True, alias="ML_ANOMALY_DETECTION")
+
+    # Webhooks
+    webhook_timeout_sec: int = Field(default=10, alias="WEBHOOK_TIMEOUT_SEC")
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

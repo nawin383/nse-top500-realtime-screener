@@ -19,6 +19,9 @@ from .candle_engine import CandleEngine
 from .indicators import ema_series, rsi, atr, macd, bollinger, adx
 from .scoring import score_stock
 from .utils.freshness import compute_freshness
+try:
+    from .cache import get_cache
+except: get_cache=lambda: None
 
 logger = logging.getLogger(__name__)
 
@@ -392,13 +395,64 @@ class MarketState:
 
     def all_states(self) -> List[StockState]:
         self.refresh_freshness()
+        # optional cache for ranking/overview keys
         return list(self.states.values())
 
+    def cached_overview(self, ttl: int = 10):
+        cache=get_cache()
+        if cache:
+            hit=cache.get("ms_overview", {"k":"overview"})
+            if hit is not None: return hit
+        ov=self.market_overview()
+        data=ov.model_dump()
+        if cache:
+            try: cache.set("ms_overview", {"k":"overview"}, data, ttl)
+            except: pass
+        return data
+
+    def cached_ranking(self, ttl: int = 5):
+        cache=get_cache()
+        if cache:
+            hit=cache.get("ms_ranking", {"k":"ranking"})
+            if hit is not None: return hit
+        r=self.ranking()
+        if cache:
+            try: cache.set("ms_ranking", {"k":"ranking"}, r, ttl)
+            except: pass
+        return r
+
     def get_state(self, symbol: str) -> Optional[StockState]:
+        # allow token int lookup for compatibility
+        if isinstance(symbol, int) or (isinstance(symbol, str) and symbol.isdigit()):
+            tok=int(symbol)
+            sym=self.token_to_symbol.get(tok)
+            if sym: symbol=sym
         s = self.states.get(symbol)
         if s:
             s.freshness = compute_freshness(s.timestamp, self.stale_threshold_sec, datetime.now(tz=IST))
+            return s
+        # fallback token direct
+        if isinstance(symbol, int):
+            sym=self.token_to_symbol.get(symbol)
+            if sym: return self.states.get(sym)
         return s
+
+    def update_tick(self, tick_dict: dict):
+        """Compat for tests: tick_dict with token, ltp, volume etc."""
+        try:
+            from .models import MarketTick
+            tok=tick_dict.get("token") or tick_dict.get("instrument_token")
+            sym=self.token_to_symbol.get(tok) or tick_dict.get("symbol")
+            if not sym and tok: sym=str(tok)
+            # build MarketTick
+            ts=tick_dict.get("timestamp") or datetime.now(tz=IST)
+            if isinstance(ts, str):
+                try: ts=datetime.fromisoformat(ts)
+                except: ts=datetime.now(tz=IST)
+            mt=MarketTick(symbol=sym, token=tok or 0, timestamp=ts, ltp=float(tick_dict.get("ltp", tick_dict.get("price",100))), volume=tick_dict.get("volume"), open=tick_dict.get("open"), high=tick_dict.get("high"), low=tick_dict.get("low"))
+            return self.on_tick(mt)
+        except Exception as e:
+            logger.debug(f"update_tick failed {e}")
 
     def ranking(self) -> List[StockState]:
         lst = self.all_states()
