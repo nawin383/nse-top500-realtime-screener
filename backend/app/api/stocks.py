@@ -126,5 +126,11 @@ async def get_stock(symbol: str):
 @router.get("/universe")
 async def get_universe():
     from ..main import app_state
+    from ..config import UNIVERSE_PATH
+    from fastapi import HTTPException
+    if not UNIVERSE_PATH.exists():
+        raise HTTPException(status_code=500, detail=f"Universe file missing at {UNIVERSE_PATH}")
     uni = app_state.get("universe")
+    if not uni or len(uni)==0:
+        raise HTTPException(status_code=500, detail="Universe not loaded — check config/nse_top500.json")
     return {"count": len(uni) if uni else 0, "data": uni}

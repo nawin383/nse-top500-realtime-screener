@@ -109,6 +109,10 @@ class DataEngine:
                 logger.error(f"tick processing error {e}", exc_info=True)
                 self._stats["errors"]+=1
         self._stats["batches"]+=1
+        if self._stats["batches"] % 50 == 0:
+            logger.info(f"ticks_processed={self._stats['ticks_processed']} batches={self._stats['batches']}")
+        elif self._stats["ticks_processed"] and self._stats["ticks_processed"] % 500 == 0:
+            logger.info(f"ticks_processed={self._stats['ticks_processed']} batches={self._stats['batches']}")
 
     async def _broadcast_loop(self):
         interval = settings.ws_broadcast_interval_ms / 1000.0

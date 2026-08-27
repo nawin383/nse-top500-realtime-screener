@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     score_w_vwap: int = Field(default=10, alias="SCORE_W_VWAP")
     score_w_volatility: int = Field(default=5, alias="SCORE_W_VOLATILITY")
 
-    cors_origins: str = Field(default="http://localhost:5173,http://localhost:3000", alias="CORS_ORIGINS")
+    cors_origins: str = Field(default="http://localhost:5173,http://localhost:3000,https://nse-top500-realtime-screener-1.onrender.com,https://nse-top500-realtime-screener.vercel.app", alias="CORS_ORIGINS")
 
     # Redis configuration
     redis_url: str = Field(default="redis://localhost:6379/0", alias="REDIS_URL")

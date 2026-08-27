@@ -7,28 +7,28 @@ const Row = React.memo(function Row({ s, idx, flashClass, isSelected, onSelect }
   const scoreColor = s.score>=70 ? '#00e6a0' : s.score>=40 ? '#ffb020' : '#5b728c'
   const isAbove = s.isAboveVwap
   return (
-    <tr className={`${isSelected?'selected':''}`} onClick={()=> onSelect(s.symbol)} style={{cursor:'pointer', contentVisibility:'auto', containIntrinsicSize:'0 42px'}}>
-      <td className="mono" style={{color:'#5b728c', fontWeight:600, fontSize:11}}>{s.rank || idx+1}</td>
-      <td className={flashClass} style={{fontWeight:800, minWidth:130}}>
+    <tr className={`${isSelected?'selected':''}`} onClick={()=> onSelect(s.symbol)} onKeyDown={(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); onSelect(s.symbol)} }} tabIndex={0} role="row" aria-selected={isSelected} aria-label={`${s.symbol} ${s.companyName} price ${s.ltp} change ${s.changePercent?.toFixed?.(2) ?? ''} percent`} style={{cursor:'pointer', contentVisibility:'auto', containIntrinsicSize:'0 42px'}}>
+      <td className="mono" role="cell" style={{color:'#5b728c', fontWeight:600, fontSize:11}}>{s.rank || idx+1}</td>
+      <td className={flashClass} role="cell" style={{fontWeight:800, minWidth:130}}>
         <div style={{display:'flex', gap:8, alignItems:'center'}}>
           <span style={{color:'#eef4ff', fontSize:12, letterSpacing:'-0.01em'}}>{s.symbol}</span>
           {s.synthetic && <span style={{fontSize:8, background:'rgba(255,255,255,0.06)', color:'#5b728c', padding:'2px 5px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)', fontWeight:700}}>CLOSED</span>}
         </div>
         <div style={{fontSize:10, color:'#5b728c', fontWeight:500, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', maxWidth:130}}>{s.companyName}</div>
       </td>
-      <td className={`mono ${flashClass}`} style={{fontWeight:700, fontSize:12}}>{fmtPrice(s.ltp)}</td>
-      <td className={`mono ${isPos?'pos':'neg'} ${flashClass}`} style={{fontWeight:700}}><span style={{background: isPos?'rgba(0,230,160,0.10)':'rgba(255,59,74,0.10)', padding:'3px 6px', borderRadius:6, border:`1px solid ${isPos?'rgba(0,230,160,0.18)':'rgba(255,59,74,0.18)'}`}}>{fmtPct(s.changePercent)}</span></td>
-      <td className="mono" style={{fontSize:11}}>{fmtVol(s.volume)}</td>
-      <td className="mono" style={{color:(s.relVolume||0)>2?'#ffb020': (s.relVolume||0)>1?'#eef4ff': '#5b728c', fontWeight: (s.relVolume||0)>1.5?700:400}}>{s.relVolume ? s.relVolume.toFixed(2)+'x' : '—'}</td>
-      <td className={`mono ${isAbove?'vwap-above':'vwap-below'}`} style={{fontWeight:600}}>{s.vwap ? fmtPrice(s.vwap): '—'}</td>
-      <td className="mono" style={{color: s.rsi>70?'#ff3b4a': s.rsi<30?'#00e6a0':'#8ea0b8', fontWeight:600}}>{s.rsi ? s.rsi.toFixed(0): '—'}</td>
-      <td className={`mono ${ (s.momentum5m||0)>=0?'pos':'neg'}`} style={{fontWeight:600}}>{s.momentum5m!=null? fmtPct(s.momentum5m): '—'}</td>
-      <td>
+      <td className={`mono ${flashClass}`} role="cell" style={{fontWeight:700, fontSize:12}}>{fmtPrice(s.ltp)}</td>
+      <td className={`mono ${isPos?'pos':'neg'} ${flashClass}`} role="cell" style={{fontWeight:700}}><span style={{background: isPos?'rgba(0,230,160,0.10)':'rgba(255,59,74,0.10)', padding:'3px 6px', borderRadius:6, border:`1px solid ${isPos?'rgba(0,230,160,0.18)':'rgba(255,59,74,0.18)'}`}}>{fmtPct(s.changePercent)}</span></td>
+      <td className="mono" role="cell" style={{fontSize:11}}>{fmtVol(s.volume)}</td>
+      <td className="mono" role="cell" style={{color:(s.relVolume||0)>2?'#ffb020': (s.relVolume||0)>1?'#eef4ff': '#5b728c', fontWeight: (s.relVolume||0)>1.5?700:400}}>{s.relVolume ? s.relVolume.toFixed(2)+'x' : '—'}</td>
+      <td className={`mono ${isAbove?'vwap-above':'vwap-below'}`} role="cell" style={{fontWeight:600}}>{s.vwap ? fmtPrice(s.vwap): '—'}</td>
+      <td className="mono" role="cell" style={{color: s.rsi>70?'#ff3b4a': s.rsi<30?'#00e6a0':'#8ea0b8', fontWeight:600}}>{s.rsi ? s.rsi.toFixed(0): '—'}</td>
+      <td className={`mono ${ (s.momentum5m||0)>=0?'pos':'neg'}`} role="cell" style={{fontWeight:600}}>{s.momentum5m!=null? fmtPct(s.momentum5m): '—'}</td>
+      <td role="cell">
         <span className="mono" style={{fontWeight:800, color:scoreColor, fontSize:11}}>{fmt(s.score,0)}</span>
-        <span className="score-bar" style={{marginLeft:8, width:48, height:6, background:'rgba(255,255,255,0.06)'}}><span className="score-fill" style={{width:`${Math.min(100, s.score)}%`, background: scoreColor==='#00e6a0'?'linear-gradient(90deg,#00e6a0,#2f8bff)': scoreColor}} /></span>
+        <span className="score-bar" role="progressbar" aria-valuenow={Math.round(s.score||0)} aria-valuemin={0} aria-valuemax={100} style={{marginLeft:8, width:48, height:6, background:'rgba(255,255,255,0.06)'}}><span className="score-fill" style={{width:`${Math.min(100, s.score)}%`, background: scoreColor==='#00e6a0'?'linear-gradient(90deg,#00e6a0,#2f8bff)': scoreColor}} /></span>
       </td>
-      <td><span className={`signal ${s.signal}`} style={{fontSize:9, padding:'3px 7px'}}>{s.signal || '—'}</span></td>
-      <td><span style={{fontSize:10, color:'#8ea0b8', background:'rgba(255,255,255,0.04)', padding:'3px 7px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)', fontWeight:600}}>{s.sector}</span></td>
+      <td role="cell"><span className={`signal ${s.signal}`} style={{fontSize:9, padding:'3px 7px'}}>{s.signal || '—'}</span></td>
+      <td role="cell"><span style={{fontSize:10, color:'#8ea0b8', background:'rgba(255,255,255,0.04)', padding:'3px 7px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)', fontWeight:600}}>{s.sector}</span></td>
     </tr>
   )
 })
@@ -106,19 +106,19 @@ export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, s
   return (
     <div ref={containerRef} style={{height:'100%', overflow:'auto', position:'relative'}}>
       <div style={{position:'sticky',top:0,zIndex:3,display:'flex',gap:6,padding:'6px 8px',background:'rgba(15,20,28,0.95)',borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
-        <button className="btn sm" onClick={exportCSV}>⬇ CSV</button>
-        <button className="btn sm" onClick={()=>setCols(DEFAULT_COLS)}>Reset Layout</button>
+        <button className="btn sm" onClick={exportCSV} aria-label="Export screener as CSV">⬇ CSV</button>
+        <button className="btn sm" onClick={()=>setCols(DEFAULT_COLS)} aria-label="Reset table layout">Reset Layout</button>
         {multiSort.length>0 && <span style={{fontSize:10,color:'var(--text2)',alignSelf:'center'}}>Multi: {multiSort.map(s=>`${s.key} ${s.dir}`).join(', ')}</span>}
         <span style={{marginLeft:'auto',fontSize:10,color:'var(--text3)'}}>Shift+click multi-sort • drag edge to resize • pin 📌</span>
       </div>
-      <table style={{minWidth:980}}>
+      <table role="table" aria-label="NSE Top 500 screener results" style={{minWidth:980}}>
         <thead>
-          <tr>
+          <tr role="row">
             {cols.map((h,i)=>(
-              <th key={h.key} style={{width:h.width, position: h.pinned?'sticky':undefined, left: h.pinned? (cols.slice(0,i).filter(c=>c.pinned).reduce((a,c)=>a+(c.width||100),0)):undefined, background: h.pinned?'rgba(15,20,28,0.98)':'', zIndex: h.pinned?2:1, borderRight: h.pinned?'1px solid var(--border)':''}} onClick={(e)=> h.sortable && thClick(h.key,e)}>
+              <th key={h.key} role="columnheader" aria-sort={sortBy===h.key ? (sortDir==='asc'?'ascending':'descending') : 'none'} tabIndex={h.sortable?0:undefined} onKeyDown={(e)=>{ if(h.sortable && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); thClick(h.key,e) } if(h.sortable && e.key==='ArrowDown'){ onSort(h.key,'desc')} if(h.sortable && e.key==='ArrowUp'){ onSort(h.key,'asc')}}} aria-label={`${h.label} ${h.sortable?'sortable':''}`} style={{width:h.width, position: h.pinned?'sticky':undefined, left: h.pinned? (cols.slice(0,i).filter(c=>c.pinned).reduce((a,c)=>a+(c.width||100),0)):undefined, background: h.pinned?'rgba(15,20,28,0.98)':'', zIndex: h.pinned?2:1, borderRight: h.pinned?'1px solid var(--border)':''}} onClick={(e)=> h.sortable && thClick(h.key,e)}>
                 <span style={{display:'flex', gap:6, alignItems:'center', position:'relative'}}>
-                  {h.label} {sortBy===h.key ? <span style={{color:'#2f8bff'}}>{sortDir==='asc'?'▲':'▼'}</span> : h.sortable ? <span style={{opacity:0.25, fontSize:9}}>↕</span> : null}
-                  <button onClick={(e)=>{e.stopPropagation(); togglePin(i)}} style={{background:'none',border:'none',cursor:'pointer',fontSize:10,opacity:h.pinned?1:0.3}}>📌</button>
+                  {h.label} {sortBy===h.key ? <span aria-hidden="true" style={{color:'#2f8bff'}}>{sortDir==='asc'?'▲':'▼'}</span> : h.sortable ? <span aria-hidden="true" style={{opacity:0.25, fontSize:9}}>↕</span> : null}
+                  <button aria-label={h.pinned ? `Unpin ${h.label} column` : `Pin ${h.label} column`} aria-pressed={h.pinned} onClick={(e)=>{e.stopPropagation(); togglePin(i)}} style={{background:'none',border:'none',cursor:'pointer',fontSize:10,opacity:h.pinned?1:0.3}}>📌</button>
                   <span onMouseDown={e=>{
                     const start=e.clientX, initW=h.width||100
                     const onMove=(ev)=> onResize(i, ev.clientX-start)
@@ -128,7 +128,7 @@ export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, s
                 </span>
               </th>
             ))}
-            <th style={{width:90}}>Status</th>
+            <th role="columnheader" style={{width:90}}>Status</th>
           </tr>
         </thead>
         <tbody>

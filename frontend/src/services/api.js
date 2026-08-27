@@ -45,3 +45,9 @@ export async function fetchSectors() {
   }catch(e){}
   return {data:[]}
 }
+export async function fetchVerify(path){ const r=await fetch(`${BASE}/api/verify/${path}`); return r.json()}
+export async function fetchSubscription(){ return fetchVerify('subscription')}
+export async function fetchVerifyUniverse(){ return fetchVerify('universe')}
+export async function fetchVerifyTicks(){ return fetchVerify('ticks')}
+export async function fetchWsHealth(){ const r=await fetch(`${BASE}/api/verify/ws`); return r.json()}
+export async function fetchMemoryStats(){ const r=await fetch(`${BASE}/api/monitoring/memory`); return r.json()}

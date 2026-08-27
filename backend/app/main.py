@@ -70,8 +70,21 @@ async def lifespan(app: FastAPI):
         await redis_manager.connect()
 
     universe = load_universe()
+    # startup validation: warn if <500 and log count
+    logger.info(f"Universe load count: {len(universe)}/500 from {UNIVERSE_PATH}")
+    if not UNIVERSE_PATH.exists():
+        logger.error(f"UNIVERSE_PATH missing: {UNIVERSE_PATH} — /api/universe will return 500")
     if len(universe)==0:
         logger.error("No universe loaded! App will run with empty universe - check config/nse_top500.json")
+    elif len(universe) < 500:
+        logger.warning(f"Universe incomplete: {len(universe)}/500 instruments — check config/nse_top500.json")
+    # sector validation
+    sectors = set(x.get("sector") for x in universe if x.get("sector"))
+    if sectors and len(sectors) < 12:
+        logger.warning(f"Sector count low: {len(sectors)} sectors, expected 12 — {sectors}")
+    # WS credentials validation
+    if settings.data_mode.lower() == "live" and (not settings.kite_api_key or not settings.kite_access_token):
+        logger.error("KiteAuthenticationError: live mode requires KITE_API_KEY + KITE_ACCESS_TOKEN — falling back to mock (WS will use mock provider)")
     # init engines
     market_state = MarketState(universe, stale_threshold_sec=settings.stale_threshold_sec, intervals=settings.candle_intervals_list)
     alert_engine = AlertEngine(max_alerts=settings.max_alerts)
@@ -84,6 +97,7 @@ async def lifespan(app: FastAPI):
     app.state.app_state = app_state
 
     # log startup details
+    logger.info(f"Subscribed {len(universe)}/500 instruments (pending WS subscription in batches of 200)")
     logger.info(f"MarketState: {len(market_state.states)} symbols, intervals {settings.candle_intervals_list}")
     logger.info(f"AlertEngine max_alerts={settings.max_alerts}")
 
@@ -173,6 +187,12 @@ if settings.enable_metrics:
 app.include_router(health_router, prefix="/api", tags=["health"])
 app.include_router(market_router, prefix="/api", tags=["market"])
 app.include_router(stocks_router, prefix="/api", tags=["stocks"])
+# verify router for troubleshooting diagnostics
+try:
+    from .api.verify import router as verify_router
+    app.include_router(verify_router, prefix="/api/verify", tags=["verify"])
+except Exception as e:
+    logger.warning(f"verify router not loaded {e}")
 app.include_router(screener_router, prefix="/api", tags=["screener"])
 app.include_router(alerts_router, prefix="/api", tags=["alerts"])
 app.include_router(options_router, prefix="/api", tags=["options"])
@@ -246,8 +266,22 @@ async def get_config():
 async def get_stats():
     de = app_state.get("data_engine")
     if not de:
-        return {"ticks_processed":0}
-    return de.get_stats()
+        return {"ticks_processed":0, "batches":0, "errors":0}
+    stats = de.get_stats()
+    # ensure required keys
+    stats.setdefault("ticks_processed", 0)
+    stats.setdefault("batches", 0)
+    return stats
+
+@app.get("/api/monitoring/memory")
+async def monitoring_memory():
+    from .api.verify import verify_memory as _vm
+    return await _vm()
+
+@app.get("/api/verify/ws-health")
+async def ws_health_alias():
+    from .api.verify import verify_ws as _vw
+    return await _vw()
 
 # WebSocket for frontend: Backend maintains single market connection, fans out to many clients
 @app.websocket("/ws")

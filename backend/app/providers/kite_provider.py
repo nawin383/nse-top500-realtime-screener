@@ -105,9 +105,8 @@ class KiteProvider(BaseProvider):
 
     def _on_open(self, ws):
         logger.info("Kite WS connected")
-        # subscribe in batches of 500? Kite limit ~1000 per connection; we have 500
+        # subscribe in batches of 200 (Kite limit ~1000 per connection; we have 500)
         tokens = list(self._token_to_symbol.keys())
-        # chunk into 200 for safety
         for i in range(0, len(tokens), 200):
             chunk = tokens[i:i+200]
             try:
@@ -116,10 +115,11 @@ class KiteProvider(BaseProvider):
                 for t in chunk:
                     self._mode_map[t] = "full"
                 ws.send(json.dumps({"a":"mode","v":["full", chunk]}))
-                logger.info(f"Subscribed {len(chunk)} tokens")
+                logger.info(f"Subscribed {len(chunk)} tokens (batch {i//200+1})")
                 time.sleep(0.2)
             except Exception as e:
                 logger.error(f"subscribe failed {e}")
+        logger.info(f"Subscribed {len(self._subscribed)}/500 instruments in mode full")
 
     def _on_message(self, ws, message):
         try:

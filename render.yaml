@@ -13,7 +13,8 @@ services:
       - key: LOG_LEVEL
         value: INFO
       - key: CORS_ORIGINS
-        sync: false  # set to your Vercel URL e.g. https://nse-top500-realtime-screener.vercel.app
+        value: http://localhost:5173,http://localhost:3000,https://nse-top500-realtime-screener-1.onrender.com,https://nse-top500-realtime-screener.vercel.app
+        sync: false
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: KITE_API_KEY

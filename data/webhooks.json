@@ -76,5 +76,57 @@
     "headers": {},
     "retry_count": 3,
     "timeout_sec": 10
+  },
+  "36d24a9c-8aaf-4b39-bf30-6e512ddb99c2": {
+    "id": "36d24a9c-8aaf-4b39-bf30-6e512ddb99c2",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:31:49.690089",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  },
+  "ed7703d3-42bb-4474-943d-9742de5b61dc": {
+    "id": "ed7703d3-42bb-4474-943d-9742de5b61dc",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:33:02.337470",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  },
+  "63987f52-e482-4c3f-876d-edc30d6c5e2c": {
+    "id": "63987f52-e482-4c3f-876d-edc30d6c5e2c",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:33:20.718568",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
+  },
+  "e1c7d3c6-6a5c-44e2-8622-56b38cc089de": {
+    "id": "e1c7d3c6-6a5c-44e2-8622-56b38cc089de",
+    "url": "https://example.com/webhook",
+    "name": "Test Webhook",
+    "enabled": true,
+    "created_at": "2026-08-28T02:36:17.326837",
+    "events": [
+      "alert"
+    ],
+    "headers": {},
+    "retry_count": 3,
+    "timeout_sec": 10
   }
 }

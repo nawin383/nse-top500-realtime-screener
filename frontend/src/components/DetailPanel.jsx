@@ -34,7 +34,8 @@ export default function DetailPanel({ symbol, onClose, liveState }){
 
   const getCandles = (src, iv)=> src ? (src[iv] || src[iv.replace('m','')] || []) : []
   const candles = getCandles(detail?.candles, interval) || []
-
+  const candleCount = candles.length
+  const warming = candleCount < 14
   const isPos = (state.changePercent||0) >=0
   return (
     <div className="detail-panel open" style={{padding:16, gap:14, display:'flex', flexDirection:'column'}}>
@@ -73,6 +74,13 @@ export default function DetailPanel({ symbol, onClose, liveState }){
           {k:'ATR', v: state.atr? fmtPrice(state.atr):'—'},
         ].map(x=> <span key={x.k} style={{fontSize:11, display:'flex', gap:6, alignItems:'center', background:'rgba(15,20,28,0.8)', padding:'6px 10px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)'}}><span style={{color:'#5b728c', fontWeight:800, fontSize:9, letterSpacing:'0.06em'}}>{x.k}</span> <b style={{color:x.c||'#eef4ff', fontFamily:'JetBrains Mono'}}>{x.v}</b></span>)}
       </div>
+      {warming && (
+        <div style={{background:'rgba(255,176,32,0.08)', border:'1px solid rgba(255,176,32,0.2)', borderRadius:10, padding:'8px 12px', fontSize:11}}>
+          <div style={{fontWeight:700, color:'#ffb020'}}>Warming: {candleCount}/14 candles — RSI needs 14 1m candles (~14min after open)</div>
+          <div style={{height:6, background:'rgba(255,255,255,0.08)', borderRadius:999, overflow:'hidden', marginTop:6}}><div style={{height:'100%', width:`${Math.min(100, candleCount/14*100)}%`, background:'#ffb020', borderRadius:999}} /></div>
+          <div style={{fontSize:10, color:'#8ea0b8', marginTop:4}}>{state.rsi==null ? 'RSI = null until 14 candles' : `RSI ${state.rsi.toFixed(1)} warming`}</div>
+        </div>
+      )}
 
       <div style={{display:'flex', gap:6}}>
         {['1m','3m','5m','15m','30m'].map(it=>(
