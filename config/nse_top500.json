@@ -1,0 +1,7039 @@
+[
+  {
+    "symbol": "RELIANCE",
+    "trading_symbol": "RELIANCE",
+    "company": "Reliance Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 738561,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 2800,
+    "avg_volume": 5857898,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "TCS",
+    "trading_symbol": "TCS",
+    "company": "Tata Consultancy Services Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2953217,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 3900,
+    "avg_volume": 2974954,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "INFY",
+    "trading_symbol": "INFY",
+    "company": "Infosys Ltd",
+    "exchange": "NSE",
+    "instrument_token": 408065,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 1550,
+    "avg_volume": 3583181,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "HDFCBANK",
+    "trading_symbol": "HDFCBANK",
+    "company": "HDFC Bank Ltd",
+    "exchange": "NSE",
+    "instrument_token": 341249,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 1650,
+    "avg_volume": 5655851,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "ICICIBANK",
+    "trading_symbol": "ICICIBANK",
+    "company": "ICICI Bank Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1270529,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 1150,
+    "avg_volume": 2352617,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "SBIN",
+    "trading_symbol": "SBIN",
+    "company": "State Bank of India",
+    "exchange": "NSE",
+    "instrument_token": 779521,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 600,
+    "avg_volume": 2338183,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "BHARTIARTL",
+    "trading_symbol": "BHARTIARTL",
+    "company": "Bharti Airtel Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2714625,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 1200,
+    "avg_volume": 1620456,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "ITC",
+    "trading_symbol": "ITC",
+    "company": "ITC Ltd",
+    "exchange": "NSE",
+    "instrument_token": 424961,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 450,
+    "avg_volume": 4511280,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "KOTAKBANK",
+    "trading_symbol": "KOTAKBANK",
+    "company": "Kotak Mahindra Bank Ltd",
+    "exchange": "NSE",
+    "instrument_token": 492033,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 1750,
+    "avg_volume": 1785013,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "LT",
+    "trading_symbol": "LT",
+    "company": "Larsen & Toubro Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2939649,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 3500,
+    "avg_volume": 4316637,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "AXISBANK",
+    "trading_symbol": "AXISBANK",
+    "company": "Axis Bank Ltd",
+    "exchange": "NSE",
+    "instrument_token": 590849,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 1100,
+    "avg_volume": 6772454,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "BAJFINANCE",
+    "trading_symbol": "BAJFINANCE",
+    "company": "Bajaj Finance Ltd",
+    "exchange": "NSE",
+    "instrument_token": 81153,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 7000,
+    "avg_volume": 5581306,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "ASIANPAINT",
+    "trading_symbol": "ASIANPAINT",
+    "company": "Asian Paints Ltd",
+    "exchange": "NSE",
+    "instrument_token": 60417,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 2800,
+    "avg_volume": 3634192,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "MARUTI",
+    "trading_symbol": "MARUTI",
+    "company": "Maruti Suzuki India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 109057,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 12000,
+    "avg_volume": 3988365,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "TITAN",
+    "trading_symbol": "TITAN",
+    "company": "Titan Company Ltd",
+    "exchange": "NSE",
+    "instrument_token": 897345,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 3400,
+    "avg_volume": 6388305,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "SUNPHARMA",
+    "trading_symbol": "SUNPHARMA",
+    "company": "Sun Pharmaceutical Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 857857,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 1500,
+    "avg_volume": 5107312,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "ULTRACEMCO",
+    "trading_symbol": "ULTRACEMCO",
+    "company": "UltraTech Cement Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2952193,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 9000,
+    "avg_volume": 4449592,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "NESTLEIND",
+    "trading_symbol": "NESTLEIND",
+    "company": "Nestle India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4598529,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 24000,
+    "avg_volume": 6853116,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "WIPRO",
+    "trading_symbol": "WIPRO",
+    "company": "Wipro Ltd",
+    "exchange": "NSE",
+    "instrument_token": 969473,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 500,
+    "avg_volume": 5009025,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "HCLTECH",
+    "trading_symbol": "HCLTECH",
+    "company": "HCL Technologies Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1850625,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 1400,
+    "avg_volume": 7227621,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "POWERGRID",
+    "trading_symbol": "POWERGRID",
+    "company": "Power Grid Corporation of India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3834113,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 250,
+    "avg_volume": 6070827,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "NTPC",
+    "trading_symbol": "NTPC",
+    "company": "NTPC Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2977281,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 300,
+    "avg_volume": 7425664,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "ONGC",
+    "trading_symbol": "ONGC",
+    "company": "Oil & Natural Gas Corporation Ltd",
+    "exchange": "NSE",
+    "instrument_token": 633601,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 250,
+    "avg_volume": 2332169,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "TATAMOTORS",
+    "trading_symbol": "TATAMOTORS",
+    "company": "Tata Motors Ltd",
+    "exchange": "NSE",
+    "instrument_token": 884737,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 900,
+    "avg_volume": 6890941,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "TATASTEEL",
+    "trading_symbol": "TATASTEEL",
+    "company": "Tata Steel Ltd",
+    "exchange": "NSE",
+    "instrument_token": 895745,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 140,
+    "avg_volume": 2575890,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "ADANIENT",
+    "trading_symbol": "ADANIENT",
+    "company": "Adani Enterprises Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6401,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 2400,
+    "avg_volume": 6207121,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "ADANIPORTS",
+    "trading_symbol": "ADANIPORTS",
+    "company": "Adani Ports and SEZ Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3861249,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1200,
+    "avg_volume": 6831214,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "COALINDIA",
+    "trading_symbol": "COALINDIA",
+    "company": "Coal India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2037633,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 380,
+    "avg_volume": 5498053,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "JSWSTEEL",
+    "trading_symbol": "JSWSTEEL",
+    "company": "JSW Steel Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3001089,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 900,
+    "avg_volume": 7824387,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "HINDALCO",
+    "trading_symbol": "HINDALCO",
+    "company": "Hindalco Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 348929,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 550,
+    "avg_volume": 7104944,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "HINDUNILVR",
+    "trading_symbol": "HINDUNILVR",
+    "company": "Hindustan Unilever Ltd",
+    "exchange": "NSE",
+    "instrument_token": 356865,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 2500,
+    "avg_volume": 1186777,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "BAJAJFINSV",
+    "trading_symbol": "BAJAJFINSV",
+    "company": "Bajaj Finserv Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1660929,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 1600,
+    "avg_volume": 4908269,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "DRREDDY",
+    "trading_symbol": "DRREDDY",
+    "company": "Dr Reddys Laboratories Ltd",
+    "exchange": "NSE",
+    "instrument_token": 225537,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 6000,
+    "avg_volume": 4247593,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "CIPLA",
+    "trading_symbol": "CIPLA",
+    "company": "Cipla Ltd",
+    "exchange": "NSE",
+    "instrument_token": 177665,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 1400,
+    "avg_volume": 4930637,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "EICHERMOT",
+    "trading_symbol": "EICHERMOT",
+    "company": "Eicher Motors Ltd",
+    "exchange": "NSE",
+    "instrument_token": 232961,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 4800,
+    "avg_volume": 6403618,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "GRASIM",
+    "trading_symbol": "GRASIM",
+    "company": "Grasim Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 315393,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 2300,
+    "avg_volume": 3534871,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "HEROMOTOCO",
+    "trading_symbol": "HEROMOTOCO",
+    "company": "Hero MotoCorp Ltd",
+    "exchange": "NSE",
+    "instrument_token": 345089,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 800,
+    "avg_volume": 1155173,
+    "index_membership": [
+      "Nifty 500",
+      "Nifty 50"
+    ]
+  },
+  {
+    "symbol": "APOLLOHOSP",
+    "trading_symbol": "APOLLOHOSP",
+    "company": "Apollo Hospitals Enterprise Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1967825,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 173.8,
+    "avg_volume": 5232590,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "DMART",
+    "trading_symbol": "DMART",
+    "company": "Avenue Supermarts Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4714226,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 1262.21,
+    "avg_volume": 1441275,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "BAJAJ-AUTO",
+    "trading_symbol": "BAJAJ-AUTO",
+    "company": "Bajaj Auto Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2441057,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 3695.53,
+    "avg_volume": 1018064,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "BRITANNIA",
+    "trading_symbol": "BRITANNIA",
+    "company": "Britannia Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1558591,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 2972.94,
+    "avg_volume": 7452260,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "DIVISLAB",
+    "trading_symbol": "DIVISLAB",
+    "company": "Divis Laboratories Ltd",
+    "exchange": "NSE",
+    "instrument_token": 633224,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 197.5,
+    "avg_volume": 5094014,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "HDFCLIFE",
+    "trading_symbol": "HDFCLIFE",
+    "company": "HDFC Life Insurance Company Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3768136,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 1201.67,
+    "avg_volume": 4740332,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "ICICIPRULI",
+    "trading_symbol": "ICICIPRULI",
+    "company": "ICICI Prudential Life Insurance Company Ltd",
+    "exchange": "NSE",
+    "instrument_token": 545199,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 2828.16,
+    "avg_volume": 2195813,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "INDUSINDBK",
+    "trading_symbol": "INDUSINDBK",
+    "company": "IndusInd Bank Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7138374,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 1141.18,
+    "avg_volume": 5304169,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "PIDILITIND",
+    "trading_symbol": "PIDILITIND",
+    "company": "Pidilite Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4767265,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 4056.68,
+    "avg_volume": 5001831,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "SBILIFE",
+    "trading_symbol": "SBILIFE",
+    "company": "SBI Life Insurance Company Ltd",
+    "exchange": "NSE",
+    "instrument_token": 209031,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 3806.1,
+    "avg_volume": 1757052,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "TECHM",
+    "trading_symbol": "TECHM",
+    "company": "Tech Mahindra Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2778638,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 3505.79,
+    "avg_volume": 1880237,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "UPL",
+    "trading_symbol": "UPL",
+    "company": "UPL Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5808456,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 1425.46,
+    "avg_volume": 3252450,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "VEDL",
+    "trading_symbol": "VEDL",
+    "company": "Vedanta Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3712365,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 4788.2,
+    "avg_volume": 7667948,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK128",
+    "trading_symbol": "STOCK128",
+    "company": "STOCK128 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7788755,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 2492.21,
+    "avg_volume": 4864941,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK382",
+    "trading_symbol": "STOCK382",
+    "company": "STOCK382 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6731419,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 3938.09,
+    "avg_volume": 4206427,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK085",
+    "trading_symbol": "STOCK085",
+    "company": "STOCK085 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4318028,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 3884.89,
+    "avg_volume": 1475091,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK460",
+    "trading_symbol": "STOCK460",
+    "company": "STOCK460 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1839191,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 3090.58,
+    "avg_volume": 6206730,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK160",
+    "trading_symbol": "STOCK160",
+    "company": "STOCK160 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4373534,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 196.66,
+    "avg_volume": 2223032,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK107",
+    "trading_symbol": "STOCK107",
+    "company": "STOCK107 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7206470,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1656.19,
+    "avg_volume": 6513943,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK210",
+    "trading_symbol": "STOCK210",
+    "company": "STOCK210 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1809620,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 2794.83,
+    "avg_volume": 5391797,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "AMBUJACEM",
+    "trading_symbol": "AMBUJACEM",
+    "company": "Ambuja Cements Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5870619,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 3038.44,
+    "avg_volume": 4600586,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK213",
+    "trading_symbol": "STOCK213",
+    "company": "STOCK213 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7147416,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 3292.88,
+    "avg_volume": 1262873,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK446",
+    "trading_symbol": "STOCK446",
+    "company": "STOCK446 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2428554,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 3040.19,
+    "avg_volume": 4781338,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK292",
+    "trading_symbol": "STOCK292",
+    "company": "STOCK292 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1355409,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1888.57,
+    "avg_volume": 4236979,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK385",
+    "trading_symbol": "STOCK385",
+    "company": "STOCK385 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8444741,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 2993.12,
+    "avg_volume": 7283800,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK428",
+    "trading_symbol": "STOCK428",
+    "company": "STOCK428 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5749968,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 3508.04,
+    "avg_volume": 966706,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK234",
+    "trading_symbol": "STOCK234",
+    "company": "STOCK234 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5070190,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 925.38,
+    "avg_volume": 1606829,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK084",
+    "trading_symbol": "STOCK084",
+    "company": "STOCK084 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6555324,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 1538.84,
+    "avg_volume": 4805434,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK169",
+    "trading_symbol": "STOCK169",
+    "company": "STOCK169 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7901207,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 1778.31,
+    "avg_volume": 3984833,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK153",
+    "trading_symbol": "STOCK153",
+    "company": "STOCK153 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 497023,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 2646.93,
+    "avg_volume": 4331903,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK470",
+    "trading_symbol": "STOCK470",
+    "company": "STOCK470 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6811251,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 2978.36,
+    "avg_volume": 5230429,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK394",
+    "trading_symbol": "STOCK394",
+    "company": "STOCK394 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6739863,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 3484.69,
+    "avg_volume": 984331,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "BHEL",
+    "trading_symbol": "BHEL",
+    "company": "Bharat Heavy Electricals Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3923498,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 3876.69,
+    "avg_volume": 5187530,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK273",
+    "trading_symbol": "STOCK273",
+    "company": "STOCK273 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2757144,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1256.79,
+    "avg_volume": 4378710,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK342",
+    "trading_symbol": "STOCK342",
+    "company": "STOCK342 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4751899,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 3436.46,
+    "avg_volume": 6143584,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK442",
+    "trading_symbol": "STOCK442",
+    "company": "STOCK442 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6751393,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 2017.99,
+    "avg_volume": 7268896,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK167",
+    "trading_symbol": "STOCK167",
+    "company": "STOCK167 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5149101,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 1636.18,
+    "avg_volume": 3085113,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK222",
+    "trading_symbol": "STOCK222",
+    "company": "STOCK222 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 270307,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 2076.18,
+    "avg_volume": 6567313,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK418",
+    "trading_symbol": "STOCK418",
+    "company": "STOCK418 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4867195,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 1022.94,
+    "avg_volume": 682623,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK130",
+    "trading_symbol": "STOCK130",
+    "company": "STOCK130 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2322252,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 3734.37,
+    "avg_volume": 3821458,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK421",
+    "trading_symbol": "STOCK421",
+    "company": "STOCK421 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2263449,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2388.26,
+    "avg_volume": 2634541,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK488",
+    "trading_symbol": "STOCK488",
+    "company": "STOCK488 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4491883,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 3104.36,
+    "avg_volume": 7348906,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK456",
+    "trading_symbol": "STOCK456",
+    "company": "STOCK456 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8925812,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 2185.45,
+    "avg_volume": 525295,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK233",
+    "trading_symbol": "STOCK233",
+    "company": "STOCK233 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8901946,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 2395.23,
+    "avg_volume": 6756261,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK270",
+    "trading_symbol": "STOCK270",
+    "company": "STOCK270 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8463326,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 2509.13,
+    "avg_volume": 2327888,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK466",
+    "trading_symbol": "STOCK466",
+    "company": "STOCK466 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8746701,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 1604.93,
+    "avg_volume": 5351226,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK253",
+    "trading_symbol": "STOCK253",
+    "company": "STOCK253 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3418855,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1712.05,
+    "avg_volume": 1112616,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK182",
+    "trading_symbol": "STOCK182",
+    "company": "STOCK182 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7581188,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 3590.89,
+    "avg_volume": 879918,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "AUROPHARMA",
+    "trading_symbol": "AUROPHARMA",
+    "company": "Aurobindo Pharma Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6450753,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 440.06,
+    "avg_volume": 4054231,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK425",
+    "trading_symbol": "STOCK425",
+    "company": "STOCK425 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3124309,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 3805.65,
+    "avg_volume": 3390117,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK083",
+    "trading_symbol": "STOCK083",
+    "company": "STOCK083 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2784052,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 3172.48,
+    "avg_volume": 6375254,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "INDIGO",
+    "trading_symbol": "INDIGO",
+    "company": "InterGlobe Aviation Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7798256,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 757.21,
+    "avg_volume": 1034856,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK146",
+    "trading_symbol": "STOCK146",
+    "company": "STOCK146 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2692974,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 3704.54,
+    "avg_volume": 5039608,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK468",
+    "trading_symbol": "STOCK468",
+    "company": "STOCK468 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4900144,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1440.76,
+    "avg_volume": 1005460,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK090",
+    "trading_symbol": "STOCK090",
+    "company": "STOCK090 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5107072,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 3369.84,
+    "avg_volume": 1078974,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK458",
+    "trading_symbol": "STOCK458",
+    "company": "STOCK458 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6590791,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 3924.54,
+    "avg_volume": 4460020,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK268",
+    "trading_symbol": "STOCK268",
+    "company": "STOCK268 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2044841,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 3881.34,
+    "avg_volume": 766211,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK261",
+    "trading_symbol": "STOCK261",
+    "company": "STOCK261 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4621644,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 2313.46,
+    "avg_volume": 2908291,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK237",
+    "trading_symbol": "STOCK237",
+    "company": "STOCK237 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2218618,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 2558.72,
+    "avg_volume": 3929824,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "DABUR",
+    "trading_symbol": "DABUR",
+    "company": "Dabur India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4207245,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 858.84,
+    "avg_volume": 2009792,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK170",
+    "trading_symbol": "STOCK170",
+    "company": "STOCK170 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8676076,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1903.28,
+    "avg_volume": 6950605,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK457",
+    "trading_symbol": "STOCK457",
+    "company": "STOCK457 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6650726,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 3495.86,
+    "avg_volume": 1636059,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK154",
+    "trading_symbol": "STOCK154",
+    "company": "STOCK154 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4774183,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 3460.12,
+    "avg_volume": 6924228,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK297",
+    "trading_symbol": "STOCK297",
+    "company": "STOCK297 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1786231,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 1785.84,
+    "avg_volume": 5881501,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK096",
+    "trading_symbol": "STOCK096",
+    "company": "STOCK096 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4546912,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 2120.14,
+    "avg_volume": 6617723,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "CONCOR",
+    "trading_symbol": "CONCOR",
+    "company": "Container Corporation of India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1297935,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 3065.2,
+    "avg_volume": 5918040,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK487",
+    "trading_symbol": "STOCK487",
+    "company": "STOCK487 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3221368,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 2006.19,
+    "avg_volume": 4026251,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK299",
+    "trading_symbol": "STOCK299",
+    "company": "STOCK299 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6114016,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 1511.87,
+    "avg_volume": 3641205,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK368",
+    "trading_symbol": "STOCK368",
+    "company": "STOCK368 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5973938,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 3384.59,
+    "avg_volume": 7977048,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK189",
+    "trading_symbol": "STOCK189",
+    "company": "STOCK189 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7916912,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1674.78,
+    "avg_volume": 3708471,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK443",
+    "trading_symbol": "STOCK443",
+    "company": "STOCK443 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1469112,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1512.15,
+    "avg_volume": 4262602,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK217",
+    "trading_symbol": "STOCK217",
+    "company": "STOCK217 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5507373,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 3409.82,
+    "avg_volume": 7794903,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK296",
+    "trading_symbol": "STOCK296",
+    "company": "STOCK296 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3916586,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 2992.13,
+    "avg_volume": 3666668,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK243",
+    "trading_symbol": "STOCK243",
+    "company": "STOCK243 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1529098,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 3975.79,
+    "avg_volume": 3651143,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK184",
+    "trading_symbol": "STOCK184",
+    "company": "STOCK184 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8845959,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1948.7,
+    "avg_volume": 1173185,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK110",
+    "trading_symbol": "STOCK110",
+    "company": "STOCK110 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2451868,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1699.09,
+    "avg_volume": 6227157,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK462",
+    "trading_symbol": "STOCK462",
+    "company": "STOCK462 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3037508,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 3324.93,
+    "avg_volume": 6051518,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK409",
+    "trading_symbol": "STOCK409",
+    "company": "STOCK409 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7645279,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 3638.02,
+    "avg_volume": 7836288,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK278",
+    "trading_symbol": "STOCK278",
+    "company": "STOCK278 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2526689,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1546.67,
+    "avg_volume": 5023978,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK374",
+    "trading_symbol": "STOCK374",
+    "company": "STOCK374 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7143620,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1825.51,
+    "avg_volume": 1615599,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK302",
+    "trading_symbol": "STOCK302",
+    "company": "STOCK302 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8449470,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 3653.06,
+    "avg_volume": 5982241,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK143",
+    "trading_symbol": "STOCK143",
+    "company": "STOCK143 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7310624,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 527.23,
+    "avg_volume": 7716606,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK363",
+    "trading_symbol": "STOCK363",
+    "company": "STOCK363 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2282975,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 2234.36,
+    "avg_volume": 3417305,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK390",
+    "trading_symbol": "STOCK390",
+    "company": "STOCK390 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4957259,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 478.39,
+    "avg_volume": 1495167,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK389",
+    "trading_symbol": "STOCK389",
+    "company": "STOCK389 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7302195,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 2302.13,
+    "avg_volume": 1997145,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK326",
+    "trading_symbol": "STOCK326",
+    "company": "STOCK326 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5603032,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 3662.72,
+    "avg_volume": 5006850,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "ACC",
+    "trading_symbol": "ACC",
+    "company": "ACC Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6474122,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 528.75,
+    "avg_volume": 3797214,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK459",
+    "trading_symbol": "STOCK459",
+    "company": "STOCK459 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6091041,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 3158.31,
+    "avg_volume": 4936252,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK463",
+    "trading_symbol": "STOCK463",
+    "company": "STOCK463 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8128420,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2534.31,
+    "avg_volume": 1568264,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK317",
+    "trading_symbol": "STOCK317",
+    "company": "STOCK317 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2317273,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 3150.32,
+    "avg_volume": 6605716,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK431",
+    "trading_symbol": "STOCK431",
+    "company": "STOCK431 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4085095,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 3878.96,
+    "avg_volume": 2368060,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK101",
+    "trading_symbol": "STOCK101",
+    "company": "STOCK101 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3960684,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 2361.99,
+    "avg_volume": 7502991,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK286",
+    "trading_symbol": "STOCK286",
+    "company": "STOCK286 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5438112,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 2983.93,
+    "avg_volume": 529136,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK452",
+    "trading_symbol": "STOCK452",
+    "company": "STOCK452 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 375739,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 2535.18,
+    "avg_volume": 6843292,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK204",
+    "trading_symbol": "STOCK204",
+    "company": "STOCK204 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2656551,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 969.41,
+    "avg_volume": 690717,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "HAVELLS",
+    "trading_symbol": "HAVELLS",
+    "company": "Havells India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 638552,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 4034.98,
+    "avg_volume": 3002850,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK246",
+    "trading_symbol": "STOCK246",
+    "company": "STOCK246 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5223430,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 2283.15,
+    "avg_volume": 4383958,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK362",
+    "trading_symbol": "STOCK362",
+    "company": "STOCK362 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7345685,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 404.33,
+    "avg_volume": 6149726,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK165",
+    "trading_symbol": "STOCK165",
+    "company": "STOCK165 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6851158,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 2794.89,
+    "avg_volume": 6532197,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK188",
+    "trading_symbol": "STOCK188",
+    "company": "STOCK188 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3689533,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 275.63,
+    "avg_volume": 5067138,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK353",
+    "trading_symbol": "STOCK353",
+    "company": "STOCK353 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2217143,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 1114.56,
+    "avg_volume": 4057843,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK369",
+    "trading_symbol": "STOCK369",
+    "company": "STOCK369 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4773599,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 2304.92,
+    "avg_volume": 4962182,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "BANDHANBNK",
+    "trading_symbol": "BANDHANBNK",
+    "company": "Bandhan Bank Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6167228,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 2907.89,
+    "avg_volume": 3681601,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK492",
+    "trading_symbol": "STOCK492",
+    "company": "STOCK492 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5461793,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 2678.0,
+    "avg_volume": 7406847,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK175",
+    "trading_symbol": "STOCK175",
+    "company": "STOCK175 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1321854,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 1832.56,
+    "avg_volume": 2426561,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK441",
+    "trading_symbol": "STOCK441",
+    "company": "STOCK441 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5965064,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 3723.28,
+    "avg_volume": 2576281,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK087",
+    "trading_symbol": "STOCK087",
+    "company": "STOCK087 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5807197,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 463.98,
+    "avg_volume": 4364004,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK359",
+    "trading_symbol": "STOCK359",
+    "company": "STOCK359 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1695275,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1263.94,
+    "avg_volume": 3403798,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK340",
+    "trading_symbol": "STOCK340",
+    "company": "STOCK340 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3723062,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 3255.95,
+    "avg_volume": 1801252,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK112",
+    "trading_symbol": "STOCK112",
+    "company": "STOCK112 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1742635,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 221.34,
+    "avg_volume": 2812317,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK159",
+    "trading_symbol": "STOCK159",
+    "company": "STOCK159 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8680255,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 480.27,
+    "avg_volume": 2081088,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK471",
+    "trading_symbol": "STOCK471",
+    "company": "STOCK471 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3234272,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1994.89,
+    "avg_volume": 7841778,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK162",
+    "trading_symbol": "STOCK162",
+    "company": "STOCK162 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6210622,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 1736.56,
+    "avg_volume": 6581941,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK303",
+    "trading_symbol": "STOCK303",
+    "company": "STOCK303 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7836811,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 2558.86,
+    "avg_volume": 6921394,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK267",
+    "trading_symbol": "STOCK267",
+    "company": "STOCK267 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7730712,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 370.48,
+    "avg_volume": 1446609,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "ZEEL",
+    "trading_symbol": "ZEEL",
+    "company": "Zee Entertainment Enterprises Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5747119,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 555.94,
+    "avg_volume": 770258,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "CUMMINSIND",
+    "trading_symbol": "CUMMINSIND",
+    "company": "Cummins India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2971230,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 2693.99,
+    "avg_volume": 7290395,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK149",
+    "trading_symbol": "STOCK149",
+    "company": "STOCK149 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4576257,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 653.61,
+    "avg_volume": 6038139,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK219",
+    "trading_symbol": "STOCK219",
+    "company": "STOCK219 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6458385,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 1358.86,
+    "avg_volume": 4016845,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK245",
+    "trading_symbol": "STOCK245",
+    "company": "STOCK245 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7527625,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1203.47,
+    "avg_volume": 5658349,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK427",
+    "trading_symbol": "STOCK427",
+    "company": "STOCK427 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1394615,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 1197.25,
+    "avg_volume": 6926122,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK142",
+    "trading_symbol": "STOCK142",
+    "company": "STOCK142 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 704451,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 3341.69,
+    "avg_volume": 7913487,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK093",
+    "trading_symbol": "STOCK093",
+    "company": "STOCK093 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5259230,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 973.02,
+    "avg_volume": 7957819,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK239",
+    "trading_symbol": "STOCK239",
+    "company": "STOCK239 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7489840,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 1376.01,
+    "avg_volume": 631246,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "CADILAHC",
+    "trading_symbol": "CADILAHC",
+    "company": "Cadila Healthcare Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7706962,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 3196.64,
+    "avg_volume": 2518855,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK420",
+    "trading_symbol": "STOCK420",
+    "company": "STOCK420 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5969018,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1254.72,
+    "avg_volume": 2228737,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "JUBLFOOD",
+    "trading_symbol": "JUBLFOOD",
+    "company": "Jubilant FoodWorks Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4508072,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 3747.72,
+    "avg_volume": 1064477,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK300",
+    "trading_symbol": "STOCK300",
+    "company": "STOCK300 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7013081,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 2272.39,
+    "avg_volume": 1346382,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK335",
+    "trading_symbol": "STOCK335",
+    "company": "STOCK335 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6117548,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 260.99,
+    "avg_volume": 5482364,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK474",
+    "trading_symbol": "STOCK474",
+    "company": "STOCK474 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5489033,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 428.34,
+    "avg_volume": 781658,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK472",
+    "trading_symbol": "STOCK472",
+    "company": "STOCK472 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8812003,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 1081.55,
+    "avg_volume": 4245019,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK136",
+    "trading_symbol": "STOCK136",
+    "company": "STOCK136 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3515796,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 2756.24,
+    "avg_volume": 5514583,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK275",
+    "trading_symbol": "STOCK275",
+    "company": "STOCK275 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2070754,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 2597.88,
+    "avg_volume": 6137342,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK469",
+    "trading_symbol": "STOCK469",
+    "company": "STOCK469 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5668772,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 1107.4,
+    "avg_volume": 6399592,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK415",
+    "trading_symbol": "STOCK415",
+    "company": "STOCK415 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4846166,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 1561.92,
+    "avg_volume": 7816648,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK126",
+    "trading_symbol": "STOCK126",
+    "company": "STOCK126 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4104485,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 1077.15,
+    "avg_volume": 908326,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK287",
+    "trading_symbol": "STOCK287",
+    "company": "STOCK287 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6577326,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 3953.89,
+    "avg_volume": 2552978,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK464",
+    "trading_symbol": "STOCK464",
+    "company": "STOCK464 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7778589,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 167.2,
+    "avg_volume": 6712108,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK433",
+    "trading_symbol": "STOCK433",
+    "company": "STOCK433 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7968776,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 3617.82,
+    "avg_volume": 871084,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK313",
+    "trading_symbol": "STOCK313",
+    "company": "STOCK313 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2394774,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 2520.43,
+    "avg_volume": 3874446,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK411",
+    "trading_symbol": "STOCK411",
+    "company": "STOCK411 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1138068,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 1813.08,
+    "avg_volume": 4182286,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK120",
+    "trading_symbol": "STOCK120",
+    "company": "STOCK120 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8099183,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 2021.34,
+    "avg_volume": 2465780,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK102",
+    "trading_symbol": "STOCK102",
+    "company": "STOCK102 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1087737,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 931.19,
+    "avg_volume": 5027833,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK397",
+    "trading_symbol": "STOCK397",
+    "company": "STOCK397 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5961544,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 1417.38,
+    "avg_volume": 2322586,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK201",
+    "trading_symbol": "STOCK201",
+    "company": "STOCK201 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1474158,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1891.82,
+    "avg_volume": 6828245,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK329",
+    "trading_symbol": "STOCK329",
+    "company": "STOCK329 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8364869,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 482.16,
+    "avg_volume": 7745494,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK164",
+    "trading_symbol": "STOCK164",
+    "company": "STOCK164 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8608103,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 1250.95,
+    "avg_volume": 7010093,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK192",
+    "trading_symbol": "STOCK192",
+    "company": "STOCK192 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6642890,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 3416.72,
+    "avg_volume": 973486,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK318",
+    "trading_symbol": "STOCK318",
+    "company": "STOCK318 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8518719,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 3655.68,
+    "avg_volume": 1675542,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK250",
+    "trading_symbol": "STOCK250",
+    "company": "STOCK250 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6953787,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 1813.0,
+    "avg_volume": 4726984,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "BIOCON",
+    "trading_symbol": "BIOCON",
+    "company": "Biocon Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1438687,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 4283.82,
+    "avg_volume": 2926517,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK125",
+    "trading_symbol": "STOCK125",
+    "company": "STOCK125 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4474922,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 832.95,
+    "avg_volume": 2464289,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK280",
+    "trading_symbol": "STOCK280",
+    "company": "STOCK280 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8618424,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1083.35,
+    "avg_volume": 7343311,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK139",
+    "trading_symbol": "STOCK139",
+    "company": "STOCK139 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5696150,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 3089.05,
+    "avg_volume": 6636413,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK322",
+    "trading_symbol": "STOCK322",
+    "company": "STOCK322 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6236687,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 379.41,
+    "avg_volume": 5332763,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK402",
+    "trading_symbol": "STOCK402",
+    "company": "STOCK402 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5522534,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 3459.7,
+    "avg_volume": 3175158,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK350",
+    "trading_symbol": "STOCK350",
+    "company": "STOCK350 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1120480,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3994.38,
+    "avg_volume": 5344209,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK082",
+    "trading_symbol": "STOCK082",
+    "company": "STOCK082 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1625206,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 3028.01,
+    "avg_volume": 5515696,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK424",
+    "trading_symbol": "STOCK424",
+    "company": "STOCK424 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8631021,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1460.08,
+    "avg_volume": 6980520,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK495",
+    "trading_symbol": "STOCK495",
+    "company": "STOCK495 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2429967,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 962.21,
+    "avg_volume": 6141606,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK229",
+    "trading_symbol": "STOCK229",
+    "company": "STOCK229 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6002401,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 2817.36,
+    "avg_volume": 7365089,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK140",
+    "trading_symbol": "STOCK140",
+    "company": "STOCK140 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2810895,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2970.1,
+    "avg_volume": 3189933,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK226",
+    "trading_symbol": "STOCK226",
+    "company": "STOCK226 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3817770,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 1629.52,
+    "avg_volume": 2487295,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK465",
+    "trading_symbol": "STOCK465",
+    "company": "STOCK465 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3446548,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 3545.45,
+    "avg_volume": 3031383,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK294",
+    "trading_symbol": "STOCK294",
+    "company": "STOCK294 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6475499,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 3817.48,
+    "avg_volume": 7850587,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK320",
+    "trading_symbol": "STOCK320",
+    "company": "STOCK320 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2032227,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 1883.96,
+    "avg_volume": 1701755,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK323",
+    "trading_symbol": "STOCK323",
+    "company": "STOCK323 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4536878,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 2155.56,
+    "avg_volume": 6038263,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK448",
+    "trading_symbol": "STOCK448",
+    "company": "STOCK448 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3718086,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 3343.15,
+    "avg_volume": 4872570,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK108",
+    "trading_symbol": "STOCK108",
+    "company": "STOCK108 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1751177,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 261.24,
+    "avg_volume": 2354240,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK355",
+    "trading_symbol": "STOCK355",
+    "company": "STOCK355 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7712081,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 2032.09,
+    "avg_volume": 3969194,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK193",
+    "trading_symbol": "STOCK193",
+    "company": "STOCK193 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8291131,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 893.3,
+    "avg_volume": 3020784,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK310",
+    "trading_symbol": "STOCK310",
+    "company": "STOCK310 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6740518,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 1112.43,
+    "avg_volume": 2808158,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK480",
+    "trading_symbol": "STOCK480",
+    "company": "STOCK480 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 622452,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 588.26,
+    "avg_volume": 1011349,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK328",
+    "trading_symbol": "STOCK328",
+    "company": "STOCK328 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2057497,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 576.31,
+    "avg_volume": 5170090,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK364",
+    "trading_symbol": "STOCK364",
+    "company": "STOCK364 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2150700,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 1655.02,
+    "avg_volume": 5463263,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK279",
+    "trading_symbol": "STOCK279",
+    "company": "STOCK279 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1271218,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 1119.46,
+    "avg_volume": 7879574,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK484",
+    "trading_symbol": "STOCK484",
+    "company": "STOCK484 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7548065,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 3057.08,
+    "avg_volume": 6667406,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK215",
+    "trading_symbol": "STOCK215",
+    "company": "STOCK215 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2666765,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 1753.24,
+    "avg_volume": 1969123,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK141",
+    "trading_symbol": "STOCK141",
+    "company": "STOCK141 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 262230,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 465.26,
+    "avg_volume": 5751211,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK190",
+    "trading_symbol": "STOCK190",
+    "company": "STOCK190 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6634336,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 3621.26,
+    "avg_volume": 6193768,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK491",
+    "trading_symbol": "STOCK491",
+    "company": "STOCK491 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2996693,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 3596.74,
+    "avg_volume": 4083618,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK295",
+    "trading_symbol": "STOCK295",
+    "company": "STOCK295 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 702286,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2477.49,
+    "avg_volume": 5162813,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK168",
+    "trading_symbol": "STOCK168",
+    "company": "STOCK168 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4913613,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 856.53,
+    "avg_volume": 4657568,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK095",
+    "trading_symbol": "STOCK095",
+    "company": "STOCK095 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2254051,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 2645.81,
+    "avg_volume": 893292,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK244",
+    "trading_symbol": "STOCK244",
+    "company": "STOCK244 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3886401,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 3107.26,
+    "avg_volume": 3389160,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK147",
+    "trading_symbol": "STOCK147",
+    "company": "STOCK147 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3070445,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 3528.04,
+    "avg_volume": 5896526,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK260",
+    "trading_symbol": "STOCK260",
+    "company": "STOCK260 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3940714,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 3848.41,
+    "avg_volume": 6131629,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK262",
+    "trading_symbol": "STOCK262",
+    "company": "STOCK262 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8806768,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 2613.01,
+    "avg_volume": 3697356,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK220",
+    "trading_symbol": "STOCK220",
+    "company": "STOCK220 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3150766,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 1960.45,
+    "avg_volume": 7091806,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK319",
+    "trading_symbol": "STOCK319",
+    "company": "STOCK319 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8184065,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 3870.19,
+    "avg_volume": 4899515,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK331",
+    "trading_symbol": "STOCK331",
+    "company": "STOCK331 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2692464,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3543.95,
+    "avg_volume": 3173738,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK104",
+    "trading_symbol": "STOCK104",
+    "company": "STOCK104 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3694297,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 2166.15,
+    "avg_volume": 6341058,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK183",
+    "trading_symbol": "STOCK183",
+    "company": "STOCK183 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7650917,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 1051.58,
+    "avg_volume": 3992384,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK086",
+    "trading_symbol": "STOCK086",
+    "company": "STOCK086 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2021859,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 2733.21,
+    "avg_volume": 3924726,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK407",
+    "trading_symbol": "STOCK407",
+    "company": "STOCK407 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1387332,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 2585.77,
+    "avg_volume": 1751728,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK430",
+    "trading_symbol": "STOCK430",
+    "company": "STOCK430 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7442941,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 193.9,
+    "avg_volume": 3015647,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK171",
+    "trading_symbol": "STOCK171",
+    "company": "STOCK171 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1522633,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 1149.47,
+    "avg_volume": 3657976,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK207",
+    "trading_symbol": "STOCK207",
+    "company": "STOCK207 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2847534,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 3859.59,
+    "avg_volume": 2042488,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK467",
+    "trading_symbol": "STOCK467",
+    "company": "STOCK467 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4349899,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 165.75,
+    "avg_volume": 6828500,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK241",
+    "trading_symbol": "STOCK241",
+    "company": "STOCK241 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8350138,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 314.85,
+    "avg_volume": 5012469,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK103",
+    "trading_symbol": "STOCK103",
+    "company": "STOCK103 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1288789,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 2066.34,
+    "avg_volume": 4472163,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK277",
+    "trading_symbol": "STOCK277",
+    "company": "STOCK277 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8194999,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 3921.37,
+    "avg_volume": 2521387,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK156",
+    "trading_symbol": "STOCK156",
+    "company": "STOCK156 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 563060,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 479.06,
+    "avg_volume": 7624788,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK089",
+    "trading_symbol": "STOCK089",
+    "company": "STOCK089 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8498441,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 3052.61,
+    "avg_volume": 2390327,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK435",
+    "trading_symbol": "STOCK435",
+    "company": "STOCK435 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8537374,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 2119.29,
+    "avg_volume": 3022759,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK473",
+    "trading_symbol": "STOCK473",
+    "company": "STOCK473 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1424175,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 1733.82,
+    "avg_volume": 7693577,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK163",
+    "trading_symbol": "STOCK163",
+    "company": "STOCK163 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5366630,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2660.28,
+    "avg_volume": 6435584,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK410",
+    "trading_symbol": "STOCK410",
+    "company": "STOCK410 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5494323,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 2427.92,
+    "avg_volume": 1710910,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK099",
+    "trading_symbol": "STOCK099",
+    "company": "STOCK099 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7450099,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3600.46,
+    "avg_volume": 7259340,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK312",
+    "trading_symbol": "STOCK312",
+    "company": "STOCK312 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6010964,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 891.64,
+    "avg_volume": 4384136,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK230",
+    "trading_symbol": "STOCK230",
+    "company": "STOCK230 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4317853,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 937.54,
+    "avg_volume": 983384,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK453",
+    "trading_symbol": "STOCK453",
+    "company": "STOCK453 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2508819,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 1179.26,
+    "avg_volume": 5217635,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "BERGEPAINT",
+    "trading_symbol": "BERGEPAINT",
+    "company": "Berger Paints India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1266941,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 276.83,
+    "avg_volume": 3961789,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK393",
+    "trading_symbol": "STOCK393",
+    "company": "STOCK393 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7409439,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 2363.71,
+    "avg_volume": 3993921,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK408",
+    "trading_symbol": "STOCK408",
+    "company": "STOCK408 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7863013,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 2329.71,
+    "avg_volume": 5174860,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK336",
+    "trading_symbol": "STOCK336",
+    "company": "STOCK336 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2149499,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 3797.06,
+    "avg_volume": 4945893,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK377",
+    "trading_symbol": "STOCK377",
+    "company": "STOCK377 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1468710,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 1102.97,
+    "avg_volume": 1624851,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK269",
+    "trading_symbol": "STOCK269",
+    "company": "STOCK269 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7850676,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 1664.73,
+    "avg_volume": 3758295,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK209",
+    "trading_symbol": "STOCK209",
+    "company": "STOCK209 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3427421,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 322.47,
+    "avg_volume": 2537244,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK383",
+    "trading_symbol": "STOCK383",
+    "company": "STOCK383 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3529650,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 1219.65,
+    "avg_volume": 2639058,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK413",
+    "trading_symbol": "STOCK413",
+    "company": "STOCK413 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4256449,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 2836.33,
+    "avg_volume": 2205712,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK185",
+    "trading_symbol": "STOCK185",
+    "company": "STOCK185 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7479837,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 328.38,
+    "avg_volume": 3270446,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK094",
+    "trading_symbol": "STOCK094",
+    "company": "STOCK094 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1537026,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 2932.99,
+    "avg_volume": 5924961,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK173",
+    "trading_symbol": "STOCK173",
+    "company": "STOCK173 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3868844,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 3230.12,
+    "avg_volume": 1163290,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK282",
+    "trading_symbol": "STOCK282",
+    "company": "STOCK282 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2593017,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 1797.26,
+    "avg_volume": 4273085,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "CANBK",
+    "trading_symbol": "CANBK",
+    "company": "Canara Bank Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6220868,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 855.14,
+    "avg_volume": 7606269,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK235",
+    "trading_symbol": "STOCK235",
+    "company": "STOCK235 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 337370,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 2837.91,
+    "avg_volume": 3612823,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK109",
+    "trading_symbol": "STOCK109",
+    "company": "STOCK109 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1933230,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 1009.65,
+    "avg_volume": 1275644,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK337",
+    "trading_symbol": "STOCK337",
+    "company": "STOCK337 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3658545,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 2573.98,
+    "avg_volume": 4993236,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK386",
+    "trading_symbol": "STOCK386",
+    "company": "STOCK386 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6478822,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 2139.68,
+    "avg_volume": 6578257,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK249",
+    "trading_symbol": "STOCK249",
+    "company": "STOCK249 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3016107,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 2216.93,
+    "avg_volume": 7457564,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK251",
+    "trading_symbol": "STOCK251",
+    "company": "STOCK251 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4986520,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 149.91,
+    "avg_volume": 2097875,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK341",
+    "trading_symbol": "STOCK341",
+    "company": "STOCK341 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2575548,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 3158.8,
+    "avg_volume": 932320,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK118",
+    "trading_symbol": "STOCK118",
+    "company": "STOCK118 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2697059,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 775.79,
+    "avg_volume": 2752019,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK373",
+    "trading_symbol": "STOCK373",
+    "company": "STOCK373 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1639438,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 2989.52,
+    "avg_volume": 3663914,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK447",
+    "trading_symbol": "STOCK447",
+    "company": "STOCK447 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 188100,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 3625.31,
+    "avg_volume": 6151169,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "BALKRISIND",
+    "trading_symbol": "BALKRISIND",
+    "company": "Balkrishna Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5018715,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 4155.55,
+    "avg_volume": 5574851,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK212",
+    "trading_symbol": "STOCK212",
+    "company": "STOCK212 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1256902,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 2033.72,
+    "avg_volume": 5557676,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK416",
+    "trading_symbol": "STOCK416",
+    "company": "STOCK416 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 978547,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 3161.12,
+    "avg_volume": 831748,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK274",
+    "trading_symbol": "STOCK274",
+    "company": "STOCK274 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6944947,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 390.97,
+    "avg_volume": 7828459,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK486",
+    "trading_symbol": "STOCK486",
+    "company": "STOCK486 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4775638,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 1013.45,
+    "avg_volume": 1110559,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK254",
+    "trading_symbol": "STOCK254",
+    "company": "STOCK254 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2599627,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 3635.48,
+    "avg_volume": 2078428,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK451",
+    "trading_symbol": "STOCK451",
+    "company": "STOCK451 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1153729,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 461.21,
+    "avg_volume": 7249898,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK200",
+    "trading_symbol": "STOCK200",
+    "company": "STOCK200 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4768371,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 3013.0,
+    "avg_volume": 6889572,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK157",
+    "trading_symbol": "STOCK157",
+    "company": "STOCK157 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4553786,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 172.26,
+    "avg_volume": 5429009,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK482",
+    "trading_symbol": "STOCK482",
+    "company": "STOCK482 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6175878,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1543.76,
+    "avg_volume": 6575912,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK445",
+    "trading_symbol": "STOCK445",
+    "company": "STOCK445 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2550300,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 567.65,
+    "avg_volume": 6132535,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK481",
+    "trading_symbol": "STOCK481",
+    "company": "STOCK481 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 683829,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 522.4,
+    "avg_volume": 5187977,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK145",
+    "trading_symbol": "STOCK145",
+    "company": "STOCK145 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1824590,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 1427.64,
+    "avg_volume": 2320466,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK352",
+    "trading_symbol": "STOCK352",
+    "company": "STOCK352 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1455439,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 1302.01,
+    "avg_volume": 4521450,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK259",
+    "trading_symbol": "STOCK259",
+    "company": "STOCK259 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5507658,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 2422.78,
+    "avg_volume": 2252288,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK172",
+    "trading_symbol": "STOCK172",
+    "company": "STOCK172 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1666777,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3277.33,
+    "avg_volume": 7793675,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK301",
+    "trading_symbol": "STOCK301",
+    "company": "STOCK301 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3037176,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 334.29,
+    "avg_volume": 3293107,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK358",
+    "trading_symbol": "STOCK358",
+    "company": "STOCK358 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5786328,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 3313.13,
+    "avg_volume": 3043325,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK232",
+    "trading_symbol": "STOCK232",
+    "company": "STOCK232 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3313524,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 881.21,
+    "avg_volume": 628628,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK422",
+    "trading_symbol": "STOCK422",
+    "company": "STOCK422 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6419630,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 2581.1,
+    "avg_volume": 2276772,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK392",
+    "trading_symbol": "STOCK392",
+    "company": "STOCK392 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6170880,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 370.76,
+    "avg_volume": 2094034,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK181",
+    "trading_symbol": "STOCK181",
+    "company": "STOCK181 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7525149,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2458.36,
+    "avg_volume": 6719944,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK412",
+    "trading_symbol": "STOCK412",
+    "company": "STOCK412 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1514808,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 2028.11,
+    "avg_volume": 1484119,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK180",
+    "trading_symbol": "STOCK180",
+    "company": "STOCK180 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2337058,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 3209.64,
+    "avg_volume": 6765277,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK454",
+    "trading_symbol": "STOCK454",
+    "company": "STOCK454 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6019270,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 977.45,
+    "avg_volume": 6827784,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK202",
+    "trading_symbol": "STOCK202",
+    "company": "STOCK202 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5971360,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 912.4,
+    "avg_volume": 4517479,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK321",
+    "trading_symbol": "STOCK321",
+    "company": "STOCK321 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3885186,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 3443.36,
+    "avg_volume": 2535019,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK266",
+    "trading_symbol": "STOCK266",
+    "company": "STOCK266 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8412590,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 1167.11,
+    "avg_volume": 6335336,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK400",
+    "trading_symbol": "STOCK400",
+    "company": "STOCK400 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3072018,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3806.14,
+    "avg_volume": 5570087,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK461",
+    "trading_symbol": "STOCK461",
+    "company": "STOCK461 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2338241,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 196.46,
+    "avg_volume": 6403638,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK357",
+    "trading_symbol": "STOCK357",
+    "company": "STOCK357 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7315376,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1817.19,
+    "avg_volume": 2215580,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK327",
+    "trading_symbol": "STOCK327",
+    "company": "STOCK327 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7889116,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 3639.36,
+    "avg_volume": 3827190,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK134",
+    "trading_symbol": "STOCK134",
+    "company": "STOCK134 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4537001,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 479.41,
+    "avg_volume": 2507653,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK396",
+    "trading_symbol": "STOCK396",
+    "company": "STOCK396 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8664488,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 2540.23,
+    "avg_volume": 5131176,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK380",
+    "trading_symbol": "STOCK380",
+    "company": "STOCK380 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7312753,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 461.34,
+    "avg_volume": 3197902,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK122",
+    "trading_symbol": "STOCK122",
+    "company": "STOCK122 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1249597,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 2388.24,
+    "avg_volume": 7005481,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK127",
+    "trading_symbol": "STOCK127",
+    "company": "STOCK127 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7770955,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 1278.39,
+    "avg_volume": 2874472,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK284",
+    "trading_symbol": "STOCK284",
+    "company": "STOCK284 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7739414,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 3732.75,
+    "avg_volume": 3693222,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK293",
+    "trading_symbol": "STOCK293",
+    "company": "STOCK293 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6768663,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 2606.35,
+    "avg_volume": 4411192,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK221",
+    "trading_symbol": "STOCK221",
+    "company": "STOCK221 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5809938,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 1133.04,
+    "avg_volume": 4976581,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK121",
+    "trading_symbol": "STOCK121",
+    "company": "STOCK121 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1054280,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 3843.9,
+    "avg_volume": 5941869,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "DLF",
+    "trading_symbol": "DLF",
+    "company": "DLF Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6466205,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1386.24,
+    "avg_volume": 3513687,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK344",
+    "trading_symbol": "STOCK344",
+    "company": "STOCK344 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2311291,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 79.14,
+    "avg_volume": 3087233,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "GAIL",
+    "trading_symbol": "GAIL",
+    "company": "GAIL India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3784531,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 3438.84,
+    "avg_volume": 2694137,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK307",
+    "trading_symbol": "STOCK307",
+    "company": "STOCK307 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7764433,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 3384.31,
+    "avg_volume": 3516917,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK434",
+    "trading_symbol": "STOCK434",
+    "company": "STOCK434 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7491997,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1857.49,
+    "avg_volume": 4801816,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK311",
+    "trading_symbol": "STOCK311",
+    "company": "STOCK311 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8433700,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 3334.7,
+    "avg_volume": 7905563,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK152",
+    "trading_symbol": "STOCK152",
+    "company": "STOCK152 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5220253,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 3285.73,
+    "avg_volume": 4671464,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK406",
+    "trading_symbol": "STOCK406",
+    "company": "STOCK406 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7681856,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 169.68,
+    "avg_volume": 4409125,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK345",
+    "trading_symbol": "STOCK345",
+    "company": "STOCK345 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 364762,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 713.5,
+    "avg_volume": 1327185,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK224",
+    "trading_symbol": "STOCK224",
+    "company": "STOCK224 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4131966,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 2768.63,
+    "avg_volume": 7234513,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK242",
+    "trading_symbol": "STOCK242",
+    "company": "STOCK242 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2645556,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 613.81,
+    "avg_volume": 6560044,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK432",
+    "trading_symbol": "STOCK432",
+    "company": "STOCK432 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7631761,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 951.33,
+    "avg_volume": 4438371,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK449",
+    "trading_symbol": "STOCK449",
+    "company": "STOCK449 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1965405,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 3109.17,
+    "avg_volume": 6889006,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK493",
+    "trading_symbol": "STOCK493",
+    "company": "STOCK493 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4971470,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 3567.5,
+    "avg_volume": 7544175,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK111",
+    "trading_symbol": "STOCK111",
+    "company": "STOCK111 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4291056,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 3500.45,
+    "avg_volume": 3186311,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK194",
+    "trading_symbol": "STOCK194",
+    "company": "STOCK194 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 586955,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1567.65,
+    "avg_volume": 2203956,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK332",
+    "trading_symbol": "STOCK332",
+    "company": "STOCK332 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8309880,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2470.3,
+    "avg_volume": 3609698,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK391",
+    "trading_symbol": "STOCK391",
+    "company": "STOCK391 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2983553,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 3209.26,
+    "avg_volume": 3124980,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK436",
+    "trading_symbol": "STOCK436",
+    "company": "STOCK436 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2421942,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 3494.55,
+    "avg_volume": 3972297,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK248",
+    "trading_symbol": "STOCK248",
+    "company": "STOCK248 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4540025,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 2648.5,
+    "avg_volume": 883488,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK417",
+    "trading_symbol": "STOCK417",
+    "company": "STOCK417 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1205817,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1332.17,
+    "avg_volume": 5218799,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK198",
+    "trading_symbol": "STOCK198",
+    "company": "STOCK198 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3148907,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 220.13,
+    "avg_volume": 7748469,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK334",
+    "trading_symbol": "STOCK334",
+    "company": "STOCK334 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6184862,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 415.43,
+    "avg_volume": 2356181,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK236",
+    "trading_symbol": "STOCK236",
+    "company": "STOCK236 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 863626,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 3897.69,
+    "avg_volume": 6718075,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK150",
+    "trading_symbol": "STOCK150",
+    "company": "STOCK150 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6517985,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 3491.22,
+    "avg_volume": 1724088,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK398",
+    "trading_symbol": "STOCK398",
+    "company": "STOCK398 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4063933,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 429.16,
+    "avg_volume": 636062,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "IGL",
+    "trading_symbol": "IGL",
+    "company": "Indraprastha Gas Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8475710,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 2008.38,
+    "avg_volume": 2687531,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK256",
+    "trading_symbol": "STOCK256",
+    "company": "STOCK256 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7467772,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 514.93,
+    "avg_volume": 5141513,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK440",
+    "trading_symbol": "STOCK440",
+    "company": "STOCK440 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7439571,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 385.02,
+    "avg_volume": 5399214,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK347",
+    "trading_symbol": "STOCK347",
+    "company": "STOCK347 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8090081,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 1804.14,
+    "avg_volume": 5358202,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK257",
+    "trading_symbol": "STOCK257",
+    "company": "STOCK257 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6852972,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 3771.85,
+    "avg_volume": 6539897,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK238",
+    "trading_symbol": "STOCK238",
+    "company": "STOCK238 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 305779,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 2304.78,
+    "avg_volume": 4002898,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK437",
+    "trading_symbol": "STOCK437",
+    "company": "STOCK437 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8162973,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 3498.99,
+    "avg_volume": 2976252,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK119",
+    "trading_symbol": "STOCK119",
+    "company": "STOCK119 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1122698,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 2996.94,
+    "avg_volume": 1778519,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK271",
+    "trading_symbol": "STOCK271",
+    "company": "STOCK271 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4580460,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 2205.89,
+    "avg_volume": 2145775,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK106",
+    "trading_symbol": "STOCK106",
+    "company": "STOCK106 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1682524,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 405.78,
+    "avg_volume": 3267110,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "ASHOKLEY",
+    "trading_symbol": "ASHOKLEY",
+    "company": "Ashok Leyland Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2194235,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 4866.92,
+    "avg_volume": 2429536,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK325",
+    "trading_symbol": "STOCK325",
+    "company": "STOCK325 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1917745,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2705.85,
+    "avg_volume": 3686326,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK197",
+    "trading_symbol": "STOCK197",
+    "company": "STOCK197 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1508404,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2578.14,
+    "avg_volume": 5279740,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK291",
+    "trading_symbol": "STOCK291",
+    "company": "STOCK291 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2518526,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 1651.71,
+    "avg_volume": 7490753,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK356",
+    "trading_symbol": "STOCK356",
+    "company": "STOCK356 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2019549,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 3414.12,
+    "avg_volume": 2561332,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK304",
+    "trading_symbol": "STOCK304",
+    "company": "STOCK304 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 257662,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 3597.66,
+    "avg_volume": 4688444,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK195",
+    "trading_symbol": "STOCK195",
+    "company": "STOCK195 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2868991,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3365.21,
+    "avg_volume": 5119124,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK387",
+    "trading_symbol": "STOCK387",
+    "company": "STOCK387 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1309226,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1600.34,
+    "avg_volume": 5991249,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "ICICIGI",
+    "trading_symbol": "ICICIGI",
+    "company": "ICICI Lombard General Insurance Company Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3639704,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 4570.02,
+    "avg_volume": 6244909,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK231",
+    "trading_symbol": "STOCK231",
+    "company": "STOCK231 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5394016,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 495.83,
+    "avg_volume": 3331694,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK349",
+    "trading_symbol": "STOCK349",
+    "company": "STOCK349 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8848499,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 1220.49,
+    "avg_volume": 2658613,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK161",
+    "trading_symbol": "STOCK161",
+    "company": "STOCK161 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8822815,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 3703.79,
+    "avg_volume": 6903533,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK395",
+    "trading_symbol": "STOCK395",
+    "company": "STOCK395 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3817362,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 1345.61,
+    "avg_volume": 7392012,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK285",
+    "trading_symbol": "STOCK285",
+    "company": "STOCK285 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6525184,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 949.58,
+    "avg_volume": 4598850,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK309",
+    "trading_symbol": "STOCK309",
+    "company": "STOCK309 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5063914,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 3970.91,
+    "avg_volume": 6569643,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK252",
+    "trading_symbol": "STOCK252",
+    "company": "STOCK252 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7717381,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 303.3,
+    "avg_volume": 5882923,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK097",
+    "trading_symbol": "STOCK097",
+    "company": "STOCK097 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3653384,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 3717.08,
+    "avg_volume": 6704164,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "BOSCHLTD",
+    "trading_symbol": "BOSCHLTD",
+    "company": "Bosch Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1794522,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 1931.62,
+    "avg_volume": 4615414,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK429",
+    "trading_symbol": "STOCK429",
+    "company": "STOCK429 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6420310,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 633.93,
+    "avg_volume": 4365713,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK208",
+    "trading_symbol": "STOCK208",
+    "company": "STOCK208 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5333774,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 2311.67,
+    "avg_volume": 1911246,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK375",
+    "trading_symbol": "STOCK375",
+    "company": "STOCK375 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5328407,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 2891.95,
+    "avg_volume": 6646939,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK290",
+    "trading_symbol": "STOCK290",
+    "company": "STOCK290 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8923994,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 3643.56,
+    "avg_volume": 7168737,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK496",
+    "trading_symbol": "STOCK496",
+    "company": "STOCK496 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6154838,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 2225.01,
+    "avg_volume": 3454267,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK306",
+    "trading_symbol": "STOCK306",
+    "company": "STOCK306 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5118975,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 2562.98,
+    "avg_volume": 1919903,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK381",
+    "trading_symbol": "STOCK381",
+    "company": "STOCK381 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8940487,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2675.19,
+    "avg_volume": 1674057,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK148",
+    "trading_symbol": "STOCK148",
+    "company": "STOCK148 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5673147,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 3133.9,
+    "avg_volume": 6542427,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK405",
+    "trading_symbol": "STOCK405",
+    "company": "STOCK405 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6004610,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 2039.2,
+    "avg_volume": 5084762,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK438",
+    "trading_symbol": "STOCK438",
+    "company": "STOCK438 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8755523,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 3407.64,
+    "avg_volume": 4596294,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK218",
+    "trading_symbol": "STOCK218",
+    "company": "STOCK218 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7663202,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 990.58,
+    "avg_volume": 2043904,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK132",
+    "trading_symbol": "STOCK132",
+    "company": "STOCK132 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5175395,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 2454.48,
+    "avg_volume": 7960530,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK178",
+    "trading_symbol": "STOCK178",
+    "company": "STOCK178 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3771545,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 720.03,
+    "avg_volume": 5047773,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK265",
+    "trading_symbol": "STOCK265",
+    "company": "STOCK265 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1854894,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 3433.78,
+    "avg_volume": 5883887,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK366",
+    "trading_symbol": "STOCK366",
+    "company": "STOCK366 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5999644,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 432.33,
+    "avg_volume": 992680,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK247",
+    "trading_symbol": "STOCK247",
+    "company": "STOCK247 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1764863,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 3791.41,
+    "avg_volume": 4895164,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK426",
+    "trading_symbol": "STOCK426",
+    "company": "STOCK426 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3321313,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 921.64,
+    "avg_volume": 783734,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "IDEA",
+    "trading_symbol": "IDEA",
+    "company": "Vodafone Idea Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5379418,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 1102.5,
+    "avg_volume": 7538616,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK100",
+    "trading_symbol": "STOCK100",
+    "company": "STOCK100 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4259166,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 914.3,
+    "avg_volume": 7602612,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK123",
+    "trading_symbol": "STOCK123",
+    "company": "STOCK123 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6874229,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 497.15,
+    "avg_volume": 1123528,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK177",
+    "trading_symbol": "STOCK177",
+    "company": "STOCK177 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 193026,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 3572.79,
+    "avg_volume": 7361847,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK498",
+    "trading_symbol": "STOCK498",
+    "company": "STOCK498 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5289037,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 1604.68,
+    "avg_volume": 6105398,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK187",
+    "trading_symbol": "STOCK187",
+    "company": "STOCK187 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2421531,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 620.31,
+    "avg_volume": 906968,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK113",
+    "trading_symbol": "STOCK113",
+    "company": "STOCK113 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1664689,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 3706.94,
+    "avg_volume": 6911738,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK497",
+    "trading_symbol": "STOCK497",
+    "company": "STOCK497 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2277199,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 2455.55,
+    "avg_volume": 553551,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK174",
+    "trading_symbol": "STOCK174",
+    "company": "STOCK174 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 875337,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 994.47,
+    "avg_volume": 3959396,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK404",
+    "trading_symbol": "STOCK404",
+    "company": "STOCK404 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5180483,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 3189.39,
+    "avg_volume": 1653362,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK105",
+    "trading_symbol": "STOCK105",
+    "company": "STOCK105 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4176817,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 3142.79,
+    "avg_volume": 7567777,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK338",
+    "trading_symbol": "STOCK338",
+    "company": "STOCK338 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 948566,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 3151.44,
+    "avg_volume": 5790708,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK314",
+    "trading_symbol": "STOCK314",
+    "company": "STOCK314 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5283033,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3158.67,
+    "avg_volume": 2441404,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK240",
+    "trading_symbol": "STOCK240",
+    "company": "STOCK240 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8114965,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 474.07,
+    "avg_volume": 1070156,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK485",
+    "trading_symbol": "STOCK485",
+    "company": "STOCK485 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8982862,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 1480.46,
+    "avg_volume": 6432168,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK255",
+    "trading_symbol": "STOCK255",
+    "company": "STOCK255 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1100560,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 680.37,
+    "avg_volume": 1766928,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK494",
+    "trading_symbol": "STOCK494",
+    "company": "STOCK494 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6164832,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 2044.85,
+    "avg_volume": 576684,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK214",
+    "trading_symbol": "STOCK214",
+    "company": "STOCK214 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6176506,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 2549.63,
+    "avg_volume": 2334753,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK211",
+    "trading_symbol": "STOCK211",
+    "company": "STOCK211 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 789025,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 1401.87,
+    "avg_volume": 4742395,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK124",
+    "trading_symbol": "STOCK124",
+    "company": "STOCK124 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 766754,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 2485.14,
+    "avg_volume": 4325286,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK361",
+    "trading_symbol": "STOCK361",
+    "company": "STOCK361 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1226310,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 383.07,
+    "avg_volume": 3630634,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK225",
+    "trading_symbol": "STOCK225",
+    "company": "STOCK225 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7619121,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3175.87,
+    "avg_volume": 1007092,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK155",
+    "trading_symbol": "STOCK155",
+    "company": "STOCK155 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8646409,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 1610.72,
+    "avg_volume": 5682777,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK288",
+    "trading_symbol": "STOCK288",
+    "company": "STOCK288 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8410235,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3860.0,
+    "avg_volume": 5849655,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK423",
+    "trading_symbol": "STOCK423",
+    "company": "STOCK423 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8931414,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 391.94,
+    "avg_volume": 6093144,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK263",
+    "trading_symbol": "STOCK263",
+    "company": "STOCK263 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7412936,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 2546.44,
+    "avg_volume": 5671739,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK276",
+    "trading_symbol": "STOCK276",
+    "company": "STOCK276 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4996624,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 2045.31,
+    "avg_volume": 4553410,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK131",
+    "trading_symbol": "STOCK131",
+    "company": "STOCK131 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6299635,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 1154.25,
+    "avg_volume": 6030477,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK081",
+    "trading_symbol": "STOCK081",
+    "company": "STOCK081 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6173292,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 892.9,
+    "avg_volume": 4592419,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK403",
+    "trading_symbol": "STOCK403",
+    "company": "STOCK403 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2632644,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1770.26,
+    "avg_volume": 631967,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK499",
+    "trading_symbol": "STOCK499",
+    "company": "STOCK499 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8919709,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 1654.96,
+    "avg_volume": 555468,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK283",
+    "trading_symbol": "STOCK283",
+    "company": "STOCK283 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5677416,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 2216.63,
+    "avg_volume": 4964521,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK203",
+    "trading_symbol": "STOCK203",
+    "company": "STOCK203 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 620596,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 3799.45,
+    "avg_volume": 5127521,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK258",
+    "trading_symbol": "STOCK258",
+    "company": "STOCK258 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7444375,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 340.16,
+    "avg_volume": 3950557,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK401",
+    "trading_symbol": "STOCK401",
+    "company": "STOCK401 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7883840,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3022.69,
+    "avg_volume": 599413,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK176",
+    "trading_symbol": "STOCK176",
+    "company": "STOCK176 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6542089,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 1987.62,
+    "avg_volume": 640309,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK298",
+    "trading_symbol": "STOCK298",
+    "company": "STOCK298 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 585654,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 203.04,
+    "avg_volume": 4941077,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK205",
+    "trading_symbol": "STOCK205",
+    "company": "STOCK205 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2019136,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 2264.6,
+    "avg_volume": 6558191,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK439",
+    "trading_symbol": "STOCK439",
+    "company": "STOCK439 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2789594,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 1105.71,
+    "avg_volume": 2804692,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK199",
+    "trading_symbol": "STOCK199",
+    "company": "STOCK199 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3651070,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1829.7,
+    "avg_volume": 4994096,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK330",
+    "trading_symbol": "STOCK330",
+    "company": "STOCK330 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6620395,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 1825.5,
+    "avg_volume": 2904917,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK372",
+    "trading_symbol": "STOCK372",
+    "company": "STOCK372 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6824045,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 296.95,
+    "avg_volume": 643802,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK305",
+    "trading_symbol": "STOCK305",
+    "company": "STOCK305 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2750391,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 313.97,
+    "avg_volume": 4712893,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "COLPAL",
+    "trading_symbol": "COLPAL",
+    "company": "Colgate Palmolive India Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4579144,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 3524.01,
+    "avg_volume": 7321257,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK489",
+    "trading_symbol": "STOCK489",
+    "company": "STOCK489 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3699894,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 3985.53,
+    "avg_volume": 6354066,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK367",
+    "trading_symbol": "STOCK367",
+    "company": "STOCK367 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2695941,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 2633.81,
+    "avg_volume": 6154198,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK264",
+    "trading_symbol": "STOCK264",
+    "company": "STOCK264 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7985465,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 1404.89,
+    "avg_volume": 4111909,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK343",
+    "trading_symbol": "STOCK343",
+    "company": "STOCK343 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4305279,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 3198.09,
+    "avg_volume": 7262624,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK158",
+    "trading_symbol": "STOCK158",
+    "company": "STOCK158 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5899667,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 2919.61,
+    "avg_volume": 2003799,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK384",
+    "trading_symbol": "STOCK384",
+    "company": "STOCK384 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4386905,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 1172.0,
+    "avg_volume": 1397718,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK186",
+    "trading_symbol": "STOCK186",
+    "company": "STOCK186 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4658623,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 1356.67,
+    "avg_volume": 1307939,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK346",
+    "trading_symbol": "STOCK346",
+    "company": "STOCK346 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7162546,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 2113.82,
+    "avg_volume": 4898863,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK455",
+    "trading_symbol": "STOCK455",
+    "company": "STOCK455 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1536363,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 2103.47,
+    "avg_volume": 1749042,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "HINDPETRO",
+    "trading_symbol": "HINDPETRO",
+    "company": "Hindustan Petroleum Corporation Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6830428,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 1375.32,
+    "avg_volume": 2521393,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK092",
+    "trading_symbol": "STOCK092",
+    "company": "STOCK092 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5538436,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 1964.65,
+    "avg_volume": 2110042,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "CHOLAFIN",
+    "trading_symbol": "CHOLAFIN",
+    "company": "Cholamandalam Investment and Finance Company Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6060453,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 1087.06,
+    "avg_volume": 5699098,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "GODREJCP",
+    "trading_symbol": "GODREJCP",
+    "company": "Godrej Consumer Products Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1038483,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 1183.79,
+    "avg_volume": 4916232,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK339",
+    "trading_symbol": "STOCK339",
+    "company": "STOCK339 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3542778,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 293.07,
+    "avg_volume": 2617437,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK223",
+    "trading_symbol": "STOCK223",
+    "company": "STOCK223 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4149282,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 2885.9,
+    "avg_volume": 7338513,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK360",
+    "trading_symbol": "STOCK360",
+    "company": "STOCK360 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4376341,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 1509.72,
+    "avg_volume": 3473267,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK419",
+    "trading_symbol": "STOCK419",
+    "company": "STOCK419 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5692886,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 344.38,
+    "avg_volume": 2742482,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK370",
+    "trading_symbol": "STOCK370",
+    "company": "STOCK370 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4587028,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 135.23,
+    "avg_volume": 7168409,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK388",
+    "trading_symbol": "STOCK388",
+    "company": "STOCK388 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7418550,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 94.59,
+    "avg_volume": 3829408,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK138",
+    "trading_symbol": "STOCK138",
+    "company": "STOCK138 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7206422,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 3320.81,
+    "avg_volume": 1162861,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK478",
+    "trading_symbol": "STOCK478",
+    "company": "STOCK478 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7397090,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 1112.73,
+    "avg_volume": 3629383,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK348",
+    "trading_symbol": "STOCK348",
+    "company": "STOCK348 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1929622,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 1818.98,
+    "avg_volume": 3906004,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK354",
+    "trading_symbol": "STOCK354",
+    "company": "STOCK354 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6490515,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3978.62,
+    "avg_volume": 4350352,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK137",
+    "trading_symbol": "STOCK137",
+    "company": "STOCK137 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4313115,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 3623.24,
+    "avg_volume": 5239581,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK500",
+    "trading_symbol": "STOCK500",
+    "company": "STOCK500 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2202634,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 3890.07,
+    "avg_volume": 2540175,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK483",
+    "trading_symbol": "STOCK483",
+    "company": "STOCK483 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2674265,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 2722.67,
+    "avg_volume": 6348842,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK098",
+    "trading_symbol": "STOCK098",
+    "company": "STOCK098 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5329731,
+    "sector": "Automobile",
+    "industry": "AUTO",
+    "prev_close": 1607.99,
+    "avg_volume": 2394627,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK324",
+    "trading_symbol": "STOCK324",
+    "company": "STOCK324 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4498338,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 2346.55,
+    "avg_volume": 3016369,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK365",
+    "trading_symbol": "STOCK365",
+    "company": "STOCK365 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 963121,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3874.23,
+    "avg_volume": 6238157,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK477",
+    "trading_symbol": "STOCK477",
+    "company": "STOCK477 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 810601,
+    "sector": "Materials",
+    "industry": "CEMENT",
+    "prev_close": 2912.72,
+    "avg_volume": 7446288,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK371",
+    "trading_symbol": "STOCK371",
+    "company": "STOCK371 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5801311,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 1417.07,
+    "avg_volume": 7612424,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK115",
+    "trading_symbol": "STOCK115",
+    "company": "STOCK115 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1083738,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 675.26,
+    "avg_volume": 1176263,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK191",
+    "trading_symbol": "STOCK191",
+    "company": "STOCK191 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6481734,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 1918.38,
+    "avg_volume": 5983932,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK490",
+    "trading_symbol": "STOCK490",
+    "company": "STOCK490 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3458435,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 508.1,
+    "avg_volume": 7699264,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK376",
+    "trading_symbol": "STOCK376",
+    "company": "STOCK376 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 982629,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 639.21,
+    "avg_volume": 5951709,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK151",
+    "trading_symbol": "STOCK151",
+    "company": "STOCK151 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3448276,
+    "sector": "Consumer Services",
+    "industry": "RETAIL",
+    "prev_close": 3270.01,
+    "avg_volume": 6871867,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK179",
+    "trading_symbol": "STOCK179",
+    "company": "STOCK179 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 942524,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 2238.48,
+    "avg_volume": 765788,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK091",
+    "trading_symbol": "STOCK091",
+    "company": "STOCK091 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2664217,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 1508.18,
+    "avg_volume": 1284339,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK196",
+    "trading_symbol": "STOCK196",
+    "company": "STOCK196 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6710562,
+    "sector": "Healthcare",
+    "industry": "PHARMA",
+    "prev_close": 2375.73,
+    "avg_volume": 3899720,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK479",
+    "trading_symbol": "STOCK479",
+    "company": "STOCK479 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6915076,
+    "sector": "Financial Services",
+    "industry": "BANK",
+    "prev_close": 1465.98,
+    "avg_volume": 3681497,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK228",
+    "trading_symbol": "STOCK228",
+    "company": "STOCK228 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7238769,
+    "sector": "Communication Services",
+    "industry": "MEDIA",
+    "prev_close": 3986.59,
+    "avg_volume": 3663927,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK166",
+    "trading_symbol": "STOCK166",
+    "company": "STOCK166 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3318542,
+    "sector": "Communication Services",
+    "industry": "TELECOM",
+    "prev_close": 1693.38,
+    "avg_volume": 5136395,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK414",
+    "trading_symbol": "STOCK414",
+    "company": "STOCK414 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8870256,
+    "sector": "Consumer Services",
+    "industry": "HOSPITALITY",
+    "prev_close": 2447.03,
+    "avg_volume": 4493020,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK216",
+    "trading_symbol": "STOCK216",
+    "company": "STOCK216 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8211742,
+    "sector": "Automobile",
+    "industry": "AUTO ANCILLARY",
+    "prev_close": 1870.2,
+    "avg_volume": 970726,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK133",
+    "trading_symbol": "STOCK133",
+    "company": "STOCK133 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5122741,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 3728.39,
+    "avg_volume": 5841430,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK135",
+    "trading_symbol": "STOCK135",
+    "company": "STOCK135 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4669244,
+    "sector": "Information Technology",
+    "industry": "IT SERVICES",
+    "prev_close": 1141.39,
+    "avg_volume": 579273,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK206",
+    "trading_symbol": "STOCK206",
+    "company": "STOCK206 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4399055,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 3072.25,
+    "avg_volume": 6395892,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK129",
+    "trading_symbol": "STOCK129",
+    "company": "STOCK129 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1329110,
+    "sector": "Utilities",
+    "industry": "POWER",
+    "prev_close": 2159.78,
+    "avg_volume": 1937669,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK316",
+    "trading_symbol": "STOCK316",
+    "company": "STOCK316 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5581437,
+    "sector": "Information Technology",
+    "industry": "SOFTWARE",
+    "prev_close": 2994.97,
+    "avg_volume": 1193621,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK114",
+    "trading_symbol": "STOCK114",
+    "company": "STOCK114 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6918496,
+    "sector": "Consumer Goods",
+    "industry": "FMCG",
+    "prev_close": 1952.85,
+    "avg_volume": 4693116,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK476",
+    "trading_symbol": "STOCK476",
+    "company": "STOCK476 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2895835,
+    "sector": "Utilities",
+    "industry": "GAS",
+    "prev_close": 2765.26,
+    "avg_volume": 7591140,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "JINDALSTEL",
+    "trading_symbol": "JINDALSTEL",
+    "company": "Jindal Steel & Power Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2442608,
+    "sector": "Materials",
+    "industry": "METALS",
+    "prev_close": 1270.81,
+    "avg_volume": 4139897,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK308",
+    "trading_symbol": "STOCK308",
+    "company": "STOCK308 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8206886,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 444.48,
+    "avg_volume": 5909874,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK272",
+    "trading_symbol": "STOCK272",
+    "company": "STOCK272 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8232114,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 503.28,
+    "avg_volume": 7079825,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK117",
+    "trading_symbol": "STOCK117",
+    "company": "STOCK117 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7196887,
+    "sector": "Consumer Services",
+    "industry": "AVIATION",
+    "prev_close": 2792.43,
+    "avg_volume": 3278899,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK444",
+    "trading_symbol": "STOCK444",
+    "company": "STOCK444 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1762338,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 3359.92,
+    "avg_volume": 5246749,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK144",
+    "trading_symbol": "STOCK144",
+    "company": "STOCK144 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 769324,
+    "sector": "Energy",
+    "industry": "POWER",
+    "prev_close": 3597.72,
+    "avg_volume": 7697092,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK351",
+    "trading_symbol": "STOCK351",
+    "company": "STOCK351 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1911298,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 1971.27,
+    "avg_volume": 1299953,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK378",
+    "trading_symbol": "STOCK378",
+    "company": "STOCK378 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 8248051,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 2436.16,
+    "avg_volume": 4930520,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK333",
+    "trading_symbol": "STOCK333",
+    "company": "STOCK333 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6316461,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 884.73,
+    "avg_volume": 856950,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK450",
+    "trading_symbol": "STOCK450",
+    "company": "STOCK450 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 2144276,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 210.04,
+    "avg_volume": 2427421,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK475",
+    "trading_symbol": "STOCK475",
+    "company": "STOCK475 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5060015,
+    "sector": "Materials",
+    "industry": "CHEMICALS",
+    "prev_close": 1239.85,
+    "avg_volume": 2273494,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK116",
+    "trading_symbol": "STOCK116",
+    "company": "STOCK116 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4549368,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 3707.54,
+    "avg_volume": 7782292,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK227",
+    "trading_symbol": "STOCK227",
+    "company": "STOCK227 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6291135,
+    "sector": "Consumer Goods",
+    "industry": "CONSUMER DURABLE",
+    "prev_close": 1903.58,
+    "avg_volume": 6307330,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK315",
+    "trading_symbol": "STOCK315",
+    "company": "STOCK315 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 6221355,
+    "sector": "Financial Services",
+    "industry": "INSURANCE",
+    "prev_close": 2934.79,
+    "avg_volume": 7945345,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK399",
+    "trading_symbol": "STOCK399",
+    "company": "STOCK399 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3010830,
+    "sector": "Energy",
+    "industry": "OIL & GAS",
+    "prev_close": 2417.55,
+    "avg_volume": 5254530,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK289",
+    "trading_symbol": "STOCK289",
+    "company": "STOCK289 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 1783838,
+    "sector": "Healthcare",
+    "industry": "HOSPITALS",
+    "prev_close": 3499.28,
+    "avg_volume": 4488785,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK281",
+    "trading_symbol": "STOCK281",
+    "company": "STOCK281 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 5108935,
+    "sector": "Financial Services",
+    "industry": "NBFC",
+    "prev_close": 3353.15,
+    "avg_volume": 2774110,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK088",
+    "trading_symbol": "STOCK088",
+    "company": "STOCK088 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 7712220,
+    "sector": "Industrials",
+    "industry": "CAPITAL GOODS",
+    "prev_close": 32.92,
+    "avg_volume": 890590,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "STOCK379",
+    "trading_symbol": "STOCK379",
+    "company": "STOCK379 Industries Ltd",
+    "exchange": "NSE",
+    "instrument_token": 3716647,
+    "sector": "Industrials",
+    "industry": "ENGINEERING",
+    "prev_close": 3024.67,
+    "avg_volume": 1123676,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  },
+  {
+    "symbol": "EXTRA499",
+    "trading_symbol": "EXTRA499",
+    "company": "EXTRA499 Ltd",
+    "exchange": "NSE",
+    "instrument_token": 4803878,
+    "sector": "Real Estate",
+    "industry": "REALTY",
+    "prev_close": 733.83,
+    "avg_volume": 7633903,
+    "index_membership": [
+      "Nifty 500"
+    ]
+  }
+]
