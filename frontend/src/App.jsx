@@ -5,14 +5,12 @@ import MarketOverview from './components/MarketOverview.jsx'
 import StockTable from './components/StockTable.jsx'
 import DetailPanel from './components/DetailPanel.jsx'
 import WatchlistManager from './components/WatchlistManager.jsx'
-import ThemeToggle from './components/ThemeToggle.jsx'
-import AccentPicker from './components/AccentPicker.jsx'
 import CommandPalette from './components/CommandPalette.jsx'
-import LoginManager from './components/auth/LoginManager.jsx'
+import SettingsMenu from './components/SettingsMenu.jsx'
 import { useWebSocket } from './hooks/useWebSocket.js'
 import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.js'
 import { useStore } from './store/useStore.js'
-import DashboardLayouts, { LayoutSwitcher } from './components/layouts/DashboardLayouts.jsx'
+import DashboardLayouts from './components/layouts/DashboardLayouts.jsx'
 import FilterBuilder, { matches as matchesAdvancedFilter } from './components/FilterBuilder.jsx'
 
 const OptionsHub = lazy(()=> import('./components/options/OptionsHub.jsx'))
@@ -23,10 +21,10 @@ const MarketReplay = lazy(()=> import('./components/MarketReplay.jsx'))
 const AlertsCenter = lazy(()=> import('./components/AlertsCenter.jsx'))
 
 const NAV = [
-  { k:'screener', label:'Screener', icon:'◈' },
-  { k:'intraday', label:'Intraday Signals', icon:'🎯' },
-  { k:'options', label:'Options', icon:'⛓' },
-  { k:'optioninstruments', label:'Option Instruments', icon:'📜' },
+  { k:'screener', label:'Screener', full:'Screener', icon:'◈' },
+  { k:'intraday', label:'Intraday', full:'Intraday Signals', icon:'🎯' },
+  { k:'options', label:'Options', full:'Options', icon:'⛓' },
+  { k:'optioninstruments', label:'Instruments', full:'Option Instruments', icon:'📜' },
 ]
 const TOOLS = [
   { k:'paper', label:'Paper Trading', icon:'🧪' },
@@ -97,11 +95,9 @@ export default function App(){
   const [alerts,setAlerts]=useState([])
   const [dataMode,setDataMode]=useState('mock')
   const [view,setView]=useState('screener')
-  const [dashLayout,setDashLayout]=useState(()=>{ try{return localStorage.getItem('dashboard_layout')||'bento'}catch{return 'bento'}})
   const [showDashboard,setShowDashboard]=useState(()=>{ try{return localStorage.getItem('show_dashboard')==='1'}catch{return false} })
   const [density,setDensity]=useState(()=>{ try{return localStorage.getItem('row_density')||'compact'}catch{return 'compact'} })
   const theme = useStore(s=>s.theme) || 'dark'
-  useEffect(()=>{ try{localStorage.setItem('dashboard_layout',dashLayout)}catch{} },[dashLayout])
   useEffect(()=>{ try{localStorage.setItem('show_dashboard', showDashboard?'1':'0')}catch{} },[showDashboard])
   useEffect(()=>{ try{localStorage.setItem('row_density',density)}catch{} },[density])
 
@@ -158,47 +154,27 @@ export default function App(){
   const handleSelect=(sym)=>{ setSelected(sym); setShowDetail(true) }
   const toggleFilter=(key)=> setFilters(prev=>({...prev,[key]:!prev[key]}))
   const liveSelectedState=selected?stocksMap[selected]:null
-  const isClosed=marketStatus && !marketStatus.is_open
-  const nextOpen=marketStatus?.next_open? new Date(marketStatus.next_open).toLocaleString('en-IN',{weekday:'short',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Kolkata'})+' IST':'09:15 IST'
 
   return (
     <div className="app">
       <a href="#main-content" className="skip-link">Skip to content</a>
-      <Header marketStatus={marketStatus} connectionStatus={wsStatus} lastUpdate={lastUpdate} dataMode={dataMode} />
-      <div style={{display:'flex', gap:8, padding:'4px 20px', background:'rgba(13,27,42,0.7)', borderBottom:'1px solid rgba(255,255,255,0.06)', alignItems:'center', flexWrap:'wrap'}}>
-        <div style={{display:'flex', gap:6, alignItems:'center', fontSize:11, color:'#cbd5e1'}}><span style={{width:6,height:6,borderRadius:999, background: wsStatus==='open'?'#10b981':'#ef5350'}}/> {allStocks.length} symbols</div>
-        <div style={{marginLeft:'auto', display:'flex', gap:8, alignItems:'center'}}>
-          <LayoutSwitcher value={dashLayout} onChange={setDashLayout} />
-          <AccentPicker />
-          <ThemeToggle />
-          <LoginManager />
+      <div className="header">
+        <Header marketStatus={marketStatus} dataMode={dataMode} />
+        <nav className="header-nav" aria-label="Main navigation">
+          {NAV.map(v=>(
+            <button key={v.k} aria-label={`Switch to ${v.full} view`} aria-pressed={view===v.k} onClick={()=> setView(v.k)}
+              style={{position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'6px 12px', border:'none', cursor:'pointer', background:'transparent', color: view===v.k?'#04101f':'var(--text2)', zIndex:1, whiteSpace:'nowrap', flexShrink:0}}>
+              {view===v.k && <motion.span layoutId="main-nav-pill" transition={{type:'spring', stiffness:500, damping:35}} style={{position:'absolute', inset:0, borderRadius:8, background:'linear-gradient(135deg,var(--accent),var(--accent-light))', zIndex:-1}} />}
+              <span aria-hidden="true">{v.icon}</span> {v.label} {v.k==='screener'?<span style={{background: view===v.k?'rgba(4,16,31,0.18)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{filtered.length}</span>:null}
+            </button>
+          ))}
+          <ToolsMenu view={view} setView={setView} />
+        </nav>
+        <div style={{display:'flex', gap:10, alignItems:'center', flexShrink:0}}>
+          <span className={`status-dot ${wsStatus==='open'?'green':wsStatus==='connecting'?'yellow':'red'}`} title={`Live feed: ${wsStatus}`} aria-label={`Live feed ${wsStatus}`} />
+          <span className="mono" title="Last update" style={{fontSize:10, color:'var(--text3)', whiteSpace:'nowrap'}}>{lastUpdate ? new Date(lastUpdate).toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'}) : '--:--:--'}</span>
+          <SettingsMenu />
         </div>
-      </div>
-      {isClosed && (
-        <div style={{background:'linear-gradient(90deg, rgba(245,158,11,0.12), rgba(217,119,6,0.08))', padding:'5px 20px', fontSize:12, color:'#f59e0b', display:'flex', gap:12, alignItems:'center', flexWrap:'wrap'}}>
-          <span style={{fontWeight:800, display:'flex',gap:8,alignItems:'center'}}><span style={{width:8,height:8,borderRadius:999,background:'#f59e0b'}}/> MARKET CLOSED</span>
-          <span style={{color:'#f1f5f9',fontWeight:600}}>Showing last close</span><span style={{color:'#cbd5e1',fontSize:11}}>Next open • {nextOpen}</span>
-        </div>
-      )}
-      <div style={{display:'flex', gap:6, padding:'6px 20px', background:'rgba(13,27,42,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', alignItems:'center'}}>
-        {NAV.map(v=>(
-          <button key={v.k} aria-label={`Switch to ${v.label} view`} aria-pressed={view===v.k} onClick={()=> setView(v.k)}
-            style={{position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'7px 14px', border:'none', cursor:'pointer', background:'transparent', color: view===v.k?'#04101f':'var(--text2)', zIndex:1}}>
-            {view===v.k && <motion.span layoutId="main-nav-pill" transition={{type:'spring', stiffness:500, damping:35}} style={{position:'absolute', inset:0, borderRadius:8, background:'linear-gradient(135deg,var(--accent),var(--accent-light))', zIndex:-1}} />}
-            <span aria-hidden="true">{v.icon}</span> {v.label} {v.k==='screener'?<span style={{background: view===v.k?'rgba(4,16,31,0.18)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{filtered.length}</span>:null}
-          </button>
-        ))}
-        <ToolsMenu view={view} setView={setView} />
-        {view==='screener' && (
-          <div style={{marginLeft:'auto', display:'flex', gap:6, alignItems:'center'}}>
-            <button className="btn sm" aria-pressed={showDashboard} onClick={()=>setShowDashboard(v=>!v)} style={{borderRadius:8, fontWeight:700}}>{showDashboard?'▴ Hide':'▾ Show'} Dashboard</button>
-            <div style={{display:'flex',gap:2,background:'rgba(255,255,255,0.04)',borderRadius:8,padding:2,border:'1px solid rgba(255,255,255,0.06)'}}>
-              {['compact','comfortable'].map(d=>(
-                <button key={d} onClick={()=>setDensity(d)} aria-pressed={density===d} style={{padding:'5px 10px', fontSize:11, fontWeight:700, textTransform:'capitalize', borderRadius:6, border:'none', cursor:'pointer', background: density===d?'linear-gradient(135deg,var(--accent),var(--accent-light))':'transparent', color: density===d?'#04101f':'var(--text2)'}}>{d}</button>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       <div id="main-content" tabIndex={-1} style={{flex:1, overflow: view==='screener' && !showDashboard ? 'hidden':'auto', padding:'8px 20px 0 20px', display:'flex', flexDirection:'column', gap:10}}>
@@ -213,7 +189,7 @@ export default function App(){
           :view==='alerts'?<div style={{flex:1, overflow:'auto'}}><AlertsCenter alerts={alerts} /></div>
           :(<>
             {showDashboard && (
-              <DashboardLayouts layout={dashLayout}>
+              <DashboardLayouts layout="bento">
               <section aria-labelledby="pulse-heading">
                 <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#cbd5e1', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#10b981,var(--accent))',borderRadius:999}}/> Market Pulse</h2>
                 <MarketOverview data={overview} />
@@ -239,7 +215,15 @@ export default function App(){
                   <button aria-pressed={!!filters.breakout} className={`chip ${filters.breakout?'active':''}`} onClick={()=> toggleFilter('breakout')} aria-label="Filter breakout">Breakout</button>
                   <button className="chip" onClick={()=> setFilters({})} aria-label="Clear filters" style={{background:'rgba(37,99,235,0.08)',borderColor:'rgba(37,99,235,0.2)',color:'#2563eb'}}>Clear</button>
                   <button className={`chip ${showAdvancedFilters||advancedConds.length?'active':''}`} onClick={()=>setShowAdvancedFilters(v=>!v)} aria-label="Toggle advanced filter builder">⚙ Advanced{advancedConds.length?` (${advancedConds.length})`:''}</button>
-                  {!showDashboard && <span style={{marginLeft:'auto', fontSize:11, color:'#94a3b8', alignSelf:'center'}}>{filtered.length} results</span>}
+                  <div style={{marginLeft:'auto', display:'flex', gap:8, alignItems:'center'}}>
+                    {!showDashboard && <span style={{fontSize:11, color:'#94a3b8'}}>{filtered.length} results</span>}
+                    <button className="btn sm" aria-pressed={showDashboard} onClick={()=>setShowDashboard(v=>!v)} style={{borderRadius:8, fontWeight:700}}>{showDashboard?'▴ Hide':'▾ Show'} Dashboard</button>
+                    <div style={{display:'flex',gap:2,background:'rgba(255,255,255,0.04)',borderRadius:8,padding:2,border:'1px solid rgba(255,255,255,0.06)'}}>
+                      {['compact','comfortable'].map(d=>(
+                        <button key={d} onClick={()=>setDensity(d)} aria-pressed={density===d} style={{padding:'5px 10px', fontSize:11, fontWeight:700, textTransform:'capitalize', borderRadius:6, border:'none', cursor:'pointer', background: density===d?'linear-gradient(135deg,var(--accent),var(--accent-light))':'transparent', color: density===d?'#04101f':'var(--text2)'}}>{d}</button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 {showAdvancedFilters && <div style={{marginTop:8}}><FilterBuilder onApply={setAdvancedConds} sectors={sectors} /></div>}
               </div>

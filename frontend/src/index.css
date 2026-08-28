@@ -101,7 +101,13 @@ body, .app, .header, .ov-card, .table-wrap, .detail-panel, .input, .btn, .chip, 
 
 /* layout - premium glass */
 .app { display:flex; flex-direction:column; height:100vh; background: radial-gradient(1200px 600px at 20% -10%, rgba(var(--accent-rgb),0.08), transparent 60%), radial-gradient(1000px 500px at 90% 0%, rgba(16,185,129,0.06), transparent 60%), linear-gradient(180deg,#0b1220 0%, #0b1220 100%); }
-.header { height:56px; background: rgba(13,27,42,0.85); backdrop-filter: blur(20px) saturate(180%); border-bottom:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:space-between; padding:0 20px; flex-shrink:0; position:sticky; top:0; z-index:40; box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4); }
+.header { min-height:52px; background: rgba(13,27,42,0.85); backdrop-filter: blur(20px) saturate(180%); border-bottom:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; gap:18px; padding:6px 20px; flex-shrink:0; position:sticky; top:0; z-index:40; box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4); }
+/* Scrolls horizontally only as a narrow-viewport fallback (a native
+   scrollbar only ever renders when content actually overflows, so this
+   never shows a false affordance at normal desktop widths where every tab
+   already fits). */
+.header-nav { display:flex; gap:4px; align-items:center; overflow-x:auto; flex:1; min-width:0; }
+.header-nav::-webkit-scrollbar { height:4px; }
 .overview { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:12px; padding:14px 20px; background: transparent; flex-shrink:0; }
 .filters { display:flex; gap:10px; align-items:center; padding:12px 20px; background: rgba(13,27,42,0.6); backdrop-filter: blur(12px); border-top:1px solid rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.06); flex-shrink:0; flex-wrap:wrap; }
 .main { display:flex; flex:1; overflow:hidden; gap:16px; padding:16px 20px 0 20px; }
