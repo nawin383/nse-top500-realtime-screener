@@ -68,6 +68,31 @@ def test_equity_ticks_never_carry_oi():
     assert ms.states["EQTEST"].oi_buildup is None
 
 
+def test_dynamic_option_state_creation_survives_first_tick():
+    """Regression test: on_tick's auto-create branch for unrecognized symbols
+    (NIFTY/BANKNIFTY/SENSEX option contracts arriving over the WS for the
+    first time, before any state exists for them) referenced tick.previousClose
+    -- MarketTick's actual Python attribute is previous_close (previousClose
+    is only the alias used for JSON/kwarg population, not a valid attribute
+    access in Pydantic v2 regardless of populate_by_name). Every single first
+    tick for every option contract crashed here with AttributeError, was
+    caught by data_engine's per-tick try/except and logged as 'tick
+    processing error', and since the state was never created, the *next*
+    tick for that same contract hit the exact same code path and crashed
+    again -- a 100% failure rate for every option contract, forever. This
+    stayed dormant and unnoticed until config/nifty_sensex_options.json's
+    path bug was fixed and option ticks actually started arriving."""
+    universe = [{"symbol": "RELIANCE", "instrument_token": 1, "prev_close": 100.0, "avg_volume": 10000}]
+    ms = MarketState(universe)
+    tick = MarketTick(symbol="NIFTY26SEP24500CE", token=12007682, timestamp=datetime.now(timezone.utc),
+                       ltp=150.5, volume=1000, previousClose=140.0)
+    ms.on_tick(tick)  # must not raise
+    state = ms.states["NIFTY26SEP24500CE"]
+    assert state.previous_close == 140.0
+    assert state.ltp == 150.5
+    assert state.sector == "Options"
+
+
 def test_init_universe_live_branch_survives_missing_prev_close():
     """Regression test: _init_universe's live-market branch used to set
     ltp=prev_close with no None guard (unlike the closed-market branch's
