@@ -27,6 +27,39 @@
   --font: 'Inter', system-ui, -apple-system, sans-serif;
   --mono: 'JetBrains Mono', monospace;
   --ease: cubic-bezier(0.16,1,0.3,1);
+
+  /* Type scale -- a real ramp instead of ad-hoc px literals per component.
+     Existing components keep their own sizes (safe, already shipped); new
+     and touched components read from this scale going forward. */
+  --text-2xs: 9px;
+  --text-xs: 10px;
+  --text-sm: 11px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 28px;
+
+  /* Spacing scale (4px base unit) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Elevation -- consistent shadow depth instead of one-off rgba() shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.25);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+  --shadow-xl: 0 24px 64px rgba(0,0,0,0.45);
+
+  /* Motion -- named durations so easing/timing stay consistent across
+     hand-rolled transitions and framer-motion alike */
+  --motion-fast: 0.15s;
+  --motion-base: 0.25s;
+  --motion-slow: 0.4s;
 }
 /* Accent presets -- swap the whole app's brand color (nav pill, active
    buttons, focus rings, badges, hover glows) from one attribute. Everything

@@ -1,6 +1,10 @@
 import React, { useRef, useState, useMemo } from 'react'
 import { fmt, fmtPct, fmtVol, fmtPrice } from '../utils/format.js'
 import Papa from 'papaparse'
+import TickerValue from './TickerValue.jsx'
+import Sparkline from './Sparkline.jsx'
+
+const HISTORY_LEN = 30
 
 const num = (v, d=2) => (v==null ? '—' : Number(v).toFixed(d))
 
@@ -22,7 +26,9 @@ const COLUMN_CATALOG = {
     </td>,
     csv:(s)=> s.symbol },
   ltp: { label:'LTP', sortable:true, width:90,
-    render:(s)=> <td className="mono" role="cell" style={{fontWeight:700, fontSize:12}}>{fmtPrice(s.ltp)}</td>, csv:(s)=>s.ltp },
+    render:(s)=> <td className="mono" role="cell" style={{fontWeight:700, fontSize:12}}><TickerValue value={s.ltp} format={fmtPrice} /></td>, csv:(s)=>s.ltp },
+  trend: { label:'Trend', sortable:false, width:70,
+    render:(s,idx,ctx)=> <td role="cell" style={{padding:'4px 8px'}}><Sparkline data={ctx?.history} /></td>, csv:()=>'' },
   changePercent: { label:'Chg %', sortable:true, width:90,
     render:(s)=>{ const isPos=(s.changePercent||0)>=0; return <td className={`mono ${isPos?'pos':'neg'}`} role="cell" style={{fontWeight:700}}><span style={{background: isPos?'rgba(16,185,129,0.10)':'rgba(239,83,80,0.10)', padding:'3px 6px', borderRadius:6, border:`1px solid ${isPos?'rgba(16,185,129,0.18)':'rgba(239,83,80,0.18)'}`}}>{fmtPct(s.changePercent)}</span></td> },
     csv:(s)=>s.changePercent },
@@ -75,18 +81,18 @@ const COLUMN_CATALOG = {
     render:(s)=> <td role="cell"><span style={{fontSize:10, color:'#cbd5e1', background:'rgba(255,255,255,0.04)', padding:'3px 7px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)', fontWeight:600}}>{s.sector}</span></td>, csv:(s)=>s.sector },
 }
 
-const DEFAULT_KEYS = ['rank','symbol','ltp','changePercent','volume','relVolume','vwap','rsi','momentum5m','score','signal','sector']
+const DEFAULT_KEYS = ['rank','symbol','ltp','trend','changePercent','volume','relVolume','vwap','rsi','momentum5m','score','signal','sector']
 
 const DEFAULT_COLS = DEFAULT_KEYS.map(key=>({ key, pinned: key==='symbol' }))
 
-const Row = React.memo(function Row({ s, idx, flashClass, isSelected, onSelect, density, cols }){
+const Row = React.memo(function Row({ s, idx, flashClass, isSelected, onSelect, density, cols, history }){
   const rowH = density==='compact' ? 30 : 42
   return (
     <tr className={`${isSelected?'selected':''} ${flashClass||''}`} onClick={()=> onSelect(s.symbol)} onKeyDown={(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); onSelect(s.symbol)} }} tabIndex={0} role="row" aria-selected={isSelected} aria-label={`${s.symbol} ${s.companyName} price ${s.ltp} change ${s.changePercent?.toFixed?.(2) ?? ''} percent`} style={{cursor:'pointer', contentVisibility:'auto', containIntrinsicSize:`0 ${rowH}px`}}>
       {cols.map(c=>{
         const def = COLUMN_CATALOG[c.key]
         if(!def) return null
-        return React.cloneElement(def.render(s, idx), { key:c.key })
+        return React.cloneElement(def.render(s, idx, { history }), { key:c.key })
       })}
     </tr>
   )
@@ -102,12 +108,20 @@ export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, s
   })
   const [multiSort,setMultiSort]=useState([])
   const oldRef = useRef({})
+  const historyRef = useRef(new Map())
 
   React.useEffect(()=>{
     const newFlash={}
     for(const s of stocks){
       const old = oldRef.current[s.symbol]
       if(old!=null && s.ltp !== old) newFlash[s.symbol] = s.ltp > old ? 'flash' : 'flash-neg'
+      if(s.ltp!=null){
+        const buf = historyRef.current.get(s.symbol) || []
+        if(buf[buf.length-1] !== s.ltp){
+          const next = buf.length>=HISTORY_LEN ? [...buf.slice(1), s.ltp] : [...buf, s.ltp]
+          historyRef.current.set(s.symbol, next)
+        }
+      }
     }
     if(Object.keys(newFlash).length){
       setFlashMap(newFlash)
@@ -201,7 +215,7 @@ export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, s
         </thead>
         <tbody>
           {stocks.map((s, idx)=> (
-            <Row key={s.symbol} s={s} idx={idx} flashClass={flashMap[s.symbol]} isSelected={selectedSymbol===s.symbol} onSelect={onSelect} density={density} cols={cols} />
+            <Row key={s.symbol} s={s} idx={idx} flashClass={flashMap[s.symbol]} isSelected={selectedSymbol===s.symbol} onSelect={onSelect} density={density} cols={cols} history={historyRef.current.get(s.symbol)} />
           ))}
           {stocks.length===0 && (
             <tr><td colSpan={cols.length} style={{textAlign:'center', padding:48, color:'#94a3b8'}}>
