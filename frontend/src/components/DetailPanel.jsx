@@ -1,10 +1,7 @@
-import React, { useEffect, useState, Suspense, lazy } from 'react'
+import React, { useEffect, useState } from 'react'
 import { fetchStockDetail } from '../services/api.js'
 import MiniChart from '../charts/MiniChart.jsx'
 import { fmtPrice, fmtPct, fmtVol } from '../utils/format.js'
-
-const TechnicalAnalysis = lazy(()=> import('./tradingview/TradingViewWidgets.jsx').then(m=>({default:m.TechnicalAnalysis})))
-const SymbolInfo = lazy(()=> import('./tradingview/TradingViewWidgets.jsx').then(m=>({default:m.SymbolInfo})))
 
 export default function DetailPanel({ symbol, onClose, liveState, theme='dark' }){
   const [detail, setDetail] = useState(null)
@@ -106,20 +103,6 @@ export default function DetailPanel({ symbol, onClose, liveState, theme='dark' }
             <span style={{textTransform:'capitalize', color:'#8ea0b8', fontWeight:600}}>{k}</span><span style={{fontFamily:'JetBrains Mono', fontWeight:700, color:'#eef4ff'}}>{typeof v==='number'? v.toFixed(1): String(v)}</span>
           </div>
         )) : <div style={{fontSize:11, color:'#5b728c', textAlign:'center', padding:12}}>Scoring after first ticks • Momentum 25 + Volume 25 + RelVol 20 + Breakout 15 + VWAP 10 + Volatility 5</div>}
-      </div>
-
-      <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14, backdropFilter:'blur(12px)'}}>
-        <div style={{fontSize:11, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10}}>Symbol Info</div>
-        <Suspense fallback={<div style={{height:180, background:'rgba(255,255,255,0.04)', borderRadius:10}} />}>
-          <SymbolInfo symbol={`NSE:${state.symbol}`} theme={theme} height={180} />
-        </Suspense>
-      </div>
-
-      <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14, backdropFilter:'blur(12px)'}}>
-        <div style={{fontSize:11, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10}}>TradingView Technical Rating</div>
-        <Suspense fallback={<div style={{height:425, background:'rgba(255,255,255,0.04)', borderRadius:10}} />}>
-          <TechnicalAnalysis symbol={`NSE:${state.symbol}`} theme={theme} height={425} />
-        </Suspense>
       </div>
     </div>
   )

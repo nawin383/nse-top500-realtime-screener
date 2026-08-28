@@ -3,33 +3,7 @@ import { motion } from 'framer-motion'
 
 const apiBase = import.meta.env.VITE_API_URL || ''
 
-// TradingView Lightweight Charts wrapper (canvas fallback if not loaded)
-function TVChart({ data }) {
-  const ref = useRef(null)
-  useEffect(() => {
-    if (!ref.current || !data) return
-    let chart, series
-    try {
-      const { createChart } = window.LightweightCharts || {}
-      if (createChart) {
-        chart = createChart(ref.current, { width: ref.current.clientWidth, height: 220, layout: { background: { color: '#0d1218' }, textColor: '#8b9bb4' }, grid: { vertLines: { color: '#1a2129' }, horzLines: { color: '#1a2129' } } })
-        series = chart.addCandlestickSeries()
-        series.setData(data.slice(-60).map((d, i) => ({ time: Math.floor(Date.now()/1000) - (60-i)*60, open: d.open, high: d.high, low: d.low, close: d.close })))
-      } else {
-        // fallback: draw on canvas
-        const ctx = ref.current.getContext('2d')
-        if (!ctx) return
-        ctx.fillStyle = '#0d1218'; ctx.fillRect(0,0,ref.current.width, ref.current.height)
-        ctx.fillStyle = '#00d38d'; ctx.fillRect(10,10,100,20)
-        ctx.fillStyle = '#fff'; ctx.fillText('TradingView (install lightweight-charts)', 20, 25)
-      }
-    } catch {}
-    return () => { try { chart && chart.remove() } catch {} }
-  }, [data])
-  return <div ref={ref} style={{width:'100%', height:220, background:'#0d1218', borderRadius:8, border:'1px solid #232d38'}}><canvas ref={ref} width={600} height={220} style={{width:'100%', height:'100%'}} /></div>
-}
-
-// 3D Vol Surface with Canvas (Three.js fallback)
+// Strike/IV skew heatmap on canvas
 function VolSurface3D({ surface }) {
   const ref = useRef(null)
   useEffect(() => {
@@ -55,7 +29,7 @@ function VolSurface3D({ surface }) {
       ctx.fillText(`${r.strike} ${r.type} ${r.iv.toFixed(1)}%`, 4, y+7)
     })
     ctx.fillStyle = '#f6c343'; ctx.font = '11px sans-serif'
-    ctx.fillText('3D Vol Surface (Three.js) — strike skew heatmap', 10, H-4)
+    ctx.fillText('IV skew heatmap by strike (live chain)', 10, H-4)
   }, [surface])
   return <canvas ref={ref} width={600} height={180} style={{width:'100%', height:180, background:'#0d1218', borderRadius:8, border:'1px solid #232d38'}} />
 }
@@ -97,16 +71,29 @@ export default function AgileInstitutional(){
     return ()=> window.removeEventListener('keydown', h)
   },[])
 
+  // A failed/unavailable endpoint returns {detail:"..."} instead of the expected
+  // shape (not a rejected promise -- the JSON still parses fine), so .catch(()=>null)
+  // alone doesn't protect the unguarded tshape.chain.map()/etc below from crashing
+  // the page. Treat any non-ok response or a detail-shaped body as "no data".
+  const safeFetch = async (url)=>{
+    try{
+      const r = await fetch(url)
+      const j = await r.json()
+      if(!r.ok || j?.detail) return null
+      return j
+    }catch{ return null }
+  }
+
   // fetch all
   const fetchAll = async ()=>{
     const base = `${apiBase}/api`
     try{
       const [ts, vx, hvc, sc, cr] = await Promise.all([
-        fetch(`${base}/options/tshape?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}&window=10`).then(r=>r.json()).catch(()=>null),
-        fetch(`${base}/options/vix`).then(r=>r.json()).catch(()=>null),
-        fetch(`${base}/historical/hv-cone?symbol=${symbol}`).then(r=>r.json()).catch(()=>null),
-        fetch(`${base}/options/scenario?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()).catch(()=>null),
-        fetch(`${base}/options/correlation`).then(r=>r.json()).catch(()=>null),
+        safeFetch(`${base}/options/tshape?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}&window=10`),
+        safeFetch(`${base}/options/vix`),
+        safeFetch(`${base}/historical/hv-cone?symbol=${symbol}`),
+        safeFetch(`${base}/options/scenario?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`),
+        safeFetch(`${base}/options/correlation`),
       ])
       if(ts) setTshape(ts)
       if(vx) setVix(vx)
@@ -148,7 +135,7 @@ export default function AgileInstitutional(){
   return (
     <div style={{padding:12, background: theme==='dark'?'#0a0e13':'#f8fafc', color: theme==='dark'?'#e6eef8':'#0f172a', minHeight:'100%'}}>
       <div style={{display:'flex', gap:8, alignItems:'center', flexWrap:'wrap', marginBottom:12}}>
-        <h2 style={{fontSize:16, fontWeight:800, margin:0}}>🏛 Institutional — Drag-Drop • Hotkeys • Export • 3D</h2>
+        <h2 style={{fontSize:16, fontWeight:800, margin:0}}>🏛 Institutional — Drag-Drop • Hotkeys • Export</h2>
         <select className="input" value={symbol} onChange={e=> setSymbol(e.target.value)}><option>NIFTY</option><option>SENSEX</option><option>BANKNIFTY</option></select>
         <select className="input" value={expiry} onChange={e=> setExpiry(e.target.value)}>{(tshape?.expiries||[]).map(e=> <option key={e} value={e}>{e}</option>)}</select>
         <span style={{fontSize:11, color:'#8b9bb4'}}>Spot {tshape?.spot} ATM {tshape?.atmStrike} <span style={{color: theme==='dark'?'#f6c343':'#d97706'}}>Last-Day {tshape?.isLastTradingDay?'Yes':''}</span></span>
@@ -158,28 +145,23 @@ export default function AgileInstitutional(){
 
       {/* Drag-drop grid - using CSS grid with framer-motion drag */}
       <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(320px,1fr))', gap:10, marginBottom:12}}>
-        <Widget title="ATM Premium & 3D Vol Surface" onExport={exportCSV}>
+        <Widget title="ATM Premium & IV Skew" onExport={exportCSV}>
           <div style={{fontSize:11, marginBottom:6}}>Straddle {tshape?.analytics?.atmStraddle} (CE {tshape?.analytics?.atmCePremium} + PE {tshape?.analytics?.atmPePremium}) • PCR {tshape?.analytics?.pcr} • Max Pain {tshape?.analytics?.maxPain}</div>
           <VolSurface3D surface={tshape?.chain?.flatMap(c=> [{strike:c.strike, iv:c.CE.iv, type:'CE'}, {strike:c.strike, iv:c.PE.iv, type:'PE'}]) || []} />
         </Widget>
 
-        <Widget title="TradingView (NIFTY 1m)">
-          <TVChart data={Array.from({length:40},(_,i)=> ({open:24500+i, high:24510+i, low:24490+i, close:24505+i}))} />
-          <div style={{fontSize:10, color:'#5a6b84', marginTop:4}}>Lightweight Charts • touch-optimized • 60 candles</div>
-        </Widget>
-
-        <Widget title="Greeks Dashboard (portfolio) & Heatmap">
-          {greeks ? <><div style={{fontSize:11}}>Δ {greeks.netDelta} Γ {greeks.netGamma} Θ {greeks.netTheta} Vega {greeks.netVega} (hedge {greeks.hedgeRatio} lots)</div><div style={{height:80, overflow:'auto', fontSize:10, marginTop:6}}>{Array.from({length:6},(_,i)=> <div key={i}>Strike {24500+i*50}: ΔExp {(Math.random()*100).toFixed(1)} Γ {(Math.random()*5).toFixed(2)}</div>)}</div></> : <div style={{fontSize:11, color:'#5a6b84'}}>No positions — add via API POST /api/portfolio/positions</div>}
+        <Widget title="Greeks Dashboard (portfolio)">
+          {greeks ? <div style={{fontSize:11}}>Δ {greeks.netDelta} Γ {greeks.netGamma} Θ {greeks.netTheta} Vega {greeks.netVega} (hedge {greeks.hedgeRatio} lots)</div> : <div style={{fontSize:11, color:'#5a6b84'}}>No positions — add via API POST /api/portfolio/positions</div>}
         </Widget>
 
         <Widget title="HV Cone & IV Percentile (1Y/6M/3M)">
-          {hv ? <><div style={{fontSize:11}}>HV30 {hv.hv30}% • Cone 1M [{hv.cone['1M'].join('-')}] 1Y [{hv.cone['1Y'].join('-')}] • {hv.position}</div><div style={{height:60, background:'#0d1218', borderRadius:4, marginTop:6, padding:6, fontSize:10}}>{Object.entries(hv.cone).map(([k,v])=> <div key={k} style={{display:'flex', justifyContent:'space-between'}}><span>{k}</span><span>{v[0]} — {v[1]}%</span></div>)}</div></> : <div style={{fontSize:11, color:'#5a6b84'}}>HV cone loading…</div>}
+          {hv?.cone ? <><div style={{fontSize:11}}>HV30 {hv.hv30}% • Cone 1M [{hv.cone['1M']?.join('-')}] 1Y [{hv.cone['1Y']?.join('-')}] • {hv.position}</div><div style={{height:60, background:'#0d1218', borderRadius:4, marginTop:6, padding:6, fontSize:10}}>{Object.entries(hv.cone).filter(([,v])=>v).map(([k,v])=> <div key={k} style={{display:'flex', justifyContent:'space-between'}}><span>{k}</span><span>{v[0]} — {v[1]}%</span></div>)}</div></> : <div style={{fontSize:11, color:'#5a6b84'}}>{hv?.note || 'HV cone needs ingested bhavcopy history (see /api/historical/bhavcopy)'}</div>}
         </Widget>
 
-        <Widget title="VIX Term & Correlation">
-          <div style={{fontSize:11}}>VIX {vix?.vix} ({vix?.source}) • Corr NIFTY {vix?.correlationNifty} • VIX3M {vix?.vix ? (vix.vix*1.1).toFixed(1):'-'} VVIX {vix?.vix ? (vix.vix*6).toFixed(0):'-'}</div>
+        <Widget title="VIX & Correlation">
+          <div style={{fontSize:11}}>VIX {vix?.vix ?? '—'} ({vix?.source ?? 'unavailable'}) • Corr NIFTY {vix?.correlationNifty ?? '—'}</div>
           <div style={{fontSize:10, marginTop:6, display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:4}}>
-            {(corr?.symbols||['NIFTY','SENSEX','BANKNIFTY']).slice(0,3).map(s=> <div key={s} style={{background:'#0d1218', padding:6, borderRadius:4, textAlign:'center', fontSize:10}}>{s}<br/>{corr? Object.values(corr.matrix[s]||{})[0]?.toFixed(2):'-'}</div>)}
+            {(corr?.symbols||['NIFTY','SENSEX','BANKNIFTY']).slice(0,3).map(s=> <div key={s} style={{background:'#0d1218', padding:6, borderRadius:4, textAlign:'center', fontSize:10}}>{s}<br/>{corr?.matrix?.[s] ? Object.values(corr.matrix[s]).find(v=>v!=null && v!==1)?.toFixed(2) ?? '—' :'—'}</div>)}
           </div>
         </Widget>
 
@@ -206,7 +188,7 @@ export default function AgileInstitutional(){
             {ticks.slice(0,10).map((t,i)=> <div key={i} style={{display:'flex', justifyContent:'space-between', borderBottom:'1px solid #1a2129'}}><span>{new Date(t.time).toLocaleTimeString()}</span><span>{t.price}</span><span style={{color: t.side==='buy'?'#00d38d':'#ff4757'}}>{t.side}</span><span>{t.exchange}</span></div>)}
             {!ticks.length && <div style={{color:'#5a6b84'}}>No ticks yet (live when market open)</div>}
           </div>
-          <div style={{fontSize:10, color:'#8b9bb4', marginTop:6}}>Flow: institutional 62% vs retail 38% • imbalance 0.24</div>
+          <div style={{fontSize:10, color:'#5a6b84', marginTop:6}}>Institutional/retail order-flow attribution isn't exposed by Kite's public market data</div>
         </Widget>
       </div>
 

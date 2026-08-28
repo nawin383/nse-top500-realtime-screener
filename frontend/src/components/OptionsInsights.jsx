@@ -1,0 +1,204 @@
+import React, { useEffect, useMemo, useState, Suspense, lazy } from 'react'
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Cell, Legend } from 'recharts'
+
+const OpenInterestChart = lazy(()=> import('./OpenInterestChart.jsx'))
+
+const fmt = (n,d=2)=> n==null?'-':Number(n).toFixed(d)
+const fmtInt = (n)=> n==null?'-':Number(n).toLocaleString('en-IN')
+
+// Same rule as OpenInterestChart: any endpoint that fails or comes back
+// {detail:"..."} resolves to null instead of a malformed object, so the JSX
+// below only ever has to render "no data" per card -- never crashes the page.
+const safeFetch = async (url)=>{
+  try{
+    const r = await fetch(url)
+    const j = await r.json()
+    if(!r.ok || j?.detail) return null
+    return j
+  }catch{ return null }
+}
+
+function Card({ title, children, height }){
+  return (
+    <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14, height}}>
+      <div style={{fontSize:10, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10}}>{title}</div>
+      {children}
+    </div>
+  )
+}
+function Empty({ label='No live data available right now' }){
+  return <div style={{fontSize:11, color:'#5b728c', textAlign:'center', padding:'20px 8px'}}>{label}</div>
+}
+
+export default function OptionsInsights({ theme='dark' }){
+  const apiBase = import.meta.env.VITE_API_URL || ''
+  const [symbol, setSymbol] = useState('NIFTY')
+  const [expiries, setExpiries] = useState([])
+  const [expiry, setExpiry] = useState('')
+  const [atm, setAtm] = useState(null)
+  const [pcr, setPcr] = useState(null)
+  const [oi, setOi] = useState(null)
+  const [vol, setVol] = useState(null)
+  const [ivhv, setIvhv] = useState(null)
+  const [vix, setVix] = useState(null)
+  const [unusual, setUnusual] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(()=>{
+    let cancelled = false
+    fetch(`${apiBase}/api/options/expiries?symbol=${symbol}`).then(r=>r.json()).then(j=>{
+      if(cancelled) return
+      setExpiries(j.expiries||[])
+      if(j.expiries?.length) setExpiry(prev=> prev && j.expiries.includes(prev) ? prev : j.expiries[0])
+    }).catch(()=>{})
+    return ()=>{ cancelled = true }
+  }, [symbol, apiBase])
+
+  useEffect(()=>{
+    if(!expiry) return
+    let cancelled = false
+    setLoading(true)
+    const q = `symbol=${symbol}&expiry=${expiry}`
+    Promise.all([
+      safeFetch(`${apiBase}/api/options/atm-premium?${q}`),
+      safeFetch(`${apiBase}/api/options/pcr?${q}`),
+      safeFetch(`${apiBase}/api/options/oi-analysis?${q}`),
+      safeFetch(`${apiBase}/api/options/vol-surface?${q}`),
+      safeFetch(`${apiBase}/api/options/iv-hv?${q}`),
+      safeFetch(`${apiBase}/api/options/vix`),
+      safeFetch(`${apiBase}/api/options/unusual?${q}`),
+    ]).then(([a,p,o,v,iv,vx,u])=>{
+      if(cancelled) return
+      setAtm(a); setPcr(p); setOi(o); setVol(v); setIvhv(iv); setVix(vx); setUnusual(u)
+    }).finally(()=>{ if(!cancelled) setLoading(false) })
+    return ()=>{ cancelled = true }
+  }, [symbol, expiry, apiBase])
+
+  // IV skew: CE vs PE implied vol per strike, from the real live chain -- a chart
+  // that isn't rendered anywhere else in the app.
+  const skewData = useMemo(()=>{
+    if(!vol?.volSurface) return []
+    const byStrike = {}
+    for(const p of vol.volSurface){
+      byStrike[p.strike] = byStrike[p.strike] || { strike: p.strike }
+      byStrike[p.strike][p.type === 'CE' ? 'ceIv' : 'peIv'] = p.iv
+    }
+    return Object.values(byStrike).sort((a,b)=> a.strike-b.strike)
+  }, [vol])
+
+  // Where fresh OI is actually building right now (|oiChange| per strike), not just
+  // the static OI level (that's what the Weekly/Monthly OI chart below already shows).
+  const oiChangeData = useMemo(()=>{
+    if(!oi?.heatmap) return []
+    return oi.heatmap.map(h=> ({ strike: h.strike, netOi: h.netOi })).sort((a,b)=> a.strike-b.strike)
+  }, [oi])
+
+  const isDark = theme !== 'light'
+  const axisColor = isDark ? '#5b728c' : '#64748b'
+  const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'
+
+  return (
+    <div style={{padding:'0 0 20px 0', display:'flex', flexDirection:'column', gap:14}}>
+      <div style={{display:'flex', gap:10, alignItems:'center', flexWrap:'wrap'}}>
+        <h2 style={{fontSize:16, fontWeight:800, margin:0}}>Options Insights</h2>
+        <select className="input" value={symbol} onChange={e=>setSymbol(e.target.value)}>
+          <option value="NIFTY">NIFTY 50</option>
+          <option value="SENSEX">SENSEX</option>
+          <option value="BANKNIFTY">BANKNIFTY</option>
+        </select>
+        <select className="input" value={expiry} onChange={e=>setExpiry(e.target.value)} style={{minWidth:140}}>
+          {expiries.map(e=> <option key={e} value={e}>{e}</option>)}
+          {!expiries.length && <option>Loading…</option>}
+        </select>
+        {loading && <span style={{fontSize:11, color:'#5b728c'}}>Refreshing…</span>}
+        <span style={{marginLeft:'auto', fontSize:10, color:'#5a6b84'}}>All figures from the live option chain • real data only, gaps shown as "no data"</span>
+      </div>
+
+      <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px,1fr))', gap:10}}>
+        <Card title="ATM Premium & Implied Move">
+          {atm ? <>
+            <div style={{fontSize:18, fontWeight:800, color:'#3b9eff'}}>{fmt(atm.straddle)} <span style={{fontSize:11, color:'#8ea0b8'}}>({fmt(atm.impliedMovePct)}%)</span></div>
+            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>CE {fmt(atm.cePremium)} + PE {fmt(atm.pePremium)} — strike {atm.atmStrike}</div>
+          </> : <Empty/>}
+        </Card>
+        <Card title="PCR & Sentiment">
+          {pcr ? <>
+            <div style={{fontSize:20, fontWeight:800, color: pcr.pcrOi>1?'#00e6a0':'#ff3b4a'}}>{fmt(pcr.pcrOi,3)}</div>
+            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>Vol PCR {fmt(pcr.pcrVol,3)} · <span style={{color: pcr.sentiment==='bullish'?'#00e6a0': pcr.sentiment==='bearish'?'#ff3b4a':'#8ea0b8', fontWeight:700, textTransform:'capitalize'}}>{pcr.sentiment}</span></div>
+          </> : <Empty/>}
+        </Card>
+        <Card title="Max Pain & Dealer Gamma">
+          {oi ? <>
+            <div style={{fontSize:20, fontWeight:800, color:'#ffb020'}}>{fmtInt(oi.maxPain)}</div>
+            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>GEX {fmtInt(oi.totalGex)} · {oi.dealerPositioning}</div>
+          </> : <Empty/>}
+        </Card>
+        <Card title="IV vs HV">
+          {ivhv ? <>
+            <div style={{fontSize:16, fontWeight:800}}>{fmt(ivhv.iv)}% <span style={{fontSize:11, color:'#8ea0b8', fontWeight:500}}>IV</span></div>
+            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>{ivhv.hv!=null ? `HV ${fmt(ivhv.hv)}% · spread ${fmt(ivhv.ivMinusHv)}%` : 'HV needs ingested history'}</div>
+          </> : <Empty/>}
+        </Card>
+        <Card title="India VIX">
+          {vix?.vix!=null ? <>
+            <div style={{fontSize:20, fontWeight:800}}>{fmt(vix.vix)}</div>
+            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>Source: {vix.source}</div>
+          </> : <Empty label="VIX unavailable (NSE unreachable)"/>}
+        </Card>
+      </div>
+
+      <Card title="Open Interest — Weekly / Monthly Profile">
+        <Suspense fallback={<div style={{height:320,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}>
+          <OpenInterestChart theme={theme} />
+        </Suspense>
+      </Card>
+
+      <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:10}}>
+        <Card title="IV Skew — Calls vs Puts by Strike" height={320}>
+          {skewData.length ? (
+            <ResponsiveContainer width="100%" height={260}>
+              <LineChart data={skewData} margin={{top:4,right:16,bottom:4,left:0}}>
+                <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+                <XAxis dataKey="strike" tick={{fill:axisColor,fontSize:10}} stroke={gridColor} />
+                <YAxis tick={{fill:axisColor,fontSize:10}} stroke={gridColor} unit="%" />
+                <Tooltip contentStyle={{background: isDark?'#0f1a24':'#fff', border:'1px solid rgba(255,255,255,0.1)', borderRadius:8, fontSize:11}} />
+                <Legend wrapperStyle={{fontSize:11}} />
+                <Line type="monotone" dataKey="ceIv" name="Call IV" stroke="#00e6a0" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="peIv" name="Put IV" stroke="#ff3b4a" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ResponsiveContainer>
+          ) : <Empty/>}
+        </Card>
+        <Card title="Net OI Change by Strike (where flow is building now)" height={320}>
+          {oiChangeData.length ? (
+            <ResponsiveContainer width="100%" height={260}>
+              <BarChart data={oiChangeData} margin={{top:4,right:16,bottom:4,left:0}}>
+                <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+                <XAxis dataKey="strike" tick={{fill:axisColor,fontSize:10}} stroke={gridColor} />
+                <YAxis tick={{fill:axisColor,fontSize:10}} stroke={gridColor} tickFormatter={fmtInt} />
+                <Tooltip contentStyle={{background: isDark?'#0f1a24':'#fff', border:'1px solid rgba(255,255,255,0.1)', borderRadius:8, fontSize:11}} formatter={(v)=>[fmtInt(v),'Net OI (Put − Call)']} />
+                <ReferenceLine y={0} stroke={axisColor} />
+                <Bar dataKey="netOi">
+                  {oiChangeData.map((d,i)=> <Cell key={i} fill={d.netOi>=0 ? '#ff3b4a' : '#00e6a0'} />)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          ) : <Empty/>}
+        </Card>
+      </div>
+
+      <Card title="Unusual Activity">
+        {unusual?.unusual?.length ? (
+          <div style={{display:'flex', flexDirection:'column', gap:4}}>
+            {unusual.unusual.map(u=> (
+              <div key={`${u.strike}${u.side}`} style={{display:'flex', justifyContent:'space-between', fontSize:11, padding:'6px 0', borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                <span><b>{u.strike} {u.side}</b> <span style={{color:'#8ea0b8'}}>{u.type}</span></span>
+                <span style={{color:'#8ea0b8'}}>{u.score ? `×${fmt(u.score)} avg` : ''} {u.oiChange!=null ? `OI ${fmtInt(u.oiChange)}` : ''}</span>
+              </div>
+            ))}
+          </div>
+        ) : <Empty label="No unusual flow detected"/>}
+      </Card>
+    </div>
+  )
+}

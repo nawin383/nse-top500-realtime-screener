@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useMemo, useCallback, Suspense, lazy } from 'react'
-import { motion } from 'framer-motion'
 import Header from './components/Header.jsx'
 import MarketOverview from './components/MarketOverview.jsx'
 import StockTable from './components/StockTable.jsx'
@@ -10,18 +9,13 @@ import LoginManager from './components/auth/LoginManager.jsx'
 import { useWebSocket } from './hooks/useWebSocket.js'
 import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.js'
 import { useStore } from './store/useStore.js'
-import { DashboardLayouts, LayoutSwitcher, BentoGrid, BentoCard } from './components/layouts/DashboardLayouts.jsx'
+import { LayoutSwitcher } from './components/layouts/DashboardLayouts.jsx'
 
 const OptionsChain = lazy(()=> import('./components/OptionsChain.jsx'))
 const OpenInterestChart = lazy(()=> import('./components/OpenInterestChart.jsx'))
 const InstitutionalOptions = lazy(()=> import('./components/InstitutionalOptions.jsx'))
 const AgileInstitutional = lazy(()=> import('./components/AgileInstitutional.jsx'))
-const TickerTape = lazy(()=> import('./components/tradingview/TradingViewWidgets.jsx').then(m=>({default:m.TickerTape})))
-const AdvancedChart = lazy(()=> import('./components/tradingview/TradingViewWidgets.jsx').then(m=>({default:m.AdvancedChart})))
-const MarketOverviewTV = lazy(()=> import('./components/tradingview/TradingViewWidgets.jsx').then(m=>({default:m.MarketOverviewTV})))
-const ScreenerTV = lazy(()=> import('./components/tradingview/TradingViewWidgets.jsx').then(m=>({default:m.ScreenerTV})))
-const EconomicCalendar = lazy(()=> import('./components/tradingview/TradingViewWidgets.jsx').then(m=>({default:m.EconomicCalendar})))
-const Heatmap = lazy(()=> import('./components/tradingview/TradingViewWidgets.jsx').then(m=>({default:m.Heatmap})))
+const OptionsInsights = lazy(()=> import('./components/OptionsInsights.jsx'))
 
 
 export default function App(){
@@ -88,12 +82,10 @@ export default function App(){
   const liveSelectedState=selected?stocksMap[selected]:null
   const isClosed=marketStatus && !marketStatus.is_open
   const nextOpen=marketStatus?.next_open? new Date(marketStatus.next_open).toLocaleString('en-IN',{weekday:'short',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Kolkata'})+' IST':'09:15 IST'
-  const chartSymbol = selected ? `NSE:${selected}` : 'NSE:RELIANCE'
 
   return (
     <div className="app">
       <a href="#main-content" className="skip-link">Skip to content</a>
-      <Suspense fallback={<div style={{height:46, background:'rgba(255,255,255,0.04)'}}/>}><TickerTape symbols={undefined} colorTheme={theme} /></Suspense>
       <Header marketStatus={marketStatus} connectionStatus={wsStatus} lastUpdate={lastUpdate} dataMode={dataMode} />
       <div style={{display:'flex', gap:8, padding:'4px 20px', background:'rgba(15,20,28,0.7)', borderBottom:'1px solid rgba(255,255,255,0.06)', alignItems:'center', flexWrap:'wrap'}}>
         <div style={{display:'flex', gap:6, alignItems:'center', fontSize:11, color:'#8ea0b8'}}><span style={{width:6,height:6,borderRadius:999, background: wsStatus==='open'?'#00e6a0':'#ff3b4a'}}/> {allStocks.length} symbols</div>
@@ -110,7 +102,7 @@ export default function App(){
         </div>
       )}
       <div style={{display:'flex', gap:6, padding:'6px 20px', background:'rgba(15,20,28,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', alignItems:'center'}}>
-        {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'options',label:'Options',icon:'⛓'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
+        {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'options',label:'Options',icon:'⛓'},{k:'insights',label:'Options Insights',icon:'📊'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
           <button key={v.k} aria-label={`Switch to ${v.label} view`} aria-pressed={view===v.k} className={`btn ${view===v.k?'active':''}`} onClick={()=> setView(v.k)} style={{borderRadius:8, fontWeight:700, fontSize:12}}><span aria-hidden="true">{v.icon}</span> {v.label} {v.count!=null&&view==='screener'?<span style={{background:view===v.k?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{v.count}</span>:null}</button>
         ))}
         {view==='screener' && (
@@ -134,6 +126,7 @@ export default function App(){
             </div>
             <OptionsChain/>
           </div>
+          :view==='insights'?<div style={{flex:1}}><OptionsInsights theme={theme} /></div>
           :view==='institutional'?<div style={{flex:1}}><InstitutionalOptions/></div>
           :view==='agile'?<div style={{flex:1}}><AgileInstitutional/></div>
           :(<>
@@ -141,17 +134,11 @@ export default function App(){
               <section aria-labelledby="pulse-heading">
                 <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#00e6a0,#2f8bff)',borderRadius:999}}/> Market Pulse</h2>
                 <MarketOverview data={overview} />
-                <div style={{marginTop:12}}>
-                  <BentoGrid>
-                    <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>TradingView Overview</h3><Suspense fallback={<div style={{height:120,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><MarketOverviewTV theme={theme} height={360} /></Suspense></div>
-                    <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>Heatmap</h3><Suspense fallback={<div style={{height:120,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><Heatmap theme={theme} height={360} /></Suspense></div>
-                  </BentoGrid>
-                </div>
               </section>
 
-              <section aria-labelledby="watchlist-heading" style={{display:'grid', gridTemplateColumns:'360px 1fr', gap:14}}>
-                <div><h2 id="watchlist-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Watchlist</h2><WatchlistManager onSelect={handleSelect} /></div>
-                <div><h2 style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Chart — {chartSymbol}</h2><BentoCard delay={1}><Suspense fallback={<div style={{height:300,display:'grid',placeItems:'center',color:'#5b728c'}}>Loading chart…</div>}><AdvancedChart symbol={chartSymbol} theme={theme} height={380} /></Suspense></BentoCard></div>
+              <section aria-labelledby="watchlist-heading">
+                <h2 id="watchlist-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Watchlist</h2>
+                <WatchlistManager onSelect={handleSelect} />
               </section>
             </>)}
 
@@ -178,16 +165,6 @@ export default function App(){
               </div>
             </section>
 
-            {showDashboard && (<>
-              <section aria-labelledby="calendar-heading">
-                <h2 id="calendar-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10, display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#ffb020,#ff8a00)',borderRadius:999}}/> News & Calendar — Screener</h2>
-                <BentoGrid>
-                  <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>Economic Calendar</h3><Suspense fallback={<div style={{height:200,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><EconomicCalendar theme={theme} height={400} /></Suspense></div>
-                  <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>TradingView Screener</h3><Suspense fallback={<div style={{height:200,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><ScreenerTV theme={theme} height={400} /></Suspense></div>
-                </BentoGrid>
-              </section>
-              <div style={{height:12}} />
-            </>)}
           </>)}
         </Suspense>
       </div>

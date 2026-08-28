@@ -33,27 +33,44 @@ export default function InstitutionalOptions(){
   const [misprice, setMisprice] = useState(null)
   const [ivhv, setIvhv] = useState(null)
 
+  const [loadError, setLoadError] = useState(null)
+
+  // A failed/unavailable endpoint returns {detail:"..."} (or throws on a network
+  // error) instead of the expected shape -- never let one bad card's data crash
+  // the whole page. Each fetch resolves to null on failure so the JSX below only
+  // has to handle "no data yet" per card, same pattern as OptionsChain.jsx.
+  const safeFetch = async (url)=>{
+    try{
+      const r = await fetch(url)
+      const j = await r.json()
+      if(!r.ok || j?.detail) return null
+      return j
+    }catch{ return null }
+  }
+
   const fetchAll = async ()=>{
     try{
       const base = `${apiBase}/api/options`
+      const q = expiry?`&expiry=${expiry}`:''
       const [ts, a, v, g, iv, pc, o, u, t, sc, cr, mg, mp] = await Promise.all([
-        fetch(`${base}/tshape?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}&window=10`).then(r=>r.json()),
-        fetch(`${base}/atm-premium?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/vol-surface?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/greeks-dashboard?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/iv-hv?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/pcr?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/oi-analysis?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/unusual?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/term-structure?symbol=${symbol}`).then(r=>r.json()),
-        fetch(`${base}/scenario?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/correlation`).then(r=>r.json()),
-        fetch(`${base}/margin-risk?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
-        fetch(`${base}/mispricing?symbol=${symbol}${expiry?`&expiry=${expiry}`:''}`).then(r=>r.json()),
+        safeFetch(`${base}/tshape?symbol=${symbol}${q}&window=10`),
+        safeFetch(`${base}/atm-premium?symbol=${symbol}${q}`),
+        safeFetch(`${base}/vol-surface?symbol=${symbol}${q}`),
+        safeFetch(`${base}/greeks-dashboard?symbol=${symbol}${q}`),
+        safeFetch(`${base}/iv-hv?symbol=${symbol}${q}`),
+        safeFetch(`${base}/pcr?symbol=${symbol}${q}`),
+        safeFetch(`${base}/oi-analysis?symbol=${symbol}${q}`),
+        safeFetch(`${base}/unusual?symbol=${symbol}${q}`),
+        safeFetch(`${base}/term-structure?symbol=${symbol}`),
+        safeFetch(`${base}/scenario?symbol=${symbol}${q}`),
+        safeFetch(`${base}/correlation`),
+        safeFetch(`${base}/margin-risk?symbol=${symbol}${q}`),
+        safeFetch(`${base}/mispricing?symbol=${symbol}${q}`),
       ])
-      setTshape(ts); if(ts.expiries) setExpiries(ts.expiries); setAtm(a); setVol(v); setGreeks(g); setIvhv(iv); setPcr(pc); setOi(o); setUnusual(u); setTerm(t); setScenario(sc); setCorr(cr); setMargin(mg); setMisprice(mp)
-      if(!expiry && ts.expiry) setExpiry(ts.expiry)
-    }catch(e){ console.error(e)}
+      setTshape(ts); if(ts?.expiries) setExpiries(ts.expiries); setAtm(a); setVol(v); setGreeks(g); setIvhv(iv); setPcr(pc); setOi(o); setUnusual(u); setTerm(t); setScenario(sc); setCorr(cr); setMargin(mg); setMisprice(mp)
+      if(!expiry && ts?.expiry) setExpiry(ts.expiry)
+      setLoadError(ts ? null : 'No live data available for this symbol/expiry right now.')
+    }catch(e){ console.error(e); setLoadError('Failed to load options data.') }
   }
   useEffect(()=>{ fetchAll() }, [symbol, expiry])
   useEffect(()=>{ // fetch expiries on symbol change
@@ -61,7 +78,7 @@ export default function InstitutionalOptions(){
   }, [symbol])
   useEffect(()=>{
     // VIX
-    fetch(`${apiBase}/api/options/vix`).then(r=>r.json()).then(setVix).catch(()=>{})
+    safeFetch(`${apiBase}/api/options/vix`).then(setVix)
     const id=setInterval(fetchAll, 15000)
     return ()=> clearInterval(id)
   }, [symbol, expiry])
@@ -75,6 +92,8 @@ export default function InstitutionalOptions(){
         <span style={{fontSize:11, color:'#8b9bb4'}}>Spot <b style={{color:'#e6eef8'}}>{tshape?.spot}</b> ATM <b style={{color:'#f6c343'}}>{tshape?.atmStrike}</b> Src {tshape?.source}</span>
         <button className="btn sm" onClick={fetchAll}>↻ Refresh</button>
       </div>
+
+      {loadError && <div style={{color:'#8b9bb4', padding:'10px 12px', marginBottom:12, background:'#13181e', border:'1px solid #232d38', borderRadius:8, fontSize:12}}>{loadError}</div>}
 
       {/* Top analytics row */}
       <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px,1fr))', gap:8, marginBottom:12}}>
