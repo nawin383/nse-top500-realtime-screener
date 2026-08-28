@@ -16,6 +16,7 @@ const OpenInterestChart = lazy(()=> import('./components/OpenInterestChart.jsx')
 const InstitutionalOptions = lazy(()=> import('./components/InstitutionalOptions.jsx'))
 const AgileInstitutional = lazy(()=> import('./components/AgileInstitutional.jsx'))
 const OptionsInsights = lazy(()=> import('./components/OptionsInsights.jsx'))
+const IntradaySignals = lazy(()=> import('./components/IntradaySignals.jsx'))
 
 
 export default function App(){
@@ -114,7 +115,7 @@ export default function App(){
         </div>
       )}
       <div style={{display:'flex', gap:6, padding:'6px 20px', background:'rgba(13,27,42,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', alignItems:'center'}}>
-        {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'options',label:'Options',icon:'⛓'},{k:'insights',label:'Options Insights',icon:'📊'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
+        {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'intraday',label:'Intraday Signals',icon:'🎯'},{k:'options',label:'Options',icon:'⛓'},{k:'insights',label:'Options Insights',icon:'📊'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
           <button key={v.k} aria-label={`Switch to ${v.label} view`} aria-pressed={view===v.k} className={`btn ${view===v.k?'active':''}`} onClick={()=> setView(v.k)} style={{borderRadius:8, fontWeight:700, fontSize:12}}><span aria-hidden="true">{v.icon}</span> {v.label} {v.count!=null&&view==='screener'?<span style={{background:view===v.k?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{v.count}</span>:null}</button>
         ))}
         {view==='screener' && (
@@ -138,6 +139,7 @@ export default function App(){
             </div>
             <OptionsChain/>
           </div>
+          :view==='intraday'?<div style={{flex:1, overflow:'auto'}}><IntradaySignals /></div>
           :view==='insights'?<div style={{flex:1}}><OptionsInsights theme={theme} /></div>
           :view==='institutional'?<div style={{flex:1}}><InstitutionalOptions/></div>
           :view==='agile'?<div style={{flex:1}}><AgileInstitutional/></div>

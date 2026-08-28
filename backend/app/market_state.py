@@ -20,6 +20,7 @@ from .candle_engine import CandleEngine
 from .indicators import ema_series, rsi, atr, macd, bollinger, adx, vwap_bands, macd_cross_signal, rsi_divergence
 from .indicators_advanced import calculate_supertrend
 from .breaker import BreakerEngine
+from .intraday_strategies import STRATEGIES, StrategyTracker
 from .scoring import score_stock
 from .utils.freshness import compute_freshness
 try:
@@ -45,12 +46,18 @@ class MarketState:
         self._cum_vol: Dict[str, int] = {}
         self._prev_close_map: Dict[str, float] = {}
         self._opening_range: Dict[str, Dict] = {}  # first 15m/30m high/low
+        self._real_open_set: set = set()  # symbols whose state.open came from a genuine tick today,
+        # as opposed to the flat prev_close placeholder _init_universe uses when the server boots
+        # with the market closed -- without this, on_tick's old `if state.open is None` guard would
+        # never fire again (the placeholder is already non-None), so gap_pct would silently stay ~0
+        # forever in production, since the server almost never boots during exact live market hours.
         self._first_tick_time: Optional[datetime] = None
         self._last_data_received: Optional[datetime] = None
         self._last_candle_count: Dict[str, int] = {}
         self._tick_counter: Dict[str, int] = {}
         self._rsi_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
         self.breaker_engine = BreakerEngine()
+        self.strategy_tracker = StrategyTracker()
         self._init_universe(universe)
 
     def get_breaker_signals(self, min_score: float = 0.0, statuses: Optional[List[str]] = None):
@@ -67,6 +74,35 @@ class MarketState:
                 out.append(sig)
         out.sort(key=lambda s: s.score, reverse=True)
         return out
+
+    def get_intraday_signals(self):
+        """Evaluate all 5 intraday strategies against every symbol's current
+        state, forward-track any newly triggered ones, and return
+        {strategy: {signals: [...], hit_rate: {...}}}."""
+        by_strategy: Dict[str, list] = {name: [] for name in STRATEGIES}
+        by_strategy["vwap_pullback"] = []
+        all_signals = []
+        for sym, state in self.states.items():
+            for name, fn in STRATEGIES.items():
+                sig = fn(state)
+                if sig:
+                    by_strategy[name].append(sig)
+                    all_signals.append(sig)
+            sig5 = self.strategy_tracker.vwap_pullback(state)
+            if sig5:
+                by_strategy["vwap_pullback"].append(sig5)
+                all_signals.append(sig5)
+        self.strategy_tracker.register_and_update(all_signals, self.states)
+        result = {}
+        for name, sigs in by_strategy.items():
+            triggered = [s for s in sigs if s.status == "TRIGGERED"]
+            watching = [s for s in sigs if s.status in ("WATCHING", "WEAK")]
+            result[name] = {
+                "triggered": [s.__dict__ for s in triggered],
+                "watching_count": len(watching),
+                "hit_rate": self.strategy_tracker.hit_rate(name),
+            }
+        return result
 
     def _init_universe(self, universe: List[Dict[str, Any]]):
         # check if market is currently closed to pre-populate last trading day
@@ -221,8 +257,9 @@ class MarketState:
         prev_state = copy.deepcopy(state)
 
         # update OHLCV
-        if state.open is None:
+        if sym not in self._real_open_set:
             state.open = tick.open if tick.open is not None else tick.ltp
+            self._real_open_set.add(sym)
         state.ltp = tick.ltp
         state.last_quantity = tick.last_quantity
         state.volume = tick.volume or state.volume
@@ -619,6 +656,8 @@ class MarketState:
         self._opening_range.clear()
         self._rsi_history.clear()
         self.breaker_engine.reset_day()
+        self.strategy_tracker.reset_day()
+        self._real_open_set.clear()
         for s in self.states.values():
             s.open = None
             s.high = None
