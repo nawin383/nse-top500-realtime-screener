@@ -10,12 +10,14 @@ import { useWebSocket } from './hooks/useWebSocket.js'
 import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.js'
 import { useStore } from './store/useStore.js'
 import { LayoutSwitcher } from './components/layouts/DashboardLayouts.jsx'
+import FilterBuilder, { matches as matchesAdvancedFilter } from './components/FilterBuilder.jsx'
 
 const OptionsChain = lazy(()=> import('./components/OptionsChain.jsx'))
 const OpenInterestChart = lazy(()=> import('./components/OpenInterestChart.jsx'))
 const InstitutionalOptions = lazy(()=> import('./components/InstitutionalOptions.jsx'))
 const AgileInstitutional = lazy(()=> import('./components/AgileInstitutional.jsx'))
 const OptionsInsights = lazy(()=> import('./components/OptionsInsights.jsx'))
+const IntradaySignals = lazy(()=> import('./components/IntradaySignals.jsx'))
 
 
 export default function App(){
@@ -28,6 +30,8 @@ export default function App(){
   const [search,setSearch]=useState('')
   const [sectorFilter,setSectorFilter]=useState('')
   const [filters,setFilters]=useState({})
+  const [advancedConds,setAdvancedConds]=useState([])
+  const [showAdvancedFilters,setShowAdvancedFilters]=useState(false)
   const [sortBy,setSortBy]=useState('score')
   const [sortDir,setSortDir]=useState('desc')
   const [alerts,setAlerts]=useState([])
@@ -41,7 +45,20 @@ export default function App(){
   useEffect(()=>{ try{localStorage.setItem('show_dashboard', showDashboard?'1':'0')}catch{} },[showDashboard])
   useEffect(()=>{ try{localStorage.setItem('row_density',density)}catch{} },[density])
 
-  const normalizeStock=(s)=>({ ...s, changePercent:s.changePercent??s.change_pct??s.changePct, relVolume:s.relVolume??s.rel_volume, companyName:s.companyName??s.company, isAboveVwap:s.isAboveVwap??s.is_above_vwap, volumeSpike:s.volumeSpike??s.volume_spike, isBreakout:s.isBreakout??s.momentum?.breakout, isBreakdown:s.isBreakdown??s.momentum?.breakdown, momentum5m:s.momentum5m??s.momentum?.ret_5m, gapPercent:s.gapPercent??s.gap_pct, vwap:s.vwap??s.indicators?.vwap, rsi:s.rsi??s.indicators?.rsi, ema9:s.ema9??s.indicators?.ema9, ema20:s.ema20??s.indicators?.ema20, synthetic:s.synthetic??s.freshness==='CLOSED' })
+  const normalizeStock=(s)=>({ ...s, changePercent:s.changePercent??s.change_pct??s.changePct, relVolume:s.relVolume??s.rel_volume, companyName:s.companyName??s.company, isAboveVwap:s.isAboveVwap??s.is_above_vwap, volumeSpike:s.volumeSpike??s.volume_spike, isBreakout:s.isBreakout??s.momentum?.breakout, isBreakdown:s.isBreakdown??s.momentum?.breakdown, momentum5m:s.momentum5m??s.momentum?.ret_5m, gapPercent:s.gapPercent??s.gap_pct, vwap:s.vwap??s.indicators?.vwap, rsi:s.rsi??s.indicators?.rsi, ema9:s.ema9??s.indicators?.ema9, ema20:s.ema20??s.indicators?.ema20, synthetic:s.synthetic??s.freshness==='CLOSED',
+    vwapUpper1:s.vwapUpper1??s.indicators?.vwap_upper1, vwapLower1:s.vwapLower1??s.indicators?.vwap_lower1,
+    vwapUpper2:s.vwapUpper2??s.indicators?.vwap_upper2, vwapLower2:s.vwapLower2??s.indicators?.vwap_lower2,
+    adx:s.adx??s.indicators?.adx, diPlus:s.diPlus??s.indicators?.di_plus, diMinus:s.diMinus??s.indicators?.di_minus,
+    atr:s.atr??s.indicators?.atr, macd:s.macd??s.indicators?.macd, macdSignal:s.macdSignal??s.indicators?.macd_signal,
+    macdHist:s.macdHist??s.indicators?.macd_hist, macdCross:s.macdCross??s.indicators?.macd_cross,
+    bbUpper:s.bbUpper??s.indicators?.bb_upper, bbLower:s.bbLower??s.indicators?.bb_lower, bbMiddle:s.bbMiddle??s.indicators?.bb_middle, bbWidthPct:s.bbWidthPct??s.indicators?.bb_width_pct,
+    supertrend:s.supertrend??s.indicators?.supertrend, supertrendDirection:s.supertrendDirection??s.indicators?.supertrend_direction, supertrendSignal:s.supertrendSignal??s.indicators?.supertrend_signal,
+    rsiDivergence:s.rsiDivergence??s.indicators?.rsi_divergence,
+    previousDayHigh:s.previousDayHigh??s.previous_day_high, previousDayLow:s.previousDayLow??s.previous_day_low,
+    or15High:s.or15High??s.momentum?.or15_high, or15Low:s.or15Low??s.momentum?.or15_low,
+    or30High:s.or30High??s.momentum?.or30_high, or30Low:s.or30Low??s.momentum?.or30_low,
+    oi:s.oi, oiChangePct:s.oiChangePct??s.oi_change_pct, oiBuildup:s.oiBuildup??s.oi_buildup,
+  })
 
   useEffect(()=>{
     const normOv=(d)=>{ if(!d) return null; const na=(a)=>(a||[]).map(x=>({...x,changePercent:x.changePercent??x.change_pct, relVolume:x.relVolume??x.rel_volume})); return {...d, advancing:d.advancing, declining:d.declining, unchanged:d.unchanged, aboveVWAP:d.above_vwap??d.aboveVWAP, belowVWAP:d.below_vwap??d.belowVWAP, breakouts:d.breakouts??d.breakouts_count, breakdowns:d.breakdowns??d.breakdowns_count, topGainers:na(d.top_gainers??d.topGainers), topLosers:na(d.top_losers??d.topLosers), highestVolume:na(d.highest_volume??d.highestVolume), marketStatus:d.marketStatus??{status:d.status,is_open:d.is_live??d.is_open}, total:d.total??500 } }
@@ -72,10 +89,11 @@ export default function App(){
     if(filters.breakout) res=res.filter(s=>s.isBreakout)
     if(filters.breakdown) res=res.filter(s=>s.isBreakdown)
     if(filters.highMomentum) res=res.filter(s=>Math.abs(s.momentum5m??0)>1)
+    if(advancedConds.length) res=res.filter(s=> matchesAdvancedFilter(s, advancedConds))
     const dir=sortDir==='asc'?1:-1
     res=[...res].sort((a,b)=>{ let av=a[sortBy],bv=b[sortBy]; if(av==null) av=sortDir==='asc'?Infinity:-Infinity; if(bv==null) bv=sortDir==='asc'?Infinity:-Infinity; if(typeof av==='string') return av.localeCompare(bv)*dir; return (av-bv)*dir })
     return res
-  },[allStocks,search,sectorFilter,filters,sortBy,sortDir])
+  },[allStocks,search,sectorFilter,filters,advancedConds,sortBy,sortDir])
 
   const handleSelect=(sym)=>{ setSelected(sym); setShowDetail(true) }
   const toggleFilter=(key)=> setFilters(prev=>({...prev,[key]:!prev[key]}))
@@ -102,7 +120,7 @@ export default function App(){
         </div>
       )}
       <div style={{display:'flex', gap:6, padding:'6px 20px', background:'rgba(13,27,42,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', alignItems:'center'}}>
-        {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'options',label:'Options',icon:'⛓'},{k:'insights',label:'Options Insights',icon:'📊'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
+        {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'intraday',label:'Intraday Signals',icon:'🎯'},{k:'options',label:'Options',icon:'⛓'},{k:'insights',label:'Options Insights',icon:'📊'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
           <button key={v.k} aria-label={`Switch to ${v.label} view`} aria-pressed={view===v.k} className={`btn ${view===v.k?'active':''}`} onClick={()=> setView(v.k)} style={{borderRadius:8, fontWeight:700, fontSize:12}}><span aria-hidden="true">{v.icon}</span> {v.label} {v.count!=null&&view==='screener'?<span style={{background:view===v.k?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{v.count}</span>:null}</button>
         ))}
         {view==='screener' && (
@@ -126,6 +144,7 @@ export default function App(){
             </div>
             <OptionsChain/>
           </div>
+          :view==='intraday'?<div style={{flex:1, overflow:'auto'}}><IntradaySignals /></div>
           :view==='insights'?<div style={{flex:1}}><OptionsInsights theme={theme} /></div>
           :view==='institutional'?<div style={{flex:1}}><InstitutionalOptions/></div>
           :view==='agile'?<div style={{flex:1}}><AgileInstitutional/></div>
@@ -154,8 +173,10 @@ export default function App(){
                   <button aria-pressed={!!filters.volumeSpike} className={`chip ${filters.volumeSpike?'active':''}`} onClick={()=> toggleFilter('volumeSpike')} aria-label="Filter volume spike">Vol Spike</button>
                   <button aria-pressed={!!filters.breakout} className={`chip ${filters.breakout?'active':''}`} onClick={()=> toggleFilter('breakout')} aria-label="Filter breakout">Breakout</button>
                   <button className="chip" onClick={()=> setFilters({})} aria-label="Clear filters" style={{background:'rgba(37,99,235,0.08)',borderColor:'rgba(37,99,235,0.2)',color:'#2563eb'}}>Clear</button>
+                  <button className={`chip ${showAdvancedFilters||advancedConds.length?'active':''}`} onClick={()=>setShowAdvancedFilters(v=>!v)} aria-label="Toggle advanced filter builder">⚙ Advanced{advancedConds.length?` (${advancedConds.length})`:''}</button>
                   {!showDashboard && <span style={{marginLeft:'auto', fontSize:11, color:'#94a3b8', alignSelf:'center'}}>{filtered.length} results</span>}
                 </div>
+                {showAdvancedFilters && <div style={{marginTop:8}}><FilterBuilder onApply={setAdvancedConds} sectors={sectors} /></div>}
               </div>
               <div className="main" style={{padding:0, flex:1, minHeight:0}}>
                 <div className="table-wrap" style={{flex:1}}><StockTable stocks={filtered} onSelect={handleSelect} selectedSymbol={selected} sortBy={sortBy} sortDir={sortDir} onSort={(k,dir)=>{setSortBy(k); setSortDir(dir)}} density={density} />

@@ -4,6 +4,7 @@ Preserves efficient incremental calculations, handles stale, duplicate, missing.
 from __future__ import annotations
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
+from collections import deque, defaultdict
 import logging
 import copy
 
@@ -16,7 +17,10 @@ except ImportError:
 
 from .models import MarketTick, StockState, Candle
 from .candle_engine import CandleEngine
-from .indicators import ema_series, rsi, atr, macd, bollinger, adx
+from .indicators import ema_series, rsi, atr, macd, bollinger, adx, vwap_bands, macd_cross_signal, rsi_divergence, classify_oi_buildup
+from .indicators_advanced import calculate_supertrend
+from .breaker import BreakerEngine
+from .intraday_strategies import STRATEGIES, StrategyTracker
 from .scoring import score_stock
 from .utils.freshness import compute_freshness
 try:
@@ -38,14 +42,68 @@ class MarketState:
         # per-symbol tick history for candle-based indicators (closing prices per 1m)
         # also store VWAP cumulative
         self._cum_pv: Dict[str, float] = {}
+        self._cum_pv2: Dict[str, float] = {}  # cumulative volume*price^2, for VWAP bands
         self._cum_vol: Dict[str, int] = {}
         self._prev_close_map: Dict[str, float] = {}
-        self._opening_range: Dict[str, Dict] = {}  # first 15m high/low
+        self._prev_oi_map: Dict[str, int] = {}  # first-seen OI per symbol today, used as the buildup baseline
+        self._opening_range: Dict[str, Dict] = {}  # first 15m/30m high/low
+        self._real_open_set: set = set()  # symbols whose state.open came from a genuine tick today,
+        # as opposed to the flat prev_close placeholder _init_universe uses when the server boots
+        # with the market closed -- without this, on_tick's old `if state.open is None` guard would
+        # never fire again (the placeholder is already non-None), so gap_pct would silently stay ~0
+        # forever in production, since the server almost never boots during exact live market hours.
         self._first_tick_time: Optional[datetime] = None
         self._last_data_received: Optional[datetime] = None
         self._last_candle_count: Dict[str, int] = {}
         self._tick_counter: Dict[str, int] = {}
+        self._rsi_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
+        self.breaker_engine = BreakerEngine()
+        self.strategy_tracker = StrategyTracker()
         self._init_universe(universe)
+
+    def get_breaker_signals(self, min_score: float = 0.0, statuses: Optional[List[str]] = None):
+        """Evaluate the OHLC Breaker breakout module against every symbol's
+        current live state. Computed on demand (not cached) since it's cheap
+        relative to a full ranking pass and the retest-hold state machine
+        lives inside self.breaker_engine, persisting across calls."""
+        statuses = statuses or ["WEAK_BREAK", "PENDING_RETEST", "CONFIRMED", "FAILED"]
+        out = []
+        for sym, state in self.states.items():
+            candles = self.candle_engine.get_candles(sym, 1, limit=10)
+            sig = self.breaker_engine.evaluate(state, candles)
+            if sig and sig.direction and sig.status in statuses and sig.score >= min_score:
+                out.append(sig)
+        out.sort(key=lambda s: s.score, reverse=True)
+        return out
+
+    def get_intraday_signals(self):
+        """Evaluate all 5 intraday strategies against every symbol's current
+        state, forward-track any newly triggered ones, and return
+        {strategy: {signals: [...], hit_rate: {...}}}."""
+        by_strategy: Dict[str, list] = {name: [] for name in STRATEGIES}
+        by_strategy["vwap_pullback"] = []
+        all_signals = []
+        for sym, state in self.states.items():
+            for name, fn in STRATEGIES.items():
+                sig = fn(state)
+                if sig:
+                    by_strategy[name].append(sig)
+                    all_signals.append(sig)
+            sig5 = self.strategy_tracker.vwap_pullback(state)
+            if sig5:
+                by_strategy["vwap_pullback"].append(sig5)
+                all_signals.append(sig5)
+        self.strategy_tracker.register_and_update(all_signals, self.states)
+        result = {}
+        for name, sigs in by_strategy.items():
+            triggered = [s for s in sigs if s.status == "TRIGGERED"]
+            watching = [s for s in sigs if s.status in ("WATCHING", "WEAK")]
+            result[name] = {
+                "triggered": [s.__dict__ for s in triggered],
+                "watching_count": len(watching),
+                "hit_rate": self.strategy_tracker.hit_rate(name),
+            }
+        return result
 
     def _init_universe(self, universe: List[Dict[str, Any]]):
         # check if market is currently closed to pre-populate last trading day
@@ -96,6 +154,17 @@ class MarketState:
                     volume=0,
                     freshness="NO_DATA",
                 )
+            # Real previous-day high/low, if this symbol has ingested bhavcopy history
+            # (see historical/store.py, populated via GET /api/historical/bhavcopy) --
+            # left None rather than guessed when no history has been ingested yet.
+            try:
+                from .historical.store import get_history
+                hist = get_history(sym, days=2)
+                if hist:
+                    state.previous_day_high = hist[-1].get("high")
+                    state.previous_day_low = hist[-1].get("low")
+            except Exception:
+                pass
             self.states[sym] = state
         logger.info(f"MarketState initialized with {len(self.states)} symbols (is_live={_is_live})")
 
@@ -189,8 +258,9 @@ class MarketState:
         prev_state = copy.deepcopy(state)
 
         # update OHLCV
-        if state.open is None:
+        if sym not in self._real_open_set:
             state.open = tick.open if tick.open is not None else tick.ltp
+            self._real_open_set.add(sym)
         state.ltp = tick.ltp
         state.last_quantity = tick.last_quantity
         state.volume = tick.volume or state.volume
@@ -224,6 +294,21 @@ class MarketState:
             # gap %
             if state.open and state.previous_close:
                 state.gap_pct = (state.open - state.previous_close)/state.previous_close*100
+
+        # open interest (only present on F&O instrument ticks -- equity spot
+        # ticks carry no OI, so this stays null for the vast majority of the
+        # Top 500 universe, which is correct: OI-buildup is a derivatives
+        # concept, not fabricated for a cash-market symbol without one)
+        if tick.oi is not None:
+            state.oi = tick.oi
+            if sym not in self._prev_oi_map:
+                self._prev_oi_map[sym] = tick.oi
+            prev_oi = self._prev_oi_map.get(sym)
+            state.previous_day_oi = prev_oi
+            if prev_oi:
+                state.oi_change_pct = round((tick.oi - prev_oi) / prev_oi * 100, 2)
+                state.oi_buildup = classify_oi_buildup(state.change_pct, state.oi_change_pct)
+
         # distances
         if state.high and state.high !=0:
             state.distance_from_high_pct = (state.ltp - state.high)/state.high*100
@@ -246,15 +331,23 @@ class MarketState:
                 delta_vol = tick.volume
                 self._cum_vol[sym] = tick.volume
                 self._cum_pv[sym] = 0  # reset
+                self._cum_pv2[sym] = 0  # reset (VWAP band variance tracker)
         else:
             delta_vol = tick.last_quantity or 0
             self._cum_vol[sym] = self._cum_vol.get(sym,0) + delta_vol
 
         cum_pv = self._cum_pv.get(sym, 0) + tick.ltp * max(delta_vol,0)
         self._cum_pv[sym] = cum_pv
+        cum_pv2 = self._cum_pv2.get(sym, 0) + (tick.ltp**2) * max(delta_vol,0)
+        self._cum_pv2[sym] = cum_pv2
         cum_vol = self._cum_vol.get(sym, 0)
         if cum_vol > 0:
             state.indicators.vwap = cum_pv / cum_vol
+            bands = vwap_bands(state.indicators.vwap, cum_vol, cum_pv, cum_pv2)
+            state.indicators.vwap_upper1 = bands["upper1"]
+            state.indicators.vwap_lower1 = bands["lower1"]
+            state.indicators.vwap_upper2 = bands["upper2"]
+            state.indicators.vwap_lower2 = bands["lower2"]
 
         # rel volume: current vol / expected avg vol at this time of day, using a REAL
         # average daily volume (from history_warmer's Kite historical candles, or the
@@ -330,22 +423,38 @@ class MarketState:
             state.indicators.ema50 = ema50[-1]
         if len(closes) >= 15:
             state.indicators.rsi = rsi(closes, 14)
+            self._rsi_history[symbol].append(state.indicators.rsi)
+            state.indicators.rsi_divergence = rsi_divergence(closes, list(self._rsi_history[symbol]))
         if len(candles_1m) >= 15:
             dict_candles = [{"high":c.high,"low":c.low,"close":c.close} for c in candles_1m]
             state.indicators.atr = atr(dict_candles, 14)
         if len(closes) >= 35:
             m,s,h = macd(closes)
+            prev_hist = state.indicators.macd_hist
             state.indicators.macd = m
             state.indicators.macd_signal = s
             state.indicators.macd_hist = h
+            state.indicators.macd_cross = macd_cross_signal(prev_hist, h)
         if len(closes) >= 20:
             upper,mid,lower = bollinger(closes,20,2)
             state.indicators.bb_upper = upper
             state.indicators.bb_middle = mid
             state.indicators.bb_lower = lower
-        if len(candles_1m) >= 28:
+            state.indicators.bb_width_pct = round((upper-lower)/mid*100, 3) if mid else None
+        if len(candles_1m) >= 15:
             dict_candles = [{"high":c.high,"low":c.low,"close":c.close} for c in candles_1m]
-            state.indicators.adx = adx(dict_candles,14)
+            adx_val, plus_di, minus_di = adx(dict_candles, 14)
+            state.indicators.adx = adx_val
+            state.indicators.di_plus = plus_di
+            state.indicators.di_minus = minus_di
+        if len(candles_1m) >= 10:
+            highs = [c.high for c in candles_1m]
+            lows = [c.low for c in candles_1m]
+            st = calculate_supertrend(highs, lows, closes, period=10, multiplier=3.0)
+            if st:
+                state.indicators.supertrend = round(st.value, 2)
+                state.indicators.supertrend_direction = st.direction
+                state.indicators.supertrend_signal = st.signal
 
     def _update_momentum(self, symbol: str, now: datetime):
         state = self.states[symbol]
@@ -362,7 +471,8 @@ class MarketState:
                 if prev_close and prev_close !=0:
                     ret = (state.ltp - prev_close)/prev_close*100
                     setattr(state.momentum, attr, round(ret,3))
-        # opening range breakout
+        # opening range breakout (15-min range; 30-min exposed alongside for
+        # strategies/UI that want the wider window)
         ors = self._opening_range.get(symbol)
         if ors and state.ltp:
             if ors.get("high") and state.ltp > ors["high"]:
@@ -371,6 +481,10 @@ class MarketState:
                 state.momentum.day_low_breakdown = True  # reuse
             else:
                 state.momentum.opening_range_breakout = False
+            state.momentum.or15_high = ors.get("high15")
+            state.momentum.or15_low = ors.get("low15")
+            state.momentum.or30_high = ors.get("high30")
+            state.momentum.or30_low = ors.get("low30")
         # day high breakout
         if state.high and state.ltp >= state.high and state.high != state.previous_close:
             # breakout if ltp == high and vol spike maybe
@@ -395,17 +509,27 @@ class MarketState:
                 state.momentum.vwap_breakout = state.ltp > state.indicators.vwap
 
     def _update_opening_range(self, symbol: str, ts: datetime, ltp: float):
+        """Tracks both the 15-min and 30-min opening range in one pass (30-min
+        window is a superset of the 15-min one, both closed off at market_start
+        + N minutes; configurable windows beyond these two would need a list
+        instead of two hardcoded keys, not needed by anything using this yet)."""
         if ts.tzinfo is None:
             ts = ts.replace(tzinfo=IST)
         market_start = ts.replace(hour=9, minute=15, second=0, microsecond=0)
-        opening_end = market_start + timedelta(minutes=15)
-        if market_start <= ts <= opening_end:
-            entry = self._opening_range.get(symbol)
-            if entry is None:
-                self._opening_range[symbol] = {"high": ltp, "low": ltp}
-            else:
-                entry["high"] = max(entry["high"], ltp)
-                entry["low"] = min(entry["low"], ltp)
+        end15 = market_start + timedelta(minutes=15)
+        end30 = market_start + timedelta(minutes=30)
+        if not (market_start <= ts <= end30):
+            return
+        entry = self._opening_range.setdefault(symbol, {})
+        if ts <= end15:
+            entry["high15"] = max(entry.get("high15", ltp), ltp)
+            entry["low15"] = min(entry.get("low15", ltp), ltp)
+        entry["high30"] = max(entry.get("high30", ltp), ltp)
+        entry["low30"] = min(entry.get("low30", ltp), ltp)
+        # keep legacy keys ("high"/"low" == the 15-min range) for the existing
+        # opening_range_breakout flag logic in _update_momentum below
+        entry["high"] = entry.get("high15", entry.get("high30"))
+        entry["low"] = entry.get("low15", entry.get("low30"))
 
     def refresh_freshness(self):
         now = datetime.now(tz=IST)
@@ -543,8 +667,14 @@ class MarketState:
     def reset_day(self):
         self.candle_engine.reset_day()
         self._cum_pv.clear()
+        self._cum_pv2.clear()
         self._cum_vol.clear()
         self._opening_range.clear()
+        self._rsi_history.clear()
+        self.breaker_engine.reset_day()
+        self.strategy_tracker.reset_day()
+        self._real_open_set.clear()
+        self._prev_oi_map.clear()
         for s in self.states.values():
             s.open = None
             s.high = None
@@ -553,3 +683,7 @@ class MarketState:
             s.indicators = s.indicators.__class__()
             s.momentum = s.momentum.__class__()
             s.score = 0
+            s.oi = None
+            s.previous_day_oi = None
+            s.oi_change_pct = None
+            s.oi_buildup = None

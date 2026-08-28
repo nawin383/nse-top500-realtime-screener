@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 export default function MarketOverview({ data }){
+  // This panel refetches via its own REST poll (every 15s from App.jsx),
+  // independent of the WS tick stream the header's global "Last" clock
+  // reflects -- so it needs its own freshness timestamp, tracking when the
+  // `data` payload itself actually changed rather than just render time.
+  const [updatedAt, setUpdatedAt] = useState(null)
+  const prevRef = useRef(null)
+  useEffect(()=>{
+    if(data && JSON.stringify(data) !== prevRef.current){
+      prevRef.current = JSON.stringify(data)
+      setUpdatedAt(new Date())
+    }
+  }, [data])
+
   if(!data) return (
     <div className="overview">
       {[1,2,3,4,5,6].map(i=> <div key={i} className="ov-card" style={{height:86, background:'linear-gradient(135deg, rgba(22,35,58,0.6), rgba(13,27,42,0.4))', animation:`pulse 1.5s ease ${i*0.1}s infinite`}} />)}
@@ -32,6 +45,7 @@ export default function MarketOverview({ data }){
         <span style={{fontSize:10, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#2563eb'}}>Market Status</span>
         <span style={{fontSize:13, fontWeight:700, color:'#f1f5f9'}}>{data.marketStatus?.status || data.status || '—'} {data.marketStatus?.is_open ? '●' : '○'}</span>
         <span style={{fontSize:11, color:'#cbd5e1', marginLeft:'auto'}}>{data.total || 500} stocks • 09:15-15:30 IST</span>
+        <span style={{fontSize:10, color:'#64748b'}}>{updatedAt ? `overview as of ${updatedAt.toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'})}` : ''}</span>
       </div>
     </div>
   )

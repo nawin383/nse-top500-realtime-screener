@@ -29,6 +29,7 @@ from .api.options import router as options_router
 from .api.institutional import router as institutional_router
 from .api.watchlists import router as watchlists_router
 from .api.webhooks import router as webhooks_router
+from .api.signals import router as signals_router
 
 # Monitoring and metrics
 from .utils.metrics import setup_metrics
@@ -214,6 +215,7 @@ app.include_router(options_router, prefix="/api", tags=["options"])
 app.include_router(institutional_router, prefix="/api", tags=["institutional"])
 app.include_router(watchlists_router, prefix="/api", tags=["watchlists"])
 app.include_router(webhooks_router, prefix="/api", tags=["webhooks"])
+app.include_router(signals_router, prefix="/api", tags=["signals"])
 try:
     from .api.v1 import router as v1_router
     app.include_router(v1_router, prefix="/api/v1", tags=["v1"])
@@ -346,6 +348,19 @@ async def websocket_endpoint(ws: WebSocket):
                     "momentum5m": s.momentum.ret_5m,
                     "gapPercent": round(s.gap_pct,2) if s.gap_pct else None,
                     "rank": s.rank,
+                    "vwapUpper1": s.indicators.vwap_upper1, "vwapLower1": s.indicators.vwap_lower1,
+                    "vwapUpper2": s.indicators.vwap_upper2, "vwapLower2": s.indicators.vwap_lower2,
+                    "adx": s.indicators.adx, "diPlus": s.indicators.di_plus, "diMinus": s.indicators.di_minus,
+                    "atr": round(s.indicators.atr,2) if s.indicators.atr else None,
+                    "macd": round(s.indicators.macd,2) if s.indicators.macd else None,
+                    "macdSignal": s.indicators.macd_signal, "macdHist": s.indicators.macd_hist, "macdCross": s.indicators.macd_cross,
+                    "bbUpper": s.indicators.bb_upper, "bbLower": s.indicators.bb_lower, "bbMiddle": s.indicators.bb_middle, "bbWidthPct": s.indicators.bb_width_pct,
+                    "supertrend": s.indicators.supertrend, "supertrendDirection": s.indicators.supertrend_direction, "supertrendSignal": s.indicators.supertrend_signal,
+                    "rsiDivergence": s.indicators.rsi_divergence,
+                    "previousDayHigh": s.previous_day_high, "previousDayLow": s.previous_day_low,
+                    "or15High": s.momentum.or15_high, "or15Low": s.momentum.or15_low,
+                    "or30High": s.momentum.or30_high, "or30Low": s.momentum.or30_low,
+                    "oi": s.oi, "oiChangePct": s.oi_change_pct, "oiBuildup": s.oi_buildup,
                 })
             payload = {
                 "type": "snapshot",

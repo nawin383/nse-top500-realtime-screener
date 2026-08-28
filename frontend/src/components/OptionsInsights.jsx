@@ -42,7 +42,10 @@ export default function OptionsInsights({ theme='dark' }){
   const [ivhv, setIvhv] = useState(null)
   const [vix, setVix] = useState(null)
   const [unusual, setUnusual] = useState(null)
+  const [strategies, setStrategies] = useState(null)
+  const [sellerDash, setSellerDash] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [lastFetch, setLastFetch] = useState(null)
 
   useEffect(()=>{
     let cancelled = false
@@ -67,9 +70,12 @@ export default function OptionsInsights({ theme='dark' }){
       safeFetch(`${apiBase}/api/options/iv-hv?${q}`),
       safeFetch(`${apiBase}/api/options/vix`),
       safeFetch(`${apiBase}/api/options/unusual?${q}`),
-    ]).then(([a,p,o,v,iv,vx,u])=>{
+      safeFetch(`${apiBase}/api/options/strategies?${q}`),
+      safeFetch(`${apiBase}/api/options/sellers-premium-dashboard?${q}`),
+    ]).then(([a,p,o,v,iv,vx,u,st,sd])=>{
       if(cancelled) return
-      setAtm(a); setPcr(p); setOi(o); setVol(v); setIvhv(iv); setVix(vx); setUnusual(u)
+      setAtm(a); setPcr(p); setOi(o); setVol(v); setIvhv(iv); setVix(vx); setUnusual(u); setStrategies(st); setSellerDash(sd)
+      setLastFetch(new Date())
     }).finally(()=>{ if(!cancelled) setLoading(false) })
     return ()=>{ cancelled = true }
   }, [symbol, expiry, apiBase])
@@ -111,6 +117,7 @@ export default function OptionsInsights({ theme='dark' }){
           {!expiries.length && <option>Loading…</option>}
         </select>
         {loading && <span style={{fontSize:11, color:'#94a3b8'}}>Refreshing…</span>}
+        {lastFetch && <span style={{fontSize:10, color:'#64748b'}}>as of {lastFetch.toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'})}</span>}
         <span style={{marginLeft:'auto', fontSize:10, color:'#94a3b8'}}>All figures from the live option chain • real data only, gaps shown as "no data"</span>
       </div>
 
@@ -199,6 +206,62 @@ export default function OptionsInsights({ theme='dark' }){
           </div>
         ) : <Empty label="No unusual flow detected"/>}
       </Card>
+
+      <Card title="Options Strategy Panel">
+        {strategies ? (
+          <div style={{display:'flex', flexDirection:'column', gap:6}}>
+            <div style={{fontSize:10, color:'#94a3b8', marginBottom:2}}>IV rank (1y) {strategies.iv_rank_1y!=null ? `${fmt(strategies.iv_rank_1y,0)}%` : 'unavailable'} · ADX {strategies.adx!=null ? fmt(strategies.adx,1) : 'not supplied'}</div>
+            {['short_strangle','iron_condor','bull_put_spread','bear_call_spread','iron_fly','ratio_spread_1x2','calendar_spread'].map(key=>{
+              const s = strategies[key]
+              if(!s) return null
+              if(s.error) return <div key={key} style={{fontSize:11, color:'#475569', padding:'6px 0', borderBottom:'1px solid rgba(255,255,255,0.04)'}}><b style={{color:'#94a3b8'}}>{key.replace(/_/g,' ')}</b> — {s.error}</div>
+              const eligible = s.regime?.eligible
+              return (
+                <div key={key} style={{display:'flex', gap:10, alignItems:'center', flexWrap:'wrap', fontSize:11, padding:'6px 0', borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                  <b style={{color:'#f1f5f9', minWidth:130, textTransform:'capitalize'}}>{key.replace(/_/g,' ')}</b>
+                  {eligible!=null && <span style={{fontSize:9, fontWeight:800, padding:'1px 7px', borderRadius:999, background: eligible?'rgba(16,185,129,0.15)':'rgba(239,83,80,0.12)', color: eligible?'#10b981':'#ef5350'}}>{eligible?'ELIGIBLE':'NOT ELIGIBLE'}</span>}
+                  <span className="mono" style={{color:'#cbd5e1'}}>Net {fmt(s.net_premium)}</span>
+                  <span className="mono" style={{color:'#94a3b8'}}>Max L {typeof s.max_loss==='string'? s.max_loss : fmt(s.max_loss)}</span>
+                  {s.pop_pct!=null && <span className="mono" style={{color:'#64b5f6'}}>POP {fmt(s.pop_pct,0)}%</span>}
+                  {s.theta!=null && <span className="mono" style={{color:'#94a3b8'}}>θ {fmt(s.theta)}</span>}
+                  {s.margin_estimate!=null && <span className="mono" style={{color:'#94a3b8'}}>Margin ~{fmtInt(s.margin_estimate)}</span>}
+                </div>
+              )
+            })}
+          </div>
+        ) : <Empty label="Strategy panel needs a live option chain"/>}
+      </Card>
+
+      <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(220px,1fr))', gap:10}}>
+        <Card title="Seller's Premium — Favorability Score">
+          {sellerDash?.favorability_score?.score!=null ? <>
+            <div style={{fontSize:22, fontWeight:800, color: sellerDash.favorability_score.score>=65?'#10b981': sellerDash.favorability_score.score<=35?'#ef5350':'#f59e0b'}}>{fmt(sellerDash.favorability_score.score,0)}<span style={{fontSize:11,color:'#94a3b8'}}>/100</span></div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4, textTransform:'capitalize'}}>{sellerDash.favorability_score.label}</div>
+            <div style={{fontSize:9, color:'#64748b', marginTop:2}}>coverage {fmt(sellerDash.favorability_score.coverage_pct,0)}% of components available</div>
+          </> : <Empty label="Not enough regime data yet"/>}
+        </Card>
+        <Card title="VIX Mean-Reversion Z-Score">
+          {sellerDash?.vix_mean_reversion?.z_score!=null ? <>
+            <div style={{fontSize:20, fontWeight:800, color: sellerDash.vix_mean_reversion.z_score>1?'#10b981': sellerDash.vix_mean_reversion.z_score<-1?'#ef5350':'#cbd5e1'}}>{fmt(sellerDash.vix_mean_reversion.z_score)}σ</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>{sellerDash.vix_mean_reversion.interpretation}</div>
+            <div style={{fontSize:9, color:'#64748b', marginTop:2}}>current {fmt(sellerDash.vix_mean_reversion.current)} · mean {fmt(sellerDash.vix_mean_reversion.mean)} · n={sellerDash.vix_mean_reversion.sample_size}</div>
+          </> : <Empty label={sellerDash?.vix_mean_reversion?.reason || 'VIX history unavailable'}/>}
+        </Card>
+        <Card title="IV − Realized Vol Spread">
+          {sellerDash?.iv_rv_spread?.spread!=null ? <>
+            <div style={{fontSize:20, fontWeight:800, color: sellerDash.iv_rv_spread.spread>2?'#10b981': sellerDash.iv_rv_spread.spread<-2?'#ef5350':'#cbd5e1'}}>{fmt(sellerDash.iv_rv_spread.spread)}pts</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>{sellerDash.iv_rv_spread.interpretation}</div>
+            <div style={{fontSize:9, color:'#64748b', marginTop:2}}>IV {fmt(sellerDash.iv_rv_spread.current_iv)}% · realized {fmt(sellerDash.iv_rv_spread.realized_vol)}%</div>
+          </> : <Empty label={sellerDash?.iv_rv_spread?.reason || 'price history unavailable'}/>}
+        </Card>
+        <Card title="Expiry-Day Pin Risk">
+          {sellerDash?.expiry_pin_risk?.pin_risk_score!=null ? <>
+            <div style={{fontSize:20, fontWeight:800, color: sellerDash.expiry_pin_risk.pin_risk_score>=65?'#f59e0b':'#cbd5e1'}}>{fmt(sellerDash.expiry_pin_risk.pin_risk_score,0)}</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4, textTransform:'capitalize'}}>{sellerDash.expiry_pin_risk.label}{sellerDash.expiry_pin_risk.is_expiry_day ? ' · TODAY IS EXPIRY' : ''}</div>
+            <div style={{fontSize:9, color:'#64748b', marginTop:2}}>{fmt(sellerDash.expiry_pin_risk.distance_to_max_pain_pct)}% from max pain · {fmt(sellerDash.expiry_pin_risk.oi_concentration_near_money_pct)}% OI near spot</div>
+          </> : <Empty label={sellerDash?.expiry_pin_risk?.reason || 'chain/max-pain unavailable'}/>}
+        </Card>
+      </div>
     </div>
   )
 }
