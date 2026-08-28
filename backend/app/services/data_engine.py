@@ -223,6 +223,7 @@ class DataEngine:
         ema20 = round(s.indicators.ema20,2) if s.indicators.ema20 else None
         atr = round(s.indicators.atr,2) if s.indicators.atr else None
         macd = round(s.indicators.macd,2) if s.indicators.macd else None
+        ind = s.indicators
         # optimized payload: single camelCase keys only (~22% smaller WS)
         is_synthetic = s.freshness == "CLOSED" and s.volume and s.volume>0
         base = {
@@ -270,6 +271,16 @@ class DataEngine:
             "gapPercent": round(s.gap_pct,2) if s.gap_pct else None,
             "distanceFromHigh": s.distance_from_high_pct,
             "distanceFromLow": s.distance_from_low_pct,
+            "vwapUpper1": ind.vwap_upper1, "vwapLower1": ind.vwap_lower1,
+            "vwapUpper2": ind.vwap_upper2, "vwapLower2": ind.vwap_lower2,
+            "adx": ind.adx, "diPlus": ind.di_plus, "diMinus": ind.di_minus,
+            "macdSignal": ind.macd_signal, "macdHist": ind.macd_hist, "macdCross": ind.macd_cross,
+            "bbUpper": ind.bb_upper, "bbLower": ind.bb_lower, "bbMiddle": ind.bb_middle, "bbWidthPct": ind.bb_width_pct,
+            "supertrend": ind.supertrend, "supertrendDirection": ind.supertrend_direction, "supertrendSignal": ind.supertrend_signal,
+            "rsiDivergence": ind.rsi_divergence,
+            "previousDayHigh": s.previous_day_high, "previousDayLow": s.previous_day_low,
+            "or15High": s.momentum.or15_high, "or15Low": s.momentum.or15_low,
+            "or30High": s.momentum.or30_high, "or30Low": s.momentum.or30_low,
         }
         return base
 

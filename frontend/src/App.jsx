@@ -41,7 +41,19 @@ export default function App(){
   useEffect(()=>{ try{localStorage.setItem('show_dashboard', showDashboard?'1':'0')}catch{} },[showDashboard])
   useEffect(()=>{ try{localStorage.setItem('row_density',density)}catch{} },[density])
 
-  const normalizeStock=(s)=>({ ...s, changePercent:s.changePercent??s.change_pct??s.changePct, relVolume:s.relVolume??s.rel_volume, companyName:s.companyName??s.company, isAboveVwap:s.isAboveVwap??s.is_above_vwap, volumeSpike:s.volumeSpike??s.volume_spike, isBreakout:s.isBreakout??s.momentum?.breakout, isBreakdown:s.isBreakdown??s.momentum?.breakdown, momentum5m:s.momentum5m??s.momentum?.ret_5m, gapPercent:s.gapPercent??s.gap_pct, vwap:s.vwap??s.indicators?.vwap, rsi:s.rsi??s.indicators?.rsi, ema9:s.ema9??s.indicators?.ema9, ema20:s.ema20??s.indicators?.ema20, synthetic:s.synthetic??s.freshness==='CLOSED' })
+  const normalizeStock=(s)=>({ ...s, changePercent:s.changePercent??s.change_pct??s.changePct, relVolume:s.relVolume??s.rel_volume, companyName:s.companyName??s.company, isAboveVwap:s.isAboveVwap??s.is_above_vwap, volumeSpike:s.volumeSpike??s.volume_spike, isBreakout:s.isBreakout??s.momentum?.breakout, isBreakdown:s.isBreakdown??s.momentum?.breakdown, momentum5m:s.momentum5m??s.momentum?.ret_5m, gapPercent:s.gapPercent??s.gap_pct, vwap:s.vwap??s.indicators?.vwap, rsi:s.rsi??s.indicators?.rsi, ema9:s.ema9??s.indicators?.ema9, ema20:s.ema20??s.indicators?.ema20, synthetic:s.synthetic??s.freshness==='CLOSED',
+    vwapUpper1:s.vwapUpper1??s.indicators?.vwap_upper1, vwapLower1:s.vwapLower1??s.indicators?.vwap_lower1,
+    vwapUpper2:s.vwapUpper2??s.indicators?.vwap_upper2, vwapLower2:s.vwapLower2??s.indicators?.vwap_lower2,
+    adx:s.adx??s.indicators?.adx, diPlus:s.diPlus??s.indicators?.di_plus, diMinus:s.diMinus??s.indicators?.di_minus,
+    atr:s.atr??s.indicators?.atr, macd:s.macd??s.indicators?.macd, macdSignal:s.macdSignal??s.indicators?.macd_signal,
+    macdHist:s.macdHist??s.indicators?.macd_hist, macdCross:s.macdCross??s.indicators?.macd_cross,
+    bbUpper:s.bbUpper??s.indicators?.bb_upper, bbLower:s.bbLower??s.indicators?.bb_lower, bbMiddle:s.bbMiddle??s.indicators?.bb_middle, bbWidthPct:s.bbWidthPct??s.indicators?.bb_width_pct,
+    supertrend:s.supertrend??s.indicators?.supertrend, supertrendDirection:s.supertrendDirection??s.indicators?.supertrend_direction, supertrendSignal:s.supertrendSignal??s.indicators?.supertrend_signal,
+    rsiDivergence:s.rsiDivergence??s.indicators?.rsi_divergence,
+    previousDayHigh:s.previousDayHigh??s.previous_day_high, previousDayLow:s.previousDayLow??s.previous_day_low,
+    or15High:s.or15High??s.momentum?.or15_high, or15Low:s.or15Low??s.momentum?.or15_low,
+    or30High:s.or30High??s.momentum?.or30_high, or30Low:s.or30Low??s.momentum?.or30_low,
+  })
 
   useEffect(()=>{
     const normOv=(d)=>{ if(!d) return null; const na=(a)=>(a||[]).map(x=>({...x,changePercent:x.changePercent??x.change_pct, relVolume:x.relVolume??x.rel_volume})); return {...d, advancing:d.advancing, declining:d.declining, unchanged:d.unchanged, aboveVWAP:d.above_vwap??d.aboveVWAP, belowVWAP:d.below_vwap??d.belowVWAP, breakouts:d.breakouts??d.breakouts_count, breakdowns:d.breakdowns??d.breakdowns_count, topGainers:na(d.top_gainers??d.topGainers), topLosers:na(d.top_losers??d.topLosers), highestVolume:na(d.highest_volume??d.highestVolume), marketStatus:d.marketStatus??{status:d.status,is_open:d.is_live??d.is_open}, total:d.total??500 } }

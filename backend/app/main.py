@@ -346,6 +346,18 @@ async def websocket_endpoint(ws: WebSocket):
                     "momentum5m": s.momentum.ret_5m,
                     "gapPercent": round(s.gap_pct,2) if s.gap_pct else None,
                     "rank": s.rank,
+                    "vwapUpper1": s.indicators.vwap_upper1, "vwapLower1": s.indicators.vwap_lower1,
+                    "vwapUpper2": s.indicators.vwap_upper2, "vwapLower2": s.indicators.vwap_lower2,
+                    "adx": s.indicators.adx, "diPlus": s.indicators.di_plus, "diMinus": s.indicators.di_minus,
+                    "atr": round(s.indicators.atr,2) if s.indicators.atr else None,
+                    "macd": round(s.indicators.macd,2) if s.indicators.macd else None,
+                    "macdSignal": s.indicators.macd_signal, "macdHist": s.indicators.macd_hist, "macdCross": s.indicators.macd_cross,
+                    "bbUpper": s.indicators.bb_upper, "bbLower": s.indicators.bb_lower, "bbMiddle": s.indicators.bb_middle, "bbWidthPct": s.indicators.bb_width_pct,
+                    "supertrend": s.indicators.supertrend, "supertrendDirection": s.indicators.supertrend_direction, "supertrendSignal": s.indicators.supertrend_signal,
+                    "rsiDivergence": s.indicators.rsi_divergence,
+                    "previousDayHigh": s.previous_day_high, "previousDayLow": s.previous_day_low,
+                    "or15High": s.momentum.or15_high, "or15Low": s.momentum.or15_low,
+                    "or30High": s.momentum.or30_high, "or30Low": s.momentum.or30_low,
                 })
             payload = {
                 "type": "snapshot",
