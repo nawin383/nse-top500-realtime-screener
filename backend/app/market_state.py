@@ -19,6 +19,7 @@ from .models import MarketTick, StockState, Candle
 from .candle_engine import CandleEngine
 from .indicators import ema_series, rsi, atr, macd, bollinger, adx, vwap_bands, macd_cross_signal, rsi_divergence
 from .indicators_advanced import calculate_supertrend
+from .breaker import BreakerEngine
 from .scoring import score_stock
 from .utils.freshness import compute_freshness
 try:
@@ -49,7 +50,23 @@ class MarketState:
         self._last_candle_count: Dict[str, int] = {}
         self._tick_counter: Dict[str, int] = {}
         self._rsi_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
+        self.breaker_engine = BreakerEngine()
         self._init_universe(universe)
+
+    def get_breaker_signals(self, min_score: float = 0.0, statuses: Optional[List[str]] = None):
+        """Evaluate the OHLC Breaker breakout module against every symbol's
+        current live state. Computed on demand (not cached) since it's cheap
+        relative to a full ranking pass and the retest-hold state machine
+        lives inside self.breaker_engine, persisting across calls."""
+        statuses = statuses or ["WEAK_BREAK", "PENDING_RETEST", "CONFIRMED", "FAILED"]
+        out = []
+        for sym, state in self.states.items():
+            candles = self.candle_engine.get_candles(sym, 1, limit=10)
+            sig = self.breaker_engine.evaluate(state, candles)
+            if sig and sig.direction and sig.status in statuses and sig.score >= min_score:
+                out.append(sig)
+        out.sort(key=lambda s: s.score, reverse=True)
+        return out
 
     def _init_universe(self, universe: List[Dict[str, Any]]):
         # check if market is currently closed to pre-populate last trading day
@@ -601,6 +618,7 @@ class MarketState:
         self._cum_vol.clear()
         self._opening_range.clear()
         self._rsi_history.clear()
+        self.breaker_engine.reset_day()
         for s in self.states.values():
             s.open = None
             s.high = None
