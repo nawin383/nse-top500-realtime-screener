@@ -14,8 +14,18 @@ function VolSurface3D({ surface }) {
     const W = canvas.width, H = canvas.height
     ctx.clearRect(0,0,W,H)
     ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0,0,W,H)
-    // draw heatmap rows
-    const rows = surface.slice(0, 12)
+    // draw heatmap rows -- IV can be genuinely null for strikes where the
+    // bisection solver can't recover an implied vol (deep ITM/OTM contracts),
+    // which was invisible before the live Kite chain existed. Dropping those
+    // rows here avoids r.iv.toFixed() throwing inside this effect, which
+    // otherwise crashes the whole tab (an effect exception isn't scoped to
+    // just this canvas).
+    const rows = surface.filter(r => r.iv != null).slice(0, 12)
+    if (!rows.length) {
+      ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'
+      ctx.fillText('No IV data available for this chain window', 10, H/2)
+      return
+    }
     const maxIv = Math.max(...rows.map(r=>r.iv))
     const minIv = Math.min(...rows.map(r=>r.iv))
     rows.forEach((r,i)=>{

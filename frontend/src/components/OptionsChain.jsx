@@ -34,7 +34,12 @@ export default function OptionsChain(){
       setData(j)
       setError(null)
       if(j.expiries && j.expiries.length) setExpiries(j.expiries)
-    }catch(e){ setError(e.message); setData(null) }
+    }catch(e){
+      // A transient failure (including one from the 10s auto-refresh tick)
+      // must never wipe an already-successful table -- only surface the
+      // error banner when there's no data on screen yet.
+      setError(e.message)
+    }
     setLoading(false)
   }
 
@@ -92,8 +97,10 @@ export default function OptionsChain(){
         </div>
       )}
 
-      {loading && <div style={{color:'#94a3b8', padding:20}}>Loading chain…</div>}
-      {!loading && error && <div style={{color:'#cbd5e1', padding:20, textAlign:'center'}}>No data available<div style={{fontSize:11, color:'#94a3b8', marginTop:6}}>{error}</div></div>}
+      {!data && loading && <div style={{color:'#94a3b8', padding:20}}>Loading chain…</div>}
+      {!data && !loading && error && <div style={{color:'#cbd5e1', padding:20, textAlign:'center'}}>No data available<div style={{fontSize:11, color:'#94a3b8', marginTop:6}}>{error}</div></div>}
+      {data && loading && <div style={{fontSize:10, color:'#64748b', marginBottom:6}}>● updating…</div>}
+      {data && !loading && error && <div style={{fontSize:10, color:'#f59e0b', marginBottom:6}}>Last refresh failed ({error}) — showing last known data</div>}
 
       {data && (
         <div style={{overflow:'auto', border:'1px solid #1e293b', borderRadius:8, background:'#0d1b2a'}}>

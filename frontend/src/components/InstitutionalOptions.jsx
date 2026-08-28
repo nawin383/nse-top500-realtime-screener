@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const apiBase = import.meta.env.VITE_API_URL || ''
 const fmt = (n,d=2)=> n==null?'-':Number(n).toFixed(d)
@@ -35,6 +35,8 @@ export default function InstitutionalOptions(){
 
   const [loadError, setLoadError] = useState(null)
   const [lastFetch, setLastFetch] = useState(null)
+  const [refreshing, setRefreshing] = useState(false)
+  const hasLoadedRef = useRef(false)
 
   // A failed/unavailable endpoint returns {detail:"..."} (or throws on a network
   // error) instead of the expected shape -- never let one bad card's data crash
@@ -50,6 +52,7 @@ export default function InstitutionalOptions(){
   }
 
   const fetchAll = async ()=>{
+    setRefreshing(true)
     try{
       const base = `${apiBase}/api/options`
       const q = expiry?`&expiry=${expiry}`:''
@@ -68,11 +71,30 @@ export default function InstitutionalOptions(){
         safeFetch(`${base}/margin-risk?symbol=${symbol}${q}`),
         safeFetch(`${base}/mispricing?symbol=${symbol}${q}`),
       ])
-      setTshape(ts); if(ts?.expiries) setExpiries(ts.expiries); setAtm(a); setVol(v); setGreeks(g); setIvhv(iv); setPcr(pc); setOi(o); setUnusual(u); setTerm(t); setScenario(sc); setCorr(cr); setMargin(mg); setMisprice(mp)
+      // A background refresh (15s interval, or a symbol/expiry switch) must
+      // never blank cards that already have good data -- only apply a
+      // result when the endpoint actually returned something this time,
+      // same guarded pattern as AgileInstitutional.jsx's fetchAll.
+      if(ts) setTshape(ts)
+      if(ts?.expiries) setExpiries(ts.expiries)
+      if(a) setAtm(a)
+      if(v) setVol(v)
+      if(g) setGreeks(g)
+      if(iv) setIvhv(iv)
+      if(pc) setPcr(pc)
+      if(o) setOi(o)
+      if(u) setUnusual(u)
+      if(t) setTerm(t)
+      if(sc) setScenario(sc)
+      if(cr) setCorr(cr)
+      if(mg) setMargin(mg)
+      if(mp) setMisprice(mp)
       if(!expiry && ts?.expiry) setExpiry(ts.expiry)
-      setLoadError(ts ? null : 'No live data available for this symbol/expiry right now.')
+      if(ts) hasLoadedRef.current = true
+      setLoadError(ts ? null : (hasLoadedRef.current ? null : 'No live data available for this symbol/expiry right now.'))
       setLastFetch(new Date())
-    }catch(e){ console.error(e); setLoadError('Failed to load options data.') }
+    }catch(e){ console.error(e); if(!hasLoadedRef.current) setLoadError('Failed to load options data.') }
+    setRefreshing(false)
   }
   useEffect(()=>{ fetchAll() }, [symbol, expiry])
   useEffect(()=>{ // fetch expiries on symbol change
@@ -94,6 +116,7 @@ export default function InstitutionalOptions(){
         <span style={{fontSize:11, color:'#cbd5e1'}}>Spot <b style={{color:'#f1f5f9'}}>{tshape?.spot}</b> ATM <b style={{color:'#f59e0b'}}>{tshape?.atmStrike}</b> Src {tshape?.source}</span>
         <button className="btn sm" onClick={fetchAll}>↻ Refresh</button>
         {lastFetch && <span style={{fontSize:10, color:'#64748b'}}>as of {lastFetch.toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'})}</span>}
+        {refreshing && tshape && <span style={{fontSize:10, color:'#64748b'}}>● updating…</span>}
       </div>
 
       {loadError && <div style={{color:'#cbd5e1', padding:'10px 12px', marginBottom:12, background:'#16233a', border:'1px solid #1e293b', borderRadius:8, fontSize:12}}>{loadError}</div>}
