@@ -42,6 +42,7 @@ export default function OptionsInsights({ theme='dark' }){
   const [ivhv, setIvhv] = useState(null)
   const [vix, setVix] = useState(null)
   const [unusual, setUnusual] = useState(null)
+  const [strategies, setStrategies] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
@@ -67,9 +68,10 @@ export default function OptionsInsights({ theme='dark' }){
       safeFetch(`${apiBase}/api/options/iv-hv?${q}`),
       safeFetch(`${apiBase}/api/options/vix`),
       safeFetch(`${apiBase}/api/options/unusual?${q}`),
-    ]).then(([a,p,o,v,iv,vx,u])=>{
+      safeFetch(`${apiBase}/api/options/strategies?${q}`),
+    ]).then(([a,p,o,v,iv,vx,u,st])=>{
       if(cancelled) return
-      setAtm(a); setPcr(p); setOi(o); setVol(v); setIvhv(iv); setVix(vx); setUnusual(u)
+      setAtm(a); setPcr(p); setOi(o); setVol(v); setIvhv(iv); setVix(vx); setUnusual(u); setStrategies(st)
     }).finally(()=>{ if(!cancelled) setLoading(false) })
     return ()=>{ cancelled = true }
   }, [symbol, expiry, apiBase])
@@ -198,6 +200,31 @@ export default function OptionsInsights({ theme='dark' }){
             ))}
           </div>
         ) : <Empty label="No unusual flow detected"/>}
+      </Card>
+
+      <Card title="Options Strategy Panel">
+        {strategies ? (
+          <div style={{display:'flex', flexDirection:'column', gap:6}}>
+            <div style={{fontSize:10, color:'#94a3b8', marginBottom:2}}>IV rank (1y) {strategies.iv_rank_1y!=null ? `${fmt(strategies.iv_rank_1y,0)}%` : 'unavailable'} · ADX {strategies.adx!=null ? fmt(strategies.adx,1) : 'not supplied'}</div>
+            {['short_strangle','iron_condor','bull_put_spread','bear_call_spread','iron_fly','ratio_spread_1x2','calendar_spread'].map(key=>{
+              const s = strategies[key]
+              if(!s) return null
+              if(s.error) return <div key={key} style={{fontSize:11, color:'#475569', padding:'6px 0', borderBottom:'1px solid rgba(255,255,255,0.04)'}}><b style={{color:'#94a3b8'}}>{key.replace(/_/g,' ')}</b> — {s.error}</div>
+              const eligible = s.regime?.eligible
+              return (
+                <div key={key} style={{display:'flex', gap:10, alignItems:'center', flexWrap:'wrap', fontSize:11, padding:'6px 0', borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
+                  <b style={{color:'#f1f5f9', minWidth:130, textTransform:'capitalize'}}>{key.replace(/_/g,' ')}</b>
+                  {eligible!=null && <span style={{fontSize:9, fontWeight:800, padding:'1px 7px', borderRadius:999, background: eligible?'rgba(16,185,129,0.15)':'rgba(239,83,80,0.12)', color: eligible?'#10b981':'#ef5350'}}>{eligible?'ELIGIBLE':'NOT ELIGIBLE'}</span>}
+                  <span className="mono" style={{color:'#cbd5e1'}}>Net {fmt(s.net_premium)}</span>
+                  <span className="mono" style={{color:'#94a3b8'}}>Max L {typeof s.max_loss==='string'? s.max_loss : fmt(s.max_loss)}</span>
+                  {s.pop_pct!=null && <span className="mono" style={{color:'#64b5f6'}}>POP {fmt(s.pop_pct,0)}%</span>}
+                  {s.theta!=null && <span className="mono" style={{color:'#94a3b8'}}>θ {fmt(s.theta)}</span>}
+                  {s.margin_estimate!=null && <span className="mono" style={{color:'#94a3b8'}}>Margin ~{fmtInt(s.margin_estimate)}</span>}
+                </div>
+              )
+            })}
+          </div>
+        ) : <Empty label="Strategy panel needs a live option chain"/>}
       </Card>
     </div>
   )
