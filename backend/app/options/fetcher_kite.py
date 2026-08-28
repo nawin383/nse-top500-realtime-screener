@@ -79,33 +79,48 @@ async def fetch_chain_from_kite(symbol: str, expiry: Optional[str]) -> Optional[
     symbol = symbol.upper()
     index_symbol = INDEX_QUOTE_SYMBOL.get(symbol)
     if not index_symbol:
+        logger.info(f"Kite chain skip {symbol}: not in the static NIFTY/SENSEX universe, falling back to NSE scrape")
         return None  # BANKNIFTY etc -- not in the static universe, fall back to NSE scrape
 
     kite = _get_kite()
     if not kite:
+        logger.warning(f"Kite chain skip {symbol}: no Kite client (missing/invalid KITE_API_KEY or KITE_ACCESS_TOKEN)")
         return None  # no live Kite credentials configured
 
     universe = _load_option_universe()
     contracts = universe.get(symbol)
     if not contracts:
+        logger.warning(f"Kite chain skip {symbol}: config/nifty_sensex_options.json has no contracts for this symbol "
+                        f"(loaded keys: {list(universe.keys())})")
         return None
 
     expiries = sorted({c["expiry"] for c in contracts})
     if not expiries:
+        logger.warning(f"Kite chain skip {symbol}: contracts loaded but none have an expiry field")
         return None
     target_expiry = expiry if expiry in expiries else expiries[0]
     strikes_for_expiry = [c for c in contracts if c["expiry"] == target_expiry]
     if not strikes_for_expiry:
+        logger.warning(f"Kite chain skip {symbol} {target_expiry}: no contracts match this expiry (available: {expiries})")
         return None
 
     instrument_keys = [f"{c['exchange']}:{c['tradingsymbol']}" for c in strikes_for_expiry]
-    quotes = await fetch_quote(kite, instrument_keys + [index_symbol])
+    try:
+        quotes = await fetch_quote(kite, instrument_keys + [index_symbol])
+    except Exception as e:
+        logger.warning(f"Kite chain {symbol} {target_expiry}: fetch_quote raised {type(e).__name__}: {e}", exc_info=True)
+        return None
     if not quotes:
+        logger.warning(f"Kite chain {symbol} {target_expiry}: fetch_quote returned empty "
+                        f"(requested {len(instrument_keys)+1} instruments) -- check Kite API permissions/rate limit")
         return None
     spot_quote = quotes.get(index_symbol)
     spot = spot_quote.get("last_price") if spot_quote else None
     if not spot:
+        logger.warning(f"Kite chain {symbol} {target_expiry}: no last_price for index quote '{index_symbol}' "
+                        f"(got keys: {list(quotes.keys())[:5]}...)")
         return None
+    logger.info(f"Kite chain {symbol} {target_expiry}: spot={spot}, {len(quotes)-1}/{len(instrument_keys)} option quotes returned")
 
     T = days_to_expiry(target_expiry)
     today_str = date.today().isoformat()
@@ -148,6 +163,8 @@ async def fetch_chain_from_kite(symbol: str, expiry: Optional[str]) -> Optional[
 
     chain = [v for v in by_strike.values() if "CE" in v and "PE" in v]
     if not chain:
+        logger.warning(f"Kite chain {symbol} {target_expiry}: quotes came back but no strike had both CE and PE "
+                        f"-- likely stale/expired instrument tokens in config/nifty_sensex_options.json")
         return None
     chain.sort(key=lambda x: x["strike"])
     atm = min(chain, key=lambda x: abs(x["strike"] - spot))["strike"]
