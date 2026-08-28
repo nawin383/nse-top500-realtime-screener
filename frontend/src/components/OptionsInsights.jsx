@@ -43,6 +43,7 @@ export default function OptionsInsights({ theme='dark' }){
   const [vix, setVix] = useState(null)
   const [unusual, setUnusual] = useState(null)
   const [strategies, setStrategies] = useState(null)
+  const [sellerDash, setSellerDash] = useState(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
@@ -69,9 +70,10 @@ export default function OptionsInsights({ theme='dark' }){
       safeFetch(`${apiBase}/api/options/vix`),
       safeFetch(`${apiBase}/api/options/unusual?${q}`),
       safeFetch(`${apiBase}/api/options/strategies?${q}`),
-    ]).then(([a,p,o,v,iv,vx,u,st])=>{
+      safeFetch(`${apiBase}/api/options/sellers-premium-dashboard?${q}`),
+    ]).then(([a,p,o,v,iv,vx,u,st,sd])=>{
       if(cancelled) return
-      setAtm(a); setPcr(p); setOi(o); setVol(v); setIvhv(iv); setVix(vx); setUnusual(u); setStrategies(st)
+      setAtm(a); setPcr(p); setOi(o); setVol(v); setIvhv(iv); setVix(vx); setUnusual(u); setStrategies(st); setSellerDash(sd)
     }).finally(()=>{ if(!cancelled) setLoading(false) })
     return ()=>{ cancelled = true }
   }, [symbol, expiry, apiBase])
@@ -226,6 +228,37 @@ export default function OptionsInsights({ theme='dark' }){
           </div>
         ) : <Empty label="Strategy panel needs a live option chain"/>}
       </Card>
+
+      <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(220px,1fr))', gap:10}}>
+        <Card title="Seller's Premium — Favorability Score">
+          {sellerDash?.favorability_score?.score!=null ? <>
+            <div style={{fontSize:22, fontWeight:800, color: sellerDash.favorability_score.score>=65?'#10b981': sellerDash.favorability_score.score<=35?'#ef5350':'#f59e0b'}}>{fmt(sellerDash.favorability_score.score,0)}<span style={{fontSize:11,color:'#94a3b8'}}>/100</span></div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4, textTransform:'capitalize'}}>{sellerDash.favorability_score.label}</div>
+            <div style={{fontSize:9, color:'#64748b', marginTop:2}}>coverage {fmt(sellerDash.favorability_score.coverage_pct,0)}% of components available</div>
+          </> : <Empty label="Not enough regime data yet"/>}
+        </Card>
+        <Card title="VIX Mean-Reversion Z-Score">
+          {sellerDash?.vix_mean_reversion?.z_score!=null ? <>
+            <div style={{fontSize:20, fontWeight:800, color: sellerDash.vix_mean_reversion.z_score>1?'#10b981': sellerDash.vix_mean_reversion.z_score<-1?'#ef5350':'#cbd5e1'}}>{fmt(sellerDash.vix_mean_reversion.z_score)}σ</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>{sellerDash.vix_mean_reversion.interpretation}</div>
+            <div style={{fontSize:9, color:'#64748b', marginTop:2}}>current {fmt(sellerDash.vix_mean_reversion.current)} · mean {fmt(sellerDash.vix_mean_reversion.mean)} · n={sellerDash.vix_mean_reversion.sample_size}</div>
+          </> : <Empty label={sellerDash?.vix_mean_reversion?.reason || 'VIX history unavailable'}/>}
+        </Card>
+        <Card title="IV − Realized Vol Spread">
+          {sellerDash?.iv_rv_spread?.spread!=null ? <>
+            <div style={{fontSize:20, fontWeight:800, color: sellerDash.iv_rv_spread.spread>2?'#10b981': sellerDash.iv_rv_spread.spread<-2?'#ef5350':'#cbd5e1'}}>{fmt(sellerDash.iv_rv_spread.spread)}pts</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>{sellerDash.iv_rv_spread.interpretation}</div>
+            <div style={{fontSize:9, color:'#64748b', marginTop:2}}>IV {fmt(sellerDash.iv_rv_spread.current_iv)}% · realized {fmt(sellerDash.iv_rv_spread.realized_vol)}%</div>
+          </> : <Empty label={sellerDash?.iv_rv_spread?.reason || 'price history unavailable'}/>}
+        </Card>
+        <Card title="Expiry-Day Pin Risk">
+          {sellerDash?.expiry_pin_risk?.pin_risk_score!=null ? <>
+            <div style={{fontSize:20, fontWeight:800, color: sellerDash.expiry_pin_risk.pin_risk_score>=65?'#f59e0b':'#cbd5e1'}}>{fmt(sellerDash.expiry_pin_risk.pin_risk_score,0)}</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4, textTransform:'capitalize'}}>{sellerDash.expiry_pin_risk.label}{sellerDash.expiry_pin_risk.is_expiry_day ? ' · TODAY IS EXPIRY' : ''}</div>
+            <div style={{fontSize:9, color:'#64748b', marginTop:2}}>{fmt(sellerDash.expiry_pin_risk.distance_to_max_pain_pct)}% from max pain · {fmt(sellerDash.expiry_pin_risk.oi_concentration_near_money_pct)}% OI near spot</div>
+          </> : <Empty label={sellerDash?.expiry_pin_risk?.reason || 'chain/max-pain unavailable'}/>}
+        </Card>
+      </div>
     </div>
   )
 }

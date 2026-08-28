@@ -247,6 +247,51 @@ async def strategies(
     return result
 
 
+@router.get("/options/sellers-premium-dashboard")
+async def sellers_premium_dashboard(
+    symbol: str = Query("NIFTY"),
+    expiry: Optional[str] = None,
+    adx: Optional[float] = Query(None, description="underlying's current ADX, if known"),
+):
+    """Part 6: extends vix_analysis/iv_percentile/term_structure/oi_analytics
+    (already real-data-or-null) with VIX mean-reversion z-score, real IV-RV
+    spread, a composite premium-selling favorability score, and expiry-day
+    pin risk. See options/seller_premium.py module docstring for what is and
+    isn't fabricated when historical data is unavailable."""
+    from ..options.institutional import vix_analysis, oi_analytics
+    from ..options.seller_premium import (
+        vix_mean_reversion_zscore, real_iv_rv_spread, premium_selling_favorability_score, expiry_day_pin_risk,
+    )
+    from ..historical.store import iv_percentile, get_history
+
+    data = _get_chain_live(symbol, expiry)
+    chain, spot, exp = data["chain"], data["spot"], data["expiry"]
+    atm_iv = next((c["CE"]["iv"] for c in chain if c["isATM"]), None)
+
+    vix = vix_analysis()
+    vix_hist = [d["close"] for d in get_history("INDIAVIX", 252)]
+    vix_z = vix_mean_reversion_zscore(vix_hist, vix.get("vix"))
+
+    underlying_closes = [d["close"] for d in get_history(symbol.upper(), 252)]
+    iv_rv = real_iv_rv_spread(underlying_closes, atm_iv)
+
+    iv_rank = iv_percentile(symbol.upper(), atm_iv).get("ivRank1Y") if atm_iv is not None else None
+    term_backwardation = None  # would need a 2nd expiry's ATM IV compared here; left null rather than guessed
+
+    favorability = premium_selling_favorability_score(iv_rank, iv_rv.get("spread"), adx, vix_z.get("z_score"), term_backwardation)
+
+    oi = oi_analytics(chain, spot)
+    pin_risk = expiry_day_pin_risk(chain, spot, exp, oi.get("maxPain"))
+
+    return {
+        "symbol": symbol.upper(), "spot": spot, "expiry": exp,
+        "vix": vix, "vix_mean_reversion": vix_z,
+        "iv_rank_1y": iv_rank, "iv_rv_spread": iv_rv,
+        "favorability_score": favorability,
+        "expiry_pin_risk": pin_risk,
+    }
+
+
 @router.get("/options/earnings")
 async def earnings():
     from ..options.institutional import earnings_calendar
