@@ -45,55 +45,47 @@ def try_refresh_token(settings, cache_path: Path) -> str | None:
         logger.error(f"Token refresh failed: {e}", exc_info=True)
         return None
 
+async def _attempt_refresh(settings, data_engine, cache_path: Path) -> bool:
+    """One refresh attempt: get a fresh token and hot-swap it into the live KiteProvider
+    if one is running. Returns True on success."""
+    token = await asyncio.to_thread(try_refresh_token, settings, cache_path)
+    if not token:
+        logger.error("Token refresh produced no token")
+        return False
+    logger.info(f"Got fresh token {token[:6]}..., updating provider")
+    settings.kite_access_token = token
+    try:
+        if data_engine and data_engine.provider and data_engine.provider.name == "kite_live":
+            await data_engine.provider.stop()
+            data_engine.provider.access_token = token
+            await data_engine.provider.start(data_engine.on_ticks)
+            logger.info("KiteProvider restarted with fresh token")
+        else:
+            logger.info("Currently not in kite_live mode — fresh token will be used on next restart/market open")
+    except Exception as e:
+        logger.error(f"Failed to restart provider with new token: {e}", exc_info=True)
+
+    # Optionally update Render env via API if RENDER_API_KEY and RENDER_SERVICE_ID set
+    render_key = getattr(settings, "render_api_key", "") or __import__("os").getenv("RENDER_API_KEY", "")
+    service_id = getattr(settings, "render_service_id", "") or __import__("os").getenv("RENDER_SERVICE_ID", "")
+    if render_key and service_id:
+        logger.warning("Render API auto-update not yet implemented — token updated in-memory only, will need manual Render env update for persistence across restarts")
+    return True
+
 async def token_refresher_loop(settings, data_engine, cache_path: Path):
-    """Run forever: at 08:00 IST try to refresh, update DataEngine's provider, optionally update Render env."""
-    # Check if creds available
+    """Run forever: refresh once immediately at boot (so a stale KITE_ACCESS_TOKEN
+    pasted in manually gets replaced right away instead of waiting for the next
+    08:00 IST slot — important since a free-tier host can be asleep exactly then),
+    then keep refreshing daily at 08:00 IST for as long as the process stays up."""
     if not _has_creds(settings):
         logger.info("Token refresher disabled — missing KITE_USER_ID/PASSWORD/TOTP_SECRET/API_SECRET (manual token mode)")
         return
-    logger.info("Token refresher enabled — will refresh daily at 08:00 IST")
+    logger.info("Token refresher enabled — refreshing now, then daily at 08:00 IST")
+    logger.info("Attempting immediate Kite token refresh at boot...")
+    await _attempt_refresh(settings, data_engine, cache_path)
     while True:
         await sleep_until_next_8am_ist()
         logger.info("Attempting daily Kite token refresh...")
-        token = await asyncio.to_thread(try_refresh_token, settings, cache_path)
-        if token:
-            logger.info(f"Got fresh token {token[:6]}..., updating provider")
-            # update settings object (so new provider uses new token)
-            settings.kite_access_token = token
-            # try to hot-restart KiteProvider if currently live
-            try:
-                if data_engine and data_engine.provider and data_engine.provider.name == "kite_live":
-                    await data_engine.provider.stop()
-                    # update provider's token
-                    data_engine.provider.access_token = token
-                    # restart provider with same on_ticks
-                    await data_engine.provider.start(data_engine.on_ticks)
-                    logger.info("KiteProvider restarted with fresh token")
-                else:
-                    # if currently mock due to earlier auth failure, switch to live
-                    # DataEngine will be restarted externally? For now just log, next restart will pick live
-                    logger.info("Currently not in kite_live mode — fresh token will be used on next restart/market open")
-            except Exception as e:
-                logger.error(f"Failed to restart provider with new token: {e}", exc_info=True)
-
-            # Optionally update Render env via API if RENDER_API_KEY and RENDER_SERVICE_ID set
-            render_key = getattr(settings, "render_api_key", "") or __import__("os").getenv("RENDER_API_KEY", "")
-            service_id = getattr(settings, "render_service_id", "") or __import__("os").getenv("RENDER_SERVICE_ID", "")
-            if render_key and service_id:
-                try:
-                    import httpx
-                    # Render API: update env vars
-                    # This keeps token persistent across deploys
-                    # Docs: https://api.render.com/docs/
-                    logger.info("Updating Render env var KITE_ACCESS_TOKEN via API...")
-                    # fetch current env, then patch
-                    # Simplified: use Render API to update service env var
-                    # We do PATCH /v1/services/{serviceId}/env-vars
-                    # For now just log — implement if needed
-                    logger.warning("Render API auto-update not yet implemented — token updated in-memory only, will need manual Render env update for persistence across restarts")
-                except Exception as e:
-                    logger.error(f"Render API update failed: {e}")
-        else:
-            logger.error("Token refresh produced no token — will retry tomorrow 08:00")
+        await _attempt_refresh(settings, data_engine, cache_path)
         # sleep a bit to avoid tight loop if we woke early
         await asyncio.sleep(60)
