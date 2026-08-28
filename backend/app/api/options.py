@@ -202,6 +202,51 @@ async def screeners(
     if volume_surge: filt["volume_surge"] = True
     return {"symbol": symbol.upper(), "results": custom_screener(data["chain"], filt)}
 
+@router.get("/options/strategies")
+async def strategies(
+    symbol: str = Query("NIFTY"),
+    expiry: Optional[str] = None,
+    adx: Optional[float] = Query(None, description="underlying's current ADX, if known -- gates regime-sensitive strategies"),
+    far_expiry: Optional[str] = Query(None, description="second expiry for the calendar spread; defaults to the next available expiry"),
+):
+    """Part 5 options strategy panel: prices short_strangle, iron_condor,
+    bull_put_spread, bear_call_spread, iron_fly, calendar_spread and
+    ratio_spread_1x2 off the live chain. IV rank comes from the existing
+    historical.store.iv_percentile (real-or-null); ADX is passed in by the
+    caller (e.g. the underlying index's screener row) since this module
+    doesn't track underlying-index technicals itself."""
+    from ..options.strategies import (
+        short_strangle, iron_condor, bull_put_spread, bear_call_spread,
+        iron_fly, calendar_spread, ratio_spread_1x2,
+    )
+    from ..historical.store import iv_percentile
+    data = _get_chain_live(symbol, expiry)
+    chain, spot, exp = data["chain"], data["spot"], data["expiry"]
+    atm_iv = next((c["CE"]["iv"] for c in chain if c["isATM"]), None)
+    iv_rank = iv_percentile(symbol.upper(), atm_iv).get("ivRank1Y") if atm_iv is not None else None
+
+    result = {
+        "symbol": symbol.upper(), "spot": spot, "expiry": exp,
+        "iv_rank_1y": iv_rank, "adx": adx,
+        "short_strangle": short_strangle(chain, spot, exp, iv_rank, adx),
+        "iron_condor": iron_condor(chain, spot, exp, iv_rank, adx),
+        "bull_put_spread": bull_put_spread(chain, spot, exp),
+        "bear_call_spread": bear_call_spread(chain, spot, exp),
+        "iron_fly": iron_fly(chain, spot, exp, iv_rank, adx),
+        "ratio_spread_1x2": ratio_spread_1x2(chain, spot, exp),
+    }
+    far = far_expiry or next((e for e in data["expiries"] if e != exp), None)
+    if far:
+        try:
+            far_data = _get_chain_live(symbol, far)
+            result["calendar_spread"] = calendar_spread(chain, far_data["chain"], spot, exp, far)
+        except Exception as e:
+            result["calendar_spread"] = {"strategy": "calendar_spread", "error": str(e)}
+    else:
+        result["calendar_spread"] = {"strategy": "calendar_spread", "error": "no second expiry available"}
+    return result
+
+
 @router.get("/options/earnings")
 async def earnings():
     from ..options.institutional import earnings_calendar
