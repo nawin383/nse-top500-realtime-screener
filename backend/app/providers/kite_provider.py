@@ -39,6 +39,7 @@ class KiteProvider(BaseProvider):
         self._on_ticks: Callable = None
         self._stop = False
         self._thread = None
+        self._loop = None
         # token -> symbol
         self._token_to_symbol = {u["instrument_token"]: u["symbol"] for u in universe}
         self._symbol_to_token = {u["symbol"]: u["instrument_token"] for u in universe}
@@ -73,6 +74,11 @@ class KiteProvider(BaseProvider):
     async def start(self, on_ticks):
         self._on_ticks = on_ticks
         self._stop = False
+        # captured here because we're genuinely inside the running loop; _on_message
+        # runs on the websocket-client background thread, which has no event loop of
+        # its own, so asyncio.get_event_loop() there raises "no current event loop"
+        # (fatal in 3.10+) and every tick was silently dropped by the outer try/except.
+        self._loop = asyncio.get_running_loop()
         # run websocket-client in thread (original pattern)
         self._thread = threading.Thread(target=self._run_blocking, daemon=True)
         self._thread.start()
@@ -167,10 +173,10 @@ class KiteProvider(BaseProvider):
                                 normalized.append(nt)
                         except Exception as e:
                             logger.error(f"normalize tick error {e}")
-                    if normalized:
-                        # need to call async callback from thread
-                        asyncio.run_coroutine_threadsafe(self._dispatch(normalized), asyncio.get_event_loop())
-                        # but get_event_loop may fail in thread; fallback to direct loop retrieval
+                    if normalized and self._loop:
+                        asyncio.run_coroutine_threadsafe(self._dispatch(normalized), self._loop)
+                    elif normalized:
+                        logger.error("no event loop captured yet, dropping tick batch")
                     self._ticks_processed += len(ticks)
             elif isinstance(message, str):
                 data = json.loads(message)
