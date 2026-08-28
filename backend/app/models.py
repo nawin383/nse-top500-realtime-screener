@@ -47,18 +47,30 @@ class Candle(BaseModel):
 
 class IndicatorSnapshot(BaseModel):
     vwap: Optional[float] = None
+    vwap_upper1: Optional[float] = None
+    vwap_lower1: Optional[float] = None
+    vwap_upper2: Optional[float] = None
+    vwap_lower2: Optional[float] = None
     ema9: Optional[float] = None
     ema20: Optional[float] = None
     ema50: Optional[float] = None
     rsi: Optional[float] = None
+    rsi_divergence: Optional[str] = None  # bullish | bearish | None
     atr: Optional[float] = None
     macd: Optional[float] = None
     macd_signal: Optional[float] = None
     macd_hist: Optional[float] = None
+    macd_cross: Optional[str] = None  # bullish_cross | bearish_cross | None
     bb_upper: Optional[float] = None
     bb_lower: Optional[float] = None
     bb_middle: Optional[float] = None
+    bb_width_pct: Optional[float] = None  # (upper-lower)/middle * 100
     adx: Optional[float] = None
+    di_plus: Optional[float] = None
+    di_minus: Optional[float] = None
+    supertrend: Optional[float] = None
+    supertrend_direction: Optional[int] = None  # 1 uptrend, -1 downtrend
+    supertrend_signal: Optional[str] = None  # BUY | SELL | HOLD
 
 class MomentumMetrics(BaseModel):
     ret_1m: Optional[float] = None
@@ -70,6 +82,10 @@ class MomentumMetrics(BaseModel):
     day_high_breakout: Optional[bool] = None
     day_low_breakdown: Optional[bool] = None
     vwap_breakout: Optional[bool] = None
+    or15_high: Optional[float] = None
+    or15_low: Optional[float] = None
+    or30_high: Optional[float] = None
+    or30_low: Optional[float] = None
 
 class StockState(BaseModel):
     symbol: str
@@ -83,6 +99,8 @@ class StockState(BaseModel):
     high: Optional[float] = None
     low: Optional[float] = None
     previous_close: Optional[float] = None
+    previous_day_high: Optional[float] = None
+    previous_day_low: Optional[float] = None
     change: Optional[float] = None
     change_pct: Optional[float] = None
     volume: int = 0

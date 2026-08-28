@@ -43,53 +43,82 @@ def calculate_supertrend(
     period: int = 10,
     multiplier: float = 3.0
 ) -> Optional[SupertrendResult]:
-    """Calculate Supertrend indicator."""
-    if len(closes) < period:
+    """Calculate Supertrend indicator (stateful, full-series recursive bands).
+
+    Supertrend is not a single-bar snapshot: its final upper/lower bands
+    ratchet toward price across the whole series (an upper band only ever
+    moves down, a lower band only ever moves up, unless price closes through
+    the opposite band and the trend flips), and the trend for bar N depends
+    on the trend at bar N-1. A version of this function that only looked at
+    the last one or two closes and compared yesterday's close to *today's*
+    midpoint was silently inverted in a clean trend (a strong, monotonic
+    uptrend could read as direction=-1). The fix is to walk the whole candle
+    history bar-by-bar, carrying the band/trend state forward exactly as the
+    reference Supertrend algorithm defines it, then return the final state.
+    """
+    n = len(closes)
+    if n < period + 1:
         return None
 
-    # Calculate ATR
-    tr_values = []
-    for i in range(1, len(closes)):
+    trs: List[float] = []
+    for i in range(1, n):
         tr = max(
             highs[i] - lows[i],
             abs(highs[i] - closes[i-1]),
-            abs(lows[i] - closes[i-1])
+            abs(lows[i] - closes[i-1]),
         )
-        tr_values.append(tr)
-
-    if len(tr_values) < period:
+        trs.append(tr)
+    if len(trs) < period:
         return None
 
-    atr = sum(tr_values[-period:]) / period
+    # Wilder-smoothed ATR series; atr_series[k] is the ATR as of candle index
+    # (period + k), matching the first candle with a full TR lookback.
+    atr_val = sum(trs[:period]) / period
+    atr_series = [atr_val]
+    for i in range(period, len(trs)):
+        atr_val = (atr_val * (period - 1) + trs[i]) / period
+        atr_series.append(atr_val)
 
-    # Calculate basic bands
-    hl_avg = (highs[-1] + lows[-1]) / 2
-    upper_band = hl_avg + (multiplier * atr)
-    lower_band = hl_avg - (multiplier * atr)
+    start = period
+    final_upper: Optional[float] = None
+    final_lower: Optional[float] = None
+    trend = 1
+    signal = "HOLD"
+    for idx in range(start, n):
+        atr_val = atr_series[idx - start]
+        hl2 = (highs[idx] + lows[idx]) / 2
+        basic_upper = hl2 + multiplier * atr_val
+        basic_lower = hl2 - multiplier * atr_val
+        prev_close = closes[idx - 1]
 
-    # Determine trend
-    close = closes[-1]
-    if close > upper_band:
-        direction = 1
-        value = lower_band
-        signal = "BUY"
-    elif close < lower_band:
-        direction = -1
-        value = upper_band
-        signal = "SELL"
-    else:
-        # Check previous trend
-        prev_close = closes[-2] if len(closes) > 1 else close
-        if prev_close > hl_avg:
-            direction = 1
-            value = lower_band
+        if final_upper is None:
+            # Seed bar: no prior band state to ratchet from yet.
+            final_upper, final_lower = basic_upper, basic_lower
+            trend = 1 if closes[idx] > hl2 else -1
             signal = "HOLD"
+            continue
+
+        final_upper = basic_upper if (basic_upper < final_upper or prev_close > final_upper) else final_upper
+        final_lower = basic_lower if (basic_lower > final_lower or prev_close < final_lower) else final_lower
+
+        prev_trend = trend
+        close = closes[idx]
+        if prev_trend == 1 and close < final_lower:
+            trend = -1
+        elif prev_trend == -1 and close > final_upper:
+            trend = 1
         else:
-            direction = -1
-            value = upper_band
+            trend = prev_trend
+
+        if trend == 1 and prev_trend == -1:
+            signal = "BUY"
+        elif trend == -1 and prev_trend == 1:
+            signal = "SELL"
+        else:
             signal = "HOLD"
 
-    return SupertrendResult(value=value, direction=direction, signal=signal)
+    value = final_lower if trend == 1 else final_upper
+    return SupertrendResult(value=round(value, 2), direction=trend, signal=signal)
 
 
 def calculate_ichimoku(

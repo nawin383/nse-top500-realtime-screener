@@ -4,6 +4,7 @@ Preserves efficient incremental calculations, handles stale, duplicate, missing.
 from __future__ import annotations
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
+from collections import deque, defaultdict
 import logging
 import copy
 
@@ -16,7 +17,8 @@ except ImportError:
 
 from .models import MarketTick, StockState, Candle
 from .candle_engine import CandleEngine
-from .indicators import ema_series, rsi, atr, macd, bollinger, adx
+from .indicators import ema_series, rsi, atr, macd, bollinger, adx, vwap_bands, macd_cross_signal, rsi_divergence
+from .indicators_advanced import calculate_supertrend
 from .scoring import score_stock
 from .utils.freshness import compute_freshness
 try:
@@ -38,13 +40,15 @@ class MarketState:
         # per-symbol tick history for candle-based indicators (closing prices per 1m)
         # also store VWAP cumulative
         self._cum_pv: Dict[str, float] = {}
+        self._cum_pv2: Dict[str, float] = {}  # cumulative volume*price^2, for VWAP bands
         self._cum_vol: Dict[str, int] = {}
         self._prev_close_map: Dict[str, float] = {}
-        self._opening_range: Dict[str, Dict] = {}  # first 15m high/low
+        self._opening_range: Dict[str, Dict] = {}  # first 15m/30m high/low
         self._first_tick_time: Optional[datetime] = None
         self._last_data_received: Optional[datetime] = None
         self._last_candle_count: Dict[str, int] = {}
         self._tick_counter: Dict[str, int] = {}
+        self._rsi_history: Dict[str, deque] = defaultdict(lambda: deque(maxlen=100))
         self._init_universe(universe)
 
     def _init_universe(self, universe: List[Dict[str, Any]]):
@@ -96,6 +100,17 @@ class MarketState:
                     volume=0,
                     freshness="NO_DATA",
                 )
+            # Real previous-day high/low, if this symbol has ingested bhavcopy history
+            # (see historical/store.py, populated via GET /api/historical/bhavcopy) --
+            # left None rather than guessed when no history has been ingested yet.
+            try:
+                from .historical.store import get_history
+                hist = get_history(sym, days=2)
+                if hist:
+                    state.previous_day_high = hist[-1].get("high")
+                    state.previous_day_low = hist[-1].get("low")
+            except Exception:
+                pass
             self.states[sym] = state
         logger.info(f"MarketState initialized with {len(self.states)} symbols (is_live={_is_live})")
 
@@ -246,15 +261,23 @@ class MarketState:
                 delta_vol = tick.volume
                 self._cum_vol[sym] = tick.volume
                 self._cum_pv[sym] = 0  # reset
+                self._cum_pv2[sym] = 0  # reset (VWAP band variance tracker)
         else:
             delta_vol = tick.last_quantity or 0
             self._cum_vol[sym] = self._cum_vol.get(sym,0) + delta_vol
 
         cum_pv = self._cum_pv.get(sym, 0) + tick.ltp * max(delta_vol,0)
         self._cum_pv[sym] = cum_pv
+        cum_pv2 = self._cum_pv2.get(sym, 0) + (tick.ltp**2) * max(delta_vol,0)
+        self._cum_pv2[sym] = cum_pv2
         cum_vol = self._cum_vol.get(sym, 0)
         if cum_vol > 0:
             state.indicators.vwap = cum_pv / cum_vol
+            bands = vwap_bands(state.indicators.vwap, cum_vol, cum_pv, cum_pv2)
+            state.indicators.vwap_upper1 = bands["upper1"]
+            state.indicators.vwap_lower1 = bands["lower1"]
+            state.indicators.vwap_upper2 = bands["upper2"]
+            state.indicators.vwap_lower2 = bands["lower2"]
 
         # rel volume: current vol / expected avg vol at this time of day, using a REAL
         # average daily volume (from history_warmer's Kite historical candles, or the
@@ -330,22 +353,38 @@ class MarketState:
             state.indicators.ema50 = ema50[-1]
         if len(closes) >= 15:
             state.indicators.rsi = rsi(closes, 14)
+            self._rsi_history[symbol].append(state.indicators.rsi)
+            state.indicators.rsi_divergence = rsi_divergence(closes, list(self._rsi_history[symbol]))
         if len(candles_1m) >= 15:
             dict_candles = [{"high":c.high,"low":c.low,"close":c.close} for c in candles_1m]
             state.indicators.atr = atr(dict_candles, 14)
         if len(closes) >= 35:
             m,s,h = macd(closes)
+            prev_hist = state.indicators.macd_hist
             state.indicators.macd = m
             state.indicators.macd_signal = s
             state.indicators.macd_hist = h
+            state.indicators.macd_cross = macd_cross_signal(prev_hist, h)
         if len(closes) >= 20:
             upper,mid,lower = bollinger(closes,20,2)
             state.indicators.bb_upper = upper
             state.indicators.bb_middle = mid
             state.indicators.bb_lower = lower
-        if len(candles_1m) >= 28:
+            state.indicators.bb_width_pct = round((upper-lower)/mid*100, 3) if mid else None
+        if len(candles_1m) >= 15:
             dict_candles = [{"high":c.high,"low":c.low,"close":c.close} for c in candles_1m]
-            state.indicators.adx = adx(dict_candles,14)
+            adx_val, plus_di, minus_di = adx(dict_candles, 14)
+            state.indicators.adx = adx_val
+            state.indicators.di_plus = plus_di
+            state.indicators.di_minus = minus_di
+        if len(candles_1m) >= 10:
+            highs = [c.high for c in candles_1m]
+            lows = [c.low for c in candles_1m]
+            st = calculate_supertrend(highs, lows, closes, period=10, multiplier=3.0)
+            if st:
+                state.indicators.supertrend = round(st.value, 2)
+                state.indicators.supertrend_direction = st.direction
+                state.indicators.supertrend_signal = st.signal
 
     def _update_momentum(self, symbol: str, now: datetime):
         state = self.states[symbol]
@@ -362,7 +401,8 @@ class MarketState:
                 if prev_close and prev_close !=0:
                     ret = (state.ltp - prev_close)/prev_close*100
                     setattr(state.momentum, attr, round(ret,3))
-        # opening range breakout
+        # opening range breakout (15-min range; 30-min exposed alongside for
+        # strategies/UI that want the wider window)
         ors = self._opening_range.get(symbol)
         if ors and state.ltp:
             if ors.get("high") and state.ltp > ors["high"]:
@@ -371,6 +411,10 @@ class MarketState:
                 state.momentum.day_low_breakdown = True  # reuse
             else:
                 state.momentum.opening_range_breakout = False
+            state.momentum.or15_high = ors.get("high15")
+            state.momentum.or15_low = ors.get("low15")
+            state.momentum.or30_high = ors.get("high30")
+            state.momentum.or30_low = ors.get("low30")
         # day high breakout
         if state.high and state.ltp >= state.high and state.high != state.previous_close:
             # breakout if ltp == high and vol spike maybe
@@ -395,17 +439,27 @@ class MarketState:
                 state.momentum.vwap_breakout = state.ltp > state.indicators.vwap
 
     def _update_opening_range(self, symbol: str, ts: datetime, ltp: float):
+        """Tracks both the 15-min and 30-min opening range in one pass (30-min
+        window is a superset of the 15-min one, both closed off at market_start
+        + N minutes; configurable windows beyond these two would need a list
+        instead of two hardcoded keys, not needed by anything using this yet)."""
         if ts.tzinfo is None:
             ts = ts.replace(tzinfo=IST)
         market_start = ts.replace(hour=9, minute=15, second=0, microsecond=0)
-        opening_end = market_start + timedelta(minutes=15)
-        if market_start <= ts <= opening_end:
-            entry = self._opening_range.get(symbol)
-            if entry is None:
-                self._opening_range[symbol] = {"high": ltp, "low": ltp}
-            else:
-                entry["high"] = max(entry["high"], ltp)
-                entry["low"] = min(entry["low"], ltp)
+        end15 = market_start + timedelta(minutes=15)
+        end30 = market_start + timedelta(minutes=30)
+        if not (market_start <= ts <= end30):
+            return
+        entry = self._opening_range.setdefault(symbol, {})
+        if ts <= end15:
+            entry["high15"] = max(entry.get("high15", ltp), ltp)
+            entry["low15"] = min(entry.get("low15", ltp), ltp)
+        entry["high30"] = max(entry.get("high30", ltp), ltp)
+        entry["low30"] = min(entry.get("low30", ltp), ltp)
+        # keep legacy keys ("high"/"low" == the 15-min range) for the existing
+        # opening_range_breakout flag logic in _update_momentum below
+        entry["high"] = entry.get("high15", entry.get("high30"))
+        entry["low"] = entry.get("low15", entry.get("low30"))
 
     def refresh_freshness(self):
         now = datetime.now(tz=IST)
@@ -543,8 +597,10 @@ class MarketState:
     def reset_day(self):
         self.candle_engine.reset_day()
         self._cum_pv.clear()
+        self._cum_pv2.clear()
         self._cum_vol.clear()
         self._opening_range.clear()
+        self._rsi_history.clear()
         for s in self.states.values():
             s.open = None
             s.high = None
