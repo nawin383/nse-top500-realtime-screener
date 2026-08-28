@@ -45,6 +45,7 @@ export default function OptionsInsights({ theme='dark' }){
   const [strategies, setStrategies] = useState(null)
   const [sellerDash, setSellerDash] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [lastFetch, setLastFetch] = useState(null)
 
   useEffect(()=>{
     let cancelled = false
@@ -74,6 +75,7 @@ export default function OptionsInsights({ theme='dark' }){
     ]).then(([a,p,o,v,iv,vx,u,st,sd])=>{
       if(cancelled) return
       setAtm(a); setPcr(p); setOi(o); setVol(v); setIvhv(iv); setVix(vx); setUnusual(u); setStrategies(st); setSellerDash(sd)
+      setLastFetch(new Date())
     }).finally(()=>{ if(!cancelled) setLoading(false) })
     return ()=>{ cancelled = true }
   }, [symbol, expiry, apiBase])
@@ -115,6 +117,7 @@ export default function OptionsInsights({ theme='dark' }){
           {!expiries.length && <option>Loading…</option>}
         </select>
         {loading && <span style={{fontSize:11, color:'#94a3b8'}}>Refreshing…</span>}
+        {lastFetch && <span style={{fontSize:10, color:'#64748b'}}>as of {lastFetch.toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'})}</span>}
         <span style={{marginLeft:'auto', fontSize:10, color:'#94a3b8'}}>All figures from the live option chain • real data only, gaps shown as "no data"</span>
       </div>
 

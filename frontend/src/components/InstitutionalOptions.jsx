@@ -34,6 +34,7 @@ export default function InstitutionalOptions(){
   const [ivhv, setIvhv] = useState(null)
 
   const [loadError, setLoadError] = useState(null)
+  const [lastFetch, setLastFetch] = useState(null)
 
   // A failed/unavailable endpoint returns {detail:"..."} (or throws on a network
   // error) instead of the expected shape -- never let one bad card's data crash
@@ -70,6 +71,7 @@ export default function InstitutionalOptions(){
       setTshape(ts); if(ts?.expiries) setExpiries(ts.expiries); setAtm(a); setVol(v); setGreeks(g); setIvhv(iv); setPcr(pc); setOi(o); setUnusual(u); setTerm(t); setScenario(sc); setCorr(cr); setMargin(mg); setMisprice(mp)
       if(!expiry && ts?.expiry) setExpiry(ts.expiry)
       setLoadError(ts ? null : 'No live data available for this symbol/expiry right now.')
+      setLastFetch(new Date())
     }catch(e){ console.error(e); setLoadError('Failed to load options data.') }
   }
   useEffect(()=>{ fetchAll() }, [symbol, expiry])
@@ -91,6 +93,7 @@ export default function InstitutionalOptions(){
         <select className="input" value={expiry} onChange={e=> setExpiry(e.target.value)}>{expiries.map(e=> <option key={e} value={e}>{e}</option>)}</select>
         <span style={{fontSize:11, color:'#cbd5e1'}}>Spot <b style={{color:'#f1f5f9'}}>{tshape?.spot}</b> ATM <b style={{color:'#f59e0b'}}>{tshape?.atmStrike}</b> Src {tshape?.source}</span>
         <button className="btn sm" onClick={fetchAll}>↻ Refresh</button>
+        {lastFetch && <span style={{fontSize:10, color:'#64748b'}}>as of {lastFetch.toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'})}</span>}
       </div>
 
       {loadError && <div style={{color:'#cbd5e1', padding:'10px 12px', marginBottom:12, background:'#16233a', border:'1px solid #1e293b', borderRadius:8, fontSize:12}}>{loadError}</div>}
