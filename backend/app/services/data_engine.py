@@ -23,7 +23,7 @@ from ..providers.mock_provider import MockProvider
 from ..providers.kite_provider import KiteProvider
 from ..providers.replay_provider import ReplayProvider
 from .broadcaster import broadcaster
-from .kite_rest import get_kite_client, fetch_ltp
+from .kite_rest import get_kite_client, fetch_quote
 from ..config import settings
 
 logger = logging.getLogger(__name__)
@@ -91,9 +91,18 @@ class DataEngine:
         logger.info("DataEngine stopped")
 
     async def _rest_fallback_loop(self):
-        """Poll GET /quote/ltp for symbols the WebSocket hasn't updated recently.
-        Only fires for stale/no-data symbols, so on a healthy connection this is a
-        near-empty no-op batch every interval, not a duplicate full-universe poll."""
+        """Poll GET /quote (full: OHLC + volume, not just last price) for symbols the
+        WebSocket hasn't updated recently. Only fires for stale/no-data symbols, so on
+        a healthy connection this is a near-empty no-op batch every interval, not a
+        duplicate full-universe poll.
+
+        Deliberately NOT /quote/ltp: that endpoint returns last_price only, no OHLC.
+        A tick with no ohlc.close leaves previous_close pinned to whatever placeholder
+        was already in state, so change%/day-high-breakout come out nonsensical the
+        moment a real price differs from it -- this is exactly what /quote/ltp did
+        here before, and with the market closed (the WebSocket sending nothing) this
+        loop was the *only* tick source, corrupting every single symbol immediately.
+        """
         kite = get_kite_client(settings.kite_api_key, settings.kite_access_token)
         if not kite:
             return
@@ -114,14 +123,20 @@ class DataEngine:
                     stale_instruments.append(key)
                 if not stale_instruments:
                     continue
-                result = await fetch_ltp(kite, stale_instruments)
+                result = await fetch_quote(kite, stale_instruments)
                 ticks = []
                 for key, data in result.items():
                     sym = instrument_key.get(key)
                     ltp = data.get("last_price")
                     if not sym or not ltp:
                         continue
-                    ticks.append(MarketTick(symbol=sym, token=data.get("instrument_token", 0), timestamp=now, ltp=ltp, volume=self.market_state.states[sym].volume or 0))
+                    ohlc = data.get("ohlc") or {}
+                    ticks.append(MarketTick(
+                        symbol=sym, token=data.get("instrument_token", 0), timestamp=now, ltp=ltp,
+                        volume=data.get("volume") or self.market_state.states[sym].volume or 0,
+                        open=ohlc.get("open"), high=ohlc.get("high"), low=ohlc.get("low"),
+                        previousClose=ohlc.get("close"),
+                    ))
                 if ticks:
                     await self.on_ticks(ticks)
             except Exception as e:

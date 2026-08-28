@@ -83,7 +83,7 @@ export default function App(){
   const toggleFilter=(key)=> setFilters(prev=>({...prev,[key]:!prev[key]}))
   const liveSelectedState=selected?stocksMap[selected]:null
   const isClosed=marketStatus && !marketStatus.is_open
-  const nextOpen=marketStatus?.next_open? new Date(marketStatus.next_open).toLocaleString('en-IN',{weekday:'short',hour:'2-digit',minute:'2-digit'}):'09:15 IST'
+  const nextOpen=marketStatus?.next_open? new Date(marketStatus.next_open).toLocaleString('en-IN',{weekday:'short',hour:'2-digit',minute:'2-digit',timeZone:'Asia/Kolkata'})+' IST':'09:15 IST'
   const chartSymbol = selected ? `NSE:${selected}` : 'NSE:RELIANCE'
 
   return (

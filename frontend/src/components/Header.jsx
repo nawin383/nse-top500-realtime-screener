@@ -21,7 +21,7 @@ export default function Header({ marketStatus, connectionStatus, lastUpdate, dat
         <span style={{display:'flex',gap:8, alignItems:'center', background:'rgba(255,255,255,0.04)', padding:'6px 12px', borderRadius:999, border:'1px solid rgba(255,255,255,0.06)'}}>
           <span className={`status-dot ${dotClass}`} /> <b style={{color:'#eef4ff', fontSize:11, letterSpacing:'0.06em'}}>{connectionStatus.toUpperCase()}</b>
         </span>
-        <span style={{fontFamily:'JetBrains Mono', fontSize:11, background:'rgba(15,20,28,0.8)', padding:'6px 10px', borderRadius:8, border:'1px solid rgba(255,255,255,0.06)'}}>Last <b style={{color:'#eef4ff'}}>{lastUpdate ? new Date(lastUpdate).toLocaleTimeString('en-IN') : '--:--:--'}</b></span>
+        <span style={{fontFamily:'JetBrains Mono', fontSize:11, background:'rgba(15,20,28,0.8)', padding:'6px 10px', borderRadius:8, border:'1px solid rgba(255,255,255,0.06)'}}>Last <b style={{color:'#eef4ff'}}>{lastUpdate ? new Date(lastUpdate).toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'}) : '--:--:--'}</b></span>
         <span style={{color:'#5b728c', fontSize:11, display:'none'}} className="hide-mobile">500 • 09:15-15:30 IST</span>
       </div>
     </div>
