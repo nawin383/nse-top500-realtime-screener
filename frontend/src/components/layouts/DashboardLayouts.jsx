@@ -7,7 +7,7 @@ export function BentoCard({ children, delay=0, style }){
   return (
     <motion.div initial={{opacity:0, y:12}} animate={{opacity:1, y:0}} transition={{delay: delay*0.05, duration:0.35, ease:[0.16,1,0.3,1]}}
       whileHover={{ y:-2, transition:{duration:0.15} }}
-      style={{ background:'linear-gradient(135deg, rgba(21,29,39,0.9), rgba(17,24,32,0.75))', border:'1px solid rgba(255,255,255,0.06)', borderRadius:16, padding:14, backdropFilter:'blur(16px)', boxShadow:'0 8px 24px rgba(0,0,0,0.25)', ...style }}>
+      style={{ background:'linear-gradient(135deg, rgba(22,35,58,0.9), rgba(13,27,42,0.75))', border:'1px solid rgba(255,255,255,0.06)', borderRadius:16, padding:14, backdropFilter:'blur(16px)', boxShadow:'0 8px 24px rgba(0,0,0,0.25)', ...style }}>
       {children}
     </motion.div>
   )
@@ -43,8 +43,8 @@ export function DragGrid({ items }){
   return (
     <GridLayout className="layout" layout={layout} cols={2} rowHeight={140} width={1200} isResizable draggableHandle=".drag-handle" style={{margin:'-8px'}}>
       {items.map((c,i)=>(
-        <div key={`${i}`} style={{background:'rgba(21,29,39,0.9)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:16, padding:12}}>
-          <div className="drag-handle" style={{fontSize:10,color:'#5b728c',cursor:'grab',marginBottom:6}}>⋮⋮ drag</div>{c}
+        <div key={`${i}`} style={{background:'rgba(22,35,58,0.9)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:16, padding:12}}>
+          <div className="drag-handle" style={{fontSize:10,color:'#94a3b8',cursor:'grab',marginBottom:6}}>⋮⋮ drag</div>{c}
         </div>
       ))}
     </GridLayout>

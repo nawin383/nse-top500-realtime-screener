@@ -87,8 +87,8 @@ export default function App(){
     <div className="app">
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Header marketStatus={marketStatus} connectionStatus={wsStatus} lastUpdate={lastUpdate} dataMode={dataMode} />
-      <div style={{display:'flex', gap:8, padding:'4px 20px', background:'rgba(15,20,28,0.7)', borderBottom:'1px solid rgba(255,255,255,0.06)', alignItems:'center', flexWrap:'wrap'}}>
-        <div style={{display:'flex', gap:6, alignItems:'center', fontSize:11, color:'#8ea0b8'}}><span style={{width:6,height:6,borderRadius:999, background: wsStatus==='open'?'#00e6a0':'#ff3b4a'}}/> {allStocks.length} symbols</div>
+      <div style={{display:'flex', gap:8, padding:'4px 20px', background:'rgba(13,27,42,0.7)', borderBottom:'1px solid rgba(255,255,255,0.06)', alignItems:'center', flexWrap:'wrap'}}>
+        <div style={{display:'flex', gap:6, alignItems:'center', fontSize:11, color:'#cbd5e1'}}><span style={{width:6,height:6,borderRadius:999, background: wsStatus==='open'?'#10b981':'#ef5350'}}/> {allStocks.length} symbols</div>
         <div style={{marginLeft:'auto', display:'flex', gap:8, alignItems:'center'}}>
           <LayoutSwitcher value={dashLayout} onChange={setDashLayout} />
           <ThemeToggle />
@@ -96,12 +96,12 @@ export default function App(){
         </div>
       </div>
       {isClosed && (
-        <div style={{background:'linear-gradient(90deg, rgba(255,176,32,0.12), rgba(255,138,0,0.08))', padding:'5px 20px', fontSize:12, color:'#ffb020', display:'flex', gap:12, alignItems:'center', flexWrap:'wrap'}}>
-          <span style={{fontWeight:800, display:'flex',gap:8,alignItems:'center'}}><span style={{width:8,height:8,borderRadius:999,background:'#ffb020'}}/> MARKET CLOSED</span>
-          <span style={{color:'#eef4ff',fontWeight:600}}>Showing last close</span><span style={{color:'#8ea0b8',fontSize:11}}>Next open • {nextOpen}</span>
+        <div style={{background:'linear-gradient(90deg, rgba(245,158,11,0.12), rgba(217,119,6,0.08))', padding:'5px 20px', fontSize:12, color:'#f59e0b', display:'flex', gap:12, alignItems:'center', flexWrap:'wrap'}}>
+          <span style={{fontWeight:800, display:'flex',gap:8,alignItems:'center'}}><span style={{width:8,height:8,borderRadius:999,background:'#f59e0b'}}/> MARKET CLOSED</span>
+          <span style={{color:'#f1f5f9',fontWeight:600}}>Showing last close</span><span style={{color:'#cbd5e1',fontSize:11}}>Next open • {nextOpen}</span>
         </div>
       )}
-      <div style={{display:'flex', gap:6, padding:'6px 20px', background:'rgba(15,20,28,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', alignItems:'center'}}>
+      <div style={{display:'flex', gap:6, padding:'6px 20px', background:'rgba(13,27,42,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', alignItems:'center'}}>
         {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'options',label:'Options',icon:'⛓'},{k:'insights',label:'Options Insights',icon:'📊'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
           <button key={v.k} aria-label={`Switch to ${v.label} view`} aria-pressed={view===v.k} className={`btn ${view===v.k?'active':''}`} onClick={()=> setView(v.k)} style={{borderRadius:8, fontWeight:700, fontSize:12}}><span aria-hidden="true">{v.icon}</span> {v.label} {v.count!=null&&view==='screener'?<span style={{background:view===v.k?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{v.count}</span>:null}</button>
         ))}
@@ -110,7 +110,7 @@ export default function App(){
             <button className="btn sm" aria-pressed={showDashboard} onClick={()=>setShowDashboard(v=>!v)} style={{borderRadius:8, fontWeight:700}}>{showDashboard?'▴ Hide':'▾ Show'} Dashboard</button>
             <div style={{display:'flex',gap:2,background:'rgba(255,255,255,0.04)',borderRadius:8,padding:2,border:'1px solid rgba(255,255,255,0.06)'}}>
               {['compact','comfortable'].map(d=>(
-                <button key={d} onClick={()=>setDensity(d)} aria-pressed={density===d} style={{padding:'5px 10px', fontSize:11, fontWeight:700, textTransform:'capitalize', borderRadius:6, border:'none', cursor:'pointer', background: density===d?'linear-gradient(135deg,#2f8bff,#6b5cff)':'transparent', color: density===d?'#fff':'#8ea0b8'}}>{d}</button>
+                <button key={d} onClick={()=>setDensity(d)} aria-pressed={density===d} style={{padding:'5px 10px', fontSize:11, fontWeight:700, textTransform:'capitalize', borderRadius:6, border:'none', cursor:'pointer', background: density===d?'linear-gradient(135deg,#2563eb,#64b5f6)':'transparent', color: density===d?'#fff':'#cbd5e1'}}>{d}</button>
               ))}
             </div>
           </div>
@@ -118,10 +118,10 @@ export default function App(){
       </div>
 
       <div id="main-content" tabIndex={-1} style={{flex:1, overflow: view==='screener' && !showDashboard ? 'hidden':'auto', padding:'8px 20px 0 20px', display:'flex', flexDirection:'column', gap:10}}>
-        <Suspense fallback={<div style={{color:'#5b728c',textAlign:'center'}}>Loading view…</div>}>
+        <Suspense fallback={<div style={{color:'#94a3b8',textAlign:'center'}}>Loading view…</div>}>
           {view==='options'?<div style={{flex:1, display:'flex', flexDirection:'column', gap:14}}>
-            <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14}}>
-              <h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Open Interest — Weekly / Monthly</h3>
+            <div style={{background:'rgba(13,27,42,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14}}>
+              <h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1',marginBottom:10}}>Open Interest — Weekly / Monthly</h3>
               <Suspense fallback={<div style={{height:320,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><OpenInterestChart theme={theme} /></Suspense>
             </div>
             <OptionsChain/>
@@ -132,34 +132,34 @@ export default function App(){
           :(<>
             {showDashboard && (<>
               <section aria-labelledby="pulse-heading">
-                <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#00e6a0,#2f8bff)',borderRadius:999}}/> Market Pulse</h2>
+                <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#cbd5e1', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#10b981,#2563eb)',borderRadius:999}}/> Market Pulse</h2>
                 <MarketOverview data={overview} />
               </section>
 
               <section aria-labelledby="watchlist-heading">
-                <h2 id="watchlist-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Watchlist</h2>
+                <h2 id="watchlist-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1',marginBottom:10}}>Watchlist</h2>
                 <WatchlistManager onSelect={handleSelect} />
               </section>
             </>)}
 
             <section aria-labelledby="screener-heading" style={{flex:1, display:'flex', flexDirection:'column', gap:8, minHeight:0}}>
-              {showDashboard && <h2 id="screener-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8', display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#2f8bff,#8b5cf6)',borderRadius:999}}/> Screener — {filtered.length} results</h2>}
+              {showDashboard && <h2 id="screener-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1', display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#2563eb,#8b5cf6)',borderRadius:999}}/> Screener — {filtered.length} results</h2>}
               <div className="filters" style={{borderRadius:12, border:'1px solid rgba(255,255,255,0.06)', padding:'8px 12px', flexShrink:0}}>
-                <div style={{position:'relative'}}><span aria-hidden="true" style={{position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',color:'#5b728c'}}>⌕</span><input aria-label="Search symbol or company" className="input" placeholder="Search symbol or company" value={search} onChange={e=> setSearch(e.target.value)} style={{minWidth:220,paddingLeft:28,borderRadius:12}} /></div>
+                <div style={{position:'relative'}}><span aria-hidden="true" style={{position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',color:'#94a3b8'}}>⌕</span><input aria-label="Search symbol or company" className="input" placeholder="Search symbol or company" value={search} onChange={e=> setSearch(e.target.value)} style={{minWidth:220,paddingLeft:28,borderRadius:12}} /></div>
                 <select aria-label="Filter by sector" className="input" value={sectorFilter} onChange={e=>setSectorFilter(e.target.value)} style={{borderRadius:12, minWidth:150}}><option value="">All Sectors</option>{sectors.map(s=> <option key={s.sector} value={s.sector}>{s.sector} ({s.count})</option>)}</select>
-                <div style={{display:'flex',gap:6,flexWrap:'wrap'}}><span style={{fontSize:11,color:'#5b728c',fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',alignSelf:'center'}}>Quick</span>
+                <div style={{display:'flex',gap:6,flexWrap:'wrap'}}><span style={{fontSize:11,color:'#94a3b8',fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',alignSelf:'center'}}>Quick</span>
                   <button aria-pressed={!!filters.gainers} className={`chip ${filters.gainers?'active':''}`} onClick={()=> toggleFilter('gainers')} aria-label="Filter gainers">↗ Gainers</button>
                   <button aria-pressed={!!filters.losers} className={`chip ${filters.losers?'active':''}`} onClick={()=> toggleFilter('losers')} aria-label="Filter losers">↘ Losers</button>
                   <button aria-pressed={!!filters.aboveVwap} className={`chip ${filters.aboveVwap?'active':''}`} onClick={()=> toggleFilter('aboveVwap')} aria-label="Filter above VWAP">◈ Above VWAP</button>
                   <button aria-pressed={!!filters.volumeSpike} className={`chip ${filters.volumeSpike?'active':''}`} onClick={()=> toggleFilter('volumeSpike')} aria-label="Filter volume spike">Vol Spike</button>
                   <button aria-pressed={!!filters.breakout} className={`chip ${filters.breakout?'active':''}`} onClick={()=> toggleFilter('breakout')} aria-label="Filter breakout">Breakout</button>
-                  <button className="chip" onClick={()=> setFilters({})} aria-label="Clear filters" style={{background:'rgba(47,139,255,0.08)',borderColor:'rgba(47,139,255,0.2)',color:'#2f8bff'}}>Clear</button>
-                  {!showDashboard && <span style={{marginLeft:'auto', fontSize:11, color:'#5b728c', alignSelf:'center'}}>{filtered.length} results</span>}
+                  <button className="chip" onClick={()=> setFilters({})} aria-label="Clear filters" style={{background:'rgba(37,99,235,0.08)',borderColor:'rgba(37,99,235,0.2)',color:'#2563eb'}}>Clear</button>
+                  {!showDashboard && <span style={{marginLeft:'auto', fontSize:11, color:'#94a3b8', alignSelf:'center'}}>{filtered.length} results</span>}
                 </div>
               </div>
               <div className="main" style={{padding:0, flex:1, minHeight:0}}>
                 <div className="table-wrap" style={{flex:1}}><StockTable stocks={filtered} onSelect={handleSelect} selectedSymbol={selected} sortBy={sortBy} sortDir={sortDir} onSort={(k,dir)=>{setSortBy(k); setSortDir(dir)}} density={density} />
-                  {filtered.length===0 && allStocks.length===0 && <div style={{position:'absolute',inset:0,display:'grid',placeItems:'center',textAlign:'center'}}><div><div style={{width:48,height:48,borderRadius:16,background:'linear-gradient(135deg, rgba(47,139,255,0.15), rgba(0,230,160,0.1))',display:'grid',placeItems:'center',margin:'0 auto 12px'}}>◈</div><div style={{fontWeight:700,color:'#eef4ff'}}>Waiting for market data…</div><div style={{fontSize:11,marginTop:6,color:'#5b728c'}}>Backend in <b style={{color:'#eef4ff'}}>{dataMode}</b> mode • Establishing stream</div></div></div>}
+                  {filtered.length===0 && allStocks.length===0 && <div style={{position:'absolute',inset:0,display:'grid',placeItems:'center',textAlign:'center'}}><div><div style={{width:48,height:48,borderRadius:16,background:'linear-gradient(135deg, rgba(37,99,235,0.15), rgba(16,185,129,0.1))',display:'grid',placeItems:'center',margin:'0 auto 12px'}}>◈</div><div style={{fontWeight:700,color:'#f1f5f9'}}>Waiting for market data…</div><div style={{fontSize:11,marginTop:6,color:'#94a3b8'}}>Backend in <b style={{color:'#f1f5f9'}}>{dataMode}</b> mode • Establishing stream</div></div></div>}
                 </div>
                 {(selected||showDetail)&& <DetailPanel symbol={selected} onClose={()=>{setSelected(null);setShowDetail(false)}} liveState={liveSelectedState} theme={theme} />}
               </div>
@@ -169,10 +169,10 @@ export default function App(){
         </Suspense>
       </div>
 
-      <div style={{height:36, background:'rgba(15,20,28,0.9)', backdropFilter:'blur(16px)', borderTop:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', padding:'0 20px', gap:16, overflow:'hidden', flexShrink:0}}>
-        <span style={{fontSize:10,color:'#ffb020',fontWeight:800,letterSpacing:'0.08em',whiteSpace:'nowrap',display:'flex',gap:6,alignItems:'center'}}><span style={{width:6,height:6,borderRadius:999,background:'#ffb020',animation:'pulse 1.5s infinite'}} aria-hidden="true"/> LIVE ALERTS</span>
-        <div style={{display:'flex',gap:16,overflow:'hidden',whiteSpace:'nowrap',fontSize:11,flex:1}}>{alerts.length===0?<span style={{color:'#5b728c'}}>Monitoring breakouts, volume spikes, VWAP crosses, momentum, RSI…</span>: alerts.slice(0,6).map(a=>(<span key={a.id} style={{display:'flex',gap:6,alignItems:'center',color:a.level==='bullish'?'#00e6a0':a.level==='bearish'?'#ff3b4a':'#2f8bff',background:'rgba(255,255,255,0.04)',padding:'3px 8px',borderRadius:999,border:'1px solid rgba(255,255,255,0.06)',fontWeight:600}}>{a.symbol} <span style={{opacity:0.7}}>{a.type}</span></span>))}</div>
-        <span style={{fontSize:10,color:'#5b728c',whiteSpace:'nowrap',background:'rgba(255,255,255,0.04)',padding:'4px 10px',borderRadius:999,border:'1px solid rgba(255,255,255,0.06)'}}>Score: Mom 25 + Vol 25 + RelVol 20 + Breakout 15 + VWAP 10 + Volatility 5 • <span style={{color:'#8ea0b8'}}>NOT advice</span></span>
+      <div style={{height:36, background:'rgba(13,27,42,0.9)', backdropFilter:'blur(16px)', borderTop:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', padding:'0 20px', gap:16, overflow:'hidden', flexShrink:0}}>
+        <span style={{fontSize:10,color:'#f59e0b',fontWeight:800,letterSpacing:'0.08em',whiteSpace:'nowrap',display:'flex',gap:6,alignItems:'center'}}><span style={{width:6,height:6,borderRadius:999,background:'#f59e0b',animation:'pulse 1.5s infinite'}} aria-hidden="true"/> LIVE ALERTS</span>
+        <div style={{display:'flex',gap:16,overflow:'hidden',whiteSpace:'nowrap',fontSize:11,flex:1}}>{alerts.length===0?<span style={{color:'#94a3b8'}}>Monitoring breakouts, volume spikes, VWAP crosses, momentum, RSI…</span>: alerts.slice(0,6).map(a=>(<span key={a.id} style={{display:'flex',gap:6,alignItems:'center',color:a.level==='bullish'?'#10b981':a.level==='bearish'?'#ef5350':'#2563eb',background:'rgba(255,255,255,0.04)',padding:'3px 8px',borderRadius:999,border:'1px solid rgba(255,255,255,0.06)',fontWeight:600}}>{a.symbol} <span style={{opacity:0.7}}>{a.type}</span></span>))}</div>
+        <span style={{fontSize:10,color:'#94a3b8',whiteSpace:'nowrap',background:'rgba(255,255,255,0.04)',padding:'4px 10px',borderRadius:999,border:'1px solid rgba(255,255,255,0.06)'}}>Score: Mom 25 + Vol 25 + RelVol 20 + Breakout 15 + VWAP 10 + Volatility 5 • <span style={{color:'#cbd5e1'}}>NOT advice</span></span>
       </div>
     </div>
   )

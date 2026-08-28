@@ -55,7 +55,7 @@ export default function PaperTrading({ stocksMap={} }){
           return (
             <div key={p.id} style={{display:'flex',gap:8,alignItems:'center',padding:'6px 8px',border:'1px solid var(--border)',borderRadius:8,background:'var(--bg3)',fontSize:12}}>
               <span style={{fontWeight:800,fontFamily:'var(--mono)'}}>{p.symbol}</span>
-              <span style={{fontSize:10,background:p.side==='BUY'?'rgba(0,230,160,0.15)':'rgba(255,59,74,0.15)',padding:'2px 6px',borderRadius:999}}>{p.side} {p.qty}</span>
+              <span style={{fontSize:10,background:p.side==='BUY'?'rgba(16,185,129,0.15)':'rgba(239,83,80,0.15)',padding:'2px 6px',borderRadius:999}}>{p.side} {p.qty}</span>
               <span className="mono">{p.entry.toFixed(2)} → {cur.toFixed(2)}</span>
               <span style={{color:pnl>=0?'var(--green)':'var(--red)',fontWeight:700}} className="mono">{pnl>=0?'+':''}{pnl.toFixed(2)}</span>
               <button className="btn sm" style={{marginLeft:'auto'}} onClick={()=>close(p.id)}>Close</button>

@@ -20,14 +20,14 @@ const safeFetch = async (url)=>{
 
 function Card({ title, children, height }){
   return (
-    <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14, height}}>
-      <div style={{fontSize:10, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10}}>{title}</div>
+    <div style={{background:'rgba(13,27,42,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14, height}}>
+      <div style={{fontSize:10, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'#cbd5e1', marginBottom:10}}>{title}</div>
       {children}
     </div>
   )
 }
 function Empty({ label='No live data available right now' }){
-  return <div style={{fontSize:11, color:'#5b728c', textAlign:'center', padding:'20px 8px'}}>{label}</div>
+  return <div style={{fontSize:11, color:'#94a3b8', textAlign:'center', padding:'20px 8px'}}>{label}</div>
 }
 
 export default function OptionsInsights({ theme='dark' }){
@@ -94,7 +94,7 @@ export default function OptionsInsights({ theme='dark' }){
   }, [oi])
 
   const isDark = theme !== 'light'
-  const axisColor = isDark ? '#5b728c' : '#64748b'
+  const axisColor = isDark ? '#94a3b8' : '#64748b'
   const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'
 
   return (
@@ -110,39 +110,39 @@ export default function OptionsInsights({ theme='dark' }){
           {expiries.map(e=> <option key={e} value={e}>{e}</option>)}
           {!expiries.length && <option>Loading…</option>}
         </select>
-        {loading && <span style={{fontSize:11, color:'#5b728c'}}>Refreshing…</span>}
-        <span style={{marginLeft:'auto', fontSize:10, color:'#5a6b84'}}>All figures from the live option chain • real data only, gaps shown as "no data"</span>
+        {loading && <span style={{fontSize:11, color:'#94a3b8'}}>Refreshing…</span>}
+        <span style={{marginLeft:'auto', fontSize:10, color:'#94a3b8'}}>All figures from the live option chain • real data only, gaps shown as "no data"</span>
       </div>
 
       <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px,1fr))', gap:10}}>
         <Card title="ATM Premium & Implied Move">
           {atm ? <>
-            <div style={{fontSize:18, fontWeight:800, color:'#3b9eff'}}>{fmt(atm.straddle)} <span style={{fontSize:11, color:'#8ea0b8'}}>({fmt(atm.impliedMovePct)}%)</span></div>
-            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>CE {fmt(atm.cePremium)} + PE {fmt(atm.pePremium)} — strike {atm.atmStrike}</div>
+            <div style={{fontSize:18, fontWeight:800, color:'#64b5f6'}}>{fmt(atm.straddle)} <span style={{fontSize:11, color:'#cbd5e1'}}>({fmt(atm.impliedMovePct)}%)</span></div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>CE {fmt(atm.cePremium)} + PE {fmt(atm.pePremium)} — strike {atm.atmStrike}</div>
           </> : <Empty/>}
         </Card>
         <Card title="PCR & Sentiment">
           {pcr ? <>
-            <div style={{fontSize:20, fontWeight:800, color: pcr.pcrOi>1?'#00e6a0':'#ff3b4a'}}>{fmt(pcr.pcrOi,3)}</div>
-            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>Vol PCR {fmt(pcr.pcrVol,3)} · <span style={{color: pcr.sentiment==='bullish'?'#00e6a0': pcr.sentiment==='bearish'?'#ff3b4a':'#8ea0b8', fontWeight:700, textTransform:'capitalize'}}>{pcr.sentiment}</span></div>
+            <div style={{fontSize:20, fontWeight:800, color: pcr.pcrOi>1?'#10b981':'#ef5350'}}>{fmt(pcr.pcrOi,3)}</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>Vol PCR {fmt(pcr.pcrVol,3)} · <span style={{color: pcr.sentiment==='bullish'?'#10b981': pcr.sentiment==='bearish'?'#ef5350':'#cbd5e1', fontWeight:700, textTransform:'capitalize'}}>{pcr.sentiment}</span></div>
           </> : <Empty/>}
         </Card>
         <Card title="Max Pain & Dealer Gamma">
           {oi ? <>
-            <div style={{fontSize:20, fontWeight:800, color:'#ffb020'}}>{fmtInt(oi.maxPain)}</div>
-            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>GEX {fmtInt(oi.totalGex)} · {oi.dealerPositioning}</div>
+            <div style={{fontSize:20, fontWeight:800, color:'#f59e0b'}}>{fmtInt(oi.maxPain)}</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>GEX {fmtInt(oi.totalGex)} · {oi.dealerPositioning}</div>
           </> : <Empty/>}
         </Card>
         <Card title="IV vs HV">
           {ivhv ? <>
-            <div style={{fontSize:16, fontWeight:800}}>{fmt(ivhv.iv)}% <span style={{fontSize:11, color:'#8ea0b8', fontWeight:500}}>IV</span></div>
-            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>{ivhv.hv!=null ? `HV ${fmt(ivhv.hv)}% · spread ${fmt(ivhv.ivMinusHv)}%` : 'HV needs ingested history'}</div>
+            <div style={{fontSize:16, fontWeight:800}}>{fmt(ivhv.iv)}% <span style={{fontSize:11, color:'#cbd5e1', fontWeight:500}}>IV</span></div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>{ivhv.hv!=null ? `HV ${fmt(ivhv.hv)}% · spread ${fmt(ivhv.ivMinusHv)}%` : 'HV needs ingested history'}</div>
           </> : <Empty/>}
         </Card>
         <Card title="India VIX">
           {vix?.vix!=null ? <>
             <div style={{fontSize:20, fontWeight:800}}>{fmt(vix.vix)}</div>
-            <div style={{fontSize:11, color:'#8ea0b8', marginTop:4}}>Source: {vix.source}</div>
+            <div style={{fontSize:11, color:'#cbd5e1', marginTop:4}}>Source: {vix.source}</div>
           </> : <Empty label="VIX unavailable (NSE unreachable)"/>}
         </Card>
       </div>
@@ -161,10 +161,10 @@ export default function OptionsInsights({ theme='dark' }){
                 <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                 <XAxis dataKey="strike" tick={{fill:axisColor,fontSize:10}} stroke={gridColor} />
                 <YAxis tick={{fill:axisColor,fontSize:10}} stroke={gridColor} unit="%" />
-                <Tooltip contentStyle={{background: isDark?'#0f1a24':'#fff', border:'1px solid rgba(255,255,255,0.1)', borderRadius:8, fontSize:11}} />
+                <Tooltip contentStyle={{background: isDark?'#0d1b2a':'#fff', border:'1px solid rgba(255,255,255,0.1)', borderRadius:8, fontSize:11}} />
                 <Legend wrapperStyle={{fontSize:11}} />
-                <Line type="monotone" dataKey="ceIv" name="Call IV" stroke="#00e6a0" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="peIv" name="Put IV" stroke="#ff3b4a" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="ceIv" name="Call IV" stroke="#10b981" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="peIv" name="Put IV" stroke="#ef5350" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           ) : <Empty/>}
@@ -176,10 +176,10 @@ export default function OptionsInsights({ theme='dark' }){
                 <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                 <XAxis dataKey="strike" tick={{fill:axisColor,fontSize:10}} stroke={gridColor} />
                 <YAxis tick={{fill:axisColor,fontSize:10}} stroke={gridColor} tickFormatter={fmtInt} />
-                <Tooltip contentStyle={{background: isDark?'#0f1a24':'#fff', border:'1px solid rgba(255,255,255,0.1)', borderRadius:8, fontSize:11}} formatter={(v)=>[fmtInt(v),'Net OI (Put − Call)']} />
+                <Tooltip contentStyle={{background: isDark?'#0d1b2a':'#fff', border:'1px solid rgba(255,255,255,0.1)', borderRadius:8, fontSize:11}} formatter={(v)=>[fmtInt(v),'Net OI (Put − Call)']} />
                 <ReferenceLine y={0} stroke={axisColor} />
                 <Bar dataKey="netOi">
-                  {oiChangeData.map((d,i)=> <Cell key={i} fill={d.netOi>=0 ? '#ff3b4a' : '#00e6a0'} />)}
+                  {oiChangeData.map((d,i)=> <Cell key={i} fill={d.netOi>=0 ? '#ef5350' : '#10b981'} />)}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -192,8 +192,8 @@ export default function OptionsInsights({ theme='dark' }){
           <div style={{display:'flex', flexDirection:'column', gap:4}}>
             {unusual.unusual.map(u=> (
               <div key={`${u.strike}${u.side}`} style={{display:'flex', justifyContent:'space-between', fontSize:11, padding:'6px 0', borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
-                <span><b>{u.strike} {u.side}</b> <span style={{color:'#8ea0b8'}}>{u.type}</span></span>
-                <span style={{color:'#8ea0b8'}}>{u.score ? `×${fmt(u.score)} avg` : ''} {u.oiChange!=null ? `OI ${fmtInt(u.oiChange)}` : ''}</span>
+                <span><b>{u.strike} {u.side}</b> <span style={{color:'#cbd5e1'}}>{u.type}</span></span>
+                <span style={{color:'#cbd5e1'}}>{u.score ? `×${fmt(u.score)} avg` : ''} {u.oiChange!=null ? `OI ${fmtInt(u.oiChange)}` : ''}</span>
               </div>
             ))}
           </div>

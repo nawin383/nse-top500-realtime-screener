@@ -61,7 +61,7 @@ export default function OpenInterestChart({ theme = 'dark' }) {
   }, [data])
 
   const isDark = theme !== 'light'
-  const axisColor = isDark ? '#5b728c' : '#64748b'
+  const axisColor = isDark ? '#94a3b8' : '#64748b'
   const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'
 
   return (
@@ -76,24 +76,24 @@ export default function OpenInterestChart({ theme = 'dark' }) {
           {['weekly', 'monthly'].map(t => (
             <button key={t} onClick={() => setTenor(t)}
               style={{ padding: '4px 12px', fontSize: 11, fontWeight: 700, textTransform: 'capitalize', borderRadius: 6, border: 'none', cursor: 'pointer',
-                background: tenor === t ? 'linear-gradient(135deg,#00e6a0,#2f8bff)' : 'transparent',
-                color: tenor === t ? '#0a0e13' : '#8ea0b8' }}>
+                background: tenor === t ? 'linear-gradient(135deg,#10b981,#2563eb)' : 'transparent',
+                color: tenor === t ? '#0b1220' : '#cbd5e1' }}>
               {t}
             </button>
           ))}
         </div>
-        <span style={{ fontSize: 11, color: '#8ea0b8' }}>Expiry <b style={{ color: '#eef4ff' }}>{activeExpiry || '—'}</b></span>
-        {data && <span style={{ fontSize: 11, color: '#8ea0b8' }}>Max Pain <b style={{ color: '#ffb020' }}>{fmtInt(data.maxPain)}</b></span>}
-        {data && <span style={{ fontSize: 11, color: '#8ea0b8' }}>Dealer <b style={{ color: data.dealerPositioning === 'long gamma' ? '#00e6a0' : '#ff3b4a' }}>{data.dealerPositioning}</b></span>}
-        <span style={{ marginLeft: 'auto', display: 'flex', gap: 10, fontSize: 10, color: '#5b728c' }}>
-          <span style={{ display: 'flex', gap: 4, alignItems: 'center' }}><span style={{ width: 8, height: 8, borderRadius: 2, background: '#00e6a0' }} /> Call OI</span>
-          <span style={{ display: 'flex', gap: 4, alignItems: 'center' }}><span style={{ width: 8, height: 8, borderRadius: 2, background: '#ff3b4a' }} /> Put OI</span>
+        <span style={{ fontSize: 11, color: '#cbd5e1' }}>Expiry <b style={{ color: '#f1f5f9' }}>{activeExpiry || '—'}</b></span>
+        {data && <span style={{ fontSize: 11, color: '#cbd5e1' }}>Max Pain <b style={{ color: '#f59e0b' }}>{fmtInt(data.maxPain)}</b></span>}
+        {data && <span style={{ fontSize: 11, color: '#cbd5e1' }}>Dealer <b style={{ color: data.dealerPositioning === 'long gamma' ? '#10b981' : '#ef5350' }}>{data.dealerPositioning}</b></span>}
+        <span style={{ marginLeft: 'auto', display: 'flex', gap: 10, fontSize: 10, color: '#94a3b8' }}>
+          <span style={{ display: 'flex', gap: 4, alignItems: 'center' }}><span style={{ width: 8, height: 8, borderRadius: 2, background: '#10b981' }} /> Call OI</span>
+          <span style={{ display: 'flex', gap: 4, alignItems: 'center' }}><span style={{ width: 8, height: 8, borderRadius: 2, background: '#ef5350' }} /> Put OI</span>
         </span>
       </div>
 
-      {loading && <div style={{ flex: 1, display: 'grid', placeItems: 'center', color: '#5b728c', fontSize: 12 }}>Loading live open interest…</div>}
-      {!loading && error && <div style={{ flex: 1, display: 'grid', placeItems: 'center', color: '#8ea0b8', fontSize: 12, textAlign: 'center', padding: 20 }}>
-        <div>No data available<div style={{ fontSize: 10, color: '#5b728c', marginTop: 6 }}>{error}</div></div>
+      {loading && <div style={{ flex: 1, display: 'grid', placeItems: 'center', color: '#94a3b8', fontSize: 12 }}>Loading live open interest…</div>}
+      {!loading && error && <div style={{ flex: 1, display: 'grid', placeItems: 'center', color: '#cbd5e1', fontSize: 12, textAlign: 'center', padding: 20 }}>
+        <div>No data available<div style={{ fontSize: 10, color: '#94a3b8', marginTop: 6 }}>{error}</div></div>
       </div>}
       {!loading && !error && rows.length > 0 && (
         <ResponsiveContainer width="100%" height={Math.max(320, rows.length * 22)}>
@@ -102,18 +102,18 @@ export default function OpenInterestChart({ theme = 'dark' }) {
             <XAxis type="number" tickFormatter={fmtInt} tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} />
             <YAxis type="category" dataKey="strike" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} width={56} />
             <Tooltip
-              contentStyle={{ background: isDark ? '#0f1a24' : '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }}
+              contentStyle={{ background: isDark ? '#0d1b2a' : '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }}
               formatter={(value, name) => [fmtInt(value), name === 'peOiNeg' ? 'Put OI' : 'Call OI']}
               labelFormatter={(strike) => `Strike ${strike}`}
             />
             <ReferenceLine x={0} stroke={axisColor} />
             {data?.maxPain != null && (
-              <ReferenceLine y={data.maxPain} stroke="#ffb020" strokeDasharray="4 4" ifOverflow="extendDomain" label={{ value: 'Max Pain', fill: '#ffb020', fontSize: 10, position: 'insideTopRight' }} />
+              <ReferenceLine y={data.maxPain} stroke="#f59e0b" strokeDasharray="4 4" ifOverflow="extendDomain" label={{ value: 'Max Pain', fill: '#f59e0b', fontSize: 10, position: 'insideTopRight' }} />
             )}
-            <Bar dataKey="peOiNeg" name="peOiNeg" fill="#ff3b4a" radius={[3, 0, 0, 3]}>
+            <Bar dataKey="peOiNeg" name="peOiNeg" fill="#ef5350" radius={[3, 0, 0, 3]}>
               {rows.map((r, i) => <Cell key={i} fillOpacity={r.strike === data?.maxPain ? 1 : 0.75} />)}
             </Bar>
-            <Bar dataKey="ceOiNeg" name="ceOiNeg" fill="#00e6a0" radius={[0, 3, 3, 0]}>
+            <Bar dataKey="ceOiNeg" name="ceOiNeg" fill="#10b981" radius={[0, 3, 3, 0]}>
               {rows.map((r, i) => <Cell key={i} fillOpacity={r.strike === data?.maxPain ? 1 : 0.75} />)}
             </Bar>
           </BarChart>

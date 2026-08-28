@@ -9,7 +9,7 @@ function CanvasChart({ candles, vwap, ema9, ema20, syncKey }){
     const rect=canvas.getBoundingClientRect()
     canvas.width=rect.width*dpr; canvas.height=rect.height*dpr; ctx.scale(dpr,dpr)
     const W=rect.width, H=rect.height
-    ctx.clearRect(0,0,W,H); ctx.fillStyle='#0d1218'; ctx.fillRect(0,0,W,H)
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#0d1b2a'; ctx.fillRect(0,0,W,H)
     const highs=candles.map(c=>c.high), lows=candles.map(c=>c.low)
     let min=Math.min(...lows), max=Math.max(...highs)
     const pad=(max-min)*0.1; min-=pad; max+=pad; if(min===max){min-=1;max+=1}
@@ -21,9 +21,9 @@ function CanvasChart({ candles, vwap, ema9, ema20, syncKey }){
       const yH=10+(max-c.high)/range*(H-40), yL=10+(max-c.low)/range*(H-40)
       const yO=10+(max-c.open)/range*(H-40), yC=10+(max-c.close)/range*(H-40)
       const green=c.close>=c.open
-      ctx.strokeStyle=green?'#00d38d':'#ff4757'; ctx.lineWidth=1
+      ctx.strokeStyle=green?'#10b981':'#ef5350'; ctx.lineWidth=1
       ctx.beginPath(); ctx.moveTo(x+candleW/2,yH); ctx.lineTo(x+candleW/2,yL); ctx.stroke()
-      ctx.fillStyle=green?'#00d38d':'#ff4757'
+      ctx.fillStyle=green?'#10b981':'#ef5350'
       const top=Math.min(yO,yC), h=Math.max(1,Math.abs(yO-yC))
       ctx.fillRect(x,top,candleW,h)
     })
@@ -33,13 +33,13 @@ function CanvasChart({ candles, vwap, ema9, ema20, syncKey }){
       ctx.strokeStyle=color; ctx.lineWidth=1; if(dash) ctx.setLineDash(dash)
       ctx.beginPath(); ctx.moveTo(10,y); ctx.lineTo(W-10,y); ctx.stroke(); ctx.setLineDash([])
     }
-    drawLine(vwap,'#f6c343',[3,3]); drawLine(ema9,'#3b9eff'); drawLine(ema20,'#8b5cf6')
+    drawLine(vwap,'#f59e0b',[3,3]); drawLine(ema9,'#64b5f6'); drawLine(ema20,'#8b5cf6')
     const maxVol=Math.max(...candles.map(c=>c.volume||0))
     if(maxVol>0) candles.forEach((c,i)=>{
       const x=10+i*(candleW+gap); const h=(c.volume/maxVol)*20
-      ctx.fillStyle='rgba(139,155,180,0.3)'; ctx.fillRect(x,H-22,candleW,h)
+      ctx.fillStyle='rgba(203,213,225,0.3)'; ctx.fillRect(x,H-22,candleW,h)
     })
-    ctx.strokeStyle='#232d38'; ctx.strokeRect(0.5,0.5,W-1,H-1)
+    ctx.strokeStyle='#1e293b'; ctx.strokeRect(0.5,0.5,W-1,H-1)
     // crosshair sync via global mouse pos
     if(syncKey && window.__syncX!=null){
       const x=window.__syncX
@@ -73,7 +73,7 @@ export default function MiniChart({ candles, vwap, ema9, ema20, grid }){
     return (
       <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,height:'100%'}}>
         {candles.slice(0,4).map((c,i)=>(
-          <div key={i} style={{height:180,border:'1px solid var(--border)',borderRadius:8,overflow:'hidden',background:'#0d1218',position:'relative'}}>
+          <div key={i} style={{height:180,border:'1px solid var(--border)',borderRadius:8,overflow:'hidden',background:'#0d1b2a',position:'relative'}}>
             <span style={{position:'absolute',top:6,left:8,fontSize:10,color:'var(--text2)',zIndex:1}}>#{i+1}</span>
             <CanvasChart candles={c} syncKey={syncTick} />
           </div>
@@ -114,16 +114,16 @@ function LWChart({ candles, vwap }){
     let alive=true
     import('lightweight-charts').then(({createChart, ColorType})=>{
       if(!alive || !ref.current) return
-      chart=createChart(ref.current,{layout:{background:{type:ColorType.Solid,color:'#0d1218'},textColor:'#8ea0b8'},grid:{vertLines:{color:'#1e2e42'},horzLines:{color:'#1e2e42'}},width:ref.current.clientWidth,height:260, crosshair:{mode:1}})
-      series=chart.addCandlestickSeries({upColor:'#00d38d',downColor:'#ff4757',borderVisible:false,wickUpColor:'#00d38d',wickDownColor:'#ff4757'})
+      chart=createChart(ref.current,{layout:{background:{type:ColorType.Solid,color:'#0d1b2a'},textColor:'#cbd5e1'},grid:{vertLines:{color:'#1e293b'},horzLines:{color:'#1e293b'}},width:ref.current.clientWidth,height:260, crosshair:{mode:1}})
+      series=chart.addCandlestickSeries({upColor:'#10b981',downColor:'#ef5350',borderVisible:false,wickUpColor:'#10b981',wickDownColor:'#ef5350'})
       const data=candles.map(c=>({time: Math.floor((c.timestamp||Date.now())/1000), open:c.open, high:c.high, low:c.low, close:c.close}))
       series.setData(data)
       if(vwap){
-        const line=chart.addLineSeries({color:'#f6c343',lineWidth:1,priceLineVisible:false})
+        const line=chart.addLineSeries({color:'#f59e0b',lineWidth:1,priceLineVisible:false})
         line.setData(data.map(d=>({time:d.time,value:vwap})))
       }
       const volSeries=chart.addHistogramSeries({priceScaleId:'', priceFormat:{type:'volume'}})
-      volSeries.setData(candles.map(c=>({time:Math.floor((c.timestamp||Date.now())/1000), value:c.volume||0, color:'rgba(139,155,180,0.3)'})))
+      volSeries.setData(candles.map(c=>({time:Math.floor((c.timestamp||Date.now())/1000), value:c.volume||0, color:'rgba(203,213,225,0.3)'})))
       chart.timeScale().fitContent()
       chartRef.current=chart
       const ro=new ResizeObserver(()=>{ try{ chart.applyOptions({width:ref.current.clientWidth}) }catch{}})
