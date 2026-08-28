@@ -10,6 +10,7 @@ import { useWebSocket } from './hooks/useWebSocket.js'
 import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.js'
 import { useStore } from './store/useStore.js'
 import { LayoutSwitcher } from './components/layouts/DashboardLayouts.jsx'
+import FilterBuilder, { matches as matchesAdvancedFilter } from './components/FilterBuilder.jsx'
 
 const OptionsChain = lazy(()=> import('./components/OptionsChain.jsx'))
 const OpenInterestChart = lazy(()=> import('./components/OpenInterestChart.jsx'))
@@ -29,6 +30,8 @@ export default function App(){
   const [search,setSearch]=useState('')
   const [sectorFilter,setSectorFilter]=useState('')
   const [filters,setFilters]=useState({})
+  const [advancedConds,setAdvancedConds]=useState([])
+  const [showAdvancedFilters,setShowAdvancedFilters]=useState(false)
   const [sortBy,setSortBy]=useState('score')
   const [sortDir,setSortDir]=useState('desc')
   const [alerts,setAlerts]=useState([])
@@ -54,6 +57,7 @@ export default function App(){
     previousDayHigh:s.previousDayHigh??s.previous_day_high, previousDayLow:s.previousDayLow??s.previous_day_low,
     or15High:s.or15High??s.momentum?.or15_high, or15Low:s.or15Low??s.momentum?.or15_low,
     or30High:s.or30High??s.momentum?.or30_high, or30Low:s.or30Low??s.momentum?.or30_low,
+    oi:s.oi, oiChangePct:s.oiChangePct??s.oi_change_pct, oiBuildup:s.oiBuildup??s.oi_buildup,
   })
 
   useEffect(()=>{
@@ -85,10 +89,11 @@ export default function App(){
     if(filters.breakout) res=res.filter(s=>s.isBreakout)
     if(filters.breakdown) res=res.filter(s=>s.isBreakdown)
     if(filters.highMomentum) res=res.filter(s=>Math.abs(s.momentum5m??0)>1)
+    if(advancedConds.length) res=res.filter(s=> matchesAdvancedFilter(s, advancedConds))
     const dir=sortDir==='asc'?1:-1
     res=[...res].sort((a,b)=>{ let av=a[sortBy],bv=b[sortBy]; if(av==null) av=sortDir==='asc'?Infinity:-Infinity; if(bv==null) bv=sortDir==='asc'?Infinity:-Infinity; if(typeof av==='string') return av.localeCompare(bv)*dir; return (av-bv)*dir })
     return res
-  },[allStocks,search,sectorFilter,filters,sortBy,sortDir])
+  },[allStocks,search,sectorFilter,filters,advancedConds,sortBy,sortDir])
 
   const handleSelect=(sym)=>{ setSelected(sym); setShowDetail(true) }
   const toggleFilter=(key)=> setFilters(prev=>({...prev,[key]:!prev[key]}))
@@ -168,8 +173,10 @@ export default function App(){
                   <button aria-pressed={!!filters.volumeSpike} className={`chip ${filters.volumeSpike?'active':''}`} onClick={()=> toggleFilter('volumeSpike')} aria-label="Filter volume spike">Vol Spike</button>
                   <button aria-pressed={!!filters.breakout} className={`chip ${filters.breakout?'active':''}`} onClick={()=> toggleFilter('breakout')} aria-label="Filter breakout">Breakout</button>
                   <button className="chip" onClick={()=> setFilters({})} aria-label="Clear filters" style={{background:'rgba(37,99,235,0.08)',borderColor:'rgba(37,99,235,0.2)',color:'#2563eb'}}>Clear</button>
+                  <button className={`chip ${showAdvancedFilters||advancedConds.length?'active':''}`} onClick={()=>setShowAdvancedFilters(v=>!v)} aria-label="Toggle advanced filter builder">⚙ Advanced{advancedConds.length?` (${advancedConds.length})`:''}</button>
                   {!showDashboard && <span style={{marginLeft:'auto', fontSize:11, color:'#94a3b8', alignSelf:'center'}}>{filtered.length} results</span>}
                 </div>
+                {showAdvancedFilters && <div style={{marginTop:8}}><FilterBuilder onApply={setAdvancedConds} sectors={sectors} /></div>}
               </div>
               <div className="main" style={{padding:0, flex:1, minHeight:0}}>
                 <div className="table-wrap" style={{flex:1}}><StockTable stocks={filtered} onSelect={handleSelect} selectedSymbol={selected} sortBy={sortBy} sortDir={sortDir} onSort={(k,dir)=>{setSortBy(k); setSortDir(dir)}} density={density} />

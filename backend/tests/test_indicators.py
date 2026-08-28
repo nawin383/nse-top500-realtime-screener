@@ -1,7 +1,7 @@
 import pytest
 from backend.app.indicators import (
     ema_series, rsi, atr, macd, bollinger, adx,
-    vwap_bands, macd_cross_signal, rsi_divergence, atr_stop_target,
+    vwap_bands, macd_cross_signal, rsi_divergence, atr_stop_target, classify_oi_buildup,
 )
 from backend.app.indicators_advanced import calculate_supertrend
 
@@ -174,6 +174,24 @@ def test_supertrend_downtrend_direction_matches_trend():
     assert r is not None
     assert r.direction == -1
     assert r.signal in ("SELL", "HOLD")
+
+def test_classify_oi_buildup_long_buildup():
+    assert classify_oi_buildup(2.0, 5.0) == "long_buildup"
+
+def test_classify_oi_buildup_short_buildup():
+    assert classify_oi_buildup(-2.0, 5.0) == "short_buildup"
+
+def test_classify_oi_buildup_short_covering():
+    assert classify_oi_buildup(2.0, -5.0) == "short_covering"
+
+def test_classify_oi_buildup_long_unwinding():
+    assert classify_oi_buildup(-2.0, -5.0) == "long_unwinding"
+
+def test_classify_oi_buildup_none_when_missing_or_flat():
+    assert classify_oi_buildup(None, 5.0) is None
+    assert classify_oi_buildup(2.0, None) is None
+    assert classify_oi_buildup(0.0, 5.0) is None
+    assert classify_oi_buildup(2.0, 0.0) is None
 
 def test_vwap():
     assert True  # VWAP tested in market_state

@@ -101,6 +101,10 @@ class StockState(BaseModel):
     previous_close: Optional[float] = None
     previous_day_high: Optional[float] = None
     previous_day_low: Optional[float] = None
+    oi: Optional[int] = None
+    previous_day_oi: Optional[int] = None
+    oi_change_pct: Optional[float] = None
+    oi_buildup: Optional[str] = None  # long_buildup | short_buildup | short_covering | long_unwinding
     change: Optional[float] = None
     change_pct: Optional[float] = None
     volume: int = 0

@@ -38,6 +38,36 @@ def test_second_tick_does_not_move_open():
     assert ms.states["GAPTEST2"].open == 103.0
 
 
+def test_oi_buildup_tracked_from_ticks_carrying_oi():
+    """Equity spot ticks never carry OI (None forever, correctly). An F&O
+    instrument's ticks do -- this exercises that path directly."""
+    universe = [{"symbol": "NIFTY26SEPFUT", "instrument_token": 9, "prev_close": 100.0, "avg_volume": 10000}]
+    ms = MarketState(universe)
+    t1 = MarketTick(symbol="NIFTY26SEPFUT", token=9, timestamp=datetime(2026, 8, 28, 3, 45, tzinfo=timezone.utc),
+                     ltp=100.0, volume=1000, open=100.0, previousClose=100.0, oi=100000)
+    ms.on_tick(t1)
+    assert ms.states["NIFTY26SEPFUT"].oi == 100000
+    assert ms.states["NIFTY26SEPFUT"].oi_buildup is None  # no OI change yet on the first tick
+
+    t2 = MarketTick(symbol="NIFTY26SEPFUT", token=9, timestamp=datetime(2026, 8, 28, 3, 50, tzinfo=timezone.utc),
+                     ltp=103.0, volume=2000, open=100.0, previousClose=100.0, oi=120000)
+    ms.on_tick(t2)
+    state = ms.states["NIFTY26SEPFUT"]
+    assert state.oi == 120000
+    assert state.oi_change_pct == 20.0
+    assert state.oi_buildup == "long_buildup"  # price up + OI up
+
+
+def test_equity_ticks_never_carry_oi():
+    universe = [{"symbol": "EQTEST", "instrument_token": 8, "prev_close": 100.0, "avg_volume": 10000}]
+    ms = MarketState(universe)
+    t1 = MarketTick(symbol="EQTEST", token=8, timestamp=datetime(2026, 8, 28, 3, 45, tzinfo=timezone.utc),
+                     ltp=101.0, volume=1000, open=100.0, previousClose=100.0)
+    ms.on_tick(t1)
+    assert ms.states["EQTEST"].oi is None
+    assert ms.states["EQTEST"].oi_buildup is None
+
+
 def test_reset_day_allows_a_fresh_real_open():
     universe = [{"symbol": "GAPTEST3", "instrument_token": 3, "prev_close": 100.0, "avg_volume": 10000}]
     ms = MarketState(universe)

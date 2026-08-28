@@ -17,7 +17,7 @@ except ImportError:
 
 from .models import MarketTick, StockState, Candle
 from .candle_engine import CandleEngine
-from .indicators import ema_series, rsi, atr, macd, bollinger, adx, vwap_bands, macd_cross_signal, rsi_divergence
+from .indicators import ema_series, rsi, atr, macd, bollinger, adx, vwap_bands, macd_cross_signal, rsi_divergence, classify_oi_buildup
 from .indicators_advanced import calculate_supertrend
 from .breaker import BreakerEngine
 from .intraday_strategies import STRATEGIES, StrategyTracker
@@ -45,6 +45,7 @@ class MarketState:
         self._cum_pv2: Dict[str, float] = {}  # cumulative volume*price^2, for VWAP bands
         self._cum_vol: Dict[str, int] = {}
         self._prev_close_map: Dict[str, float] = {}
+        self._prev_oi_map: Dict[str, int] = {}  # first-seen OI per symbol today, used as the buildup baseline
         self._opening_range: Dict[str, Dict] = {}  # first 15m/30m high/low
         self._real_open_set: set = set()  # symbols whose state.open came from a genuine tick today,
         # as opposed to the flat prev_close placeholder _init_universe uses when the server boots
@@ -293,6 +294,21 @@ class MarketState:
             # gap %
             if state.open and state.previous_close:
                 state.gap_pct = (state.open - state.previous_close)/state.previous_close*100
+
+        # open interest (only present on F&O instrument ticks -- equity spot
+        # ticks carry no OI, so this stays null for the vast majority of the
+        # Top 500 universe, which is correct: OI-buildup is a derivatives
+        # concept, not fabricated for a cash-market symbol without one)
+        if tick.oi is not None:
+            state.oi = tick.oi
+            if sym not in self._prev_oi_map:
+                self._prev_oi_map[sym] = tick.oi
+            prev_oi = self._prev_oi_map.get(sym)
+            state.previous_day_oi = prev_oi
+            if prev_oi:
+                state.oi_change_pct = round((tick.oi - prev_oi) / prev_oi * 100, 2)
+                state.oi_buildup = classify_oi_buildup(state.change_pct, state.oi_change_pct)
+
         # distances
         if state.high and state.high !=0:
             state.distance_from_high_pct = (state.ltp - state.high)/state.high*100
@@ -658,6 +674,7 @@ class MarketState:
         self.breaker_engine.reset_day()
         self.strategy_tracker.reset_day()
         self._real_open_set.clear()
+        self._prev_oi_map.clear()
         for s in self.states.values():
             s.open = None
             s.high = None
@@ -666,3 +683,7 @@ class MarketState:
             s.indicators = s.indicators.__class__()
             s.momentum = s.momentum.__class__()
             s.score = 0
+            s.oi = None
+            s.previous_day_oi = None
+            s.oi_change_pct = None
+            s.oi_buildup = None

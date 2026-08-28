@@ -241,6 +241,25 @@ def atr_stop_target(entry: float, atr_val: Optional[float], direction: str, stop
         "reward_risk_2": round(abs(targets[1]-entry)/risk, 2) if risk else None,
     }
 
+def classify_oi_buildup(price_change_pct: Optional[float], oi_change_pct: Optional[float]) -> Optional[str]:
+    """Standard F&O OI-buildup classification (price direction x OI direction):
+    long_buildup (price up, OI up), short_buildup (price down, OI up),
+    short_covering (price up, OI down), long_unwinding (price down, OI down).
+    Only meaningful for instruments carrying real futures/options OI --
+    None when either input is missing or exactly flat."""
+    if price_change_pct is None or oi_change_pct is None or price_change_pct == 0 or oi_change_pct == 0:
+        return None
+    price_up = price_change_pct > 0
+    oi_up = oi_change_pct > 0
+    if price_up and oi_up:
+        return "long_buildup"
+    if not price_up and oi_up:
+        return "short_buildup"
+    if price_up and not oi_up:
+        return "short_covering"
+    return "long_unwinding"
+
+
 def vwap_from_ticks(ticks_price_vol: List[tuple]) -> Optional[float]:
     # ticks_price_vol: list of (price, volume delta or price*vol)
     # Here we expect cumulative VWAP computed externally; this is helper for candle-based

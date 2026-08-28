@@ -281,6 +281,7 @@ class DataEngine:
             "previousDayHigh": s.previous_day_high, "previousDayLow": s.previous_day_low,
             "or15High": s.momentum.or15_high, "or15Low": s.momentum.or15_low,
             "or30High": s.momentum.or30_high, "or30Low": s.momentum.or30_low,
+            "oi": s.oi, "oiChangePct": s.oi_change_pct, "oiBuildup": s.oi_buildup,
         }
         return base
 
