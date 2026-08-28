@@ -76,6 +76,19 @@ async def _attempt_refresh(settings, data_engine, cache_path: Path) -> bool:
     except Exception as e:
         logger.error(f"Failed to restart provider with new token: {e}", exc_info=True)
 
+    # The one-shot history-warmer snapshot at boot (main.py's lifespan) runs before
+    # this refresh completes if the initial KITE_ACCESS_TOKEN was already stale --
+    # it doesn't retry, so every symbol is left on its flat placeholder previous_close
+    # forever. Re-run it now that we actually have a working token, so real last-close
+    # data backfills instead.
+    try:
+        if data_engine and data_engine.market_state:
+            from .history_warmer import run_warmup
+            asyncio.create_task(run_warmup(data_engine.market_state, data_engine.universe, settings))
+            logger.info("Re-running history warmer with the fresh token")
+    except Exception as e:
+        logger.error(f"Failed to re-run history warmer: {e}", exc_info=True)
+
     # Optionally update Render env via API if RENDER_API_KEY and RENDER_SERVICE_ID set
     render_key = getattr(settings, "render_api_key", "") or __import__("os").getenv("RENDER_API_KEY", "")
     service_id = getattr(settings, "render_service_id", "") or __import__("os").getenv("RENDER_SERVICE_ID", "")

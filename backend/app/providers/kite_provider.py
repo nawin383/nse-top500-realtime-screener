@@ -131,17 +131,20 @@ class KiteProvider(BaseProvider):
 
     def _on_open(self, ws):
         logger.info("Kite WS connected")
-        # Mode split per Kite Connect best practice (websocket/#modes): equities only need
-        # LTP (8 bytes/tick) for the screener's ranking/score columns, while NIFTY/SENSEX
-        # options need full depth (184 bytes/tick) for OI and best bid/ask. Subscribing
-        # ~500 equities as "full" instead of "ltp" wastes ~23x the bandwidth per tick for
-        # fields the screener never reads.
+        # Mode split per Kite Connect best practice (websocket/#modes): equities use
+        # "quote" (44 bytes/tick: last price, volume, and OHLC) while NIFTY/SENSEX
+        # options use "full" (184 bytes/tick) for OI and best bid/ask depth. Still a
+        # big bandwidth win over subscribing everything as "full" (~4x vs ~23x), but
+        # unlike "ltp" mode (8 bytes, last price only) it actually carries OHLC —
+        # ltp mode has no previous-close field, so change%/score would be stuck
+        # against the flat placeholder previous_close forever, never self-correcting
+        # from a live tick the way "quote" mode's ohlc.close does.
         equity_tokens = [u["instrument_token"] for u in self.universe]
         option_tokens = list(self._options_tokens)
-        self._subscribe_batch(ws, equity_tokens, "ltp")
+        self._subscribe_batch(ws, equity_tokens, "quote")
         self._subscribe_batch(ws, option_tokens, "full")
         logger.info(f"Subscribed {len(self._subscribed)}/{len(equity_tokens)+len(option_tokens)} instruments "
-                    f"(EQ {len(equity_tokens)} mode=ltp + OPT {len(option_tokens)} mode=full)")
+                    f"(EQ {len(equity_tokens)} mode=quote + OPT {len(option_tokens)} mode=full)")
 
     def _subscribe_batch(self, ws, tokens: List[int], mode: str):
         for i in range(0, len(tokens), 200):
