@@ -40,8 +40,12 @@ export default function App(){
   const [dataMode,setDataMode]=useState('mock')
   const [view,setView]=useState('screener')
   const [dashLayout,setDashLayout]=useState(()=>{ try{return localStorage.getItem('dashboard_layout')||'bento'}catch{return 'bento'}})
+  const [showDashboard,setShowDashboard]=useState(()=>{ try{return localStorage.getItem('show_dashboard')==='1'}catch{return false} })
+  const [density,setDensity]=useState(()=>{ try{return localStorage.getItem('row_density')||'compact'}catch{return 'compact'} })
   const theme = useStore(s=>s.theme) || 'dark'
   useEffect(()=>{ try{localStorage.setItem('dashboard_layout',dashLayout)}catch{} },[dashLayout])
+  useEffect(()=>{ try{localStorage.setItem('show_dashboard', showDashboard?'1':'0')}catch{} },[showDashboard])
+  useEffect(()=>{ try{localStorage.setItem('row_density',density)}catch{} },[density])
 
   const normalizeStock=(s)=>({ ...s, changePercent:s.changePercent??s.change_pct??s.changePct, relVolume:s.relVolume??s.rel_volume, companyName:s.companyName??s.company, isAboveVwap:s.isAboveVwap??s.is_above_vwap, volumeSpike:s.volumeSpike??s.volume_spike, isBreakout:s.isBreakout??s.momentum?.breakout, isBreakdown:s.isBreakdown??s.momentum?.breakdown, momentum5m:s.momentum5m??s.momentum?.ret_5m, gapPercent:s.gapPercent??s.gap_pct, vwap:s.vwap??s.indicators?.vwap, rsi:s.rsi??s.indicators?.rsi, ema9:s.ema9??s.indicators?.ema9, ema20:s.ema20??s.indicators?.ema20, synthetic:s.synthetic??s.freshness==='CLOSED' })
 
@@ -91,7 +95,7 @@ export default function App(){
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Suspense fallback={<div style={{height:46, background:'rgba(255,255,255,0.04)'}}/>}><TickerTape symbols={undefined} colorTheme={theme} /></Suspense>
       <Header marketStatus={marketStatus} connectionStatus={wsStatus} lastUpdate={lastUpdate} dataMode={dataMode} />
-      <div style={{display:'flex', gap:8, padding:'6px 20px', background:'rgba(15,20,28,0.7)', borderBottom:'1px solid rgba(255,255,255,0.06)', alignItems:'center', flexWrap:'wrap'}}>
+      <div style={{display:'flex', gap:8, padding:'4px 20px', background:'rgba(15,20,28,0.7)', borderBottom:'1px solid rgba(255,255,255,0.06)', alignItems:'center', flexWrap:'wrap'}}>
         <div style={{display:'flex', gap:6, alignItems:'center', fontSize:11, color:'#8ea0b8'}}><span style={{width:6,height:6,borderRadius:999, background: wsStatus==='open'?'#00e6a0':'#ff3b4a'}}/> {allStocks.length} symbols</div>
         <div style={{marginLeft:'auto', display:'flex', gap:8, alignItems:'center'}}>
           <LayoutSwitcher value={dashLayout} onChange={setDashLayout} />
@@ -100,18 +104,28 @@ export default function App(){
         </div>
       </div>
       {isClosed && (
-        <div style={{background:'linear-gradient(90deg, rgba(255,176,32,0.12), rgba(255,138,0,0.08))', padding:'8px 20px', fontSize:12, color:'#ffb020', display:'flex', gap:12, alignItems:'center', flexWrap:'wrap'}}>
+        <div style={{background:'linear-gradient(90deg, rgba(255,176,32,0.12), rgba(255,138,0,0.08))', padding:'5px 20px', fontSize:12, color:'#ffb020', display:'flex', gap:12, alignItems:'center', flexWrap:'wrap'}}>
           <span style={{fontWeight:800, display:'flex',gap:8,alignItems:'center'}}><span style={{width:8,height:8,borderRadius:999,background:'#ffb020'}}/> MARKET CLOSED</span>
           <span style={{color:'#eef4ff',fontWeight:600}}>Showing last close</span><span style={{color:'#8ea0b8',fontSize:11}}>Next open • {nextOpen}</span>
         </div>
       )}
-      <div style={{display:'flex', gap:6, padding:'10px 20px', background:'rgba(15,20,28,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap'}}>
+      <div style={{display:'flex', gap:6, padding:'6px 20px', background:'rgba(15,20,28,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', alignItems:'center'}}>
         {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'options',label:'Options',icon:'⛓'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
           <button key={v.k} aria-label={`Switch to ${v.label} view`} aria-pressed={view===v.k} className={`btn ${view===v.k?'active':''}`} onClick={()=> setView(v.k)} style={{borderRadius:8, fontWeight:700, fontSize:12}}><span aria-hidden="true">{v.icon}</span> {v.label} {v.count!=null&&view==='screener'?<span style={{background:view===v.k?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{v.count}</span>:null}</button>
         ))}
+        {view==='screener' && (
+          <div style={{marginLeft:'auto', display:'flex', gap:6, alignItems:'center'}}>
+            <button className="btn sm" aria-pressed={showDashboard} onClick={()=>setShowDashboard(v=>!v)} style={{borderRadius:8, fontWeight:700}}>{showDashboard?'▴ Hide':'▾ Show'} Dashboard</button>
+            <div style={{display:'flex',gap:2,background:'rgba(255,255,255,0.04)',borderRadius:8,padding:2,border:'1px solid rgba(255,255,255,0.06)'}}>
+              {['compact','comfortable'].map(d=>(
+                <button key={d} onClick={()=>setDensity(d)} aria-pressed={density===d} style={{padding:'5px 10px', fontSize:11, fontWeight:700, textTransform:'capitalize', borderRadius:6, border:'none', cursor:'pointer', background: density===d?'linear-gradient(135deg,#2f8bff,#6b5cff)':'transparent', color: density===d?'#fff':'#8ea0b8'}}>{d}</button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
-      <div id="main-content" tabIndex={-1} style={{flex:1, overflow:'auto', padding:'14px 20px 0 20px', display:'flex', flexDirection:'column', gap:16}}>
+      <div id="main-content" tabIndex={-1} style={{flex:1, overflow: view==='screener' && !showDashboard ? 'hidden':'auto', padding:'8px 20px 0 20px', display:'flex', flexDirection:'column', gap:10}}>
         <Suspense fallback={<div style={{color:'#5b728c',textAlign:'center'}}>Loading view…</div>}>
           {view==='options'?<div style={{flex:1, display:'flex', flexDirection:'column', gap:14}}>
             <div style={{background:'rgba(15,20,28,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14}}>
@@ -123,27 +137,29 @@ export default function App(){
           :view==='institutional'?<div style={{flex:1}}><InstitutionalOptions/></div>
           :view==='agile'?<div style={{flex:1}}><AgileInstitutional/></div>
           :(<>
-            <section aria-labelledby="pulse-heading">
-              <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#00e6a0,#2f8bff)',borderRadius:999}}/> Market Pulse</h2>
-              <MarketOverview data={overview} />
-              <div style={{marginTop:12}}>
-                <BentoGrid>
-                  <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>TradingView Overview</h3><Suspense fallback={<div style={{height:120,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><MarketOverviewTV theme={theme} height={360} /></Suspense></div>
-                  <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>Heatmap</h3><Suspense fallback={<div style={{height:120,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><Heatmap theme={theme} height={360} /></Suspense></div>
-                </BentoGrid>
-              </div>
-            </section>
+            {showDashboard && (<>
+              <section aria-labelledby="pulse-heading">
+                <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#8ea0b8', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#00e6a0,#2f8bff)',borderRadius:999}}/> Market Pulse</h2>
+                <MarketOverview data={overview} />
+                <div style={{marginTop:12}}>
+                  <BentoGrid>
+                    <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>TradingView Overview</h3><Suspense fallback={<div style={{height:120,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><MarketOverviewTV theme={theme} height={360} /></Suspense></div>
+                    <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>Heatmap</h3><Suspense fallback={<div style={{height:120,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><Heatmap theme={theme} height={360} /></Suspense></div>
+                  </BentoGrid>
+                </div>
+              </section>
 
-            <section aria-labelledby="watchlist-heading" style={{display:'grid', gridTemplateColumns:'360px 1fr', gap:14}}>
-              <div><h2 id="watchlist-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Watchlist</h2><WatchlistManager onSelect={handleSelect} /></div>
-              <div><h2 style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Chart — {chartSymbol}</h2><BentoCard delay={1}><Suspense fallback={<div style={{height:300,display:'grid',placeItems:'center',color:'#5b728c'}}>Loading chart…</div>}><AdvancedChart symbol={chartSymbol} theme={theme} height={380} /></Suspense></BentoCard></div>
-            </section>
+              <section aria-labelledby="watchlist-heading" style={{display:'grid', gridTemplateColumns:'360px 1fr', gap:14}}>
+                <div><h2 id="watchlist-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Watchlist</h2><WatchlistManager onSelect={handleSelect} /></div>
+                <div><h2 style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10}}>Chart — {chartSymbol}</h2><BentoCard delay={1}><Suspense fallback={<div style={{height:300,display:'grid',placeItems:'center',color:'#5b728c'}}>Loading chart…</div>}><AdvancedChart symbol={chartSymbol} theme={theme} height={380} /></Suspense></BentoCard></div>
+              </section>
+            </>)}
 
-            <section aria-labelledby="screener-heading" style={{flex:1, display:'flex', flexDirection:'column', gap:10}}>
-              <h2 id="screener-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8', display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#2f8bff,#8b5cf6)',borderRadius:999}}/> Screener — {filtered.length} results</h2>
-              <div className="filters" style={{borderRadius:12, border:'1px solid rgba(255,255,255,0.06)'}}>
-                <div style={{position:'relative'}}><span aria-hidden="true" style={{position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',color:'#5b728c'}}>⌕</span><input aria-label="Search symbol or company" className="input" placeholder="Search symbol or company" value={search} onChange={e=> setSearch(e.target.value)} style={{minWidth:260,paddingLeft:28,borderRadius:12}} /></div>
-                <select aria-label="Filter by sector" className="input" value={sectorFilter} onChange={e=>setSectorFilter(e.target.value)} style={{borderRadius:12, minWidth:160}}><option value="">All Sectors</option>{sectors.map(s=> <option key={s.sector} value={s.sector}>{s.sector} ({s.count})</option>)}</select>
+            <section aria-labelledby="screener-heading" style={{flex:1, display:'flex', flexDirection:'column', gap:8, minHeight:0}}>
+              {showDashboard && <h2 id="screener-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8', display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#2f8bff,#8b5cf6)',borderRadius:999}}/> Screener — {filtered.length} results</h2>}
+              <div className="filters" style={{borderRadius:12, border:'1px solid rgba(255,255,255,0.06)', padding:'8px 12px', flexShrink:0}}>
+                <div style={{position:'relative'}}><span aria-hidden="true" style={{position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',color:'#5b728c'}}>⌕</span><input aria-label="Search symbol or company" className="input" placeholder="Search symbol or company" value={search} onChange={e=> setSearch(e.target.value)} style={{minWidth:220,paddingLeft:28,borderRadius:12}} /></div>
+                <select aria-label="Filter by sector" className="input" value={sectorFilter} onChange={e=>setSectorFilter(e.target.value)} style={{borderRadius:12, minWidth:150}}><option value="">All Sectors</option>{sectors.map(s=> <option key={s.sector} value={s.sector}>{s.sector} ({s.count})</option>)}</select>
                 <div style={{display:'flex',gap:6,flexWrap:'wrap'}}><span style={{fontSize:11,color:'#5b728c',fontWeight:700,letterSpacing:'0.06em',textTransform:'uppercase',alignSelf:'center'}}>Quick</span>
                   <button aria-pressed={!!filters.gainers} className={`chip ${filters.gainers?'active':''}`} onClick={()=> toggleFilter('gainers')} aria-label="Filter gainers">↗ Gainers</button>
                   <button aria-pressed={!!filters.losers} className={`chip ${filters.losers?'active':''}`} onClick={()=> toggleFilter('losers')} aria-label="Filter losers">↘ Losers</button>
@@ -151,24 +167,27 @@ export default function App(){
                   <button aria-pressed={!!filters.volumeSpike} className={`chip ${filters.volumeSpike?'active':''}`} onClick={()=> toggleFilter('volumeSpike')} aria-label="Filter volume spike">Vol Spike</button>
                   <button aria-pressed={!!filters.breakout} className={`chip ${filters.breakout?'active':''}`} onClick={()=> toggleFilter('breakout')} aria-label="Filter breakout">Breakout</button>
                   <button className="chip" onClick={()=> setFilters({})} aria-label="Clear filters" style={{background:'rgba(47,139,255,0.08)',borderColor:'rgba(47,139,255,0.2)',color:'#2f8bff'}}>Clear</button>
+                  {!showDashboard && <span style={{marginLeft:'auto', fontSize:11, color:'#5b728c', alignSelf:'center'}}>{filtered.length} results</span>}
                 </div>
               </div>
-              <div className="main" style={{padding:0, minHeight:420}}>
-                <div className="table-wrap" style={{flex:1}}><StockTable stocks={filtered} onSelect={handleSelect} selectedSymbol={selected} sortBy={sortBy} sortDir={sortDir} onSort={(k,dir)=>{setSortBy(k); setSortDir(dir)}} />
+              <div className="main" style={{padding:0, flex:1, minHeight:0}}>
+                <div className="table-wrap" style={{flex:1}}><StockTable stocks={filtered} onSelect={handleSelect} selectedSymbol={selected} sortBy={sortBy} sortDir={sortDir} onSort={(k,dir)=>{setSortBy(k); setSortDir(dir)}} density={density} />
                   {filtered.length===0 && allStocks.length===0 && <div style={{position:'absolute',inset:0,display:'grid',placeItems:'center',textAlign:'center'}}><div><div style={{width:48,height:48,borderRadius:16,background:'linear-gradient(135deg, rgba(47,139,255,0.15), rgba(0,230,160,0.1))',display:'grid',placeItems:'center',margin:'0 auto 12px'}}>◈</div><div style={{fontWeight:700,color:'#eef4ff'}}>Waiting for market data…</div><div style={{fontSize:11,marginTop:6,color:'#5b728c'}}>Backend in <b style={{color:'#eef4ff'}}>{dataMode}</b> mode • Establishing stream</div></div></div>}
                 </div>
                 {(selected||showDetail)&& <DetailPanel symbol={selected} onClose={()=>{setSelected(null);setShowDetail(false)}} liveState={liveSelectedState} theme={theme} />}
               </div>
             </section>
 
-            <section aria-labelledby="calendar-heading">
-              <h2 id="calendar-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10, display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#ffb020,#ff8a00)',borderRadius:999}}/> News & Calendar — Screener</h2>
-              <BentoGrid>
-                <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>Economic Calendar</h3><Suspense fallback={<div style={{height:200,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><EconomicCalendar theme={theme} height={400} /></Suspense></div>
-                <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>TradingView Screener</h3><Suspense fallback={<div style={{height:200,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><ScreenerTV theme={theme} height={400} /></Suspense></div>
-              </BentoGrid>
-            </section>
-            <div style={{height:12}} />
+            {showDashboard && (<>
+              <section aria-labelledby="calendar-heading">
+                <h2 id="calendar-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#8ea0b8',marginBottom:10, display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#ffb020,#ff8a00)',borderRadius:999}}/> News & Calendar — Screener</h2>
+                <BentoGrid>
+                  <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>Economic Calendar</h3><Suspense fallback={<div style={{height:200,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><EconomicCalendar theme={theme} height={400} /></Suspense></div>
+                  <div><h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',color:'#8ea0b8',marginBottom:8}}>TradingView Screener</h3><Suspense fallback={<div style={{height:200,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><ScreenerTV theme={theme} height={400} /></Suspense></div>
+                </BentoGrid>
+              </section>
+              <div style={{height:12}} />
+            </>)}
           </>)}
         </Suspense>
       </div>

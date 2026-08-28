@@ -2,12 +2,13 @@ import React, { useRef, useState, useMemo } from 'react'
 import { fmt, fmtPct, fmtVol, fmtPrice } from '../utils/format.js'
 import Papa from 'papaparse'
 
-const Row = React.memo(function Row({ s, idx, flashClass, isSelected, onSelect }){
+const Row = React.memo(function Row({ s, idx, flashClass, isSelected, onSelect, density }){
   const isPos = (s.changePercent||0) >=0
   const scoreColor = s.score>=70 ? '#00e6a0' : s.score>=40 ? '#ffb020' : '#5b728c'
   const isAbove = s.isAboveVwap
+  const rowH = density==='compact' ? 30 : 42
   return (
-    <tr className={`${isSelected?'selected':''}`} onClick={()=> onSelect(s.symbol)} onKeyDown={(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); onSelect(s.symbol)} }} tabIndex={0} role="row" aria-selected={isSelected} aria-label={`${s.symbol} ${s.companyName} price ${s.ltp} change ${s.changePercent?.toFixed?.(2) ?? ''} percent`} style={{cursor:'pointer', contentVisibility:'auto', containIntrinsicSize:'0 42px'}}>
+    <tr className={`${isSelected?'selected':''}`} onClick={()=> onSelect(s.symbol)} onKeyDown={(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); onSelect(s.symbol)} }} tabIndex={0} role="row" aria-selected={isSelected} aria-label={`${s.symbol} ${s.companyName} price ${s.ltp} change ${s.changePercent?.toFixed?.(2) ?? ''} percent`} style={{cursor:'pointer', contentVisibility:'auto', containIntrinsicSize:`0 ${rowH}px`}}>
       <td className="mono" role="cell" style={{color:'#5b728c', fontWeight:600, fontSize:11}}>{s.rank || idx+1}</td>
       <td className={flashClass} role="cell" style={{fontWeight:800, minWidth:130}}>
         <div style={{display:'flex', gap:8, alignItems:'center'}}>
@@ -48,7 +49,7 @@ const DEFAULT_COLS=[
   { key:'sector', label:'Sector', sortable:false, width:120 },
 ]
 
-export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, sortDir, onSort }){
+export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, sortDir, onSort, density='comfortable' }){
   const containerRef = useRef(null)
   const [flashMap, setFlashMap] = useState({})
   const [cols,setCols]=useState(()=>{
@@ -104,7 +105,7 @@ export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, s
   const togglePin=(idx)=> setCols(c=> c.map((col,i)=> i===idx? {...col,pinned:!col.pinned}:col))
 
   return (
-    <div ref={containerRef} style={{height:'100%', overflow:'auto', position:'relative'}}>
+    <div ref={containerRef} className={`table-density-${density}`} style={{height:'100%', overflow:'auto', position:'relative'}}>
       <div style={{position:'sticky',top:0,zIndex:3,display:'flex',gap:6,padding:'6px 8px',background:'rgba(15,20,28,0.95)',borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
         <button className="btn sm" onClick={exportCSV} aria-label="Export screener as CSV">⬇ CSV</button>
         <button className="btn sm" onClick={()=>setCols(DEFAULT_COLS)} aria-label="Reset table layout">Reset Layout</button>
@@ -133,7 +134,7 @@ export default function StockTable({ stocks, onSelect, selectedSymbol, sortBy, s
         </thead>
         <tbody>
           {stocks.map((s, idx)=> (
-            <Row key={s.symbol} s={s} idx={idx} flashClass={flashMap[s.symbol]==='up' ? 'flash' : flashMap[s.symbol]==='down' ? 'flash-neg' : ''} isSelected={selectedSymbol===s.symbol} onSelect={onSelect} />
+            <Row key={s.symbol} s={s} idx={idx} flashClass={flashMap[s.symbol]==='up' ? 'flash' : flashMap[s.symbol]==='down' ? 'flash-neg' : ''} isSelected={selectedSymbol===s.symbol} onSelect={onSelect} density={density} />
           ))}
           {stocks.length===0 && (
             <tr><td colSpan={13} style={{textAlign:'center', padding:48, color:'#5b728c'}}>
