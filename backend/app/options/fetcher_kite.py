@@ -44,7 +44,7 @@ from ..config import settings
 
 logger = logging.getLogger(__name__)
 
-_OPTIONS_FILE = Path(__file__).resolve().parents[2] / "config" / "nifty_sensex_options.json"
+_OPTIONS_FILE = Path(__file__).resolve().parents[3] / "config" / "nifty_sensex_options.json"
 _universe_cache: Optional[Dict[str, Any]] = None
 
 # Kite's documented quote symbols for these indices.
@@ -61,13 +61,17 @@ _oi_baseline: Dict[str, int] = {}
 
 
 def _load_option_universe() -> Dict[str, Any]:
+    """Cache successful loads only -- a transient failure (e.g. filesystem not
+    ready yet at cold start) must not permanently wedge this at {} for the rest
+    of the process's life; only cache once we actually have real contracts."""
     global _universe_cache
-    if _universe_cache is None:
-        try:
-            _universe_cache = json.loads(_OPTIONS_FILE.read_text())
-        except Exception as e:
-            logger.warning(f"failed to load options universe from {_OPTIONS_FILE}: {e}")
-            _universe_cache = {}
+    if _universe_cache:
+        return _universe_cache
+    try:
+        _universe_cache = json.loads(_OPTIONS_FILE.read_text())
+    except Exception as e:
+        logger.warning(f"failed to load options universe from {_OPTIONS_FILE}: {e}")
+        return {}
     return _universe_cache
 
 

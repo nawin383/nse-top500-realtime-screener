@@ -48,7 +48,11 @@ class KiteProvider(BaseProvider):
         try:
             from pathlib import Path
             import json
-            opt_path = Path(__file__).resolve().parents[2] / "config" / "nifty_sensex_options.json"
+            # parents[3] is the repo root (this file is backend/app/providers/kite_provider.py);
+            # parents[2] ("backend/") was a real bug -- config/ lives at the repo root, not
+            # under backend/, so this silently never found the file and self._options_tokens
+            # stayed empty, meaning the WS never actually subscribed to any option contracts.
+            opt_path = Path(__file__).resolve().parents[3] / "config" / "nifty_sensex_options.json"
             if opt_path.exists():
                 data=json.loads(opt_path.read_text())
                 # take nearest expiry: sort by expiry, take 150 NIFTY + 150 SENSEX = 300

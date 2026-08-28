@@ -25,7 +25,7 @@ NSE_HEADERS = {
     "Referer": "https://www.nseindia.com/",
 }
 
-CACHE_FILE = Path(__file__).resolve().parents[2] / "data" / "options_last_trading_day.json"
+CACHE_FILE = Path(__file__).resolve().parents[3] / "data" / "options_last_trading_day.json"
 CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
 
 # In-memory last fetch
