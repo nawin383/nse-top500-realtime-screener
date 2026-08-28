@@ -5,6 +5,7 @@ import MarketOverview from './components/MarketOverview.jsx'
 import StockTable from './components/StockTable.jsx'
 import DetailPanel from './components/DetailPanel.jsx'
 import WatchlistManager from './components/WatchlistManager.jsx'
+import AIInsights from './components/AIInsights.jsx'
 import CommandPalette from './components/CommandPalette.jsx'
 import SettingsMenu from './components/SettingsMenu.jsx'
 import { useWebSocket } from './hooks/useWebSocket.js'
@@ -12,6 +13,7 @@ import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.j
 import { useStore } from './store/useStore.js'
 import DashboardLayouts from './components/layouts/DashboardLayouts.jsx'
 import FilterBuilder, { matches as matchesAdvancedFilter } from './components/FilterBuilder.jsx'
+import { IconScreener, IconTarget, IconChain, IconScroll, IconChart, IconFlask, IconRewind, IconBell, IconExternal, IconToolbox } from './components/icons.jsx'
 
 const OptionsHub = lazy(()=> import('./components/options/OptionsHub.jsx'))
 const IntradaySignals = lazy(()=> import('./components/IntradaySignals.jsx'))
@@ -19,17 +21,26 @@ const OptionInstrumentsScreener = lazy(()=> import('./components/OptionInstrumen
 const PaperTrading = lazy(()=> import('./components/PaperTrading.jsx'))
 const MarketReplay = lazy(()=> import('./components/MarketReplay.jsx'))
 const AlertsCenter = lazy(()=> import('./components/AlertsCenter.jsx'))
+const ETFScreener = lazy(()=> import('./components/ETFScreener.jsx'))
 
 const NAV = [
-  { k:'screener', label:'Screener', full:'Screener', icon:'◈' },
-  { k:'intraday', label:'Intraday', full:'Intraday Signals', icon:'🎯' },
-  { k:'options', label:'Options', full:'Options', icon:'⛓' },
-  { k:'optioninstruments', label:'Instruments', full:'Option Instruments', icon:'📜' },
+  { k:'screener', label:'Screener', full:'Screener', icon:IconScreener },
+  { k:'intraday', label:'Intraday', full:'Intraday Signals', icon:IconTarget },
+  { k:'options', label:'Options', full:'Options', icon:IconChain },
+  { k:'optioninstruments', label:'Instruments', full:'Option Instruments', icon:IconScroll },
+  { k:'etf', label:'ETFs', full:'ETF Screener', icon:IconChart },
 ]
 const TOOLS = [
-  { k:'paper', label:'Paper Trading', icon:'🧪' },
-  { k:'replay', label:'Market Replay', icon:'⏮' },
-  { k:'alerts', label:'Alerts Center', icon:'🔔' },
+  { k:'paper', label:'Paper Trading', icon:IconFlask },
+  { k:'replay', label:'Market Replay', icon:IconRewind },
+  { k:'alerts', label:'Alerts Center', icon:IconBell },
+]
+// External dashboards the user runs outside this app -- opened in a new tab,
+// never embedded (Apps Script deployments block framing via X-Frame-Options
+// anyway, and this session has no access to edit them directly).
+const EXTERNAL_LINKS = [
+  { label:'Smart ETF Dashboard', url:'https://script.google.com/macros/s/AKfycbySs46EBlzP0vpAhtm9vImzIPqKUCVbxzXBigSe0HH_55iVB4kEyPv-M-BlF8ETyztu/exec' },
+  { label:'Nifty Indices Dashboard', url:'https://script.google.com/macros/s/AKfycbzSHbc7_vKJkMdkDpCC5GPVRGoJUYdJkdTe_TAWHLgfazG-rSNRJjlaRUVtoDllyRVkWg/exec' },
 ]
 const ALL_DESTINATIONS = [...NAV, ...TOOLS]
 
@@ -45,18 +56,25 @@ function ToolsMenu({ view, setView }){
   return (
     <div ref={ref} style={{position:'relative'}}>
       <button aria-haspopup="menu" aria-expanded={open} onClick={()=> setOpen(v=>!v)}
-        style={{position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'7px 14px', border:'none', cursor:'pointer', background: active?'linear-gradient(135deg,var(--accent),var(--accent-light))':'transparent', color: active?'#04101f':'var(--text2)'}}>
-        <span aria-hidden="true">🧰</span> Tools <span aria-hidden="true" style={{fontSize:9}}>{open?'▲':'▼'}</span>
+        style={{display:'flex', alignItems:'center', gap:6, position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'7px 14px', border:'none', cursor:'pointer', background: active?'linear-gradient(135deg,var(--accent),var(--accent-light))':'transparent', color: active?'#04101f':'var(--text2)'}}>
+        <IconToolbox/> Tools <span aria-hidden="true" style={{fontSize:9}}>{open?'▲':'▼'}</span>
       </button>
       <AnimatePresence>
         {open && (
           <motion.div role="menu" initial={{opacity:0,y:-6,scale:0.98}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:-6,scale:0.98}} transition={{duration:0.14}}
-            style={{position:'absolute', top:'calc(100% + 6px)', left:0, minWidth:190, background:'var(--bg2)', border:'1px solid var(--border)', borderRadius:10, boxShadow:'0 12px 32px rgba(0,0,0,0.35)', overflow:'hidden', zIndex:50}}>
+            style={{position:'absolute', top:'calc(100% + 6px)', right:0, minWidth:220, background:'var(--bg2)', border:'1px solid var(--border)', borderRadius:10, boxShadow:'0 12px 32px rgba(0,0,0,0.35)', overflow:'hidden', zIndex:50}}>
             {TOOLS.map(t=>(
               <button key={t.k} role="menuitem" aria-pressed={view===t.k} onClick={()=>{ setView(t.k); setOpen(false) }}
                 style={{display:'flex', alignItems:'center', gap:8, width:'100%', padding:'9px 12px', border:'none', cursor:'pointer', textAlign:'left', fontSize:12, fontWeight:600, background: view===t.k?'rgba(var(--accent-rgb),0.14)':'transparent', color:'var(--text)'}}>
-                <span aria-hidden="true">{t.icon}</span> {t.label}
+                <t.icon/> {t.label}
               </button>
+            ))}
+            <div style={{borderTop:'1px solid var(--border)', padding:'6px 12px 4px', fontSize:9, fontWeight:800, letterSpacing:'0.08em', textTransform:'uppercase', color:'var(--text3)'}}>External</div>
+            {EXTERNAL_LINKS.map(l=>(
+              <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer" onClick={()=> setOpen(false)}
+                style={{display:'flex', alignItems:'center', gap:8, width:'100%', padding:'9px 12px', textDecoration:'none', fontSize:12, fontWeight:600, color:'var(--text)'}}>
+                <IconExternal/> {l.label}
+              </a>
             ))}
           </motion.div>
         )}
@@ -116,12 +134,20 @@ export default function App(){
     oi:s.oi, oiChangePct:s.oiChangePct??s.oi_change_pct, oiBuildup:s.oiBuildup??s.oi_buildup,
   })
 
+  const overviewHistoryRef = useRef([])
+  const applyOverview = (n) => {
+    if(!n) return
+    setOverview(n)
+    const buf = overviewHistoryRef.current
+    const point = { advancing:n.advancing, aboveVWAP:n.aboveVWAP, breakouts:n.breakouts }
+    overviewHistoryRef.current = buf.length >= 40 ? [...buf.slice(1), point] : [...buf, point]
+  }
   useEffect(()=>{
     const normOv=(d)=>{ if(!d) return null; const na=(a)=>(a||[]).map(x=>({...x,changePercent:x.changePercent??x.change_pct, relVolume:x.relVolume??x.rel_volume})); return {...d, advancing:d.advancing, declining:d.declining, unchanged:d.unchanged, aboveVWAP:d.above_vwap??d.aboveVWAP, belowVWAP:d.below_vwap??d.belowVWAP, breakouts:d.breakouts??d.breakouts_count, breakdowns:d.breakdowns??d.breakdowns_count, topGainers:na(d.top_gainers??d.topGainers), topLosers:na(d.top_losers??d.topLosers), highestVolume:na(d.highest_volume??d.highestVolume), marketStatus:d.marketStatus??{status:d.status,is_open:d.is_live??d.is_open}, total:d.total??500 } }
     fetchMarketStatus().then(d=>{ if(d) d.is_open=d.is_live??d.is_open??false; setMarketStatus(d)}).catch(()=>{})
-    fetchOverview().then(d=> setOverview(normOv(d))).catch(()=>{})
+    fetchOverview().then(d=> applyOverview(normOv(d))).catch(()=>{})
     fetchSectors().then(r=>{ const list=r.data||r.sectors||r; if(Array.isArray(list)){ if(list.length&&typeof list[0]==='object'&&list[0].sector) setSectors(list.map(x=>({sector:x.sector,count:x.count||0}))); else if(list.length&&typeof list[0]==='string') setSectors(list.map(s=>({sector:s,count:0}))); else setSectors(list)}}).catch(()=>{})
-    const id=setInterval(()=>{ fetchMarketStatus().then(d=>{ if(d) d.is_open=d.is_live??d.is_open??false; setMarketStatus(d)}).catch(()=>{}); fetchOverview().then(d=>{ const n=normOv(d); if(n) setOverview(n)}).catch(()=>{}) },15000)
+    const id=setInterval(()=>{ fetchMarketStatus().then(d=>{ if(d) d.is_open=d.is_live??d.is_open??false; setMarketStatus(d)}).catch(()=>{}); fetchOverview().then(d=>{ const n=normOv(d); applyOverview(n) }).catch(()=>{}) },15000)
     return ()=> clearInterval(id)
   },[])
 
@@ -163,14 +189,14 @@ export default function App(){
         <nav className="header-nav" aria-label="Main navigation">
           {NAV.map(v=>(
             <button key={v.k} aria-label={`Switch to ${v.full} view`} aria-pressed={view===v.k} onClick={()=> setView(v.k)}
-              style={{position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'6px 12px', border:'none', cursor:'pointer', background:'transparent', color: view===v.k?'#04101f':'var(--text2)', zIndex:1, whiteSpace:'nowrap', flexShrink:0}}>
+              style={{display:'flex', alignItems:'center', gap:6, position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'6px 12px', border:'none', cursor:'pointer', background:'transparent', color: view===v.k?'#04101f':'var(--text2)', zIndex:1, whiteSpace:'nowrap', flexShrink:0}}>
               {view===v.k && <motion.span layoutId="main-nav-pill" transition={{type:'spring', stiffness:500, damping:35}} style={{position:'absolute', inset:0, borderRadius:8, background:'linear-gradient(135deg,var(--accent),var(--accent-light))', zIndex:-1}} />}
-              <span aria-hidden="true">{v.icon}</span> {v.label} {v.k==='screener'?<span style={{background: view===v.k?'rgba(4,16,31,0.18)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{filtered.length}</span>:null}
+              <v.icon/> {v.label} {v.k==='screener'?<span style={{background: view===v.k?'rgba(4,16,31,0.18)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{filtered.length}</span>:null}
             </button>
           ))}
-          <ToolsMenu view={view} setView={setView} />
         </nav>
         <div style={{display:'flex', gap:10, alignItems:'center', flexShrink:0}}>
+          <ToolsMenu view={view} setView={setView} />
           <span className={`status-dot ${wsStatus==='open'?'green':wsStatus==='connecting'?'yellow':'red'}`} title={`Live feed: ${wsStatus}`} aria-label={`Live feed ${wsStatus}`} />
           <span className="mono" title="Last update" style={{fontSize:10, color:'var(--text3)', whiteSpace:'nowrap'}}>{lastUpdate ? new Date(lastUpdate).toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'}) : '--:--:--'}</span>
           <SettingsMenu />
@@ -187,17 +213,23 @@ export default function App(){
           :view==='paper'?<div style={{flex:1, overflow:'auto'}}><PaperTrading stocksMap={stocksMap} /></div>
           :view==='replay'?<div style={{flex:1, overflow:'auto'}}><MarketReplay symbol={selected||'RELIANCE'} /></div>
           :view==='alerts'?<div style={{flex:1, overflow:'auto'}}><AlertsCenter alerts={alerts} /></div>
+          :view==='etf'?<div style={{flex:1, overflow:'auto'}}><ETFScreener /></div>
           :(<>
             {showDashboard && (
               <DashboardLayouts layout="bento">
               <section aria-labelledby="pulse-heading">
                 <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#cbd5e1', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#10b981,var(--accent))',borderRadius:999}}/> Market Pulse</h2>
-                <MarketOverview data={overview} />
+                <MarketOverview data={overview} history={overviewHistoryRef.current} />
               </section>
 
               <section aria-labelledby="watchlist-heading">
                 <h2 id="watchlist-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1',marginBottom:10}}>Watchlist</h2>
                 <WatchlistManager onSelect={handleSelect} />
+              </section>
+
+              <section aria-labelledby="insights-heading">
+                <h2 id="insights-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1',marginBottom:10, display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#f59e0b,var(--accent))',borderRadius:999}}/> AI Insights</h2>
+                <AIInsights stocks={allStocks} />
               </section>
               </DashboardLayouts>
             )}

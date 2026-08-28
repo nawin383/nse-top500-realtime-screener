@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from './ThemeToggle.jsx'
 import AccentPicker from './AccentPicker.jsx'
 import LoginManager from './auth/LoginManager.jsx'
+import { IconGear } from './icons.jsx'
 
 // Theme, accent, and account live behind one gear icon instead of three
 // permanent header widgets -- they're preferences you set once and forget,
@@ -18,8 +19,8 @@ export default function SettingsMenu(){
   return (
     <div ref={ref} style={{position:'relative'}}>
       <button aria-haspopup="menu" aria-expanded={open} aria-label="Settings" onClick={()=> setOpen(v=>!v)}
-        style={{display:'flex', alignItems:'center', justifyContent:'center', width:32, height:32, borderRadius:8, border:'1px solid var(--border)', cursor:'pointer', background: open?'rgba(var(--accent-rgb),0.14)':'rgba(255,255,255,0.04)', color:'var(--text2)', fontSize:15}}>
-        ⚙
+        style={{display:'flex', alignItems:'center', justifyContent:'center', width:32, height:32, borderRadius:8, border:'1px solid var(--border)', cursor:'pointer', background: open?'rgba(var(--accent-rgb),0.14)':'rgba(255,255,255,0.04)', color:'var(--text2)'}}>
+        <IconGear width={16} height={16}/>
       </button>
       <AnimatePresence>
         {open && (

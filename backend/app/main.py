@@ -30,6 +30,7 @@ from .api.institutional import router as institutional_router
 from .api.watchlists import router as watchlists_router
 from .api.webhooks import router as webhooks_router
 from .api.signals import router as signals_router
+from .api.analytics import router as analytics_router
 
 # Monitoring and metrics
 from .utils.metrics import setup_metrics
@@ -216,6 +217,7 @@ app.include_router(institutional_router, prefix="/api", tags=["institutional"])
 app.include_router(watchlists_router, prefix="/api", tags=["watchlists"])
 app.include_router(webhooks_router, prefix="/api", tags=["webhooks"])
 app.include_router(signals_router, prefix="/api", tags=["signals"])
+app.include_router(analytics_router, prefix="/api", tags=["analytics"])
 try:
     from .api.v1 import router as v1_router
     app.include_router(v1_router, prefix="/api/v1", tags=["v1"])

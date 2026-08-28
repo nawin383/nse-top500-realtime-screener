@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useMemo } from 'react'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Cell, Legend } from 'recharts'
 import { fmt, fmtInt, Card, Empty, Skeleton } from './shared.jsx'
+import VixOpenVolatility from './VixOpenVolatility.jsx'
 
 const OpenInterestChart = lazy(() => import('../OpenInterestChart.jsx'))
 
@@ -64,6 +65,8 @@ export default function AnalyticsView({ data, theme }) {
           </> : <Empty label="VIX unavailable (NSE unreachable)" />}
         </Card>
       </div>
+
+      <VixOpenVolatility />
 
       <Card title="Open Interest — Weekly / Monthly Profile" delay={5}>
         <Suspense fallback={<Skeleton height={340} />}>

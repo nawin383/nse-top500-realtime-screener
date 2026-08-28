@@ -89,3 +89,19 @@ async def fetch_quote(kite, instruments: List[str]) -> Dict[str, Any]:
         except Exception as e:
             logger.warning(f"quote batch failed ({len(batch)} instruments): {e}")
     return out
+
+
+async def fetch_historical(kite, instrument_token: int, from_dt, to_dt, interval: str = "minute") -> List[Dict[str, Any]]:
+    """GET /instruments/historical/:token/:interval for one instrument over one
+    date range. Kite paces this per-instrument (no batching), so callers doing
+    many days/instruments should space calls out themselves (~3 req/s)."""
+    if not kite:
+        return []
+    try:
+        candles = await asyncio.to_thread(
+            kite.historical_data, instrument_token, from_dt, to_dt, interval
+        )
+        return candles or []
+    except Exception as e:
+        logger.warning(f"historical_data failed (token={instrument_token}, {from_dt}..{to_dt}): {e}")
+        return []

@@ -4,11 +4,12 @@ import { useOptionsData } from '../../hooks/useOptionsData.js'
 import ChainView from './ChainView.jsx'
 import AnalyticsView from './AnalyticsView.jsx'
 import InstitutionalView from './InstitutionalView.jsx'
+import { IconChain, IconChart, IconBuilding } from '../icons.jsx'
 
 const SUBTABS = [
-  { k: 'chain', label: 'Chain', icon: '⛓' },
-  { k: 'analytics', label: 'Analytics', icon: '📊' },
-  { k: 'institutional', label: 'Institutional Flow', icon: '🏛' },
+  { k: 'chain', label: 'Chain', icon: IconChain },
+  { k: 'analytics', label: 'Analytics', icon: IconChart },
+  { k: 'institutional', label: 'Institutional Flow', icon: IconBuilding },
 ]
 
 // One shared symbol/expiry/data-fetch layer feeding three sub-views. This
@@ -48,12 +49,12 @@ export default function OptionsHub({ theme }) {
       <div role="tablist" aria-label="Options sub-view" style={{ display: 'flex', gap: 4, background: 'var(--bg3)', padding: 4, borderRadius: 12, border: '1px solid var(--border)', width: 'fit-content' }}>
         {SUBTABS.map(t => (
           <button key={t.k} role="tab" aria-selected={sub === t.k} onClick={() => setSub(t.k)}
-            style={{ position: 'relative', padding: '7px 14px', fontSize: 12, fontWeight: 700, borderRadius: 9, border: 'none', cursor: 'pointer', background: 'transparent', color: sub === t.k ? '#04101f' : 'var(--text2)', zIndex: 1 }}>
+            style={{ display:'flex', alignItems:'center', gap:6, position: 'relative', padding: '7px 14px', fontSize: 12, fontWeight: 700, borderRadius: 9, border: 'none', cursor: 'pointer', background: 'transparent', color: sub === t.k ? '#04101f' : 'var(--text2)', zIndex: 1 }}>
             {sub === t.k && (
               <motion.span layoutId="options-subtab-pill" transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 style={{ position: 'absolute', inset: 0, borderRadius: 9, background: 'linear-gradient(135deg,var(--accent),var(--accent-light))', zIndex: -1 }} />
             )}
-            <span aria-hidden="true">{t.icon}</span> {t.label}
+            <t.icon/> {t.label}
           </button>
         ))}
       </div>
