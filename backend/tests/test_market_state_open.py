@@ -68,6 +68,20 @@ def test_equity_ticks_never_carry_oi():
     assert ms.states["EQTEST"].oi_buildup is None
 
 
+def test_init_universe_live_branch_survives_missing_prev_close():
+    """Regression test: _init_universe's live-market branch used to set
+    ltp=prev_close with no None guard (unlike the closed-market branch's
+    ltp=prev_close or 0), so constructing MarketState -- and therefore
+    booting the whole app -- while the market happens to be live would
+    crash entirely on any universe entry missing prev_close (e.g. a new
+    listing, or a data-loading gap)."""
+    universe = [{"symbol": "NEWLISTING", "instrument_token": 99}]  # no prev_close at all
+    from unittest.mock import patch
+    with patch("backend.app.market_hours.get_market_status", return_value=("open", True)):
+        ms = MarketState(universe)  # must not raise
+    assert ms.states["NEWLISTING"].ltp == 0
+
+
 def test_reset_day_allows_a_fresh_real_open():
     universe = [{"symbol": "GAPTEST3", "instrument_token": 3, "prev_close": 100.0, "avg_volume": 10000}]
     ms = MarketState(universe)

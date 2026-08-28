@@ -148,7 +148,7 @@ class MarketState:
                     sector=entry.get("sector"),
                     industry=entry.get("industry"),
                     exchange=entry.get("exchange","NSE"),
-                    ltp=prev_close,
+                    ltp=prev_close or 0,
                     open=None, high=None, low=None,
                     previous_close=prev_close,
                     volume=0,

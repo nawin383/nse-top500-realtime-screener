@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 
 router = APIRouter()
@@ -9,7 +9,7 @@ async def hv_cone(symbol: str = Query("NIFTY")):
     current_iv = None
     try:
         from ..options.fetcher_v2 import get_chain_live_or_last_day
-        data = get_chain_live_or_last_day(symbol.upper(), None)
+        data = await get_chain_live_or_last_day(symbol.upper(), None)
         current_iv = next((c["CE"]["iv"] for c in data["chain"] if c["isATM"]), None)
     except Exception:
         pass
@@ -106,7 +106,10 @@ async def spread(symbol: str = Query("NIFTY"), expiry: Optional[str] = None):
     """Real ATM bid-ask spread from the live option chain (NSE bidprice/askPrice),
     not a fixed placeholder number."""
     from ..options.fetcher_v2 import get_chain_live_or_last_day
-    data = get_chain_live_or_last_day(symbol.upper(), expiry)
+    try:
+        data = await get_chain_live_or_last_day(symbol.upper(), expiry)
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=str(e))
     atm = next((c for c in data["chain"] if c["isATM"]), None)
     if not atm:
         return {"symbol": symbol.upper(), "avgSpreadBps": None, "note": "No ATM strike found in the live chain"}

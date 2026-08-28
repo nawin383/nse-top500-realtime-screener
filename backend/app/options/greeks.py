@@ -83,6 +83,40 @@ def black_scholes_greeks(
         intrinsic = max(spot - strike, 0) if option_type == "CE" else max(strike - spot, 0)
         return {"price": round(intrinsic,2), "delta": 0, "gamma":0, "theta":0, "vega":0, "rho":0, "iv": volatility}
 
+def implied_volatility(market_price: float, spot: float, strike: float, time_to_expiry_years: float,
+                        risk_free_rate: float, option_type: str,
+                        lo: float = 0.001, hi: float = 5.0, tol: float = 0.0005, max_iter: int = 100) -> float | None:
+    """Bisection solver for IV from a real market price (Kite ticks give LTP/OI
+    but not IV -- only NSE's website computes and exposes that). Bisection
+    over black_scholes_greeks' own price() is used instead of Newton-Raphson
+    because vega collapses to ~0 for deep ITM/OTM strikes, making Newton
+    unstable there; bisection is slower but always converges within the
+    bracket. Returns None (never a guessed number) when the market price is
+    below intrinsic value or unreachable even at 500% vol -- both indicate a
+    stale/bad quote rather than a solvable IV."""
+    if market_price is None or market_price <= 0 or spot <= 0 or strike <= 0 or time_to_expiry_years <= 0:
+        return None
+    intrinsic = max(spot - strike, 0) if option_type == "CE" else max(strike - spot, 0)
+    if market_price < intrinsic - 0.01:
+        return None
+    price_lo = black_scholes_greeks(spot, strike, time_to_expiry_years, lo, risk_free_rate, option_type)["price"]
+    price_hi = black_scholes_greeks(spot, strike, time_to_expiry_years, hi, risk_free_rate, option_type)["price"]
+    if market_price <= price_lo:
+        return lo
+    if market_price >= price_hi:
+        return None
+    for _ in range(max_iter):
+        mid = (lo + hi) / 2
+        p = black_scholes_greeks(spot, strike, time_to_expiry_years, mid, risk_free_rate, option_type)["price"]
+        if abs(p - market_price) < tol:
+            return round(mid, 4)
+        if p < market_price:
+            lo = mid
+        else:
+            hi = mid
+    return round((lo + hi) / 2, 4)
+
+
 def days_to_expiry(expiry_str: str) -> float:
     """expiry_str like 2026-08-28 or 28Aug2026, returns years."""
     from datetime import datetime

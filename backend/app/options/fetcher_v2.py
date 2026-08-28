@@ -314,11 +314,29 @@ def fetch_bse_sensex(expiry: str | None) -> Optional[Dict]:
         logger.debug(f"BSE fetch failed {e}")
         return None
 
-def get_chain_live_or_last_day(symbol: str, expiry: str | None) -> Dict:
-    """Institutional: live if market open, else last trading day cached. No mock. SENSEX via BSE."""
+async def get_chain_live_or_last_day(symbol: str, expiry: str | None) -> Dict:
+    """Institutional: live if market open, else last trading day cached. No mock.
+    Live NIFTY/SENSEX prefer Kite Connect (fetcher_kite.py) over NSE-website
+    scraping -- NSE blocks/CAPTCHAs most cloud-hosted IPs, so the scrape is
+    kept only as a fallback for symbols the Kite static universe doesn't
+    cover (BANKNIFTY) or if Kite credentials/quote fail for some reason."""
     symbol = symbol.upper()
     is_open = _is_market_open()
-    # SENSEX special: BSE
+
+    if is_open:
+        from .fetcher_kite import fetch_chain_from_kite
+        try:
+            kite_live = await fetch_chain_from_kite(symbol, expiry)
+        except Exception as e:
+            logger.warning(f"Kite chain fetch errored for {symbol} {expiry or ''}: {e}", exc_info=True)
+            kite_live = None
+        if kite_live:
+            _save_disk_cache(symbol, expiry, kite_live)
+            _mem_cache[f"{symbol}:{expiry or 'auto'}"] = kite_live
+            _mem_ts[f"{symbol}:{expiry or 'auto'}"] = time.time()
+            return kite_live
+
+    # SENSEX special: BSE scrape (Kite path above already covers SENSEX when it succeeds)
     if symbol == "SENSEX":
         bse = fetch_bse_sensex(expiry)
         if bse:
@@ -330,7 +348,7 @@ def get_chain_live_or_last_day(symbol: str, expiry: str | None) -> Dict:
         if cached:
             return cached
         if is_open:
-            raise RuntimeError(f"Live BSE fetch failed for SENSEX {expiry or ''} and no cached last day. BSE unreachable.")
+            raise RuntimeError(f"Live Kite and BSE fetch both failed for SENSEX {expiry or ''} and no cached last day. Market is open but both sources unreachable.")
         else:
             raise RuntimeError(f"Market closed, BSE unreachable, and no last trading day cache for SENSEX {expiry or ''}. No fabricated data will be returned.")
     # NIFTY/BANKNIFTY
@@ -346,7 +364,7 @@ def get_chain_live_or_last_day(symbol: str, expiry: str | None) -> Dict:
             cached["isLastTradingDay"] = True
             cached["note"] = "Live fetch failed, showing last cached"
             return cached
-        raise RuntimeError(f"Live NSE fetch failed for {symbol} {expiry or ''} and no cached last day available. Market is open but NSE unreachable.")
+        raise RuntimeError(f"Live Kite and NSE fetch both failed for {symbol} {expiry or ''} and no cached last day available. Market is open but both sources unreachable.")
     else:
         live = fetch_nse_real(symbol, expiry)
         if live:
