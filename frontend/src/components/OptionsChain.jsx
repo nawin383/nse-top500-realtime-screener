@@ -20,7 +20,7 @@ export default function OptionsChain(){
       const r = await fetch(`${apiBase}/api/options/expiries?symbol=${sym}`)
       const j = await r.json()
       setExpiries(j.expiries || [])
-      if(j.expiries && j.expiries.length && !expiry) setExpiry(j.expiries[0])
+      if(j.expiries && j.expiries.length) setExpiry(prev=> prev && j.expiries.includes(prev) ? prev : j.expiries[0])
     }catch(e){ console.error(e)}
   }
   const fetchChain = async ()=>{

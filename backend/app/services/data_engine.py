@@ -163,9 +163,14 @@ class DataEngine:
                 # alerts
                 now = datetime.now(tz=IST)
                 alerts = self.alert_engine.check(prev, curr, now)
-                # queue for broadcast: collect minimal changed rows
-                async with self._lock:
-                    self._pending_ticks.append(curr)
+                # queue for broadcast: collect minimal changed rows. Option contracts
+                # (sector=='Options', dynamically created for NIFTY/SENSEX WS ticks)
+                # are processed and counted here but never broadcast on the equity
+                # screener's "ticks" channel -- they get their own dedicated
+                # option-instruments endpoint instead (see market_state.option_states()).
+                if curr.sector != "Options":
+                    async with self._lock:
+                        self._pending_ticks.append(curr)
                 self._stats["ticks_processed"]+=1
                 self._stats["last_tick_time"]=now.isoformat()
             except Exception as e:

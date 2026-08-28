@@ -553,10 +553,23 @@ class MarketState:
             if not _is_open and s.freshness == "NO_DATA" and s.volume and s.volume > 0:
                 s.freshness = "CLOSED"
 
-    def all_states(self) -> List[StockState]:
+    def all_states(self, include_options: bool = False) -> List[StockState]:
+        """The Top 500 equity screener's view of the world. Option contracts
+        (NIFTY/SENSEX, sector=='Options') dynamically created by on_tick's
+        auto-create branch live in the same self.states dict but must never
+        appear in the equity screener/ranking/overview -- use option_states()
+        for those instead."""
         self.refresh_freshness()
-        # optional cache for ranking/overview keys
-        return list(self.states.values())
+        if include_options:
+            return list(self.states.values())
+        return [s for s in self.states.values() if s.sector != "Options"]
+
+    def option_states(self) -> List[StockState]:
+        """Live WS-fed NIFTY/SENSEX option contract states -- the dedicated
+        option-instruments screener's data source, kept separate from the
+        equity Top 500 screener (see all_states())."""
+        self.refresh_freshness()
+        return [s for s in self.states.values() if s.sector == "Options"]
 
     def cached_overview(self, ttl: int = 10):
         cache=get_cache()

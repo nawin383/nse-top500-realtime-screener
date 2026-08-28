@@ -202,6 +202,64 @@ async def screeners(
     if volume_surge: filt["volume_surge"] = True
     return {"symbol": symbol.upper(), "results": custom_screener(data["chain"], filt)}
 
+@router.get("/options/instruments-screener")
+async def instruments_screener(
+    underlying: Optional[str] = Query(None, description="Filter to NIFTY or SENSEX"),
+    option_type: Optional[str] = Query(None, description="Filter to CE or PE"),
+    search: Optional[str] = None,
+    sort_by: str = Query("oi_change_pct", description="ltp|change_pct|volume|oi|oi_change_pct|symbol"),
+    order: str = "desc",
+    limit: int = Query(200, le=700),
+):
+    """Dedicated screener for individual live NIFTY/SENSEX option contracts
+    (WS-fed via kite_provider.py), kept separate from the equity Top 500
+    screener -- option contracts must never appear mixed into that table.
+    Backed by market_state.option_states()."""
+    from ..main import app_state
+    ms = app_state.get("market_state")
+    if not ms:
+        raise HTTPException(500, "market state not ready")
+    states = ms.option_states()
+
+    filtered = states
+    if underlying:
+        u = underlying.upper()
+        filtered = [s for s in filtered if s.symbol.startswith(u)]
+    if option_type:
+        t = option_type.upper()
+        filtered = [s for s in filtered if s.symbol.endswith(t)]
+    if search:
+        s_lower = search.lower()
+        filtered = [s for s in filtered if s_lower in s.symbol.lower()]
+
+    sort_key_map = {
+        "symbol": lambda x: x.symbol,
+        "ltp": lambda x: x.ltp or 0,
+        "change_pct": lambda x: x.change_pct or -999,
+        "volume": lambda x: x.volume or 0,
+        "oi": lambda x: x.oi or 0,
+        "oi_change_pct": lambda x: x.oi_change_pct if x.oi_change_pct is not None else -1e9,
+    }
+    key_fn = sort_key_map.get(sort_by, sort_key_map["oi_change_pct"])
+    filtered = sorted(filtered, key=key_fn, reverse=(order == "desc"))
+    total = len(filtered)
+    paged = filtered[:limit]
+
+    def minimal(s):
+        return {
+            "symbol": s.symbol, "token": s.token,
+            "ltp": s.ltp, "change": s.change,
+            "change_pct": round(s.change_pct, 2) if s.change_pct is not None else None,
+            "volume": s.volume,
+            "oi": s.oi, "oi_change_pct": s.oi_change_pct, "oi_buildup": s.oi_buildup,
+            "bid": s.bid, "ask": s.ask,
+            "freshness": s.freshness,
+            "timestamp": s.timestamp.isoformat() if s.timestamp else None,
+        }
+
+    return {"count": total, "data": [minimal(s) for s in paged]}
+
+
 @router.get("/options/strategies")
 async def strategies(
     symbol: str = Query("NIFTY"),

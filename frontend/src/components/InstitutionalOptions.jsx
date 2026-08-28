@@ -76,7 +76,7 @@ export default function InstitutionalOptions(){
   }
   useEffect(()=>{ fetchAll() }, [symbol, expiry])
   useEffect(()=>{ // fetch expiries on symbol change
-    fetch(`${apiBase}/api/options/expiries?symbol=${symbol}`).then(r=>r.json()).then(j=>{ setExpiries(j.expiries||[]); if(j.expiries?.length && !expiry) setExpiry(j.expiries[0]) }).catch(()=>{})
+    fetch(`${apiBase}/api/options/expiries?symbol=${symbol}`).then(r=>r.json()).then(j=>{ setExpiries(j.expiries||[]); if(j.expiries?.length) setExpiry(prev=> prev && j.expiries.includes(prev) ? prev : j.expiries[0]) }).catch(()=>{})
   }, [symbol])
   useEffect(()=>{
     // VIX

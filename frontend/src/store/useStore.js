@@ -15,7 +15,16 @@ function load(){
 }
 const persisted=load()
 const initial={
-  theme: persisted?.theme || (typeof window!=='undefined' && window.matchMedia('(prefers-color-scheme:light)').matches ? 'light':'dark'),
+  // This app is designed as a dark institutional trading terminal (hardcoded
+  // dark colors throughout most components, not fully driven by data-theme) --
+  // deferring to the OS's prefers-color-scheme for a first-time visitor meant
+  // theme silently became 'light' for anyone whose OS prefers light mode,
+  // while the page still rendered dark everywhere except the few components
+  // that actually branch on the theme prop (e.g. chart axis colors), making
+  // their text render in the light-mode color and become nearly invisible
+  // against the dark page. Always default new visitors to 'dark'; only an
+  // explicit persisted choice (the theme toggle) should ever pick 'light'.
+  theme: persisted?.theme || 'dark',
   watchlists: persisted?.watchlists || defWatchlists,
   activeWatchlistId: persisted?.activeWatchlistId || 'default',
   workspaces: persisted?.workspaces || [{id:'main',name:'Main',layout:'default'}],

@@ -57,7 +57,7 @@ export default function OpenInterestChart({ theme = 'dark' }) {
 
   const rows = useMemo(() => {
     if (!data?.heatmap) return []
-    return data.heatmap.map(r => ({ ...r, ceOiNeg: r.ceOi, peOiNeg: -r.peOi })).sort((a, b) => a.strike - b.strike)
+    return data.heatmap.map(r => ({ ...r, peOiNeg: -r.peOi })).sort((a, b) => a.strike - b.strike)
   }, [data])
 
   const isDark = theme !== 'light'
@@ -91,33 +91,39 @@ export default function OpenInterestChart({ theme = 'dark' }) {
         </span>
       </div>
 
-      {loading && <div style={{ flex: 1, display: 'grid', placeItems: 'center', color: '#94a3b8', fontSize: 12 }}>Loading live open interest…</div>}
-      {!loading && error && <div style={{ flex: 1, display: 'grid', placeItems: 'center', color: '#cbd5e1', fontSize: 12, textAlign: 'center', padding: 20 }}>
+      {loading && <div style={{ height: 340, display: 'grid', placeItems: 'center', color: '#94a3b8', fontSize: 12 }}>Loading live open interest…</div>}
+      {!loading && error && <div style={{ height: 340, display: 'grid', placeItems: 'center', color: '#cbd5e1', fontSize: 12, textAlign: 'center', padding: 20 }}>
         <div>No data available<div style={{ fontSize: 10, color: '#94a3b8', marginTop: 6 }}>{error}</div></div>
       </div>}
       {!loading && !error && rows.length > 0 && (
-        <ResponsiveContainer width="100%" height={Math.max(320, rows.length * 22)}>
-          <BarChart data={rows} layout="vertical" margin={{ top: 4, right: 24, bottom: 4, left: 4 }} barGap={0} barCategoryGap="18%">
-            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
-            <XAxis type="number" tickFormatter={fmtInt} tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} />
-            <YAxis type="category" dataKey="strike" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} width={56} />
-            <Tooltip
-              contentStyle={{ background: isDark ? '#0d1b2a' : '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }}
-              formatter={(value, name) => [fmtInt(value), name === 'peOiNeg' ? 'Put OI' : 'Call OI']}
-              labelFormatter={(strike) => `Strike ${strike}`}
-            />
-            <ReferenceLine x={0} stroke={axisColor} />
-            {data?.maxPain != null && (
-              <ReferenceLine y={data.maxPain} stroke="#f59e0b" strokeDasharray="4 4" ifOverflow="extendDomain" label={{ value: 'Max Pain', fill: '#f59e0b', fontSize: 10, position: 'insideTopRight' }} />
-            )}
-            <Bar dataKey="peOiNeg" name="peOiNeg" fill="#ef5350" radius={[3, 0, 0, 3]}>
-              {rows.map((r, i) => <Cell key={i} fillOpacity={r.strike === data?.maxPain ? 1 : 0.75} />)}
-            </Bar>
-            <Bar dataKey="ceOiNeg" name="ceOiNeg" fill="#10b981" radius={[0, 3, 3, 0]}>
-              {rows.map((r, i) => <Cell key={i} fillOpacity={r.strike === data?.maxPain ? 1 : 0.75} />)}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        // Fixed medium-height box (doesn't grow with strike count); a wide chart
+        // scrolls horizontally inside it instead of stretching the whole page.
+        <div style={{ height: 340, overflowX: 'auto', overflowY: 'hidden', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10 }}>
+          <div style={{ width: Math.max(560, rows.length * 46), height: 340 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={rows} margin={{ top: 12, right: 16, bottom: 28, left: 4 }} barGap={0} barCategoryGap="30%">
+                <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+                <XAxis type="category" dataKey="strike" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} height={30} tickMargin={8} />
+                <YAxis type="number" tickFormatter={fmtInt} tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} width={54} />
+                <Tooltip
+                  contentStyle={{ background: isDark ? '#0d1b2a' : '#fff', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 11 }}
+                  formatter={(value, name) => [fmtInt(value), name === 'peOiNeg' ? 'Put OI' : 'Call OI']}
+                  labelFormatter={(strike) => `Strike ${strike}`}
+                />
+                <ReferenceLine y={0} stroke={axisColor} />
+                {data?.maxPain != null && rows.some(r => r.strike === data.maxPain) && (
+                  <ReferenceLine x={data.maxPain} stroke="#f59e0b" strokeDasharray="4 4" label={{ value: 'Max Pain', fill: '#f59e0b', fontSize: 10, position: 'top' }} />
+                )}
+                <Bar dataKey="ceOi" name="ceOi" fill="#10b981" radius={[3, 3, 0, 0]}>
+                  {rows.map((r, i) => <Cell key={i} fillOpacity={r.strike === data?.maxPain ? 1 : 0.75} />)}
+                </Bar>
+                <Bar dataKey="peOiNeg" name="peOiNeg" fill="#ef5350" radius={[0, 0, 3, 3]}>
+                  {rows.map((r, i) => <Cell key={i} fillOpacity={r.strike === data?.maxPain ? 1 : 0.75} />)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       )}
     </div>
   )

@@ -108,7 +108,7 @@ export default function AgileInstitutional(){
   }
   useEffect(()=>{ fetchAll() }, [symbol, expiry])
   useEffect(()=>{
-    fetch(`${apiBase}/api/options/expiries?symbol=${symbol}`).then(r=>r.json()).then(j=>{ if(j.expiries?.length && !expiry) setExpiry(j.expiries[0]) }).catch(()=>{})
+    fetch(`${apiBase}/api/options/expiries?symbol=${symbol}`).then(r=>r.json()).then(j=>{ if(j.expiries?.length) setExpiry(prev=> prev && j.expiries.includes(prev) ? prev : j.expiries[0]) }).catch(()=>{})
     const id=setInterval(fetchAll, 10000)
     return ()=> clearInterval(id)
   }, [symbol])

@@ -107,6 +107,35 @@ def test_init_universe_live_branch_survives_missing_prev_close():
     assert ms.states["NEWLISTING"].ltp == 0
 
 
+def test_option_contracts_excluded_from_equity_screener():
+    """Regression test: fixing the previousClose crash meant option contracts
+    (NIFTY/SENSEX, sector=='Options') started successfully creating states in
+    the same self.states dict the equity Top 500 screener reads from,
+    flooding the equity screener with 700 option rows. all_states() (and
+    therefore ranking()/market_overview()) must exclude them by default;
+    option_states() is the dedicated accessor for the new option-instruments
+    screener."""
+    universe = [{"symbol": "RELIANCE", "instrument_token": 1, "prev_close": 100.0, "avg_volume": 10000}]
+    ms = MarketState(universe)
+    opt_tick = MarketTick(symbol="NIFTY26SEP24500CE", token=12007682, timestamp=datetime.now(timezone.utc),
+                           ltp=150.5, volume=1000, previousClose=140.0)
+    ms.on_tick(opt_tick)
+
+    equity_only = ms.all_states()
+    assert len(equity_only) == 1
+    assert equity_only[0].symbol == "RELIANCE"
+
+    with_options = ms.all_states(include_options=True)
+    assert len(with_options) == 2
+
+    options_only = ms.option_states()
+    assert len(options_only) == 1
+    assert options_only[0].symbol == "NIFTY26SEP24500CE"
+
+    ranked = ms.ranking()
+    assert all(s.sector != "Options" for s in ranked)
+
+
 def test_reset_day_allows_a_fresh_real_open():
     universe = [{"symbol": "GAPTEST3", "instrument_token": 3, "prev_close": 100.0, "avg_volume": 10000}]
     ms = MarketState(universe)

@@ -366,7 +366,7 @@ async def websocket_endpoint(ws: WebSocket):
                 "type": "snapshot",
                 "data": data,
                 "count": len(data),
-                "meta": {"total": len(ms.states), "mode": settings.data_mode},
+                "meta": {"total": len(data), "mode": settings.data_mode},
                 "marketStatus": {"status": "OPEN", "is_open": True},
                 "dataMode": settings.data_mode,
             }
