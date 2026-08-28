@@ -25,8 +25,19 @@ async def sleep_until_next_8am_ist():
     logger.info(f"Token refresher sleeping {secs/3600:.2f}h until {target.isoformat()}")
     await asyncio.sleep(secs)
 
+def _cred_presence(settings) -> dict[str, bool]:
+    """Which of the 5 required env vars the process actually sees as non-empty right
+    now — deliberately reports presence only, never the values, so this is safe to log."""
+    return {
+        "KITE_API_KEY": bool(settings.kite_api_key),
+        "KITE_API_SECRET": bool(settings.kite_api_secret),
+        "KITE_USER_ID": bool(getattr(settings, "kite_user_id", "")),
+        "KITE_PASSWORD": bool(getattr(settings, "kite_password", "")),
+        "KITE_TOTP_SECRET": bool(getattr(settings, "kite_totp_secret", "")),
+    }
+
 def _has_creds(settings) -> bool:
-    return bool(settings.kite_api_key and settings.kite_api_secret and getattr(settings, "kite_user_id", "") and getattr(settings, "kite_password", "") and getattr(settings, "kite_totp_secret", ""))
+    return all(_cred_presence(settings).values())
 
 def try_refresh_token(settings, cache_path: Path) -> str | None:
     try:
@@ -77,8 +88,10 @@ async def token_refresher_loop(settings, data_engine, cache_path: Path):
     pasted in manually gets replaced right away instead of waiting for the next
     08:00 IST slot — important since a free-tier host can be asleep exactly then),
     then keep refreshing daily at 08:00 IST for as long as the process stays up."""
-    if not _has_creds(settings):
-        logger.info("Token refresher disabled — missing KITE_USER_ID/PASSWORD/TOTP_SECRET/API_SECRET (manual token mode)")
+    presence = _cred_presence(settings)
+    if not all(presence.values()):
+        missing = [k for k, v in presence.items() if not v]
+        logger.info(f"Token refresher disabled (manual token mode) — not set: {', '.join(missing)}")
         return
     logger.info("Token refresher enabled — refreshing now, then daily at 08:00 IST")
     logger.info("Attempting immediate Kite token refresh at boot...")
