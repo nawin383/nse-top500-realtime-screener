@@ -25,6 +25,7 @@ const initial={
   // against the dark page. Always default new visitors to 'dark'; only an
   // explicit persisted choice (the theme toggle) should ever pick 'light'.
   theme: persisted?.theme || 'dark',
+  accent: persisted?.accent || 'blue',
   watchlists: persisted?.watchlists || defWatchlists,
   activeWatchlistId: persisted?.activeWatchlistId || 'default',
   workspaces: persisted?.workspaces || [{id:'main',name:'Main',layout:'default'}],
@@ -35,10 +36,16 @@ let state=initial
 const listeners=new Set()
 function emit(){ listeners.forEach(l=>l()); persist() }
 function persist(){
-  try{ localStorage.setItem(LS_KEY, JSON.stringify({theme:state.theme,watchlists:state.watchlists,activeWatchlistId:state.activeWatchlistId,workspaces:state.workspaces,activeWorkspaceId:state.activeWorkspaceId})) }catch{}
-  if(typeof document!=='undefined') document.documentElement.setAttribute('data-theme',state.theme)
+  try{ localStorage.setItem(LS_KEY, JSON.stringify({theme:state.theme,accent:state.accent,watchlists:state.watchlists,activeWatchlistId:state.activeWatchlistId,workspaces:state.workspaces,activeWorkspaceId:state.activeWorkspaceId})) }catch{}
+  if(typeof document!=='undefined'){
+    document.documentElement.setAttribute('data-theme',state.theme)
+    document.documentElement.setAttribute('data-accent',state.accent)
+  }
 }
-if(typeof document!=='undefined') document.documentElement.setAttribute('data-theme',state.theme)
+if(typeof document!=='undefined'){
+  document.documentElement.setAttribute('data-theme',state.theme)
+  document.documentElement.setAttribute('data-accent',state.accent)
+}
 
 export const store={
   getState:()=>state,
@@ -76,6 +83,7 @@ export const store={
   },
   setTheme(t){ store.setState({theme:t}) },
   toggleTheme(){ store.setState(s=>({theme:s.theme==='dark'?'light':'dark'})) },
+  setAccent(a){ store.setState({accent:a}) },
 }
 
 export function useStore(selector=(s)=>s){

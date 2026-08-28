@@ -1,24 +1,83 @@
-import React, { useEffect, useState, useMemo, useCallback, Suspense, lazy } from 'react'
+import React, { useEffect, useState, useMemo, useCallback, useRef, Suspense, lazy } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Header from './components/Header.jsx'
 import MarketOverview from './components/MarketOverview.jsx'
 import StockTable from './components/StockTable.jsx'
 import DetailPanel from './components/DetailPanel.jsx'
 import WatchlistManager from './components/WatchlistManager.jsx'
 import ThemeToggle from './components/ThemeToggle.jsx'
+import AccentPicker from './components/AccentPicker.jsx'
+import CommandPalette from './components/CommandPalette.jsx'
 import LoginManager from './components/auth/LoginManager.jsx'
 import { useWebSocket } from './hooks/useWebSocket.js'
 import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.js'
 import { useStore } from './store/useStore.js'
-import { LayoutSwitcher } from './components/layouts/DashboardLayouts.jsx'
+import DashboardLayouts, { LayoutSwitcher } from './components/layouts/DashboardLayouts.jsx'
 import FilterBuilder, { matches as matchesAdvancedFilter } from './components/FilterBuilder.jsx'
 
-const OptionsChain = lazy(()=> import('./components/OptionsChain.jsx'))
-const OpenInterestChart = lazy(()=> import('./components/OpenInterestChart.jsx'))
-const InstitutionalOptions = lazy(()=> import('./components/InstitutionalOptions.jsx'))
-const AgileInstitutional = lazy(()=> import('./components/AgileInstitutional.jsx'))
-const OptionsInsights = lazy(()=> import('./components/OptionsInsights.jsx'))
+const OptionsHub = lazy(()=> import('./components/options/OptionsHub.jsx'))
 const IntradaySignals = lazy(()=> import('./components/IntradaySignals.jsx'))
 const OptionInstrumentsScreener = lazy(()=> import('./components/OptionInstrumentsScreener.jsx'))
+const PaperTrading = lazy(()=> import('./components/PaperTrading.jsx'))
+const MarketReplay = lazy(()=> import('./components/MarketReplay.jsx'))
+const AlertsCenter = lazy(()=> import('./components/AlertsCenter.jsx'))
+
+const NAV = [
+  { k:'screener', label:'Screener', icon:'◈' },
+  { k:'intraday', label:'Intraday Signals', icon:'🎯' },
+  { k:'options', label:'Options', icon:'⛓' },
+  { k:'optioninstruments', label:'Option Instruments', icon:'📜' },
+]
+const TOOLS = [
+  { k:'paper', label:'Paper Trading', icon:'🧪' },
+  { k:'replay', label:'Market Replay', icon:'⏮' },
+  { k:'alerts', label:'Alerts Center', icon:'🔔' },
+]
+const ALL_DESTINATIONS = [...NAV, ...TOOLS]
+
+function ToolsMenu({ view, setView }){
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+  const active = TOOLS.some(t=> t.k===view)
+  useEffect(()=>{
+    const onDoc=(e)=>{ if(ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    document.addEventListener('mousedown', onDoc)
+    return ()=> document.removeEventListener('mousedown', onDoc)
+  },[])
+  return (
+    <div ref={ref} style={{position:'relative'}}>
+      <button aria-haspopup="menu" aria-expanded={open} onClick={()=> setOpen(v=>!v)}
+        style={{position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'7px 14px', border:'none', cursor:'pointer', background: active?'linear-gradient(135deg,var(--accent),var(--accent-light))':'transparent', color: active?'#04101f':'var(--text2)'}}>
+        <span aria-hidden="true">🧰</span> Tools <span aria-hidden="true" style={{fontSize:9}}>{open?'▲':'▼'}</span>
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div role="menu" initial={{opacity:0,y:-6,scale:0.98}} animate={{opacity:1,y:0,scale:1}} exit={{opacity:0,y:-6,scale:0.98}} transition={{duration:0.14}}
+            style={{position:'absolute', top:'calc(100% + 6px)', left:0, minWidth:190, background:'var(--bg2)', border:'1px solid var(--border)', borderRadius:10, boxShadow:'0 12px 32px rgba(0,0,0,0.35)', overflow:'hidden', zIndex:50}}>
+            {TOOLS.map(t=>(
+              <button key={t.k} role="menuitem" aria-pressed={view===t.k} onClick={()=>{ setView(t.k); setOpen(false) }}
+                style={{display:'flex', alignItems:'center', gap:8, width:'100%', padding:'9px 12px', border:'none', cursor:'pointer', textAlign:'left', fontSize:12, fontWeight:600, background: view===t.k?'rgba(var(--accent-rgb),0.14)':'transparent', color:'var(--text)'}}>
+                <span aria-hidden="true">{t.icon}</span> {t.label}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
+function ViewSkeleton(){
+  return (
+    <div style={{display:'flex', flexDirection:'column', gap:10}}>
+      <div className="skeleton" style={{height:28, width:220, borderRadius:8}} />
+      <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px,1fr))', gap:10}}>
+        {[0,1,2,3].map(i=> <div key={i} className="skeleton" style={{height:80, borderRadius:12}} />)}
+      </div>
+      <div className="skeleton" style={{height:320, borderRadius:12}} />
+    </div>
+  )
+}
 
 
 export default function App(){
@@ -110,6 +169,7 @@ export default function App(){
         <div style={{display:'flex', gap:6, alignItems:'center', fontSize:11, color:'#cbd5e1'}}><span style={{width:6,height:6,borderRadius:999, background: wsStatus==='open'?'#10b981':'#ef5350'}}/> {allStocks.length} symbols</div>
         <div style={{marginLeft:'auto', display:'flex', gap:8, alignItems:'center'}}>
           <LayoutSwitcher value={dashLayout} onChange={setDashLayout} />
+          <AccentPicker />
           <ThemeToggle />
           <LoginManager />
         </div>
@@ -121,15 +181,20 @@ export default function App(){
         </div>
       )}
       <div style={{display:'flex', gap:6, padding:'6px 20px', background:'rgba(13,27,42,0.5)', borderTop:'1px solid rgba(255,255,255,0.03)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', alignItems:'center'}}>
-        {[{k:'screener',label:'Screener',icon:'◈',count:filtered.length},{k:'intraday',label:'Intraday Signals',icon:'🎯'},{k:'options',label:'Options',icon:'⛓'},{k:'optioninstruments',label:'Option Instruments',icon:'📜'},{k:'insights',label:'Options Insights',icon:'📊'},{k:'institutional',label:'Institutional',icon:'🏛'},{k:'agile',label:'Agile Pro',icon:'⚡'}].map(v=>(
-          <button key={v.k} aria-label={`Switch to ${v.label} view`} aria-pressed={view===v.k} className={`btn ${view===v.k?'active':''}`} onClick={()=> setView(v.k)} style={{borderRadius:8, fontWeight:700, fontSize:12}}><span aria-hidden="true">{v.icon}</span> {v.label} {v.count!=null&&view==='screener'?<span style={{background:view===v.k?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{v.count}</span>:null}</button>
+        {NAV.map(v=>(
+          <button key={v.k} aria-label={`Switch to ${v.label} view`} aria-pressed={view===v.k} onClick={()=> setView(v.k)}
+            style={{position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'7px 14px', border:'none', cursor:'pointer', background:'transparent', color: view===v.k?'#04101f':'var(--text2)', zIndex:1}}>
+            {view===v.k && <motion.span layoutId="main-nav-pill" transition={{type:'spring', stiffness:500, damping:35}} style={{position:'absolute', inset:0, borderRadius:8, background:'linear-gradient(135deg,var(--accent),var(--accent-light))', zIndex:-1}} />}
+            <span aria-hidden="true">{v.icon}</span> {v.label} {v.k==='screener'?<span style={{background: view===v.k?'rgba(4,16,31,0.18)':'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:999,fontSize:10}}>{filtered.length}</span>:null}
+          </button>
         ))}
+        <ToolsMenu view={view} setView={setView} />
         {view==='screener' && (
           <div style={{marginLeft:'auto', display:'flex', gap:6, alignItems:'center'}}>
             <button className="btn sm" aria-pressed={showDashboard} onClick={()=>setShowDashboard(v=>!v)} style={{borderRadius:8, fontWeight:700}}>{showDashboard?'▴ Hide':'▾ Show'} Dashboard</button>
             <div style={{display:'flex',gap:2,background:'rgba(255,255,255,0.04)',borderRadius:8,padding:2,border:'1px solid rgba(255,255,255,0.06)'}}>
               {['compact','comfortable'].map(d=>(
-                <button key={d} onClick={()=>setDensity(d)} aria-pressed={density===d} style={{padding:'5px 10px', fontSize:11, fontWeight:700, textTransform:'capitalize', borderRadius:6, border:'none', cursor:'pointer', background: density===d?'linear-gradient(135deg,#2563eb,#64b5f6)':'transparent', color: density===d?'#fff':'#cbd5e1'}}>{d}</button>
+                <button key={d} onClick={()=>setDensity(d)} aria-pressed={density===d} style={{padding:'5px 10px', fontSize:11, fontWeight:700, textTransform:'capitalize', borderRadius:6, border:'none', cursor:'pointer', background: density===d?'linear-gradient(135deg,var(--accent),var(--accent-light))':'transparent', color: density===d?'#04101f':'var(--text2)'}}>{d}</button>
               ))}
             </div>
           </div>
@@ -137,23 +202,20 @@ export default function App(){
       </div>
 
       <div id="main-content" tabIndex={-1} style={{flex:1, overflow: view==='screener' && !showDashboard ? 'hidden':'auto', padding:'8px 20px 0 20px', display:'flex', flexDirection:'column', gap:10}}>
-        <Suspense fallback={<div style={{color:'#94a3b8',textAlign:'center'}}>Loading view…</div>}>
-          {view==='options'?<div style={{flex:1, display:'flex', flexDirection:'column', gap:14}}>
-            <div style={{background:'rgba(13,27,42,0.6)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:14, padding:14}}>
-              <h3 style={{fontSize:11,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1',marginBottom:10}}>Open Interest — Weekly / Monthly</h3>
-              <Suspense fallback={<div style={{height:320,background:'rgba(255,255,255,0.04)',borderRadius:12}}/>}><OpenInterestChart theme={theme} /></Suspense>
-            </div>
-            <OptionsChain/>
-          </div>
+        <Suspense fallback={<ViewSkeleton/>}>
+        <AnimatePresence mode="wait">
+        <motion.div key={view} initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}} transition={{duration:0.2,ease:[0.16,1,0.3,1]}} style={{flex:1, display:'flex', flexDirection:'column', minHeight:0}}>
+          {view==='options'?<div style={{flex:1}}><OptionsHub theme={theme} /></div>
           :view==='intraday'?<div style={{flex:1, overflow:'auto'}}><IntradaySignals /></div>
           :view==='optioninstruments'?<div style={{flex:1, overflow:'auto'}}><OptionInstrumentsScreener /></div>
-          :view==='insights'?<div style={{flex:1}}><OptionsInsights theme={theme} /></div>
-          :view==='institutional'?<div style={{flex:1}}><InstitutionalOptions/></div>
-          :view==='agile'?<div style={{flex:1}}><AgileInstitutional/></div>
+          :view==='paper'?<div style={{flex:1, overflow:'auto'}}><PaperTrading stocksMap={stocksMap} /></div>
+          :view==='replay'?<div style={{flex:1, overflow:'auto'}}><MarketReplay symbol={selected||'RELIANCE'} /></div>
+          :view==='alerts'?<div style={{flex:1, overflow:'auto'}}><AlertsCenter alerts={alerts} /></div>
           :(<>
-            {showDashboard && (<>
+            {showDashboard && (
+              <DashboardLayouts layout={dashLayout}>
               <section aria-labelledby="pulse-heading">
-                <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#cbd5e1', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#10b981,#2563eb)',borderRadius:999}}/> Market Pulse</h2>
+                <h2 id="pulse-heading" style={{fontSize:13, fontWeight:800, letterSpacing:'0.06em', textTransform:'uppercase', color:'#cbd5e1', marginBottom:10, display:'flex', gap:8, alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#10b981,var(--accent))',borderRadius:999}}/> Market Pulse</h2>
                 <MarketOverview data={overview} />
               </section>
 
@@ -161,10 +223,11 @@ export default function App(){
                 <h2 id="watchlist-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1',marginBottom:10}}>Watchlist</h2>
                 <WatchlistManager onSelect={handleSelect} />
               </section>
-            </>)}
+              </DashboardLayouts>
+            )}
 
             <section aria-labelledby="screener-heading" style={{flex:1, display:'flex', flexDirection:'column', gap:8, minHeight:0}}>
-              {showDashboard && <h2 id="screener-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1', display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,#2563eb,#8b5cf6)',borderRadius:999}}/> Screener — {filtered.length} results</h2>}
+              {showDashboard && <h2 id="screener-heading" style={{fontSize:13,fontWeight:800,letterSpacing:'0.06em',textTransform:'uppercase',color:'#cbd5e1', display:'flex',gap:8,alignItems:'center'}}><span style={{width:4,height:16,background:'linear-gradient(180deg,var(--accent),#8b5cf6)',borderRadius:999}}/> Screener — {filtered.length} results</h2>}
               <div className="filters" style={{borderRadius:12, border:'1px solid rgba(255,255,255,0.06)', padding:'8px 12px', flexShrink:0}}>
                 <div style={{position:'relative'}}><span aria-hidden="true" style={{position:'absolute',left:10,top:'50%',transform:'translateY(-50%)',color:'#94a3b8'}}>⌕</span><input aria-label="Search symbol or company" className="input" placeholder="Search symbol or company" value={search} onChange={e=> setSearch(e.target.value)} style={{minWidth:220,paddingLeft:28,borderRadius:12}} /></div>
                 <select aria-label="Filter by sector" className="input" value={sectorFilter} onChange={e=>setSectorFilter(e.target.value)} style={{borderRadius:12, minWidth:150}}><option value="">All Sectors</option>{sectors.map(s=> <option key={s.sector} value={s.sector}>{s.sector} ({s.count})</option>)}</select>
@@ -189,14 +252,17 @@ export default function App(){
             </section>
 
           </>)}
+        </motion.div>
+        </AnimatePresence>
         </Suspense>
       </div>
 
       <div style={{height:36, background:'rgba(13,27,42,0.9)', backdropFilter:'blur(16px)', borderTop:'1px solid rgba(255,255,255,0.06)', display:'flex', alignItems:'center', padding:'0 20px', gap:16, overflow:'hidden', flexShrink:0}}>
         <span style={{fontSize:10,color:'#f59e0b',fontWeight:800,letterSpacing:'0.08em',whiteSpace:'nowrap',display:'flex',gap:6,alignItems:'center'}}><span style={{width:6,height:6,borderRadius:999,background:'#f59e0b',animation:'pulse 1.5s infinite'}} aria-hidden="true"/> LIVE ALERTS</span>
-        <div style={{display:'flex',gap:16,overflow:'hidden',whiteSpace:'nowrap',fontSize:11,flex:1}}>{alerts.length===0?<span style={{color:'#94a3b8'}}>Monitoring breakouts, volume spikes, VWAP crosses, momentum, RSI…</span>: alerts.slice(0,6).map(a=>(<span key={a.id} style={{display:'flex',gap:6,alignItems:'center',color:a.level==='bullish'?'#10b981':a.level==='bearish'?'#ef5350':'#2563eb',background:'rgba(255,255,255,0.04)',padding:'3px 8px',borderRadius:999,border:'1px solid rgba(255,255,255,0.06)',fontWeight:600}}>{a.symbol} <span style={{opacity:0.7}}>{a.type}</span></span>))}</div>
+        <div style={{display:'flex',gap:16,overflow:'hidden',whiteSpace:'nowrap',fontSize:11,flex:1}}>{alerts.length===0?<span style={{color:'#94a3b8'}}>Monitoring breakouts, volume spikes, VWAP crosses, momentum, RSI…</span>: alerts.slice(0,6).map(a=>(<span key={a.id} style={{display:'flex',gap:6,alignItems:'center',color:a.level==='bullish'?'#10b981':a.level==='bearish'?'#ef5350':'var(--accent)',background:'rgba(255,255,255,0.04)',padding:'3px 8px',borderRadius:999,border:'1px solid rgba(255,255,255,0.06)',fontWeight:600}}>{a.symbol} <span style={{opacity:0.7}}>{a.type}</span></span>))}</div>
         <span style={{fontSize:10,color:'#94a3b8',whiteSpace:'nowrap',background:'rgba(255,255,255,0.04)',padding:'4px 10px',borderRadius:999,border:'1px solid rgba(255,255,255,0.06)'}}>Score: Mom 25 + Vol 25 + RelVol 20 + Breakout 15 + VWAP 10 + Volatility 5 • <span style={{color:'#cbd5e1'}}>NOT advice</span></span>
       </div>
+      <CommandPalette commands={ALL_DESTINATIONS} stocks={allStocks} onNavigate={setView} onSelectSymbol={handleSelect} />
     </div>
   )
 }
