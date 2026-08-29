@@ -1,12 +1,16 @@
-import React, { Suspense, lazy, useMemo } from 'react'
+import React, { Suspense, lazy, useMemo, useState } from 'react'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Cell, Legend } from 'recharts'
-import { fmt, fmtInt, Card, Empty, Skeleton } from './shared.jsx'
+import { fmt, fmtInt, Card, Empty, Skeleton, chartTheme } from './shared.jsx'
 import VixOpenVolatility from './VixOpenVolatility.jsx'
+import StrategyPayoffChart from './StrategyPayoffChart.jsx'
 
 const OpenInterestChart = lazy(() => import('../OpenInterestChart.jsx'))
 
+const STRATEGY_KEYS = ['short_strangle', 'iron_condor', 'bull_put_spread', 'bear_call_spread', 'iron_fly', 'ratio_spread_1x2', 'calendar_spread']
+
 export default function AnalyticsView({ data, theme }) {
-  const { atm, pcr, oi, vol, ivhv, vix, unusual, strategies, sellerDash } = data
+  const { atm, pcr, oi, vol, ivhv, vix, unusual, strategies, sellerDash, tshape } = data
+  const [selectedStrategy, setSelectedStrategy] = useState(null)
 
   // IV skew: CE vs PE implied vol per strike, from the real live chain.
   const skewData = useMemo(() => {
@@ -26,10 +30,11 @@ export default function AnalyticsView({ data, theme }) {
     return oi.heatmap.map(h => ({ strike: h.strike, netOi: h.netOi })).sort((a, b) => a.strike - b.strike)
   }, [oi])
 
-  const isDark = theme !== 'light'
-  const axisColor = isDark ? '#94a3b8' : '#64748b'
-  const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'
-  const tooltipStyle = { background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 11, color: 'var(--text)' }
+  const { axisColor, gridColor, tooltipStyle } = chartTheme(theme)
+
+  const availableStrategies = useMemo(() => STRATEGY_KEYS.filter(k => strategies?.[k] && !strategies[k].error), [strategies])
+  const activeStrategyKey = (selectedStrategy && availableStrategies.includes(selectedStrategy)) ? selectedStrategy : availableStrategies[0]
+  const activeStrategy = activeStrategyKey ? strategies[activeStrategyKey] : null
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -121,27 +126,49 @@ export default function AnalyticsView({ data, theme }) {
         ) : <Empty label="No unusual flow detected" />}
       </Card>
 
-      <Card title="Options Strategy Panel" delay={9}>
+      <Card title="Options Strategy Panel — click a strategy to see its payoff diagram" delay={9}>
         {strategies ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <div style={{ fontSize: 10, color: 'var(--text3)', marginBottom: 2 }}>IV rank (1y) {strategies.iv_rank_1y != null ? `${fmt(strategies.iv_rank_1y, 0)}%` : 'unavailable'} · ADX {strategies.adx != null ? fmt(strategies.adx, 1) : 'not supplied'}</div>
-            {['short_strangle', 'iron_condor', 'bull_put_spread', 'bear_call_spread', 'iron_fly', 'ratio_spread_1x2', 'calendar_spread'].map(key => {
-              const s = strategies[key]
-              if (!s) return null
-              if (s.error) return <div key={key} style={{ fontSize: 11, color: 'var(--text3)', padding: '6px 0', borderBottom: '1px solid var(--border)' }}><b style={{ color: 'var(--text2)' }}>{key.replace(/_/g, ' ')}</b> — {s.error}</div>
-              const eligible = s.regime?.eligible
-              return (
-                <div key={key} style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', fontSize: 11, padding: '6px 0', borderBottom: '1px solid var(--border)' }}>
-                  <b style={{ color: 'var(--text)', minWidth: 130, textTransform: 'capitalize' }}>{key.replace(/_/g, ' ')}</b>
-                  {eligible != null && <span style={{ fontSize: 9, fontWeight: 800, padding: '1px 7px', borderRadius: 999, background: eligible ? 'rgba(16,185,129,0.15)' : 'rgba(239,83,80,0.12)', color: eligible ? 'var(--green)' : 'var(--red)' }}>{eligible ? 'ELIGIBLE' : 'NOT ELIGIBLE'}</span>}
-                  <span className="mono" style={{ color: 'var(--text2)' }}>Net {fmt(s.net_premium)}</span>
-                  <span className="mono" style={{ color: 'var(--text3)' }}>Max L {typeof s.max_loss === 'string' ? s.max_loss : fmt(s.max_loss)}</span>
-                  {s.pop_pct != null && <span className="mono" style={{ color: 'var(--blue)' }}>POP {fmt(s.pop_pct, 0)}%</span>}
-                  {s.theta != null && <span className="mono" style={{ color: 'var(--text3)' }}>θ {fmt(s.theta)}</span>}
-                  {s.margin_estimate != null && <span className="mono" style={{ color: 'var(--text3)' }}>Margin ~{fmtInt(s.margin_estimate)}</span>}
-                </div>
-              )
-            })}
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px,320px) 1fr', gap: 14, alignItems: 'start' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 0 }}>
+              <div style={{ fontSize: 10, color: 'var(--text3)', marginBottom: 2 }}>IV rank (1y) {strategies.iv_rank_1y != null ? `${fmt(strategies.iv_rank_1y, 0)}%` : 'unavailable'} · ADX {strategies.adx != null ? fmt(strategies.adx, 1) : 'not supplied'}</div>
+              {STRATEGY_KEYS.map(key => {
+                const s = strategies[key]
+                if (!s) return null
+                if (s.error) return <div key={key} style={{ fontSize: 11, color: 'var(--text3)', padding: '6px 0', borderBottom: '1px solid var(--border)' }}><b style={{ color: 'var(--text2)' }}>{key.replace(/_/g, ' ')}</b> — {s.error}</div>
+                const eligible = s.regime?.eligible
+                const isActive = key === activeStrategyKey
+                return (
+                  <div key={key} onClick={() => setSelectedStrategy(key)} role="button" tabIndex={0}
+                    style={{
+                      display: 'flex', flexDirection: 'column', gap: 4, fontSize: 11, padding: '8px 8px', borderRadius: 8, cursor: 'pointer',
+                      background: isActive ? 'rgba(100,181,246,0.10)' : 'transparent',
+                      border: isActive ? '1px solid var(--accent)' : '1px solid transparent',
+                    }}>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                      <b style={{ color: 'var(--text)', textTransform: 'capitalize' }}>{key.replace(/_/g, ' ')}</b>
+                      {eligible != null && <span style={{ fontSize: 9, fontWeight: 800, padding: '1px 7px', borderRadius: 999, background: eligible ? 'rgba(16,185,129,0.15)' : 'rgba(239,83,80,0.12)', color: eligible ? 'var(--green)' : 'var(--red)' }}>{eligible ? 'ELIGIBLE' : 'NOT ELIGIBLE'}</span>}
+                    </div>
+                    <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                      <span className="mono" style={{ color: 'var(--text2)' }}>Net {fmt(s.net_premium)}</span>
+                      <span className="mono" style={{ color: 'var(--text3)' }}>Max L {typeof s.max_loss === 'string' ? s.max_loss : fmt(s.max_loss)}</span>
+                      {s.pop_pct != null && <span className="mono" style={{ color: 'var(--blue)' }}>POP {fmt(s.pop_pct, 0)}%</span>}
+                      {s.theta != null && <span className="mono" style={{ color: 'var(--text3)' }}>θ {fmt(s.theta)}</span>}
+                      {s.margin_estimate != null && <span className="mono" style={{ color: 'var(--text3)' }}>Margin ~{fmtInt(s.margin_estimate)}</span>}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <div style={{ minWidth: 0 }}>
+              {!activeStrategy && <Empty label="No eligible strategy has a live chain right now" />}
+              {activeStrategy && activeStrategyKey === 'calendar_spread' && (
+                <Empty label="Payoff diagram not shown for calendar spreads — legs expire on different dates, so a single-expiry payoff curve would be misleading" />
+              )}
+              {activeStrategy && activeStrategyKey !== 'calendar_spread' && (
+                <StrategyPayoffChart legs={activeStrategy.legs} spot={tshape?.spot} breakevens={activeStrategy.breakevens}
+                  axisColor={axisColor} gridColor={gridColor} tooltipStyle={tooltipStyle} />
+              )}
+            </div>
           </div>
         ) : <Empty label="Strategy panel needs a live option chain" />}
       </Card>

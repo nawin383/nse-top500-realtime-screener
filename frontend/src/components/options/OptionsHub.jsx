@@ -65,7 +65,7 @@ export default function OptionsHub({ theme }) {
           transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}>
           {sub === 'chain' && <ChainView data={data} loading={loading} hasLoadedOnce={hasLoadedOnce} windowSize={windowSize} onWindowSize={setWindowSize} />}
           {sub === 'analytics' && <AnalyticsView data={data} theme={theme} />}
-          {sub === 'institutional' && <InstitutionalView symbol={symbol} expiry={expiry} data={data} />}
+          {sub === 'institutional' && <InstitutionalView symbol={symbol} expiry={expiry} data={data} theme={theme} />}
         </motion.div>
       </AnimatePresence>
     </div>

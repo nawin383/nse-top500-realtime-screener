@@ -35,3 +35,24 @@ export function Empty({ label = 'No live data available right now' }) {
 export function Skeleton({ height = 90 }) {
   return <div className="skeleton" style={{ height, borderRadius: 10 }} />
 }
+
+// One shared light/dark chart palette so every Recharts panel across the
+// Options Hub (Analytics + Institutional Flow) looks like one system instead
+// of each view picking its own axis/grid colors.
+export function chartTheme(theme) {
+  const isDark = theme !== 'light'
+  return {
+    isDark,
+    axisColor: isDark ? '#94a3b8' : '#64748b',
+    gridColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
+    tooltipStyle: { background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 11, color: 'var(--text)' },
+  }
+}
+
+// Diverging red/green scale for a correlation cell -- distinct colors either
+// side of zero, unlike a single-hue opacity ramp where a strong negative and
+// a weak positive correlation can look almost the same.
+export function correlationColor(v) {
+  if (v == null) return 'transparent'
+  return v >= 0 ? `rgba(16,185,129,${Math.min(1, v) * 0.55})` : `rgba(239,83,80,${Math.min(1, Math.abs(v)) * 0.55})`
+}
