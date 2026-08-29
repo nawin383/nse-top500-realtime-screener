@@ -38,8 +38,14 @@ scipy>=1.11.0
 ta>=0.11.0
 
 # Elite quant scan (backend/app/analytics/elite_quant.py) -- runs once/day
-# in the background, never on the request path
+# in the background, never on the request path. curl_cffi gives yfinance
+# real browser TLS impersonation (JA3/JA4 fingerprint) when talking to
+# Yahoo -- pinned explicitly rather than relying on it as a transitive
+# dependency, since yfinance silently falls back to a weaker plain-requests
+# client if this fails to install, with no crash, just worse odds against
+# Yahoo's anti-bot checks.
 yfinance>=0.2.40
+curl_cffi>=0.15
 
 # Security
 python-jose[cryptography]>=3.3.0

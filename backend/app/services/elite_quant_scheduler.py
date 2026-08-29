@@ -25,6 +25,12 @@ async def elite_quant_scheduler_loop(settings):
         logger.info("Elite quant scheduler not started — yfinance not installed")
         return
 
+    try:
+        from yfinance._http import HAS_CURL_CFFI
+        logger.info(f"Elite quant scheduler starting (curl_cffi browser TLS impersonation: {'active' if HAS_CURL_CFFI else 'NOT active -- Yahoo more likely to block this host'})")
+    except Exception:
+        pass
+
     from ..analytics import elite_quant
 
     max_universe = {"IN": settings.elite_quant_max_universe_in, "US": settings.elite_quant_max_universe_us}

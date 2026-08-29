@@ -267,3 +267,25 @@ async def test_run_scan_writes_partial_checkpoint_then_final_result(monkeypatch)
     assert "recommendations" in result
     assert any(c["partial"] is True for c in checkpoints)
     assert checkpoints[-1]["partial"] is False
+
+
+@pytest.mark.asyncio
+async def test_run_scan_aborts_early_if_every_symbol_fails_and_leaves_cache_untouched(monkeypatch):
+    # Simulates Yahoo rejecting every single request (e.g. an IP-level block) --
+    # every symbol fails, so the scan should give up after EARLY_ABORT_SAMPLE
+    # symbols instead of grinding through the whole universe, and must not
+    # clobber a previously good cache with an all-empty result.
+    eq._write_cache("US", {"available": True, "market": "US", "generatedAt": "2026-01-01T00:00:00", "analyzed": 3, "failed": 0, "rows": [{"symbol": "OLD"}]})
+
+    symbols = [f"S{i}" for i in range(30)]
+    all_fail_yf = FakeYF(fail_symbols=set(symbols))  # US has no symbol_suffix, so ticker symbol == plain symbol
+    monkeypatch.setattr(eq.MARKETS["US"], "symbols", symbols)
+
+    import sys
+    monkeypatch.setitem(sys.modules, "yfinance", all_fail_yf)
+
+    with pytest.raises(RuntimeError, match="Yahoo Finance is very likely rejecting"):
+        await eq.run_scan("US")
+
+    cached = eq.read_cache("US")
+    assert cached["rows"] == [{"symbol": "OLD"}]  # untouched by the aborted scan

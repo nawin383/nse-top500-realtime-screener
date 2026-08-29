@@ -56,6 +56,14 @@ UNIVERSE_REFRESH_HOURS = 7 * 24
 # (e.g. a free-tier host spinning down on inactivity) instead of losing the
 # whole run.
 CHECKPOINT_EVERY = 200
+# If literally none of the first N symbols return data, Yahoo is rejecting
+# every request outright (e.g. blocking the host's IP/ASN at the crumb
+# endpoint) rather than this being scattered per-symbol noise -- burning
+# through the rest of a multi-thousand-symbol universe in that state just
+# wastes hours and hammers an endpoint that's already refusing us. Abort
+# early instead, and leave whatever cache already existed untouched rather
+# than overwriting good data with an all-empty result.
+EARLY_ABORT_SAMPLE = 20
 
 # Emergency fallback lists, used only if BOTH a live universe fetch and any
 # previously cached universe are unavailable (e.g. first run with no network
@@ -638,6 +646,14 @@ async def run_scan(market: str, on_progress=None) -> Dict[str, Any]:
             logger.warning(f"Elite quant: {symbol} failed: {e}")
         if on_progress:
             on_progress(i + 1, total)
+        if (i + 1) == EARLY_ABORT_SAMPLE and len(rows) == 0:
+            raise RuntimeError(
+                f"0/{EARLY_ABORT_SAMPLE} symbols returned data for {market} -- "
+                "Yahoo Finance is very likely rejecting every request from this "
+                "host (a known issue with cloud-hosted IPs), not a per-symbol "
+                "problem. Aborting rather than burning hours on a doomed scan; "
+                "any existing cache is left untouched."
+            )
         if (i + 1) % CHECKPOINT_EVERY == 0 and (i + 1) < total:
             sorted_rows = sorted(rows, key=lambda r: r.get("eliteComposite") or 0, reverse=True)
             _write_cache(market, {
