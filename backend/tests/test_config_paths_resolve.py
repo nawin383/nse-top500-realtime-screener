@@ -30,3 +30,15 @@ def test_fetcher_v2_cache_file_parent_is_real_data_dir():
     # project data/ directory, not a phantom backend/data/ one.
     repo_root = Path(__file__).resolve().parents[2]
     assert CACHE_FILE.parent == repo_root / "data"
+
+
+def test_elite_quant_cache_dir_is_under_backend_data():
+    # Same off-by-one class of bug caught here during review: this module's
+    # CACHE_DIR is a sibling of historical/store.py's HIST_DIR (both are
+    # backend/app/<dir>/<file>.py, three levels above backend/), so it
+    # belongs in backend/data/, not the repo-root data/ used by fetcher_v2
+    # above (a different, pre-existing convention for a different module).
+    from backend.app.analytics.elite_quant import CACHE_DIR
+    backend_dir = Path(__file__).resolve().parents[1]
+    assert CACHE_DIR == backend_dir / "data" / "elite_quant"
+    assert CACHE_DIR.is_dir()

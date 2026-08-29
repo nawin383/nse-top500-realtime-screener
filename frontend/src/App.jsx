@@ -13,7 +13,7 @@ import { fetchOverview, fetchMarketStatus, fetchSectors } from './services/api.j
 import { useStore } from './store/useStore.js'
 import DashboardLayouts from './components/layouts/DashboardLayouts.jsx'
 import FilterBuilder, { matches as matchesAdvancedFilter } from './components/FilterBuilder.jsx'
-import { IconScreener, IconTarget, IconChain, IconScroll, IconChart, IconFlask, IconRewind, IconBell, IconExternal, IconToolbox } from './components/icons.jsx'
+import { IconScreener, IconTarget, IconChain, IconScroll, IconChart, IconFlask, IconRewind, IconBell, IconExternal, IconToolbox, IconBuilding } from './components/icons.jsx'
 
 const OptionsHub = lazy(()=> import('./components/options/OptionsHub.jsx'))
 const IntradaySignals = lazy(()=> import('./components/IntradaySignals.jsx'))
@@ -22,6 +22,7 @@ const PaperTrading = lazy(()=> import('./components/PaperTrading.jsx'))
 const MarketReplay = lazy(()=> import('./components/MarketReplay.jsx'))
 const AlertsCenter = lazy(()=> import('./components/AlertsCenter.jsx'))
 const ETFScreener = lazy(()=> import('./components/ETFScreener.jsx'))
+const EliteQuantScreener = lazy(()=> import('./components/EliteQuantScreener.jsx'))
 
 const NAV = [
   { k:'screener', label:'Screener', full:'Screener', icon:IconScreener },
@@ -34,6 +35,7 @@ const TOOLS = [
   { k:'paper', label:'Paper Trading', icon:IconFlask },
   { k:'replay', label:'Market Replay', icon:IconRewind },
   { k:'alerts', label:'Alerts Center', icon:IconBell },
+  { k:'elitequant', label:'Elite Quant', icon:IconBuilding },
 ]
 // External dashboards the user runs outside this app -- opened in a new tab,
 // never embedded (Apps Script deployments block framing via X-Frame-Options
@@ -214,6 +216,7 @@ export default function App(){
           :view==='replay'?<div style={{flex:1, overflow:'auto'}}><MarketReplay symbol={selected||'RELIANCE'} /></div>
           :view==='alerts'?<div style={{flex:1, overflow:'auto'}}><AlertsCenter alerts={alerts} /></div>
           :view==='etf'?<div style={{flex:1, overflow:'auto'}}><ETFScreener /></div>
+          :view==='elitequant'?<div style={{flex:1, overflow:'auto'}}><EliteQuantScreener /></div>
           :(<>
             {showDashboard && (
               <DashboardLayouts layout="bento">

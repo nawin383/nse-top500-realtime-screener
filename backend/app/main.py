@@ -129,6 +129,15 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.warning(f"Token refresher not started: {e}")
 
+    # elite quant scan: once/day per market, cached — see services/elite_quant_scheduler.py
+    elite_quant_task = None
+    try:
+        from .services.elite_quant_scheduler import elite_quant_scheduler_loop
+        elite_quant_task = asyncio.create_task(elite_quant_scheduler_loop(settings))
+        logger.info("Elite quant scheduler task scheduled")
+    except Exception as e:
+        logger.warning(f"Elite quant scheduler not started: {e}")
+
     logger.info(f"API ready at http://{settings.host}:{settings.port}")
     logger.info(f"Redis: {'enabled' if settings.redis_enabled else 'disabled'}")
     logger.info(f"ML Anomaly Detection: {'enabled' if settings.ml_anomaly_detection else 'disabled'}")
@@ -151,6 +160,12 @@ async def lifespan(app: FastAPI):
         warmup_task.cancel()
         try:
             await warmup_task
+        except asyncio.CancelledError:
+            pass
+    if elite_quant_task:
+        elite_quant_task.cancel()
+        try:
+            await elite_quant_task
         except asyncio.CancelledError:
             pass
     try:

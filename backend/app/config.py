@@ -55,6 +55,12 @@ class Settings(BaseSettings):
     # ML features
     ml_anomaly_detection: bool = Field(default=True, alias="ML_ANOMALY_DETECTION")
 
+    # Elite quant scan (backend/app/analytics/elite_quant.py) -- a heavy
+    # once/day yfinance batch job (200 symbols across 2 markets). Opt-in:
+    # off by default so it never fires unexpectedly (or during tests) for
+    # deployments that haven't asked for it.
+    enable_elite_quant: bool = Field(default=False, alias="ENABLE_ELITE_QUANT")
+
     # Webhooks
     webhook_timeout_sec: int = Field(default=10, alias="WEBHOOK_TIMEOUT_SEC")
 
