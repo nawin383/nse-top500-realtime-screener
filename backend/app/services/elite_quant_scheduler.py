@@ -27,12 +27,16 @@ async def elite_quant_scheduler_loop(settings):
 
     from ..analytics import elite_quant
 
+    max_universe = {"IN": settings.elite_quant_max_universe_in, "US": settings.elite_quant_max_universe_us}
+
     while True:
         for market in elite_quant.MARKETS:
             if not elite_quant.is_stale(market):
                 continue
             try:
-                logger.info(f"Elite quant scan starting for {market} ({len(elite_quant.MARKETS[market].symbols)} symbols)")
+                await asyncio.to_thread(elite_quant.refresh_universe_if_needed, market, max_universe[market])
+                symbols = elite_quant.MARKETS[market].symbols
+                logger.info(f"Elite quant scan starting for {market} ({len(symbols)} symbols)")
                 result = await elite_quant.run_scan(market)
                 logger.info(f"Elite quant scan complete for {market}: {result['analyzed']} analyzed, {result['failed']} failed")
             except Exception as e:

@@ -60,6 +60,13 @@ class Settings(BaseSettings):
     # off by default so it never fires unexpectedly (or during tests) for
     # deployments that haven't asked for it.
     enable_elite_quant: bool = Field(default=False, alias="ENABLE_ELITE_QUANT")
+    # Universe size caps for the elite-quant scan. Defaults cover the real
+    # full NSE equity list (~2000 symbols, via Kite's public instrument dump)
+    # and a large slice of real US-listed common stocks (via NASDAQ Trader's
+    # public symbol directory). Lower these if Yahoo Finance starts rate
+    # limiting/blocking the scan at this volume -- no code change needed.
+    elite_quant_max_universe_in: int = Field(default=2000, alias="ELITE_QUANT_MAX_IN")
+    elite_quant_max_universe_us: int = Field(default=5000, alias="ELITE_QUANT_MAX_US")
 
     # Webhooks
     webhook_timeout_sec: int = Field(default=10, alias="WEBHOOK_TIMEOUT_SEC")

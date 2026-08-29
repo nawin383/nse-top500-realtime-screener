@@ -22,10 +22,12 @@ async def etf_screener():
 
 
 @router.get("/analytics/elite-quant")
-async def elite_quant_scan(market: str = Query("IN", pattern="^(IN|US)$"), limit: int = Query(50, ge=1, le=100)):
+async def elite_quant_scan(market: str = Query("IN", pattern="^(IN|US)$"), limit: int = Query(2000, ge=1, le=10000)):
     """Serves the once-a-day cached elite-quant scan -- never runs the scan
     itself (that's the background scheduler's job), so this always responds
-    instantly regardless of whether yfinance is even installed."""
+    instantly regardless of whether yfinance is even installed. `partial`
+    is true while a large scan (thousands of symbols) is still in progress
+    and this is an in-flight checkpoint rather than the final result."""
     from ..analytics import elite_quant
     cached = elite_quant.read_cache(market)
     if not cached:
@@ -41,9 +43,11 @@ async def elite_quant_status():
     for market, cfg in elite_quant.MARKETS.items():
         cached = elite_quant.read_cache(market)
         out[market] = {
-            "label": cfg.label, "universeSize": len(cfg.symbols),
+            "label": cfg.label,
+            "universeSize": (cached.get("universeSize") if cached else None) or len(cfg.symbols),
             "generatedAt": cached.get("generatedAt") if cached else None,
             "analyzed": cached.get("analyzed") if cached else None,
+            "partial": cached.get("partial") if cached else None,
             "stale": elite_quant.is_stale(market),
         }
     return out

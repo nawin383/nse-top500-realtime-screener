@@ -157,3 +157,113 @@ async def test_run_scan_end_to_end_with_mocked_yfinance(monkeypatch):
 
 def test_is_stale_true_when_no_cache():
     assert eq.is_stale("US") is True
+
+
+def test_default_india_universe_loads_real_local_nse500_list():
+    # MARKETS["IN"].symbols should default to the app's own real, already-vetted
+    # config/nse_top500.json list (500 symbols) rather than the 100-symbol
+    # emergency fallback, since that file is local and needs no network call.
+    assert len(eq.MARKETS["IN"].symbols) >= 500
+    assert "RELIANCE" in eq.MARKETS["IN"].symbols
+
+
+def test_build_recommendations_shape_and_content():
+    rows = [
+        {"symbol": "AAA", "sector": "Tech", "price": 100, "eliteComposite": 8.5, "hedgeFundAppeal": 8,
+         "category": "CONVICTION BUY", "sharpeRatio": 2.1, "momentum3m": 0.15, "peRatio": 18, "roe": 25, "maxDrawdownPct": -8},
+        {"symbol": "BBB", "sector": "Energy", "price": 50, "eliteComposite": 4.0, "hedgeFundAppeal": 3,
+         "category": "AVOID", "sharpeRatio": -0.5, "momentum3m": -0.1, "peRatio": 40, "roe": 2, "maxDrawdownPct": -45},
+    ]
+    rec = eq._build_recommendations(rows)
+    assert {"convictionBuys", "bestRiskAdjusted", "momentumLeaders", "valuePicks", "lowDrawdownQuality", "sectorLeaders"} <= rec.keys()
+    assert rec["convictionBuys"][0]["symbol"] == "AAA"
+    assert rec["bestRiskAdjusted"][0]["symbol"] == "AAA"
+    assert rec["sectorLeaders"]["Tech"]["symbol"] == "AAA"
+    assert rec["sectorLeaders"]["Energy"]["symbol"] == "BBB"
+
+
+def test_fetch_india_universe_parses_real_shaped_csv(monkeypatch):
+    csv_text = (
+        "instrument_token,exchange_token,tradingsymbol,name,last_price,expiry,strike,tick_size,lot_size,instrument_type,segment,exchange\n"
+        "101,1,RELIANCE,RELIANCE IND,0,,0,0.05,1,EQ,NSE,NSE\n"
+        "102,2,TCS,TCS LTD,0,,0,0.05,1,EQ,NSE,NSE\n"
+        "103,3,NIFTYFUT,NIFTY FUT,0,,0,0.05,1,FUT,NFO-FUT,NFO\n"
+    )
+
+    class FakeResp:
+        text = csv_text
+        def raise_for_status(self): pass
+
+    import requests
+    monkeypatch.setattr(requests, "get", lambda *a, **k: FakeResp())
+    result = eq._fetch_india_universe(max_size=10)
+    assert result == ["RELIANCE", "TCS"]
+
+
+def test_fetch_india_universe_returns_none_on_network_failure(monkeypatch):
+    import requests
+    def boom(*a, **k):
+        raise ConnectionError("blocked")
+    monkeypatch.setattr(requests, "get", boom)
+    assert eq._fetch_india_universe(max_size=10) is None
+
+
+def test_fetch_us_universe_filters_etfs_and_test_issues(monkeypatch):
+    nasdaq_text = "Symbol|Security Name|Market Category|Test Issue|Financial Status|Round Lot Size|ETF|NextShares\nAAPL|Apple Inc|Q|N|N|100|N|N\nTESTX|Test Co|Q|Y|N|100|N|N\nQQQ|Invesco QQQ|Q|N|N|100|Y|N\nFile Creation Time: 0101202512:00|||||||\n"
+    other_text = "ACT Symbol|Security Name|Exchange|CQS Symbol|ETF|Round Lot Size|Test Issue|NASDAQ Symbol\nMSFT|Microsoft|N|MSFT|N|100|N|MSFT\n"
+
+    class FakeResp:
+        def __init__(self, text): self.text = text
+        def raise_for_status(self): pass
+
+    import requests
+    def fake_get(url, timeout=30):
+        return FakeResp(nasdaq_text if "nasdaqlisted" in url else other_text)
+    monkeypatch.setattr(requests, "get", fake_get)
+    result = eq._fetch_us_universe(max_size=10)
+    assert result == ["AAPL", "MSFT"]
+
+
+def test_refresh_universe_if_needed_uses_fresh_fetch(monkeypatch, tmp_path):
+    original = list(eq.MARKETS["IN"].symbols)
+    try:
+        monkeypatch.setattr(eq, "_fetch_india_universe", lambda max_size: ["FRESH1", "FRESH2"])
+        eq.refresh_universe_if_needed("IN", max_size=10)
+        assert eq.MARKETS["IN"].symbols == ["FRESH1", "FRESH2"]
+        assert eq._universe_cache_path("IN").exists()
+    finally:
+        eq.MARKETS["IN"].symbols = original
+
+
+def test_refresh_universe_if_needed_falls_back_to_stale_cache_on_fetch_failure(monkeypatch):
+    original = list(eq.MARKETS["IN"].symbols)
+    try:
+        eq._universe_cache_path("IN").write_text(json.dumps({"symbols": ["CACHED1"], "fetchedAt": 0}))
+        monkeypatch.setattr(eq, "_fetch_india_universe", lambda max_size: None)
+        eq.refresh_universe_if_needed("IN", max_size=10)
+        assert eq.MARKETS["IN"].symbols == ["CACHED1"]
+    finally:
+        eq.MARKETS["IN"].symbols = original
+
+
+@pytest.mark.asyncio
+async def test_run_scan_writes_partial_checkpoint_then_final_result(monkeypatch):
+    fake_yf = FakeYF()
+    monkeypatch.setattr(eq.MARKETS["US"], "symbols", ["AAA", "BBB", "CCC"])
+    monkeypatch.setattr(eq, "CHECKPOINT_EVERY", 1)
+
+    import sys
+    monkeypatch.setitem(sys.modules, "yfinance", fake_yf)
+
+    checkpoints = []
+    orig_write_cache = eq._write_cache
+    def spy_write_cache(market, result):
+        checkpoints.append(dict(result))
+        orig_write_cache(market, result)
+    monkeypatch.setattr(eq, "_write_cache", spy_write_cache)
+
+    result = await eq.run_scan("US")
+    assert result["partial"] is False
+    assert "recommendations" in result
+    assert any(c["partial"] is True for c in checkpoints)
+    assert checkpoints[-1]["partial"] is False

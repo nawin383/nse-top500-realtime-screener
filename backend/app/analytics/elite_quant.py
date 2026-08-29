@@ -30,6 +30,7 @@ history) is used instead of a canned scenario.
 from __future__ import annotations
 
 import asyncio
+import csv
 import json
 import logging
 import time
@@ -47,12 +48,22 @@ logger = logging.getLogger(__name__)
 CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "elite_quant"
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
-# Top-100 (mega/large cap first, matching the source lists' own ordering) --
-# a deliberately smaller universe than the original ~2000/~1000 so a daily
-# run finishes in minutes, not hours.
+# How often to re-fetch the exchange-wide symbol list (it barely changes
+# day to day, unlike the scores themselves).
+UNIVERSE_REFRESH_HOURS = 7 * 24
+# Write a partial cache every N symbols so a multi-hour scan (thousands of
+# symbols) still leaves usable data behind if the process restarts partway
+# (e.g. a free-tier host spinning down on inactivity) instead of losing the
+# whole run.
+CHECKPOINT_EVERY = 200
+
+# Emergency fallback lists, used only if BOTH a live universe fetch and any
+# previously cached universe are unavailable (e.g. first run with no network
+# access to the exchange's symbol directory yet). Top-100 (mega/large cap
+# first, matching the original source scripts' own ordering).
 UNIVERSE_LIMIT = 100
 
-INDIA_SYMBOLS = [
+_FALLBACK_INDIA_SYMBOLS = [
     'RELIANCE', 'TCS', 'HDFCBANK', 'BHARTIARTL', 'ICICIBANK', 'INFY', 'SBIN', 'HINDUNILVR',
     'BAJFINANCE', 'ITC', 'LT', 'KOTAKBANK', 'AXISBANK', 'MARUTI', 'SUNPHARMA', 'TITAN',
     'ASIANPAINT', 'ADANIENT', 'ADANIPORTS', 'APOLLOHOSP', 'BAJAJ-AUTO', 'BAJAJFINSV', 'BEL',
@@ -69,7 +80,7 @@ INDIA_SYMBOLS = [
     'CUMMINSIND', 'ESCORTS',
 ][:UNIVERSE_LIMIT]
 
-US_SYMBOLS = [
+_FALLBACK_US_SYMBOLS = [
     'AAPL', 'MSFT', 'NVDA', 'GOOG', 'GOOGL', 'AMZN', 'META', 'BRK.B', 'LLY', 'AVGO',
     'TSLA', 'WMT', 'JPM', 'V', 'XOM', 'UNH', 'MA', 'ORCL', 'COST', 'HD',
     'PG', 'NFLX', 'JNJ', 'ABBV', 'BAC', 'CRM', 'CVX', 'MRK', 'KO', 'AMD',
@@ -83,6 +94,21 @@ US_SYMBOLS = [
 ][:UNIVERSE_LIMIT]
 
 
+def _load_local_nse500() -> List[str]:
+    """The app's own real, already-vetted NSE Top 500 list (config/nse_top500.json)
+    -- a much better default than the 100-symbol fallback, and needs no network
+    call since it's a local file already used by the main screener."""
+    try:
+        from ..config import UNIVERSE_PATH
+        data = json.loads(UNIVERSE_PATH.read_text())
+        symbols = sorted({row["symbol"] for row in data if row.get("symbol")})
+        if symbols:
+            return symbols
+    except Exception as e:
+        logger.warning(f"Elite quant: could not load local NSE 500 list, using {UNIVERSE_LIMIT}-symbol fallback: {e}")
+    return _FALLBACK_INDIA_SYMBOLS
+
+
 @dataclass
 class MarketConfig:
     key: str
@@ -94,9 +120,97 @@ class MarketConfig:
 
 
 MARKETS: Dict[str, MarketConfig] = {
-    "IN": MarketConfig(key="IN", label="India", symbols=INDIA_SYMBOLS, symbol_suffix=".NS", benchmark="^NSEI", risk_free_rate=0.07),
-    "US": MarketConfig(key="US", label="United States", symbols=US_SYMBOLS, symbol_suffix="", benchmark="SPY", risk_free_rate=0.045),
+    "IN": MarketConfig(key="IN", label="India", symbols=_load_local_nse500(), symbol_suffix=".NS", benchmark="^NSEI", risk_free_rate=0.07),
+    "US": MarketConfig(key="US", label="United States", symbols=list(_FALLBACK_US_SYMBOLS), symbol_suffix="", benchmark="SPY", risk_free_rate=0.045),
 }
+
+# ------------------------------------------------------------- universe --
+
+def _fetch_india_universe(max_size: int) -> Optional[List[str]]:
+    """All real NSE-listed equities via Zerodha Kite's public (unauthenticated)
+    instrument dump -- the same source backend/../scripts/fetch_real_universe.py
+    already uses to build config/nse_top500.json, just unfiltered by index
+    membership so it covers the full exchange (~2000 symbols), not just the
+    top 500."""
+    try:
+        import requests
+        r = requests.get("https://api.kite.trade/instruments/NSE", timeout=30)
+        r.raise_for_status()
+        rows = csv.DictReader(r.text.splitlines())
+        symbols = sorted({
+            row["tradingsymbol"] for row in rows
+            if row.get("instrument_type") == "EQ" and row.get("segment") == "NSE" and row.get("tradingsymbol")
+        })
+        return symbols[:max_size] if symbols else None
+    except Exception as e:
+        logger.warning(f"Elite quant: full NSE universe fetch failed: {e}")
+        return None
+
+
+def _fetch_us_universe(max_size: int) -> Optional[List[str]]:
+    """Real US-listed common stocks via NASDAQ Trader's public symbol
+    directory (nasdaqlisted.txt covers Nasdaq, otherlisted.txt covers
+    NYSE/NYSE American/ARCA/BATS) -- the standard free source for a full
+    US ticker list. Excludes ETFs and test issues; the trailing file-creation
+    footer line and any oddly-formed symbol are skipped rather than crashing."""
+    try:
+        import re
+        import requests
+        out = set()
+        sources = [
+            ("https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt", "Symbol", "Test Issue"),
+            ("https://www.nasdaqtrader.com/dynamic/SymDir/otherlisted.txt", "ACT Symbol", "Test Issue"),
+        ]
+        for url, sym_col, test_col in sources:
+            r = requests.get(url, timeout=30)
+            r.raise_for_status()
+            for row in csv.DictReader(r.text.splitlines(), delimiter="|"):
+                sym = (row.get(sym_col) or "").strip().replace("/", "-")
+                if not sym or not re.match(r"^[A-Z]{1,6}(-[A-Z])?$", sym):
+                    continue
+                if row.get(test_col, "N").strip() == "Y" or row.get("ETF", "N").strip() == "Y":
+                    continue
+                out.add(sym)
+        return sorted(out)[:max_size] if out else None
+    except Exception as e:
+        logger.warning(f"Elite quant: full US universe fetch failed: {e}")
+        return None
+
+
+def _universe_cache_path(market: str) -> Path:
+    return CACHE_DIR / f"universe_{market}.json"
+
+
+def refresh_universe_if_needed(market: str, max_size: int) -> None:
+    """Keeps MARKETS[market].symbols pointed at the real, full exchange
+    universe. Tries a fresh fetch first; on failure, falls back to whatever
+    was last cached (even if stale) rather than shrinking back down to the
+    small emergency list, since a week-old full universe is far more useful
+    than a 100-symbol snapshot."""
+    cfg = MARKETS[market]
+    cache_path = _universe_cache_path(market)
+    cached = None
+    if cache_path.exists():
+        try:
+            cached = json.loads(cache_path.read_text())
+        except Exception:
+            cached = None
+
+    if cached and (time.time() - cached.get("fetchedAt", 0)) < UNIVERSE_REFRESH_HOURS * 3600:
+        cfg.symbols = cached["symbols"][:max_size]
+        return
+
+    fetch_fn = _fetch_india_universe if market == "IN" else _fetch_us_universe
+    fresh = fetch_fn(max_size)
+    if fresh:
+        cfg.symbols = fresh
+        cache_path.write_text(json.dumps({"symbols": fresh, "fetchedAt": time.time()}))
+        logger.info(f"Elite quant: refreshed {market} universe to {len(fresh)} real symbols")
+    elif cached:
+        cfg.symbols = cached["symbols"][:max_size]
+        logger.info(f"Elite quant: fresh {market} universe fetch failed, reusing stale cache ({len(cfg.symbols)} symbols)")
+    else:
+        logger.warning(f"Elite quant: no cached {market} universe and fetch failed -- using {len(cfg.symbols)}-symbol default")
 
 # ---------------------------------------------------------------- factors --
 
@@ -403,6 +517,55 @@ def _clean(d: Dict[str, Any]) -> Dict[str, Any]:
     return out
 
 
+def _build_recommendations(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Deterministic, rule-based highlight lists computed from the same real
+    per-symbol fields already in `rows` -- not a separate model, just
+    different sort/filter views of one scan's real output. Mirrors the
+    project's existing "AI insights" table, which is templated from real
+    fields rather than an LLM call."""
+    def pick(pool: List[Dict[str, Any]], n: int, extra_field: Optional[str] = None) -> List[Dict[str, Any]]:
+        out = []
+        for r in pool[:n]:
+            item = {
+                "symbol": r["symbol"], "sector": r.get("sector"), "price": r.get("price"),
+                "eliteComposite": r.get("eliteComposite"), "category": r.get("category"),
+            }
+            if extra_field:
+                item[extra_field] = r.get(extra_field)
+            out.append(item)
+        return out
+
+    conviction = sorted(
+        [r for r in rows if r.get("category") in ("CONVICTION BUY", "STRONG BUY")],
+        key=lambda r: r.get("eliteComposite") or 0, reverse=True,
+    )
+    by_sharpe = sorted([r for r in rows if r.get("sharpeRatio") is not None], key=lambda r: r["sharpeRatio"], reverse=True)
+    by_momentum = sorted([r for r in rows if r.get("momentum3m") is not None], key=lambda r: r["momentum3m"], reverse=True)
+    value_pool = sorted(
+        [r for r in rows if (r.get("peRatio") or 0) > 0 and (r.get("roe") or 0) > 0],
+        key=lambda r: (r.get("roe") or 0) / (r.get("peRatio") or 1), reverse=True,
+    )
+    defensive_pool = sorted(
+        [r for r in rows if r.get("maxDrawdownPct") is not None and (r.get("eliteComposite") or 0) >= 5],
+        key=lambda r: r["maxDrawdownPct"], reverse=True,  # least negative (shallowest drawdown) first
+    )
+
+    sector_leaders: Dict[str, Dict[str, Any]] = {}
+    for r in sorted(rows, key=lambda r: r.get("eliteComposite") or 0, reverse=True):
+        sec = r.get("sector") or "N/A"
+        if sec not in sector_leaders:
+            sector_leaders[sec] = {"symbol": r["symbol"], "eliteComposite": r.get("eliteComposite"), "category": r.get("category")}
+
+    return {
+        "convictionBuys": pick(conviction, 10),
+        "bestRiskAdjusted": pick(by_sharpe, 10, "sharpeRatio"),
+        "momentumLeaders": pick(by_momentum, 10, "momentum3m"),
+        "valuePicks": pick(value_pool, 10, "peRatio"),
+        "lowDrawdownQuality": pick(defensive_pool, 10, "maxDrawdownPct"),
+        "sectorLeaders": sector_leaders,
+    }
+
+
 def _analyze_symbol(yf_module, cfg: MarketConfig, symbol: str, bench_hist: Optional[pd.DataFrame]) -> Optional[Dict[str, Any]]:
     """Blocking (runs in a thread) -- one symbol's full analysis, mirroring
     enhanced_stock_analysis() from the source scripts."""
@@ -462,6 +625,7 @@ async def run_scan(market: str, on_progress=None) -> Dict[str, Any]:
 
     rows: List[Dict[str, Any]] = []
     failures = 0
+    total = len(cfg.symbols)
     for i, symbol in enumerate(cfg.symbols):
         try:
             row = await asyncio.to_thread(_analyze_symbol, yf, cfg, symbol, bench_hist)
@@ -473,14 +637,24 @@ async def run_scan(market: str, on_progress=None) -> Dict[str, Any]:
             failures += 1
             logger.warning(f"Elite quant: {symbol} failed: {e}")
         if on_progress:
-            on_progress(i + 1, len(cfg.symbols))
+            on_progress(i + 1, total)
+        if (i + 1) % CHECKPOINT_EVERY == 0 and (i + 1) < total:
+            sorted_rows = sorted(rows, key=lambda r: r.get("eliteComposite") or 0, reverse=True)
+            _write_cache(market, {
+                "available": True, "partial": True, "market": market, "label": cfg.label,
+                "universeSize": total, "analyzed": len(rows), "failed": failures,
+                "generatedAt": datetime.now().isoformat(), "rows": sorted_rows,
+                "recommendations": _build_recommendations(sorted_rows),
+            })
+            logger.info(f"Elite quant: {market} checkpoint {i + 1}/{total} ({len(rows)} analyzed, {failures} failed)")
         await asyncio.sleep(0.35)
 
     rows.sort(key=lambda r: r.get("eliteComposite") or 0, reverse=True)
     result = {
-        "available": True, "market": market, "label": cfg.label,
-        "universeSize": len(cfg.symbols), "analyzed": len(rows), "failed": failures,
+        "available": True, "partial": False, "market": market, "label": cfg.label,
+        "universeSize": total, "analyzed": len(rows), "failed": failures,
         "generatedAt": datetime.now().isoformat(), "rows": rows,
+        "recommendations": _build_recommendations(rows),
     }
     _write_cache(market, result)
     return result
