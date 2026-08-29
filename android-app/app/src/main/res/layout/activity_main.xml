@@ -1,13 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_refresh"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="?attr/colorSurface">
 
-    <WebView
-        android:id="@+id/webview"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/app_name"
+        app:subtitle="@string/status_connecting"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+        app:subtitleTextAppearance="@style/TextAppearance.Material3.LabelMedium" />
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <WebView
+                android:id="@+id/webview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!-- Fade-through overlay used purely for the Material-motion tab
+             switch transition (see MainActivity.crossFade): invisible and
+             untouchable the rest of the time. -->
+        <View
+            android:id="@+id/fade_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurface"
+            android:visibility="gone"
+            android:clickable="false"
+            android:focusable="false" />
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled" />
+
+</LinearLayout>

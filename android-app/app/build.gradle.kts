@@ -11,8 +11,12 @@ android {
         applicationId = "com.nse500.screener"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "2.0.0"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -33,6 +37,7 @@ android {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.activity:activity-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")

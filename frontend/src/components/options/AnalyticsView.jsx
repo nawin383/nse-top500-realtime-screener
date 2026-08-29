@@ -82,7 +82,7 @@ export default function AnalyticsView({ data, theme }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
         <Card title="IV Skew — Calls vs Puts by Strike" height={320} delay={6}>
           {skewData.length ? (
-            <ResponsiveContainer width="100%" height={260}>
+            <ResponsiveContainer width="100%" height={260} minWidth={260}>
               <LineChart data={skewData} margin={{ top: 4, right: 16, bottom: 4, left: 0 }}>
                 <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                 <XAxis dataKey="strike" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} />
@@ -97,7 +97,7 @@ export default function AnalyticsView({ data, theme }) {
         </Card>
         <Card title="Net OI Change by Strike (where flow is building now)" height={320} delay={7}>
           {oiChangeData.length ? (
-            <ResponsiveContainer width="100%" height={260}>
+            <ResponsiveContainer width="100%" height={260} minWidth={260}>
               <BarChart data={oiChangeData} margin={{ top: 4, right: 16, bottom: 4, left: 0 }}>
                 <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                 <XAxis dataKey="strike" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} />

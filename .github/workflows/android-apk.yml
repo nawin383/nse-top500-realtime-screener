@@ -8,6 +8,9 @@ on:
       - '.github/workflows/android-apk.yml'
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,9 +31,33 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
 
-      - name: Upload APK
+      - name: Upload APK as workflow artifact
         uses: actions/upload-artifact@v4
         with:
           name: nse500-screener-debug-apk
           path: android-app/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+      - name: Read app version
+        id: version
+        run: |
+          NAME=$(grep -oP 'versionName\s*=\s*"\K[^"]+' app/build.gradle.kts)
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Rename APK for release
+        run: cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/nse500-screener-v${{ steps.version.outputs.name }}.apk
+
+      - name: Create GitHub Release with APK attached
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-v${{ steps.version.outputs.name }}-${{ github.run_number }}
+          name: NSE500 Screener Android v${{ steps.version.outputs.name }} (build ${{ github.run_number }})
+          body: |
+            Debug APK built from commit ${{ github.sha }}.
+
+            Sideload: download `nse500-screener-v${{ steps.version.outputs.name }}.apk` below, then open it
+            on your Android phone (enable "install unknown apps" for whichever
+            app you use to open it -- this is a debug build, not a Play Store
+            release).
+          files: android-app/app/build/outputs/apk/debug/nse500-screener-v${{ steps.version.outputs.name }}.apk
+          generate_release_notes: false

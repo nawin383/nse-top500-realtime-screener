@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.Nse500" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:statusBarColor">@color/brand_bg</item>
-        <item name="android:windowBackground">@color/brand_bg</item>
-        <item name="colorPrimary">@color/brand_accent</item>
-        <item name="colorPrimaryDark">@color/brand_bg</item>
-        <item name="colorAccent">@color/brand_accent_light</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Real Material 3 light scheme: full role mapping, not just a
+         primary color swap. -->
+    <style name="Theme.Nse500" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/md_light_primary</item>
+        <item name="colorOnPrimary">@color/md_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_light_tertiary</item>
+        <item name="colorOnTertiary">@color/md_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_light_onTertiaryContainer</item>
+        <item name="colorError">@color/md_light_error</item>
+        <item name="colorOnError">@color/md_light_onError</item>
+        <item name="colorErrorContainer">@color/md_light_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/md_light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_light_background</item>
+        <item name="colorOnBackground">@color/md_light_onBackground</item>
+        <item name="colorSurface">@color/md_light_surface</item>
+        <item name="colorOnSurface">@color/md_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_light_outline</item>
+        <item name="android:statusBarColor">@color/md_light_surface</item>
+        <item name="android:navigationBarColor">@color/md_light_surface</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="postSplashScreenTheme">@style/Theme.Nse500</item>
+    </style>
+
+    <style name="Theme.Nse500.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/brand_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.Nse500</item>
     </style>
 </resources>

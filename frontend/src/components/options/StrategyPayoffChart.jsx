@@ -11,7 +11,7 @@ export default function StrategyPayoffChart({ legs, spot, breakevens, axisColor,
   if (!curve.length) return null
 
   return (
-    <ResponsiveContainer width="100%" height={220}>
+    <ResponsiveContainer width="100%" height={220} minWidth={260}>
       <ComposedChart data={curve} margin={{ top: 8, right: 20, bottom: 4, left: 0 }}>
         <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
         <XAxis dataKey="price" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} tickFormatter={fmtInt} />

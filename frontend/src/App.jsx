@@ -159,6 +159,24 @@ export default function App(){
     if(msg.alerts) setAlerts(p=>[...msg.alerts,...p].slice(0,100)); if(msg.meta?.mode) setDataMode(msg.meta.mode)
   },[])
   const { status: wsStatus, lastUpdate }=useWebSocket(null,{onMessage})
+
+  // Bridge for the Android app's bottom navigation (android-app/…/MainActivity.kt).
+  // The app has no client-side router -- one SPA, one URL -- so the native
+  // bottom nav can't just load a different page per tab; it calls this
+  // instead. A no-op object in a normal browser tab, so this is safe to
+  // always expose.
+  useEffect(()=>{
+    window.__nativeSetView = (key)=>{ if(NAV.some(n=>n.k===key)) setView(key) }
+    return ()=>{ delete window.__nativeSetView }
+  },[])
+
+  // Mirrors the real WebSocket connection state to the native top app bar
+  // (window.AndroidBridge is only defined when running inside the Android
+  // app's WebView -- addJavascriptInterface -- so this is a harmless no-op
+  // everywhere else, including the PWA).
+  useEffect(()=>{
+    window.AndroidBridge?.onConnectionState?.(wsStatus)
+  },[wsStatus])
   const allStocks=useMemo(()=>Object.values(stocksMap),[stocksMap])
   const filtered=useMemo(()=>{
     let res=allStocks

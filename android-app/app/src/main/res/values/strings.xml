@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NSE500 Screener</string>
+    <string name="nav_screener">Screener</string>
+    <string name="nav_intraday">Intraday</string>
+    <string name="nav_options">Options</string>
+    <string name="nav_instruments">Instruments</string>
+    <string name="nav_etf">ETFs</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_live">Live</string>
+    <string name="status_reconnecting">Reconnecting…</string>
 </resources>

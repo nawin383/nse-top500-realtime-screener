@@ -147,7 +147,7 @@ export default function InstitutionalView({ symbol, expiry, data, theme }) {
         {greeksChain ? <>
           <div style={{ fontSize: 11, marginBottom: 4 }}>Δ {fmt(greeksChain.portfolioDelta)} Γ {fmt(greeksChain.portfolioGamma, 3)} Θ {fmt(greeksChain.portfolioTheta)} Vega {fmt(greeksChain.portfolioVega)}</div>
           {greeksChain.heatmap?.length ? (
-            <ResponsiveContainer width="100%" height={170}>
+            <ResponsiveContainer width="100%" height={170} minWidth={260}>
               <ComposedChart data={[...greeksChain.heatmap].sort((a, b) => a.strike - b.strike)} margin={{ top: 4, right: 8, bottom: 4, left: 0 }}>
                 <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                 <XAxis dataKey="strike" tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} />
@@ -173,7 +173,7 @@ export default function InstitutionalView({ symbol, expiry, data, theme }) {
     oiHeatmap: (
       <Card title="OI Heatmap & GEX Levels">
         {oi?.heatmap?.length ? <>
-          <ResponsiveContainer width="100%" height={170}>
+          <ResponsiveContainer width="100%" height={170} minWidth={260}>
             <BarChart data={[...oi.heatmap].sort((a, b) => a.strike - b.strike)} margin={{ top: 4, right: 8, bottom: 4, left: 0 }}>
               <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
               <XAxis dataKey="strike" tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} />
@@ -192,7 +192,7 @@ export default function InstitutionalView({ symbol, expiry, data, theme }) {
     scenario: (
       <Card title="Scenario P&L (ATM straddle, price ±5% × IV ±20%)">
         {scenario?.scenarios?.length ? (
-          <ResponsiveContainer width="100%" height={170}>
+          <ResponsiveContainer width="100%" height={170} minWidth={260}>
             <BarChart data={scenario.scenarios.map(s => ({ ...s, label: `${s.priceMove} ${s.ivMove}` }))} margin={{ top: 4, right: 8, bottom: 28, left: 0 }}>
               <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
               <XAxis dataKey="label" tick={{ fill: axisColor, fontSize: 8 }} stroke={gridColor} angle={-30} textAnchor="end" interval={0} height={40} />
@@ -211,7 +211,7 @@ export default function InstitutionalView({ symbol, expiry, data, theme }) {
       <Card title="HV Cone & IV Percentile (ranges by horizon, HV30 overlaid)">
         {hvCone?.cone ? <>
           <div style={{ fontSize: 11, marginBottom: 4 }}>HV30 {hvCone.hv30}% • {hvCone.position}</div>
-          <ResponsiveContainer width="100%" height={150}>
+          <ResponsiveContainer width="100%" height={150} minWidth={260}>
             <ComposedChart data={Object.entries(hvCone.cone).filter(([, v]) => v).map(([k, v]) => ({ horizon: k, base: v[0], range: v[1] - v[0] }))} margin={{ top: 4, right: 8, bottom: 4, left: 0 }}>
               <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
               <XAxis dataKey="horizon" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} />
