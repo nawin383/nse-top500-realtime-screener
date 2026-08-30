@@ -92,6 +92,55 @@ This was implemented and CI-verified to compile and package correctly, but
 was no physical device or emulator available to reproduce the original bug
 on. If it recurs, the console log pipe above will show the actual error.
 
+## What's new in v2.2.0
+
+- **Fixed the horizontal "floating" content bug**, confirmed and root-caused
+  by measuring the actual rendered page (not guessed): at a real phone
+  viewport width, the page's content was 553px wide inside a 360px viewport
+  — the search box and sector-select each carried a desktop-sized inline
+  `minWidth` (220px/150px) that doesn't fit side by side on a phone and
+  can't shrink below its own floor even inside a wrapping flex row. Fixed
+  with a `@media (max-width: 480px)` block in `index.css` that makes the
+  search box take its own full-width row and lets the select shrink to fit
+  (verified after the fix: content width now matches the viewport exactly).
+  Also disabled WebView pinch-zoom entirely (`setSupportZoom(false)`) as a
+  second layer of defense, since it's a possible source of scale/pan drift
+  in its own right and there's nothing useful to zoom into on an already-
+  responsive page.
+- **Compacted the header/filter chrome**: same media query shrinks
+  padding/gaps on the filter bar's inputs, chips, and buttons. Measured
+  before/after on a 360×780 viewport: the filter bar dropped from 265px to
+  202px tall. Scoped to phone widths only, so desktop/tablet browser users
+  see no change.
+- **Native chrome now matches the web content's theme exactly**: the top
+  bar, bottom nav, and drawer previously used Material 3's `?attr/
+  colorSurface`, which gets a subtle elevation-overlay tint that can end up
+  a visibly different shade from the web page's own flat background color.
+  All three now use a dedicated `chrome_bg` color pinned to the exact same
+  value as the web content, with correct day/night variants (not just the
+  dark value forced everywhere, which would have broken light mode).
+- **External dashboard links now open inside the app** instead of handing
+  off to Chrome: a new lightweight `WebViewActivity` (its own toolbar with
+  a back arrow, progress bar, WebView) loads `script.google.com` /
+  `script.googleusercontent.com` URLs (the two dashboard links specifically
+  — X-Frame-Options, which blocks *embedding* a page in an iframe, doesn't
+  apply to a WebView navigating to a URL directly, so there was no real
+  obstacle here). Any other, unrecognized external host still opens in the
+  system browser as a safe default rather than loading arbitrary web
+  content inside the app.
+- **Real push notifications for market alerts**: every alert that already
+  appears in the web app's own "LIVE ALERTS" ticker (breakouts, volume
+  spikes, VWAP crosses, RSI thresholds, etc.) now also posts as a genuine
+  Android system notification via `window.AndroidAlerts.postAlert(...)`
+  (a new bridge call added to `App.jsx`'s WebSocket message handler,
+  a no-op outside the app), so they land even when the app isn't in the
+  foreground. Requests the required Android 13+ `POST_NOTIFICATIONS`
+  runtime permission on first launch. Fixed a real pre-existing bug found
+  while wiring this up: `App.jsx` was calling `setAlerts` twice for every
+  "ticks" WebSocket message that carried alerts, silently duplicating
+  every alert in the in-app ticker — which would have meant duplicate
+  notifications too had it shipped unfixed.
+
 ## What's new in v2.1.0
 
 - **Fixed, non-floating layout**: `android:resizeableActivity="false"` and

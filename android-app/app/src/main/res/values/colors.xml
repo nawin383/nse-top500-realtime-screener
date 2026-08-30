@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand seed colors (also used by the launcher icon / PWA icons) -->
+    <!-- Brand seed colors (also used by the launcher icon / PWA icons).
+         brand_bg is deliberately fixed dark: it's the splash screen and
+         app-identity color, not a theme-following surface. -->
     <color name="brand_bg">#0B1220</color>
     <color name="brand_accent">#2563EB</color>
     <color name="brand_accent_light">#64B5F6</color>
     <color name="brand_green">#10B981</color>
+
+    <!-- Native chrome (top bar / bottom nav / drawer) background: pinned
+         to the exact same value as the web content's own flat background
+         per theme, day and night, rather than the theme's ?attr/colorSurface
+         (which Material 3 tints with an elevation overlay that can end up a
+         visibly different shade). Day value here; values-night/colors.xml
+         overrides it for dark mode. -->
+    <color name="chrome_bg">#F8F9FF</color>
 
     <!-- Material 3 light scheme: real tonal roles (container/on-container
          pairs at distinct tonal steps), not an inverted dark scheme. Derived

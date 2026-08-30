@@ -13,12 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="?attr/colorSurface">
+        android:background="@color/chrome_bg">
 
+        <!-- Explicit @color/chrome_bg rather than ?attr/colorSurface:
+             Material 3 tints "surface" with a subtle elevation overlay that
+             can end up a visibly different shade from the web content's own
+             flat background color. Pinning both to the exact same value
+             (day and night, see values-night/colors.xml) is what actually
+             makes the native chrome and the web content read as one
+             consistent theme instead of two similar but mismatched darks. -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@color/chrome_bg"
             app:navigationIcon="@drawable/ic_menu_hamburger"
             app:navigationIconTint="?attr/colorOnSurface"
             app:title="@string/app_name"
@@ -50,7 +58,7 @@
                 android:id="@+id/fade_overlay"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/colorSurface"
+                android:background="@color/chrome_bg"
                 android:visibility="gone"
                 android:clickable="false"
                 android:focusable="false" />
@@ -61,6 +69,7 @@
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/chrome_bg"
             app:menu="@menu/bottom_nav_menu"
             app:labelVisibilityMode="labeled" />
 
@@ -76,6 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/chrome_bg"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu" />

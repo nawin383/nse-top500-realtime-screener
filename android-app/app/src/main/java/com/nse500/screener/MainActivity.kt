@@ -1,9 +1,13 @@
 package com.nse500.screener
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.DownloadManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
@@ -24,7 +28,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -34,6 +42,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import java.io.File
 import java.io.FileOutputStream
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * Thin native wrapper around the live web app -- all real functionality
@@ -89,14 +98,28 @@ class MainActivity : AppCompatActivity() {
         )
 
         // The same external dashboard links the web page lists under its
-        // Tools menu (frontend/src/App.jsx EXTERNAL_LINKS) -- opened
-        // directly via an Intent from the sidebar instead of round-tripping
-        // through the WebView's own target="_blank" handling.
+        // Tools menu (frontend/src/App.jsx EXTERNAL_LINKS) -- opened in the
+        // in-app browser (see IN_APP_BROWSER_HOSTS below) from the sidebar,
+        // same destination the WebView's own target="_blank" handling opens.
         private val DRAWER_EXTERNAL_LINKS = mapOf(
-            R.id.drawer_etf_dashboard to "https://script.google.com/macros/s/AKfycbySs46EBlzP0vpAhtm9vImzIPqKUCVbxzXBigSe0HH_55iVB4kEyPv-M-BlF8ETyztu/exec",
-            R.id.drawer_nifty_dashboard to "https://script.google.com/macros/s/AKfycbzSHbc7_vKJkMdkDpCC5GPVRGoJUYdJkdTe_TAWHLgfazG-rSNRJjlaRUVtoDllyRVkWg/exec",
+            R.id.drawer_etf_dashboard to ("https://script.google.com/macros/s/AKfycbySs46EBlzP0vpAhtm9vImzIPqKUCVbxzXBigSe0HH_55iVB4kEyPv-M-BlF8ETyztu/exec" to "Smart ETF Dashboard"),
+            R.id.drawer_nifty_dashboard to ("https://script.google.com/macros/s/AKfycbzSHbc7_vKJkMdkDpCC5GPVRGoJUYdJkdTe_TAWHLgfazG-rSNRJjlaRUVtoDllyRVkWg/exec" to "Nifty Indices Dashboard"),
         )
+
+        // Known first-party-adjacent hosts that open inside this app's own
+        // in-app browser (WebViewActivity) instead of handing off to Chrome.
+        // Google Apps Script deployments redirect through
+        // script.googleusercontent.com before rendering, so both hosts need
+        // to stay in-app for the redirect chain to actually work. Anything
+        // else external still goes to the system browser as a safe default.
+        private val IN_APP_BROWSER_HOSTS = setOf("script.google.com", "script.googleusercontent.com")
+
+        private const val NOTIF_CHANNEL_ID = "market_alerts"
     }
+
+    private val alertNotificationId = AtomicInteger(2000)
+
+    private val requestNotificationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,6 +148,7 @@ class MainActivity : AppCompatActivity() {
         configureWebViewClient()
         configureWebChromeClient()
         configureDownloadHandling()
+        configureNotifications()
         configureBottomNav()
         configureDrawer()
         configureScrollAwareToolbar()
@@ -172,6 +196,16 @@ class MainActivity : AppCompatActivity() {
             // failing, without weakening the app's own network security
             // config.
             mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            // Disabling zoom entirely (rather than just hiding the on-screen
+            // zoom controls) removes pinch-zoom as a source of runtime
+            // scale/pan drift -- part of the fix for content rendering
+            // shifted/panned relative to the viewport (see forceReflow()'s
+            // doc comment for the full root-cause writeup); the page is
+            // already laid out responsively via useWideViewPort, so there's
+            // nothing useful to zoom into.
+            setSupportZoom(false)
+            builtInZoomControls = false
+            displayZoomControls = false
         }
         // Explicit hardware layer: default since API19, but some OEM
         // WebView builds (Samsung's included, historically) have shipped
@@ -186,11 +220,10 @@ class MainActivity : AppCompatActivity() {
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 val uri = request.url
-                return if (uri.host == HOME_HOST) {
-                    false // let the WebView load it
-                } else {
-                    startActivity(Intent(Intent.ACTION_VIEW, uri))
-                    true
+                return when (uri.host) {
+                    HOME_HOST -> false // let the WebView load it
+                    in IN_APP_BROWSER_HOSTS -> { openInAppBrowser(uri.toString()); true }
+                    else -> { startActivity(Intent(Intent.ACTION_VIEW, uri)); true }
                 }
             }
 
@@ -242,7 +275,8 @@ class MainActivity : AppCompatActivity() {
             // target="_blank" links (e.g. the external Google Apps Script
             // dashboard links in the Tools menu) open a new WebView window
             // by default, which this app never displays -- intercept and
-            // hand off to the system browser instead of a dead link.
+            // route known dashboard hosts to the in-app browser, anything
+            // else to the system browser instead of a dead link.
             override fun onCreateWindow(
                 view: WebView,
                 isDialog: Boolean,
@@ -253,7 +287,11 @@ class MainActivity : AppCompatActivity() {
                 val newWebView = WebView(this@MainActivity)
                 newWebView.webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(v: WebView, request: WebResourceRequest): Boolean {
-                        startActivity(Intent(Intent.ACTION_VIEW, request.url))
+                        if (request.url.host in IN_APP_BROWSER_HOSTS) {
+                            openInAppBrowser(request.url.toString())
+                        } else {
+                            startActivity(Intent(Intent.ACTION_VIEW, request.url))
+                        }
                         return true
                     }
                 }
@@ -435,6 +473,57 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ------------------------------------------------------------------
+    // Real push notifications for market alerts. frontend/src/App.jsx calls
+    // window.AndroidAlerts.postAlert(...) for every new breakout/volume
+    // spike/VWAP cross/etc. alert that already appears in the web app's own
+    // "LIVE ALERTS" ticker (a no-op when not running inside this app), so
+    // the same real alerts also land as system notifications instead of
+    // only being visible while the app is open and in the foreground.
+    // ------------------------------------------------------------------
+    private fun configureNotifications() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                NOTIF_CHANNEL_ID, "Market Alerts", NotificationManager.IMPORTANCE_DEFAULT,
+            ).apply { description = "Breakouts, volume spikes, VWAP crosses and other screener alerts" }
+            (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+        webView.addJavascriptInterface(AlertsBridge(), "AndroidAlerts")
+    }
+
+    private inner class AlertsBridge {
+        @JavascriptInterface
+        fun postAlert(symbol: String, type: String, message: String) {
+            runOnUiThread { postAlertNotification(symbol, type, message) }
+        }
+    }
+
+    private fun postAlertNotification(symbol: String, type: String, message: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return // user hasn't granted it (or declined the prompt) -- nothing to post
+        }
+        val notification = NotificationCompat.Builder(this, NOTIF_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_monochrome)
+            .setContentTitle("$symbol · ${type.replace('_', ' ')}")
+            .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+            .build()
+        try {
+            NotificationManagerCompat.from(this).notify(alertNotificationId.incrementAndGet(), notification)
+        } catch (e: SecurityException) {
+            Log.w(TAG, "Notification post denied by system", e)
+        }
+    }
+
+    // ------------------------------------------------------------------
     // Live connection status in the top bar. frontend/src/App.jsx calls
     // window.AndroidBridge.onConnectionState(status) whenever its own
     // WebSocket status changes (a no-op when not running inside this app),
@@ -494,7 +583,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 DRAWER_EXTERNAL_LINKS.containsKey(item.itemId) -> {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DRAWER_EXTERNAL_LINKS.getValue(item.itemId))))
+                    val (url, title) = DRAWER_EXTERNAL_LINKS.getValue(item.itemId)
+                    openInAppBrowser(url, title)
                 }
                 item.itemId == R.id.drawer_refresh -> {
                     webView.reload()
@@ -503,6 +593,13 @@ class MainActivity : AppCompatActivity() {
             drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
+    }
+
+    private fun openInAppBrowser(url: String, title: String = "") {
+        startActivity(Intent(this, WebViewActivity::class.java).apply {
+            putExtra(WebViewActivity.EXTRA_URL, url)
+            putExtra(WebViewActivity.EXTRA_TITLE, title)
+        })
     }
 
     // A real (if simple) Material fade-through: fade the overlay in over

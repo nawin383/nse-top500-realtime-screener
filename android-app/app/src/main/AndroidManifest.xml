@@ -7,6 +7,9 @@
          public Downloads folder via the legacy File API; API 29+ uses
          MediaStore.Downloads instead, which needs no permission. -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <!-- Required on API 33+ to post any notification at all; requested at
+         runtime in MainActivity, this just declares the app may ask. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -31,5 +34,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- In-app browser for the external dashboard links: see
+             WebViewActivity's own doc comment. -->
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
+            android:theme="@style/Theme.Nse500" />
     </application>
 </manifest>

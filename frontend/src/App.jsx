@@ -155,8 +155,16 @@ export default function App(){
 
   const onMessage=useCallback((msg)=>{
     if(msg.type==='snapshot'){ const map={}; for(const s of (msg.data||[])) map[normalizeStock(s).symbol]=normalizeStock(s); setStocksMap(map); if(msg.marketStatus) setMarketStatus(prev=>({...prev,...msg.marketStatus,is_open:msg.marketStatus.is_open??msg.marketStatus.is_live??false})); if(msg.meta?.mode) setDataMode(msg.meta.mode); if(msg.dataMode) setDataMode(msg.dataMode) }
-    else if(msg.type==='ticks'){ setStocksMap(prev=>{ const n={...prev}; for(const s of (msg.data||[])){ const nn=normalizeStock(s); n[nn.symbol]={...n[nn.symbol],...nn}} return n}); if(msg.alerts) setAlerts(p=>[...msg.alerts,...p].slice(0,100)) }
-    if(msg.alerts) setAlerts(p=>[...msg.alerts,...p].slice(0,100)); if(msg.meta?.mode) setDataMode(msg.meta.mode)
+    else if(msg.type==='ticks'){ setStocksMap(prev=>{ const n={...prev}; for(const s of (msg.data||[])){ const nn=normalizeStock(s); n[nn.symbol]={...n[nn.symbol],...nn}} return n}) }
+    if(msg.alerts?.length){
+      setAlerts(p=>[...msg.alerts,...p].slice(0,100))
+      // Mirrors the same real alerts already shown in the in-page "LIVE
+      // ALERTS" ticker to the Android app's system notifications (a no-op
+      // outside the app -- window.AndroidAlerts only exists inside its
+      // WebView, see MainActivity.configureNotifications).
+      if(window.AndroidAlerts){ for(const a of msg.alerts){ window.AndroidAlerts.postAlert(a.symbol, a.type, a.message || `${a.symbol} ${a.type}`) } }
+    }
+    if(msg.meta?.mode) setDataMode(msg.meta.mode)
   },[])
   const { status: wsStatus, lastUpdate }=useWebSocket(null,{onMessage})
 
