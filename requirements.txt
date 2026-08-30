@@ -1,17 +1,17 @@
-fastapi>=0.110.0
-uvicorn[standard]>=0.29.0
-websockets>=11.0
-websocket-client>=1.6.0
-pydantic>=2.5.0
-pydantic-settings>=2.1.0
-python-dotenv>=1.0.0
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+websockets>=12.0
+websocket-client>=1.7.0
+pydantic>=2.6.0
+pydantic-settings>=2.2.0
+python-dotenv>=1.0.1
 pytz>=2023.3
-six>=1.16.0
-python-multipart>=0.0.9
-httpx>=0.27.0
-pytest>=8.0.0
-pytest-asyncio>=0.23.0
-anyio>=4.3.0
+six>=1.17.0
+python-multipart>=0.0.10
+httpx>=0.27.1
+pytest>=8.1.0
+pytest-asyncio>=0.24.0
+anyio>=4.3.1
 kiteconnect>=4.2.0
 pyotp>=2.9.0
 requests>=2.31.0
@@ -31,11 +31,11 @@ prometheus-fastapi-instrumentator>=7.0.0
 slowapi>=0.1.9
 
 # Advanced ML and analytics
-scikit-learn>=1.4.0
-numpy>=1.26.0
-pandas>=2.2.0
-scipy>=1.11.0
-ta>=0.11.0
+scikit-learn>=1.4.1
+numpy>=1.26.1
+pandas>=2.2.1
+scipy>=1.11.1
+ta>=0.11.1
 
 # Elite quant scan (backend/app/analytics/elite_quant.py) -- runs once/day
 # in the background, never on the request path. curl_cffi gives yfinance
@@ -44,18 +44,18 @@ ta>=0.11.0
 # dependency, since yfinance silently falls back to a weaker plain-requests
 # client if this fails to install, with no crash, just worse odds against
 # Yahoo's anti-bot checks.
-yfinance>=0.2.40
-curl_cffi>=0.15
+yfinance>=0.2.41
+curl_cffi>=0.15.1
 
 # Security
 python-jose[cryptography]>=3.3.0
 passlib[bcrypt]>=1.7.4
 
 # Database support
-sqlalchemy>=2.0.0
-alembic>=1.13.0
+sqlalchemy>=2.0.1
+alembic>=1.13.1
 
 # Advanced testing
-pytest-cov>=4.1.0
-locust>=2.20.0
-faker>=22.0.0
+pytest-cov>=4.2.0
+locust>=2.20.1
+faker>=22.1.0
