@@ -131,7 +131,29 @@ body, .app, .header, .ov-card, .table-wrap, .detail-panel, .input, .btn, .chip, 
   .filters select.input { min-width: 0 !important; flex: 1 1 auto !important; }
   .filters .chip { padding: 4px 8px !important; font-size: 10px !important; }
   .filters .btn.sm { padding: 4px 8px !important; font-size: 10px !important; }
+
+  /* Dashboard stat cards (Market Pulse / AI Insights): smaller minimum
+     width so more fit per row instead of stretching wide on a phone. */
+  .overview { grid-template-columns: repeat(auto-fit, minmax(120px,1fr)) !important; gap: 8px !important; padding: 10px 12px !important; }
+  .ov-card { padding: 10px 10px !important; }
+  .ov-value { font-size: 16px !important; }
 }
+
+/* Elements measured (via a real 360px-viewport render, not guessed) to be
+   the ones actually overflowing past the screen edge with nowhere to
+   scroll to reach them: the header's own nav-tabs row and Tools dropdown.
+   Both fully duplicate the Android app's native bottom nav and sidebar
+   drawer, so inside the app they're dead weight, not lost functionality --
+   see the .in-native-app class set in App.jsx. Browser/PWA users (no
+   AndroidBridge, so this class is never added) are unaffected. */
+.in-native-app .header-nav { display: none !important; }
+.in-native-app .tools-menu { display: none !important; }
+/* The native top bar already shows the app name/icon -- keep only the
+   live/closed/mock status badge here, which is real info the native
+   toolbar doesn't otherwise show, and free up the room the brand name was
+   taking (the last of what was overflowing past the screen edge). */
+.in-native-app .brand-mark { display: none !important; }
+.in-native-app .brand-name { display: none !important; }
 
 /* header premium */
 .brand { font-weight:900; letter-spacing:-0.02em; font-size:15px; display:flex; align-items:center; gap:12px; }

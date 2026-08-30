@@ -119,7 +119,9 @@ class MainActivity : AppCompatActivity() {
 
     private val alertNotificationId = AtomicInteger(2000)
 
-    private val requestNotificationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+    private val requestNotificationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        Log.d(TAG, "POST_NOTIFICATIONS permission ${if (granted) "granted" else "denied"} by user")
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -206,6 +208,15 @@ class MainActivity : AppCompatActivity() {
             setSupportZoom(false)
             builtInZoomControls = false
             displayZoomControls = false
+            // Root cause of external links "not working": without both of
+            // these, WebView never invokes WebChromeClient.onCreateWindow at
+            // all for a target="_blank" click -- the click is silently
+            // swallowed before it ever reaches the override below. This is
+            // why the dashboard links in the web page's own Tools dropdown
+            // (target="_blank" anchors) appeared completely dead regardless
+            // of what onCreateWindow did.
+            javaScriptCanOpenWindowsAutomatically = true
+            setSupportMultipleWindows(true)
         }
         // Explicit hardware layer: default since API19, but some OEM
         // WebView builds (Samsung's included, historically) have shipped
@@ -490,7 +501,17 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) {
-            requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            // Posted rather than called directly: requesting a runtime
+            // permission in the same frame as onCreate, while the Splash
+            // Screen API's exit transition is still animating off, is a
+            // known way for the system permission dialog to never actually
+            // appear (or get auto-dismissed) on some OEM builds. Posting to
+            // the decor view runs this after that transition has settled.
+            window.decorView.post {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
         }
         webView.addJavascriptInterface(AlertsBridge(), "AndroidAlerts")
     }
@@ -498,6 +519,7 @@ class MainActivity : AppCompatActivity() {
     private inner class AlertsBridge {
         @JavascriptInterface
         fun postAlert(symbol: String, type: String, message: String) {
+            Log.d(TAG, "AndroidAlerts.postAlert called: $symbol / $type / $message")
             runOnUiThread { postAlertNotification(symbol, type, message) }
         }
     }
@@ -506,6 +528,7 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) {
+            Log.w(TAG, "Not posting notification for $symbol -- POST_NOTIFICATIONS not granted")
             return // user hasn't granted it (or declined the prompt) -- nothing to post
         }
         val notification = NotificationCompat.Builder(this, NOTIF_CHANNEL_ID)
@@ -517,7 +540,9 @@ class MainActivity : AppCompatActivity() {
             .setAutoCancel(true)
             .build()
         try {
-            NotificationManagerCompat.from(this).notify(alertNotificationId.incrementAndGet(), notification)
+            val id = alertNotificationId.incrementAndGet()
+            NotificationManagerCompat.from(this).notify(id, notification)
+            Log.d(TAG, "Notification #$id posted for $symbol")
         } catch (e: SecurityException) {
             Log.w(TAG, "Notification post denied by system", e)
         }

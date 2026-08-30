@@ -56,7 +56,7 @@ function ToolsMenu({ view, setView }){
     return ()=> document.removeEventListener('mousedown', onDoc)
   },[])
   return (
-    <div ref={ref} style={{position:'relative'}}>
+    <div ref={ref} className="tools-menu" style={{position:'relative'}}>
       <button aria-haspopup="menu" aria-expanded={open} onClick={()=> setOpen(v=>!v)}
         style={{display:'flex', alignItems:'center', gap:6, position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'7px 14px', border:'none', cursor:'pointer', background: active?'linear-gradient(135deg,var(--accent),var(--accent-light))':'transparent', color: active?'#04101f':'var(--text2)'}}>
         <IconToolbox/> Tools <span aria-hidden="true" style={{fontSize:9}}>{open?'▲':'▼'}</span>
@@ -176,6 +176,16 @@ export default function App(){
   useEffect(()=>{
     window.__nativeSetView = (key)=>{ if(NAV.some(n=>n.k===key) || TOOLS.some(t=>t.k===key)) setView(key) }
     return ()=>{ delete window.__nativeSetView }
+  },[])
+
+  // Marks the page as running inside the Android app (window.AndroidBridge
+  // only exists there) so index.css can hide the header's own nav-tabs row
+  // and Tools dropdown -- both now fully duplicated by the app's native
+  // bottom nav and sidebar drawer, and (measured directly) the actual
+  // elements that were overflowing past the screen edge on a phone-width
+  // WebView with nowhere to scroll to reach them.
+  useEffect(()=>{
+    if(window.AndroidBridge) document.documentElement.classList.add('in-native-app')
   },[])
 
   // Mirrors the real WebSocket connection state to the native top app bar

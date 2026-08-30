@@ -92,6 +92,42 @@ This was implemented and CI-verified to compile and package correctly, but
 was no physical device or emulator available to reproduce the original bug
 on. If it recurs, the console log pipe above will show the actual error.
 
+## What's new in v2.2.1
+
+Fixes two real bugs found in v2.2.0's own new features, plus one more
+overflow bug found by direct measurement:
+
+- **External dashboard links actually work now.** Root cause: Android
+  WebView never fires `onCreateWindow` for a `target="_blank"` click unless
+  `javaScriptCanOpenWindowsAutomatically` and `setSupportMultipleWindows`
+  are both explicitly enabled -- neither was set, so every `target="_blank"`
+  click (the web page's own Tools-menu dashboard links) was silently
+  swallowed before it ever reached the in-app-browser logic added in
+  v2.2.0. The sidebar's own dashboard links didn't depend on this (they
+  call `startActivity` directly) and should have worked already.
+- **Push notification permission prompt now reliably appears.** Requesting
+  a runtime permission in the same frame `onCreate` runs, while the Splash
+  Screen API's exit transition is still animating off, is a known way for
+  the system dialog to silently fail to show (or get auto-dismissed) on
+  some OEM builds. The request is now posted to run after that transition
+  settles. Also added Logcat logging (`adb logcat -s NSE500`) at every step
+  of the alert -> notification path (bridge called, permission check,
+  notification posted) so a future report is fact-based instead of guessed.
+  If notifications still don't appear: check Android Settings -> Apps ->
+  NSE500 Screener -> Notifications is enabled (declining the first prompt
+  means Android won't auto-re-prompt), and note the screener only fires
+  alerts when there's real tick movement to detect them in.
+- **Fixed a header overflow found by direct measurement** (not guessed):
+  at a real 360px phone viewport, three header elements -- the nav-tabs row,
+  the "Tools ▾" dropdown, and the brand name text -- extended up to 495px
+  past the right edge with no way to scroll to them (silently unreachable,
+  not just visually cramped). All three fully duplicate what the native
+  bottom nav, sidebar drawer, and top app bar already show inside this app,
+  so they're now hidden specifically when running in-app (`.in-native-app`,
+  set via a `window.AndroidBridge` check in `App.jsx`) -- zero effect on
+  browser/PWA users, who never get that class. Re-measured after the fix:
+  zero elements overflow the header row.
+
 ## What's new in v2.2.0
 
 - **Fixed the horizontal "floating" content bug**, confirmed and root-caused
