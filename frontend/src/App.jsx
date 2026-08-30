@@ -178,6 +178,15 @@ export default function App(){
     return ()=>{ delete window.__nativeSetView }
   },[])
 
+  // Bridge for tapping an alert notification on Android (MainActivity's
+  // postAlertNotification PendingIntent) -- jumps straight to the screener
+  // tab and opens that symbol's detail panel, same as clicking it in the
+  // table. No-op outside the app.
+  useEffect(()=>{
+    window.__nativeOpenSymbol = (sym)=>{ if(!sym) return; setView('screener'); handleSelect(sym) }
+    return ()=>{ delete window.__nativeOpenSymbol }
+  },[])
+
   // Marks the page as running inside the Android app (window.AndroidBridge
   // only exists there) so index.css can hide the header's own nav-tabs row
   // and Tools dropdown -- both now fully duplicated by the app's native

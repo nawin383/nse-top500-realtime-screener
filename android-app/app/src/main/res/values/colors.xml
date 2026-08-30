@@ -69,4 +69,11 @@
     <color name="md_dark_surfaceVariant">#43474E</color>
     <color name="md_dark_onSurfaceVariant">#C3C7CF</color>
     <color name="md_dark_outline">#8D9199</color>
+
+    <!-- Home-screen widget text: day values here; values-night/colors.xml
+         overrides them, same day/night split as chrome_bg above (a widget's
+         RemoteViews can't use ?attr theme references the way in-app views
+         can, so these are plain color resources instead). -->
+    <color name="widget_text_primary">@color/md_light_onSurface</color>
+    <color name="widget_text_secondary">@color/md_light_onSurfaceVariant</color>
 </resources>

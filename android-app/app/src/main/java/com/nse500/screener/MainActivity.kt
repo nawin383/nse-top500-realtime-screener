@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.DownloadManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -40,8 +41,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
@@ -68,6 +73,8 @@ class MainActivity : AppCompatActivity() {
     private var toolbarHiddenByScroll = false
     private var suppressNavListener = false
     private val tabBackStack = ArrayDeque<Int>()
+    private var pageReady = false
+    private var pendingOpenSymbol: String? = null
 
     companion object {
         private const val TAG = "NSE500"
@@ -115,6 +122,16 @@ class MainActivity : AppCompatActivity() {
         private val IN_APP_BROWSER_HOSTS = setOf("script.google.com", "script.googleusercontent.com")
 
         private const val NOTIF_CHANNEL_ID = "market_alerts"
+
+        // Key for the extra a tapped alert notification's PendingIntent
+        // carries the symbol under, and the key an update check reads the
+        // app's own live GitHub Releases feed from (see checkForUpdate()).
+        // The release workflow (.github/workflows/android-apk.yml) tags
+        // every build "android-v{versionName}-{run_number}".
+        const val EXTRA_OPEN_SYMBOL = "open_symbol"
+        private const val GITHUB_RELEASES_API =
+            "https://api.github.com/repos/nawin383/nse-top500-realtime-screener/releases/latest"
+        private val RELEASE_TAG_VERSION = Regex("""android-v([0-9]+(?:\.[0-9]+)*)""")
     }
 
     private val alertNotificationId = AtomicInteger(2000)
@@ -164,6 +181,40 @@ class MainActivity : AppCompatActivity() {
             webView.loadUrl(HOME_URL)
             tabBackStack.addLast(R.id.nav_screener)
         }
+
+        handleOpenSymbolIntent(intent)
+        checkForUpdate()
+    }
+
+    // A tapped alert notification (see postAlertNotification's
+    // PendingIntent) relaunches this singleTask activity through here
+    // instead of onCreate when the app is already running.
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleOpenSymbolIntent(intent)
+    }
+
+    // Queues the symbol carried by a notification tap and forwards it to
+    // the page's own window.__nativeOpenSymbol bridge (frontend/src/App.jsx)
+    // as soon as the WebView has actually finished loading -- on a cold
+    // start this intent arrives well before onPageFinished, and the page's
+    // React effect that defines the bridge hasn't run yet either.
+    private fun handleOpenSymbolIntent(intent: Intent?) {
+        val symbol = intent?.getStringExtra(EXTRA_OPEN_SYMBOL) ?: return
+        intent.removeExtra(EXTRA_OPEN_SYMBOL)
+        pendingOpenSymbol = symbol
+        openPendingSymbolIfReady()
+    }
+
+    private fun openPendingSymbolIfReady() {
+        if (!pageReady) return
+        val symbol = pendingOpenSymbol ?: return
+        pendingOpenSymbol = null
+        webView.evaluateJavascript(
+            "window.__nativeOpenSymbol && window.__nativeOpenSymbol(${JSONObject.quote(symbol)});",
+            null,
+        )
     }
 
     private fun configureWebSettings() {
@@ -250,6 +301,8 @@ class MainActivity : AppCompatActivity() {
                 // settles its viewport/zoom slightly after onPageFinished.
                 forceReflow(view)
                 view.postDelayed({ forceReflow(view) }, 400)
+                pageReady = true
+                openPendingSymbolIfReady()
             }
 
             override fun onReceivedError(
@@ -531,6 +584,19 @@ class MainActivity : AppCompatActivity() {
             Log.w(TAG, "Not posting notification for $symbol -- POST_NOTIFICATIONS not granted")
             return // user hasn't granted it (or declined the prompt) -- nothing to post
         }
+        // Tapping the notification should land the user on exactly the
+        // stock the alert is about, not just a generic app-open -- routes
+        // through the same window.__nativeOpenSymbol bridge onNewIntent
+        // uses for a warm start.
+        val contentIntent = PendingIntent.getActivity(
+            this,
+            symbol.hashCode(),
+            Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                putExtra(EXTRA_OPEN_SYMBOL, symbol)
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
         val notification = NotificationCompat.Builder(this, NOTIF_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
             .setContentTitle("$symbol · ${type.replace('_', ' ')}")
@@ -538,6 +604,7 @@ class MainActivity : AppCompatActivity() {
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
+            .setContentIntent(contentIntent)
             .build()
         try {
             val id = alertNotificationId.incrementAndGet()
@@ -688,5 +755,58 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         webView.saveState(outState)
+    }
+
+    // ------------------------------------------------------------------
+    // In-app update check. There's no Play Store listing for this app --
+    // the only real distribution channel is the GitHub Release the CI
+    // workflow attaches the APK to (.github/workflows/android-apk.yml,
+    // tag format "android-v{versionName}-{run_number}") -- so this hits
+    // that same repo's public Releases API directly instead of a store
+    // SDK that doesn't apply here. Best-effort and silent on any failure
+    // (offline, rate-limited, no releases yet): never blocks or nags the
+    // user, it only surfaces something when a strictly newer version
+    // actually exists.
+    // ------------------------------------------------------------------
+    private fun checkForUpdate() {
+        Thread {
+            try {
+                val connection = URL(GITHUB_RELEASES_API).openConnection() as HttpURLConnection
+                connection.connectTimeout = 8000
+                connection.readTimeout = 8000
+                connection.setRequestProperty("Accept", "application/vnd.github+json")
+                val body = connection.inputStream.bufferedReader().use { it.readText() }
+                val json = JSONObject(body)
+                val tag = json.optString("tag_name")
+                val releaseUrl = json.optString("html_url")
+                val match = RELEASE_TAG_VERSION.find(tag) ?: return@Thread
+                val latestVersion = match.groupValues[1]
+                if (releaseUrl.isNotEmpty() && isNewerVersion(latestVersion, BuildConfig.VERSION_NAME)) {
+                    runOnUiThread { showUpdateAvailable(latestVersion, releaseUrl) }
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "Update check skipped: ${e.message}")
+            }
+        }.start()
+    }
+
+    // Plain dotted-integer version comparison (e.g. "2.3.0" vs "2.2.1") --
+    // both this app's versionName and the CI tag's embedded version follow
+    // that scheme, so no external version-compare library is needed.
+    private fun isNewerVersion(remote: String, current: String): Boolean {
+        val r = remote.split(".").map { it.toIntOrNull() ?: 0 }
+        val c = current.split(".").map { it.toIntOrNull() ?: 0 }
+        for (i in 0 until maxOf(r.size, c.size)) {
+            val rv = r.getOrElse(i) { 0 }
+            val cv = c.getOrElse(i) { 0 }
+            if (rv != cv) return rv > cv
+        }
+        return false
+    }
+
+    private fun showUpdateAvailable(version: String, releaseUrl: String) {
+        Snackbar.make(swipeRefresh, "Update available: v$version", Snackbar.LENGTH_INDEFINITE)
+            .setAction("View") { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(releaseUrl))) }
+            .show()
     }
 }

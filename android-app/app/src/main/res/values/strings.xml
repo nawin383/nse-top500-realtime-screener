@@ -21,4 +21,8 @@
     <string name="drawer_etf_dashboard">Smart ETF Dashboard</string>
     <string name="drawer_nifty_dashboard">Nifty Indices Dashboard</string>
     <string name="drawer_refresh">Refresh</string>
+
+    <string name="widget_label">NSE 500 Top Gainers</string>
+    <string name="widget_title">NSE Top 500</string>
+    <string name="widget_loading">Loading market data…</string>
 </resources>

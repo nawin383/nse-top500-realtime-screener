@@ -92,6 +92,61 @@ This was implemented and CI-verified to compile and package correctly, but
 was no physical device or emulator available to reproduce the original bug
 on. If it recurs, the console log pipe above will show the actual error.
 
+## What's new in v2.3.0
+
+Four upgrades on top of v2.2.1's bug fixes:
+
+- **In-app update checker.** On every launch, a background thread hits this
+  same repo's public GitHub Releases API
+  (`api.github.com/repos/nawin383/nse-top500-realtime-screener/releases/latest`)
+  and parses the CI-produced tag (`android-v{version}-{run_number}`, see
+  `.github/workflows/android-apk.yml`). If the latest release's version is
+  strictly newer than the running app's own `BuildConfig.VERSION_NAME`, a
+  Snackbar offers a "View" action that opens the release page in the system
+  browser. There's no Play Store listing for this app, so this is the real
+  (only) update channel available -- not a stand-in for one. Silent and
+  non-blocking on any failure (offline, rate-limited, no releases yet).
+- **Notification tap now opens the actual stock.** Every alert notification
+  (`postAlertNotification` in `MainActivity.kt`) now carries a `PendingIntent`
+  with the alert's symbol; tapping it relaunches/foregrounds the app (this
+  activity is already `singleTask`) and calls a new
+  `window.__nativeOpenSymbol(symbol)` bridge in `frontend/src/App.jsx`, which
+  switches to the Screener tab and opens that symbol's detail panel via the
+  same `handleSelect` used when tapping a row in the table. Handles both a
+  cold start (`onCreate` queues the symbol until `onPageFinished` confirms
+  the page — and its `__nativeOpenSymbol` bridge — has actually loaded) and
+  a warm tap while the app is already running (`onNewIntent`).
+- **R8 minification + resource shrinking**, with explicit
+  `-keepclassmembers` rules in `proguard-rules.pro` protecting every
+  `@JavascriptInterface` method on `DownloadBridge`/`ConnectionBridge`/
+  `AlertsBridge` (invisible to R8's static call graph since the WebView
+  only ever calls them by reflection — an unprotected `isMinifyEnabled=true`
+  would have silently broken every `window.AndroidDownload` /
+  `window.AndroidBridge` / `window.AndroidAlerts` call from the web app).
+  **Scoping note:** this app still ships via `assembleDebug` with the
+  standard debug signing key — enabled on the `debug` build type rather
+  than switching to `release`, since generating and committing a real
+  production signing keystore is a credential-custody decision that needs
+  a human's own involvement, not something to invent unilaterally. If a
+  proper release keystore is wanted, that's a follow-up, not something this
+  change silently substituted.
+- **Home-screen widget** (`OverviewWidgetProvider.kt`): shows the real
+  advancing/declining breadth and top 5 gainers from the same
+  `GET /api/market/overview` endpoint the web app's own Overview cards use
+  (confirmed field names by reading `backend/app/market_state.py`'s
+  `market_overview()` and `backend/app/screeners.py`'s `to_result()` --
+  `advancing`/`declining`/`total`/`top_gainers[].symbol`/`.change_pct` --
+  not guessed). Refreshes on Android's own minimum widget update interval
+  (30 minutes; anything shorter is silently clamped by the OS, so
+  `updatePeriodMillis` is set to exactly that). Tapping the widget opens
+  the app. No mock/placeholder numbers: a failed refresh just leaves the
+  widget showing its last successfully fetched values.
+
+None of this was verified on a real device from this sandbox (no local
+Android SDK/emulator access) -- verified via CI compiling/packaging
+successfully and, for the update checker and widget, by reading the actual
+API response shapes and CI tag format rather than guessing them.
+
 ## What's new in v2.2.1
 
 Fixes two real bugs found in v2.2.0's own new features, plus one more

@@ -43,5 +43,21 @@
             android:screenOrientation="portrait"
             android:resizeableActivity="false"
             android:theme="@style/Theme.Nse500" />
+
+        <!-- Home-screen widget: real breadth + top-gainers summary from the
+             same GET /api/market/overview endpoint the web app itself reads,
+             refreshed on the system's own schedule (see
+             widget_overview_info.xml's updatePeriodMillis). -->
+        <receiver
+            android:name=".OverviewWidgetProvider"
+            android:exported="false"
+            android:label="@string/widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_overview_info" />
+        </receiver>
     </application>
 </manifest>
