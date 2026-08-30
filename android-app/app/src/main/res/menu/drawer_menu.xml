@@ -17,6 +17,7 @@
     <item android:title="@string/drawer_section_app">
         <menu>
             <item android:id="@+id/drawer_refresh" android:title="@string/drawer_refresh" android:icon="@drawable/ic_side_refresh" />
+            <item android:id="@+id/drawer_app_lock" android:title="@string/drawer_app_lock" android:icon="@drawable/ic_side_lock" android:checkable="true" />
         </menu>
     </item>
 </menu>

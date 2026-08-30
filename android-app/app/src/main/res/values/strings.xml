@@ -21,4 +21,26 @@
     <string name="drawer_etf_dashboard">Smart ETF Dashboard</string>
     <string name="drawer_nifty_dashboard">Nifty Indices Dashboard</string>
     <string name="drawer_refresh">Refresh</string>
+    <string name="drawer_app_lock">App Lock</string>
+
+    <string name="offline_title">You\'re offline</string>
+    <string name="offline_message">Check your connection and try again.</string>
+    <string name="offline_retry">Retry</string>
+
+    <string name="biometric_prompt_title">Unlock NSE500 Screener</string>
+    <string name="biometric_prompt_subtitle">Confirm your fingerprint or face to continue</string>
+    <string name="lock_overlay_message">App Lock is on</string>
+    <string name="unlock_button">Unlock</string>
+
+    <string name="notif_channel_breakout_name">Breakouts</string>
+    <string name="notif_channel_breakout_desc">Day-high and day-low breakouts</string>
+    <string name="notif_channel_volume_name">Volume alerts</string>
+    <string name="notif_channel_volume_desc">Volume spikes and unusual volume</string>
+    <string name="notif_channel_technical_name">Technical alerts</string>
+    <string name="notif_channel_technical_desc">VWAP crosses, RSI thresholds, momentum shifts</string>
+    <string name="notif_channel_general_name">Other alerts</string>
+    <string name="notif_channel_general_desc">Percentage moves and everything else</string>
+
+    <string name="widget_title">NSE500 Alerts</string>
+    <string name="widget_empty">No recent alerts</string>
 </resources>

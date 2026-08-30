@@ -33,6 +33,21 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Deep link used by AlertsWorker's notification taps and the
+                 home screen widget: nse500://symbol/<SYMBOL> opens straight
+                 to the screener with that symbol pre-searched (see
+                 MainActivity.handleIntent and App.jsx's
+                 window.__nativeSetSearch bridge). A custom scheme, not an
+                 https App Link -- the deployed site has no per-symbol URL of
+                 its own to verify domain ownership against (single-page,
+                 no client router; see App.jsx). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="nse500" android:host="symbol" />
+            </intent-filter>
         </activity>
 
         <!-- In-app browser for the external dashboard links: see
@@ -43,5 +58,20 @@
             android:screenOrientation="portrait"
             android:resizeableActivity="false"
             android:theme="@style/Theme.Nse500" />
+
+        <!-- Home screen widget: shows the last-seen market status and most
+             recent alerts, kept fresh by AlertsWorker's periodic background
+             poll (see its doc comment) rather than its own update schedule,
+             so there's exactly one network poller, not two. -->
+        <receiver
+            android:name=".AlertsWidgetProvider"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/alerts_widget_info" />
+        </receiver>
     </application>
 </manifest>

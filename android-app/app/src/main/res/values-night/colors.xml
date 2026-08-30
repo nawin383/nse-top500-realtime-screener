@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="chrome_bg">#0B1220</color>
+    <color name="widget_text_primary">#E2E2E9</color>
+    <color name="widget_text_secondary">#C3C7CF</color>
 </resources>

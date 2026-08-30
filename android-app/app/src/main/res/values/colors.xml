@@ -16,6 +16,15 @@
          overrides it for dark mode. -->
     <color name="chrome_bg">#F8F9FF</color>
 
+    <!-- Home screen widget text colors: RemoteViews render outside the
+         app's own Activity theme, so (like chrome_bg above) these need
+         their own explicit day/night pair rather than a ?attr theme
+         reference the widget host can't resolve. Values mirror
+         md_light_onSurface/onSurfaceVariant below, and their md_dark_*
+         counterparts in values-night/colors.xml. -->
+    <color name="widget_text_primary">#191C20</color>
+    <color name="widget_text_secondary">#43474E</color>
+
     <!-- Material 3 light scheme: real tonal roles (container/on-container
          pairs at distinct tonal steps), not an inverted dark scheme. Derived
          by hand from the brand blue (#2563EB) and green (#10B981) seeds
