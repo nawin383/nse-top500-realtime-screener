@@ -26,9 +26,12 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import java.io.File
 import java.io.FileOutputStream
 
@@ -50,6 +53,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var fadeOverlay: View
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navView: NavigationView
 
     private var toolbarHiddenByScroll = false
     private var suppressNavListener = false
@@ -72,6 +77,25 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_instruments to "optioninstruments",
             R.id.nav_etf to "etf",
         )
+
+        // Sidebar "Tools" entries -- these map to App.jsx's TOOLS array (the
+        // same secondary views previously only reachable through the web
+        // page's own Tools dropdown), not the primary NAV_KEYS above.
+        private val DRAWER_TOOL_KEYS = mapOf(
+            R.id.drawer_paper to "paper",
+            R.id.drawer_replay to "replay",
+            R.id.drawer_alerts to "alerts",
+            R.id.drawer_elitequant to "elitequant",
+        )
+
+        // The same external dashboard links the web page lists under its
+        // Tools menu (frontend/src/App.jsx EXTERNAL_LINKS) -- opened
+        // directly via an Intent from the sidebar instead of round-tripping
+        // through the WebView's own target="_blank" handling.
+        private val DRAWER_EXTERNAL_LINKS = mapOf(
+            R.id.drawer_etf_dashboard to "https://script.google.com/macros/s/AKfycbySs46EBlzP0vpAhtm9vImzIPqKUCVbxzXBigSe0HH_55iVB4kEyPv-M-BlF8ETyztu/exec",
+            R.id.drawer_nifty_dashboard to "https://script.google.com/macros/s/AKfycbzSHbc7_vKJkMdkDpCC5GPVRGoJUYdJkdTe_TAWHLgfazG-rSNRJjlaRUVtoDllyRVkWg/exec",
+        )
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -85,6 +109,8 @@ class MainActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         bottomNav = findViewById(R.id.bottom_nav)
         fadeOverlay = findViewById(R.id.fade_overlay)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        navView = findViewById(R.id.nav_view)
 
         // Root-caused fix #1 (see android-app/README.md "Chart rendering
         // fix" section for the full write-up): lets `chrome://inspect` on a
@@ -100,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         configureWebChromeClient()
         configureDownloadHandling()
         configureBottomNav()
+        configureDrawer()
         configureScrollAwareToolbar()
         configureBackStack()
 
@@ -449,6 +476,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // ------------------------------------------------------------------
+    // Sidebar (broker-app style secondary navigation, e.g. Nuvama Market).
+    // The bottom nav only has room for the 5 primary sections; this drawer
+    // surfaces everything else that otherwise only lived inside the web
+    // page's own in-page Tools dropdown.
+    // ------------------------------------------------------------------
+    private fun configureDrawer() {
+        toolbar.setNavigationOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
+
+        navView.setNavigationItemSelectedListener { item ->
+            when {
+                DRAWER_TOOL_KEYS.containsKey(item.itemId) -> {
+                    val key = DRAWER_TOOL_KEYS.getValue(item.itemId)
+                    crossFade {
+                        webView.evaluateJavascript("window.__nativeSetView && window.__nativeSetView('$key');", null)
+                    }
+                }
+                DRAWER_EXTERNAL_LINKS.containsKey(item.itemId) -> {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DRAWER_EXTERNAL_LINKS.getValue(item.itemId))))
+                }
+                item.itemId == R.id.drawer_refresh -> {
+                    webView.reload()
+                }
+            }
+            drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
+    }
+
     // A real (if simple) Material fade-through: fade the overlay in over
     // the WebView, swap the underlying view while it's covered, fade back
     // out. Nothing custom-hacked -- plain ViewPropertyAnimator, standard
@@ -467,6 +523,7 @@ class MainActivity : AppCompatActivity() {
     private fun configureBackStack() {
         onBackPressedDispatcher.addCallback(this) {
             when {
+                drawerLayout.isDrawerOpen(GravityCompat.START) -> drawerLayout.closeDrawer(GravityCompat.START)
                 webView.canGoBack() -> webView.goBack()
                 tabBackStack.size > 1 -> {
                     tabBackStack.removeLast()

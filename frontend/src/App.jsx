@@ -166,7 +166,7 @@ export default function App(){
   // instead. A no-op object in a normal browser tab, so this is safe to
   // always expose.
   useEffect(()=>{
-    window.__nativeSetView = (key)=>{ if(NAV.some(n=>n.k===key)) setView(key) }
+    window.__nativeSetView = (key)=>{ if(NAV.some(n=>n.k===key) || TOOLS.some(t=>t.k===key)) setView(key) }
     return ()=>{ delete window.__nativeSetView }
   },[])
 

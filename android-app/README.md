@@ -92,7 +92,34 @@ This was implemented and CI-verified to compile and package correctly, but
 was no physical device or emulator available to reproduce the original bug
 on. If it recurs, the console log pipe above will show the actual error.
 
-## What's new in this version (v2.0.0)
+## What's new in v2.1.0
+
+- **Fixed, non-floating layout**: `android:resizeableActivity="false"` and
+  `android:screenOrientation="portrait"` in the manifest — the app can no
+  longer be dragged into Samsung's pop-up/floating view, split-screen, or
+  freeform multi-window modes, and never rotates. This is the correct,
+  standard Android mechanism for "always full-screen, fixed layout"; it
+  isn't achieved (and shouldn't be) by hardcoding pixel dimensions like
+  1080×2340 anywhere — the existing dp/weight-based layout already scales
+  correctly to any resolution or aspect ratio, including that one, without
+  needing device-specific numbers baked in.
+- **Sidebar navigation** (`DrawerLayout` + `NavigationView`, opened via the
+  hamburger icon in the top bar): the pattern most Indian broker apps use —
+  primary sections in the bottom nav, everything else in a slide-out
+  drawer. I didn't have visual access to the actual Nuvama Market app to
+  copy its exact design (no image was provided and this environment can't
+  browse app stores), so this follows the standard, well-established
+  version of that pattern rather than a pixel copy: a header with the app
+  identity, a "Tools" group (Paper Trading, Market Replay, Alerts Center,
+  Elite Quant — the same real features from the web app's own Tools menu,
+  now also reachable natively), an "External Dashboards" group (the two
+  Google Apps Script links, opened directly via an Intent), and a Refresh
+  action. Every item is wired to the same real `window.__nativeSetView`
+  bridge the bottom nav uses (widened in `App.jsx` to also accept the
+  web app's `TOOLS` keys, not just its main `NAV` keys) or a direct system
+  Intent — nothing in the drawer is a placeholder.
+
+## What's new in v2.0.0
 
 - **Material 3** throughout: real light/dark tonal color schemes (not an
   inverted palette), `Theme.Material3.DayNight.NoActionBar`.

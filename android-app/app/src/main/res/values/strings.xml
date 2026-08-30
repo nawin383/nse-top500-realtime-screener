@@ -9,4 +9,16 @@
     <string name="status_connecting">Connecting…</string>
     <string name="status_live">Live</string>
     <string name="status_reconnecting">Reconnecting…</string>
+
+    <string name="nav_header_subtitle">Real-Time Market Terminal</string>
+    <string name="drawer_section_tools">Tools</string>
+    <string name="drawer_section_external">External Dashboards</string>
+    <string name="drawer_section_app">App</string>
+    <string name="drawer_paper">Paper Trading</string>
+    <string name="drawer_replay">Market Replay</string>
+    <string name="drawer_alerts">Alerts Center</string>
+    <string name="drawer_elitequant">Elite Quant</string>
+    <string name="drawer_etf_dashboard">Smart ETF Dashboard</string>
+    <string name="drawer_nifty_dashboard">Nifty Indices Dashboard</string>
+    <string name="drawer_refresh">Refresh</string>
 </resources>

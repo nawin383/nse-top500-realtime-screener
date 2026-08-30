@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/drawer_section_tools">
+        <menu>
+            <item android:id="@+id/drawer_paper" android:title="@string/drawer_paper" android:icon="@drawable/ic_side_paper" />
+            <item android:id="@+id/drawer_replay" android:title="@string/drawer_replay" android:icon="@drawable/ic_side_replay" />
+            <item android:id="@+id/drawer_alerts" android:title="@string/drawer_alerts" android:icon="@drawable/ic_side_alerts" />
+            <item android:id="@+id/drawer_elitequant" android:title="@string/drawer_elitequant" android:icon="@drawable/ic_side_elitequant" />
+        </menu>
+    </item>
+    <item android:title="@string/drawer_section_external">
+        <menu>
+            <item android:id="@+id/drawer_etf_dashboard" android:title="@string/drawer_etf_dashboard" android:icon="@drawable/ic_side_external" />
+            <item android:id="@+id/drawer_nifty_dashboard" android:title="@string/drawer_nifty_dashboard" android:icon="@drawable/ic_side_external" />
+        </menu>
+    </item>
+    <item android:title="@string/drawer_section_app">
+        <menu>
+            <item android:id="@+id/drawer_refresh" android:title="@string/drawer_refresh" android:icon="@drawable/ic_side_refresh" />
+        </menu>
+    </item>
+</menu>

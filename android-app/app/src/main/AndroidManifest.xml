@@ -22,7 +22,9 @@
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:configChanges="screenSize|keyboardHidden|uiMode"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
             android:theme="@style/Theme.Nse500.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

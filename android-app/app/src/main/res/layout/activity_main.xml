@@ -1,58 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    android:background="?attr/colorSurface">
+    android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!-- Main fixed content: fills the whole screen. The drawer below is an
+         overlay, not a resize, so this layout never has to "make room" for it. -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="@string/app_name"
-        app:subtitle="@string/status_connecting"
-        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
-        app:subtitleTextAppearance="@style/TextAppearance.Material3.LabelMedium" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="?attr/colorSurface">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_menu_hamburger"
+            app:navigationIconTint="?attr/colorOnSurface"
+            app:title="@string/app_name"
+            app:subtitle="@string/status_connecting"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:subtitleTextAppearance="@style/TextAppearance.Material3.LabelMedium" />
 
-            <WebView
-                android:id="@+id/webview"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <WebView
+                    android:id="@+id/webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-        <!-- Fade-through overlay used purely for the Material-motion tab
-             switch transition (see MainActivity.crossFade): invisible and
-             untouchable the rest of the time. -->
-        <View
-            android:id="@+id/fade_overlay"
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <!-- Fade-through overlay used purely for the Material-motion tab
+                 switch transition (see MainActivity.crossFade): invisible and
+                 untouchable the rest of the time. -->
+            <View
+                android:id="@+id/fade_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorSurface"
+                android:visibility="gone"
+                android:clickable="false"
+                android:focusable="false" />
+
+        </FrameLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/colorSurface"
-            android:visibility="gone"
-            android:clickable="false"
-            android:focusable="false" />
+            android:layout_height="wrap_content"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled" />
 
-    </FrameLayout>
+    </LinearLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
+    <!-- Sidebar (Nuvama/broker-app style secondary navigation): the bottom
+         nav covers the 5 primary sections, this drawer covers everything
+         else that previously only lived inside the web page's own Tools
+         dropdown: Paper Trading, Market Replay, Alerts Center, Elite
+         Quant, and the two external dashboard links. -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu" />
 
-</LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>
