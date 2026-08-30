@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand seed colors (also used by the launcher icon / PWA icons).
+         brand_bg is deliberately fixed dark: it's the splash screen and
+         app-identity color, not a theme-following surface. -->
+    <color name="brand_bg">#0B1220</color>
+    <color name="brand_accent">#2563EB</color>
+    <color name="brand_accent_light">#64B5F6</color>
+    <color name="brand_green">#10B981</color>
+
+    <!-- Native chrome (top bar / bottom nav / drawer) background: pinned
+         to the exact same value as the web content's own flat background
+         per theme, day and night, rather than the theme's ?attr/colorSurface
+         (which Material 3 tints with an elevation overlay that can end up a
+         visibly different shade). Day value here; values-night/colors.xml
+         overrides it for dark mode. -->
+    <color name="chrome_bg">#F8F9FF</color>
+
+    <!-- Material 3 light scheme: real tonal roles (container/on-container
+         pairs at distinct tonal steps), not an inverted dark scheme. Derived
+         by hand from the brand blue (#2563EB) and green (#10B981) seeds
+         since this sandbox has no network access to run Material Theme
+         Builder / the HCT palette generator. -->
+    <color name="md_light_primary">#2E5FCC</color>
+    <color name="md_light_onPrimary">#FFFFFF</color>
+    <color name="md_light_primaryContainer">#DBE6FF</color>
+    <color name="md_light_onPrimaryContainer">#001947</color>
+    <color name="md_light_secondary">#545F71</color>
+    <color name="md_light_onSecondary">#FFFFFF</color>
+    <color name="md_light_secondaryContainer">#D8E3F8</color>
+    <color name="md_light_onSecondaryContainer">#111C2B</color>
+    <color name="md_light_tertiary">#0E8F65</color>
+    <color name="md_light_onTertiary">#FFFFFF</color>
+    <color name="md_light_tertiaryContainer">#B8F5D8</color>
+    <color name="md_light_onTertiaryContainer">#00210F</color>
+    <color name="md_light_error">#BA1A1A</color>
+    <color name="md_light_onError">#FFFFFF</color>
+    <color name="md_light_errorContainer">#FFDAD6</color>
+    <color name="md_light_onErrorContainer">#410002</color>
+    <color name="md_light_background">#F8F9FF</color>
+    <color name="md_light_onBackground">#191C20</color>
+    <color name="md_light_surface">#F8F9FF</color>
+    <color name="md_light_onSurface">#191C20</color>
+    <color name="md_light_surfaceVariant">#DFE2EB</color>
+    <color name="md_light_onSurfaceVariant">#43474E</color>
+    <color name="md_light_outline">#73777F</color>
+
+    <!-- Material 3 dark scheme -->
+    <color name="md_dark_primary">#A9C7FF</color>
+    <color name="md_dark_onPrimary">#00315C</color>
+    <color name="md_dark_primaryContainer">#004682</color>
+    <color name="md_dark_onPrimaryContainer">#D6E3FF</color>
+    <color name="md_dark_secondary">#BCC7DC</color>
+    <color name="md_dark_onSecondary">#263141</color>
+    <color name="md_dark_secondaryContainer">#3C4758</color>
+    <color name="md_dark_onSecondaryContainer">#D8E3F8</color>
+    <color name="md_dark_tertiary">#7DDBAB</color>
+    <color name="md_dark_onTertiary">#003920</color>
+    <color name="md_dark_tertiaryContainer">#00522F</color>
+    <color name="md_dark_onTertiaryContainer">#98F8C4</color>
+    <color name="md_dark_error">#FFB4AB</color>
+    <color name="md_dark_onError">#690005</color>
+    <color name="md_dark_errorContainer">#93000A</color>
+    <color name="md_dark_onErrorContainer">#FFDAD6</color>
+    <color name="md_dark_background">#0B1220</color>
+    <color name="md_dark_onBackground">#E2E2E9</color>
+    <color name="md_dark_surface">#0B1220</color>
+    <color name="md_dark_onSurface">#E2E2E9</color>
+    <color name="md_dark_surfaceVariant">#43474E</color>
+    <color name="md_dark_onSurfaceVariant">#C3C7CF</color>
+    <color name="md_dark_outline">#8D9199</color>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_screener" android:title="@string/nav_screener" android:icon="@drawable/ic_nav_screener" />
+    <item android:id="@+id/nav_intraday" android:title="@string/nav_intraday" android:icon="@drawable/ic_nav_intraday" />
+    <item android:id="@+id/nav_options" android:title="@string/nav_options" android:icon="@drawable/ic_nav_options" />
+    <item android:id="@+id/nav_instruments" android:title="@string/nav_instruments" android:icon="@drawable/ic_nav_instruments" />
+    <item android:id="@+id/nav_etf" android:title="@string/nav_etf" android:icon="@drawable/ic_nav_etf" />
+</menu>

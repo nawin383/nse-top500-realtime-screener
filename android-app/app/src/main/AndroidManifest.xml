@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Only needed pre-scoped-storage (API 24-28) to save exports into the
+         public Downloads folder via the legacy File API; API 29+ uses
+         MediaStore.Downloads instead, which needs no permission. -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <!-- Required on API 33+ to post any notification at all; requested at
+         runtime in MainActivity, this just declares the app may ask. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Nse500"
+        android:usesCleartextTraffic="false">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="screenSize|keyboardHidden|uiMode"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
+            android:theme="@style/Theme.Nse500.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- In-app browser for the external dashboard links: see
+             WebViewActivity's own doc comment. -->
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"
+            android:theme="@style/Theme.Nse500" />
+    </application>
+</manifest>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { fmt, fmtInt, Card, Empty } from './shared.jsx'
+import { BarChart, Bar, ComposedChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ReferenceLine, ResponsiveContainer, Cell } from 'recharts'
+import { fmt, fmtInt, Card, Empty, chartTheme, correlationColor } from './shared.jsx'
 
 // IV skew heatmap on canvas. IV can be genuinely null for strikes where the
 // bisection solver can't recover an implied vol (deep ITM/OTM) -- those rows
@@ -43,8 +44,9 @@ function VolSurfaceCanvas({ surface }) {
 const DEFAULT_ORDER = ['margin', 'mispricing', 'correlation', 'term', 'volsurface', 'ivheatmap', 'greeksChain', 'greeksPositions', 'oiHeatmap', 'scenario', 'hvcone', 'ticks']
 const ORDER_KEY = 'options_institutional_card_order_v1'
 
-export default function InstitutionalView({ symbol, expiry, data }) {
+export default function InstitutionalView({ symbol, expiry, data, theme }) {
   const { margin, mispricing, correlation, term, vol, greeksChain, oi, scenario, hvCone, positions, ticks, tshape } = data
+  const { axisColor, gridColor, tooltipStyle } = chartTheme(theme)
   const [order, setOrder] = useState(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(ORDER_KEY) || 'null')
@@ -110,7 +112,7 @@ export default function InstitutionalView({ symbol, expiry, data }) {
               {correlation.symbols.map(a => (
                 <React.Fragment key={a}>
                   <div style={{ fontWeight: 700 }}>{a.slice(0, 4)}</div>
-                  {correlation.symbols.map(b => <div key={b} style={{ textAlign: 'center', background: `rgba(100,181,246,${correlation.matrix[a][b]})`, padding: '2px' }}>{fmt(correlation.matrix[a][b], 2)}</div>)}
+                  {correlation.symbols.map(b => <div key={b} style={{ textAlign: 'center', background: correlationColor(correlation.matrix[a][b]), padding: '2px' }}>{fmt(correlation.matrix[a][b], 2)}</div>)}
                 </React.Fragment>
               ))}
             </div>
@@ -141,10 +143,24 @@ export default function InstitutionalView({ symbol, expiry, data }) {
       </Card>
     ),
     greeksChain: (
-      <Card title="Greeks Dashboard (Chain Aggregate)">
+      <Card title="Greeks Exposure by Strike (Chain Aggregate)">
         {greeksChain ? <>
-          <div style={{ fontSize: 11 }}>Δ {fmt(greeksChain.portfolioDelta)} Γ {fmt(greeksChain.portfolioGamma, 3)} Θ {fmt(greeksChain.portfolioTheta)} Vega {fmt(greeksChain.portfolioVega)}</div>
-          <div style={{ height: 100, overflow: 'auto', marginTop: 6 }}>{greeksChain.heatmap?.slice(0, 10).map(h => <div key={h.strike} style={{ fontSize: 10, display: 'flex', gap: 8 }}><span style={{ width: 60 }}>{h.strike}</span><span>ΔExp {fmt(h.deltaExposure)}</span><span>ΓExp {fmt(h.gammaExposure, 1)}</span></div>)}</div>
+          <div style={{ fontSize: 11, marginBottom: 4 }}>Δ {fmt(greeksChain.portfolioDelta)} Γ {fmt(greeksChain.portfolioGamma, 3)} Θ {fmt(greeksChain.portfolioTheta)} Vega {fmt(greeksChain.portfolioVega)}</div>
+          {greeksChain.heatmap?.length ? (
+            <ResponsiveContainer width="100%" height={170} minWidth={260}>
+              <ComposedChart data={[...greeksChain.heatmap].sort((a, b) => a.strike - b.strike)} margin={{ top: 4, right: 8, bottom: 4, left: 0 }}>
+                <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+                <XAxis dataKey="strike" tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} />
+                <YAxis yAxisId="delta" tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} />
+                <YAxis yAxisId="gamma" orientation="right" tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} />
+                <Tooltip contentStyle={tooltipStyle} />
+                <Legend wrapperStyle={{ fontSize: 10 }} />
+                <ReferenceLine yAxisId="delta" y={0} stroke={axisColor} />
+                <Bar yAxisId="delta" dataKey="deltaExposure" name="Δ Exposure" fill="#64b5f6" />
+                <Line yAxisId="gamma" type="monotone" dataKey="gammaExposure" name="Γ Exposure" stroke="#f59e0b" strokeWidth={2} dot={false} />
+              </ComposedChart>
+            </ResponsiveContainer>
+          ) : <Empty label="No greeks heatmap available" />}
         </> : <Empty />}
       </Card>
     ),
@@ -156,33 +172,59 @@ export default function InstitutionalView({ symbol, expiry, data }) {
     ),
     oiHeatmap: (
       <Card title="OI Heatmap & GEX Levels">
-        {oi ? <>
-          <div style={{ height: 120, overflow: 'auto' }}>{oi.heatmap?.slice(0, 12).map(h => (
-            <div key={h.strike} style={{ fontSize: 10, display: 'flex', gap: 6, alignItems: 'center' }}>
-              <span style={{ width: 50 }}>{h.strike}</span>
-              <span style={{ flex: 1, height: 6, background: 'var(--border)' }}><span style={{ display: 'block', height: '100%', width: `${Math.min(100, h.ceOi / 3000000 * 100)}%`, background: 'var(--green)' }} /></span>
-              <span style={{ flex: 1, height: 6, background: 'var(--border)' }}><span style={{ display: 'block', height: '100%', width: `${Math.min(100, h.peOi / 3000000 * 100)}%`, background: 'var(--red)' }} /></span>
-              <span>{fmtInt(h.netOi)}</span>
-            </div>
-          ))}</div>
-          <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 6 }}>GEX levels: {oi.gexLevels?.slice(0, 3).map(g => `${g.strike}:${fmtInt(g.gex)}`).join(' • ')}</div>
+        {oi?.heatmap?.length ? <>
+          <ResponsiveContainer width="100%" height={170} minWidth={260}>
+            <BarChart data={[...oi.heatmap].sort((a, b) => a.strike - b.strike)} margin={{ top: 4, right: 8, bottom: 4, left: 0 }}>
+              <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+              <XAxis dataKey="strike" tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} />
+              <YAxis tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} tickFormatter={fmtInt} />
+              <Tooltip contentStyle={tooltipStyle} formatter={(v) => fmtInt(v)} />
+              <Legend wrapperStyle={{ fontSize: 10 }} />
+              <Bar dataKey="ceOi" name="Call OI" fill="#10b981" />
+              <Bar dataKey="peOi" name="Put OI" fill="#ef5350" />
+              {(oi.gexLevels || []).slice(0, 3).map(g => <ReferenceLine key={g.strike} x={g.strike} stroke="#f59e0b" strokeDasharray="3 3" />)}
+            </BarChart>
+          </ResponsiveContainer>
+          <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 4 }}>GEX levels (dashed): {oi.gexLevels?.slice(0, 3).map(g => `${g.strike}:${fmtInt(g.gex)}`).join(' • ')}</div>
         </> : <Empty />}
       </Card>
     ),
     scenario: (
       <Card title="Scenario P&L (ATM straddle, price ±5% × IV ±20%)">
-        {scenario?.scenarios?.length ? scenario.scenarios.slice(0, 6).map((s, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, borderBottom: '1px solid var(--border)' }}>
-            <span>{s.priceMove} {s.ivMove}</span><span style={{ color: s.pnl > 0 ? 'var(--green)' : 'var(--red)' }}>{fmt(s.pnl)}</span>
-          </div>
-        )) : <Empty />}
+        {scenario?.scenarios?.length ? (
+          <ResponsiveContainer width="100%" height={170} minWidth={260}>
+            <BarChart data={scenario.scenarios.map(s => ({ ...s, label: `${s.priceMove} ${s.ivMove}` }))} margin={{ top: 4, right: 8, bottom: 28, left: 0 }}>
+              <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+              <XAxis dataKey="label" tick={{ fill: axisColor, fontSize: 8 }} stroke={gridColor} angle={-30} textAnchor="end" interval={0} height={40} />
+              <YAxis tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} />
+              <Tooltip contentStyle={tooltipStyle} formatter={(v) => fmt(v)} />
+              <ReferenceLine y={0} stroke={axisColor} />
+              <Bar dataKey="pnl" name="P&L">
+                {scenario.scenarios.map((s, i) => <Cell key={i} fill={s.pnl > 0 ? '#10b981' : '#ef5350'} />)}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        ) : <Empty />}
       </Card>
     ),
     hvcone: (
-      <Card title="HV Cone & IV Percentile (1Y/6M/3M)">
+      <Card title="HV Cone & IV Percentile (ranges by horizon, HV30 overlaid)">
         {hvCone?.cone ? <>
-          <div style={{ fontSize: 11 }}>HV30 {hvCone.hv30}% • Cone 1M [{hvCone.cone['1M']?.join('-')}] 1Y [{hvCone.cone['1Y']?.join('-')}] • {hvCone.position}</div>
-          <div style={{ height: 60, background: 'var(--bg3)', borderRadius: 4, marginTop: 6, padding: 6, fontSize: 10 }}>{Object.entries(hvCone.cone).filter(([, v]) => v).map(([k, v]) => <div key={k} style={{ display: 'flex', justifyContent: 'space-between' }}><span>{k}</span><span>{v[0]} — {v[1]}%</span></div>)}</div>
+          <div style={{ fontSize: 11, marginBottom: 4 }}>HV30 {hvCone.hv30}% • {hvCone.position}</div>
+          <ResponsiveContainer width="100%" height={150} minWidth={260}>
+            <ComposedChart data={Object.entries(hvCone.cone).filter(([, v]) => v).map(([k, v]) => ({ horizon: k, base: v[0], range: v[1] - v[0] }))} margin={{ top: 4, right: 8, bottom: 4, left: 0 }}>
+              <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+              <XAxis dataKey="horizon" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} />
+              <YAxis tick={{ fill: axisColor, fontSize: 9 }} stroke={gridColor} unit="%" />
+              <Tooltip contentStyle={tooltipStyle} formatter={(v, name) => name === 'range' ? [`${fmt(v, 1)}%`, 'HV range width'] : [v, name]} />
+              <Bar dataKey="base" stackId="cone" fill="transparent" tooltipType="none" />
+              <Bar dataKey="range" stackId="cone" name="HV range" fill="#64b5f6" fillOpacity={0.35} />
+              {hvCone.hv30 != null && (
+                <ReferenceLine y={hvCone.hv30} stroke="#f59e0b" strokeDasharray="4 4"
+                  label={{ value: `HV30 ${hvCone.hv30}%`, position: 'right', fill: '#f59e0b', fontSize: 9 }} />
+              )}
+            </ComposedChart>
+          </ResponsiveContainer>
         </> : <Empty label={hvCone?.note || 'HV cone needs ingested bhavcopy history (see /api/historical/bhavcopy)'} />}
       </Card>
     ),

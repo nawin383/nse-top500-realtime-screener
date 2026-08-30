@@ -56,7 +56,7 @@ function ToolsMenu({ view, setView }){
     return ()=> document.removeEventListener('mousedown', onDoc)
   },[])
   return (
-    <div ref={ref} style={{position:'relative'}}>
+    <div ref={ref} className="tools-menu" style={{position:'relative'}}>
       <button aria-haspopup="menu" aria-expanded={open} onClick={()=> setOpen(v=>!v)}
         style={{display:'flex', alignItems:'center', gap:6, position:'relative', borderRadius:8, fontWeight:700, fontSize:12, padding:'7px 14px', border:'none', cursor:'pointer', background: active?'linear-gradient(135deg,var(--accent),var(--accent-light))':'transparent', color: active?'#04101f':'var(--text2)'}}>
         <IconToolbox/> Tools <span aria-hidden="true" style={{fontSize:9}}>{open?'▲':'▼'}</span>
@@ -155,10 +155,46 @@ export default function App(){
 
   const onMessage=useCallback((msg)=>{
     if(msg.type==='snapshot'){ const map={}; for(const s of (msg.data||[])) map[normalizeStock(s).symbol]=normalizeStock(s); setStocksMap(map); if(msg.marketStatus) setMarketStatus(prev=>({...prev,...msg.marketStatus,is_open:msg.marketStatus.is_open??msg.marketStatus.is_live??false})); if(msg.meta?.mode) setDataMode(msg.meta.mode); if(msg.dataMode) setDataMode(msg.dataMode) }
-    else if(msg.type==='ticks'){ setStocksMap(prev=>{ const n={...prev}; for(const s of (msg.data||[])){ const nn=normalizeStock(s); n[nn.symbol]={...n[nn.symbol],...nn}} return n}); if(msg.alerts) setAlerts(p=>[...msg.alerts,...p].slice(0,100)) }
-    if(msg.alerts) setAlerts(p=>[...msg.alerts,...p].slice(0,100)); if(msg.meta?.mode) setDataMode(msg.meta.mode)
+    else if(msg.type==='ticks'){ setStocksMap(prev=>{ const n={...prev}; for(const s of (msg.data||[])){ const nn=normalizeStock(s); n[nn.symbol]={...n[nn.symbol],...nn}} return n}) }
+    if(msg.alerts?.length){
+      setAlerts(p=>[...msg.alerts,...p].slice(0,100))
+      // Mirrors the same real alerts already shown in the in-page "LIVE
+      // ALERTS" ticker to the Android app's system notifications (a no-op
+      // outside the app -- window.AndroidAlerts only exists inside its
+      // WebView, see MainActivity.configureNotifications).
+      if(window.AndroidAlerts){ for(const a of msg.alerts){ window.AndroidAlerts.postAlert(a.symbol, a.type, a.message || `${a.symbol} ${a.type}`) } }
+    }
+    if(msg.meta?.mode) setDataMode(msg.meta.mode)
   },[])
   const { status: wsStatus, lastUpdate }=useWebSocket(null,{onMessage})
+
+  // Bridge for the Android app's bottom navigation (android-app/…/MainActivity.kt).
+  // The app has no client-side router -- one SPA, one URL -- so the native
+  // bottom nav can't just load a different page per tab; it calls this
+  // instead. A no-op object in a normal browser tab, so this is safe to
+  // always expose.
+  useEffect(()=>{
+    window.__nativeSetView = (key)=>{ if(NAV.some(n=>n.k===key) || TOOLS.some(t=>t.k===key)) setView(key) }
+    return ()=>{ delete window.__nativeSetView }
+  },[])
+
+  // Marks the page as running inside the Android app (window.AndroidBridge
+  // only exists there) so index.css can hide the header's own nav-tabs row
+  // and Tools dropdown -- both now fully duplicated by the app's native
+  // bottom nav and sidebar drawer, and (measured directly) the actual
+  // elements that were overflowing past the screen edge on a phone-width
+  // WebView with nowhere to scroll to reach them.
+  useEffect(()=>{
+    if(window.AndroidBridge) document.documentElement.classList.add('in-native-app')
+  },[])
+
+  // Mirrors the real WebSocket connection state to the native top app bar
+  // (window.AndroidBridge is only defined when running inside the Android
+  // app's WebView -- addJavascriptInterface -- so this is a harmless no-op
+  // everywhere else, including the PWA).
+  useEffect(()=>{
+    window.AndroidBridge?.onConnectionState?.(wsStatus)
+  },[wsStatus])
   const allStocks=useMemo(()=>Object.values(stocksMap),[stocksMap])
   const filtered=useMemo(()=>{
     let res=allStocks

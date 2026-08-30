@@ -131,7 +131,7 @@ export default function OpenInterestChart({ theme = 'dark' }) {
         // chart itself is always width:100% (rows are windowed to MAX_STRIKES
         // above) so it fits the container with no horizontal scrolling.
         <div style={{ height: 340, border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10 }}>
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={260} minHeight={260}>
             <BarChart data={rows} margin={{ top: 12, right: 16, bottom: 28, left: 4 }} barGap={0} barCategoryGap="30%">
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
               <XAxis type="category" dataKey="strike" tick={{ fill: axisColor, fontSize: 10 }} stroke={gridColor} height={30} tickMargin={8} />

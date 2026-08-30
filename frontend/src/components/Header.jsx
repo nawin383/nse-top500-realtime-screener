@@ -28,8 +28,8 @@ export default function Header({ marketStatus, dataMode }){
   const badgeTitle = dataMode==='mock' ? 'Mock/simulated data mode' : isLive ? 'Market is live' : `Showing last close • Next open ${nextOpen}`
   return (
     <div className="brand" style={{flexShrink:0}}>
-      <div className="brand-icon"><BrandMark/></div>
-      <span style={{fontSize:13, fontWeight:900, letterSpacing:'-0.03em', whiteSpace:'nowrap'}}>NSE TOP500 <span style={{fontWeight:800, background:'linear-gradient(135deg,#10b981,var(--accent))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>SCREENER</span></span>
+      <div className="brand-icon brand-mark"><BrandMark/></div>
+      <span className="brand-name" style={{fontSize:13, fontWeight:900, letterSpacing:'-0.03em', whiteSpace:'nowrap'}}>NSE TOP500 <span style={{fontWeight:800, background:'linear-gradient(135deg,#10b981,var(--accent))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>SCREENER</span></span>
       <span className={`badge ${badgeClass}`} title={badgeTitle} style={{marginLeft:2, cursor:'help'}}>{badgeLabel}</span>
     </div>
   )

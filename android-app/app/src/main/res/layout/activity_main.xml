@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <!-- Main fixed content: fills the whole screen. The drawer below is an
+         overlay, not a resize, so this layout never has to "make room" for it. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/chrome_bg">
+
+        <!-- Explicit @color/chrome_bg rather than ?attr/colorSurface:
+             Material 3 tints "surface" with a subtle elevation overlay that
+             can end up a visibly different shade from the web content's own
+             flat background color. Pinning both to the exact same value
+             (day and night, see values-night/colors.xml) is what actually
+             makes the native chrome and the web content read as one
+             consistent theme instead of two similar but mismatched darks. -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/chrome_bg"
+            app:navigationIcon="@drawable/ic_menu_hamburger"
+            app:navigationIconTint="?attr/colorOnSurface"
+            app:title="@string/app_name"
+            app:subtitle="@string/status_connecting"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium"
+            app:subtitleTextAppearance="@style/TextAppearance.Material3.LabelMedium" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <WebView
+                    android:id="@+id/webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <!-- Fade-through overlay used purely for the Material-motion tab
+                 switch transition (see MainActivity.crossFade): invisible and
+                 untouchable the rest of the time. -->
+            <View
+                android:id="@+id/fade_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/chrome_bg"
+                android:visibility="gone"
+                android:clickable="false"
+                android:focusable="false" />
+
+        </FrameLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/chrome_bg"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled" />
+
+    </LinearLayout>
+
+    <!-- Sidebar (Nuvama/broker-app style secondary navigation): the bottom
+         nav covers the 5 primary sections, this drawer covers everything
+         else that previously only lived inside the web page's own Tools
+         dropdown: Paper Trading, Market Replay, Alerts Center, Elite
+         Quant, and the two external dashboard links. -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/chrome_bg"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/drawer_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>
