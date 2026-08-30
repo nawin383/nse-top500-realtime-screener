@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RemoteViews only supports a small set of layouts/widgets (no
+     ConstraintLayout, no Material components) -- plain LinearLayout + TextViews. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/widget_background"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/widget_title"
+            android:textColor="@color/widget_text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/widget_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/brand_accent"
+            android:textSize="11sp" />
+
+        <ImageButton
+            android:id="@+id/widget_refresh"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="6dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/drawer_refresh"
+            android:src="@drawable/ic_side_refresh" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/widget_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/widget_empty"
+        android:textColor="@color/widget_text_secondary"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/widget_line1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/widget_text_primary"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/widget_line2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/widget_text_primary"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/widget_line3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/widget_text_primary"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+</LinearLayout>

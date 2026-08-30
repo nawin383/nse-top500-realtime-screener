@@ -178,6 +178,16 @@ export default function App(){
     return ()=>{ delete window.__nativeSetView }
   },[])
 
+  // Bridge for the Android app's notification/widget deep links
+  // (android-app/…/MainActivity.kt's nse500://symbol/<SYM>, handled by
+  // AlertsWorker's background notifications and the home screen widget):
+  // jumps to the screener with that symbol already in the search box,
+  // reusing the same search state the box itself drives.
+  useEffect(()=>{
+    window.__nativeSetSearch = (symbol)=>{ setView('screener'); setSearch(symbol) }
+    return ()=>{ delete window.__nativeSetSearch }
+  },[])
+
   // Marks the page as running inside the Android app (window.AndroidBridge
   // only exists there) so index.css can hide the header's own nav-tabs row
   // and Tools dropdown -- both now fully duplicated by the app's native

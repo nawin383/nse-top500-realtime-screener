@@ -3,12 +3,15 @@ package com.nse500.screener
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.DownloadManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.ContentValues
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -30,16 +33,23 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.atomic.AtomicInteger
@@ -64,15 +74,50 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fadeOverlay: View
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
+    private lateinit var offlineOverlay: View
+    private lateinit var offlineRetry: MaterialButton
+    private lateinit var lockOverlay: View
+    private lateinit var lockUnlockButton: MaterialButton
 
     private var toolbarHiddenByScroll = false
     private var suppressNavListener = false
     private val tabBackStack = ArrayDeque<Int>()
 
+    // Offline handling (see activity_main.xml's offline_overlay): tracks
+    // whether the *last* main-frame load actually failed, so a network
+    // coming back doesn't spuriously reload a page that was loading fine.
+    private var mainFrameLoadFailed = false
+    private lateinit var connectivityManager: ConnectivityManager
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
+
+    // Deep link (nse500://symbol/<SYM>, see the manifest's intent-filter and
+    // AlertsWorker's notification taps): the symbol to jump to once the SPA
+    // has actually finished loading -- applying it before then would target
+    // a page that hasn't defined window.__nativeSetSearch yet.
+    private var pendingDeepLinkSymbol: String? = null
+
+    // App Lock (drawer toggle + BiometricPrompt): true once the *current*
+    // foreground session has been unlocked, reset by AppLifecycleObserver
+    // whenever the whole process leaves the foreground -- not per-Activity
+    // onResume, which would also fire when just returning from the
+    // in-app browser (WebViewActivity) and re-lock spuriously.
+    private var appLockUnlockedForSession = false
+    private val appSettingsPrefs: SharedPreferences by lazy {
+        getSharedPreferences("nse500_settings", MODE_PRIVATE)
+    }
+    private val appLockObserver = object : DefaultLifecycleObserver {
+        override fun onStart(owner: LifecycleOwner) {
+            if (appSettingsPrefs.getBoolean(KEY_APP_LOCK_ENABLED, false) && !appLockUnlockedForSession) {
+                showLockOverlayAndPrompt()
+            }
+        }
+    }
+
     companion object {
         private const val TAG = "NSE500"
-        private const val HOME_URL = "https://nse-top500-realtime-screener-1.onrender.com/"
+        private val HOME_URL = Nse500Config.HOME_URL
         private val HOME_HOST = Uri.parse(HOME_URL).host
+        private const val KEY_APP_LOCK_ENABLED = "app_lock_enabled"
 
         // Maps each bottom-nav destination to the exact view key the SPA's
         // own NAV array uses internally (frontend/src/App.jsx) -- there is
@@ -113,8 +158,6 @@ class MainActivity : AppCompatActivity() {
         // to stay in-app for the redirect chain to actually work. Anything
         // else external still goes to the system browser as a safe default.
         private val IN_APP_BROWSER_HOSTS = setOf("script.google.com", "script.googleusercontent.com")
-
-        private const val NOTIF_CHANNEL_ID = "market_alerts"
     }
 
     private val alertNotificationId = AtomicInteger(2000)
@@ -136,6 +179,10 @@ class MainActivity : AppCompatActivity() {
         fadeOverlay = findViewById(R.id.fade_overlay)
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
+        offlineOverlay = findViewById(R.id.offline_overlay)
+        offlineRetry = findViewById(R.id.offline_retry)
+        lockOverlay = findViewById(R.id.lock_overlay)
+        lockUnlockButton = findViewById(R.id.lock_unlock_button)
 
         // Root-caused fix #1 (see android-app/README.md "Chart rendering
         // fix" section for the full write-up): lets `chrome://inspect` on a
@@ -146,6 +193,8 @@ class MainActivity : AppCompatActivity() {
         // toggle and must never ship enabled in a release build.
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
 
+        connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+
         configureWebSettings()
         configureWebViewClient()
         configureWebChromeClient()
@@ -155,6 +204,8 @@ class MainActivity : AppCompatActivity() {
         configureDrawer()
         configureScrollAwareToolbar()
         configureBackStack()
+        configureOfflineHandling()
+        configureAppLock()
 
         swipeRefresh.setOnRefreshListener { webView.reload() }
 
@@ -164,6 +215,50 @@ class MainActivity : AppCompatActivity() {
             webView.loadUrl(HOME_URL)
             tabBackStack.addLast(R.id.nav_screener)
         }
+
+        handleIntent(intent)
+
+        // Background alert polling that survives the app being backgrounded
+        // or killed -- see AlertsWorker's doc comment for what this can and
+        // can't do (15-minute minimum interval, a WorkManager/platform
+        // floor). Scheduling is unconditional: once POST_NOTIFICATIONS is
+        // granted (immediately or later, from Settings), background alerts
+        // work retroactively without needing the app reopened.
+        AlertsWorker.schedulePeriodic(this)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent(intent)
+    }
+
+    // ------------------------------------------------------------------
+    // Deep link (nse500://symbol/<SYM>): fired by AlertsWorker's
+    // notification taps and the home screen widget. The SPA has no
+    // per-symbol route (see NAV_KEYS's own doc comment), so "deep link" here
+    // means "open the screener with that symbol already typed into its
+    // search box" via window.__nativeSetSearch (App.jsx), the same bridge
+    // pattern as window.__nativeSetView.
+    // ------------------------------------------------------------------
+    private fun handleIntent(intent: Intent) {
+        val uri = intent.data ?: return
+        if (uri.scheme != "nse500" || uri.host != "symbol") return
+        val symbol = uri.lastPathSegment ?: return
+        pendingDeepLinkSymbol = symbol
+        applyPendingDeepLinkIfReady()
+    }
+
+    private fun applyPendingDeepLinkIfReady() {
+        val symbol = pendingDeepLinkSymbol ?: return
+        pendingDeepLinkSymbol = null
+        suppressNavListener = true
+        bottomNav.selectedItemId = R.id.nav_screener
+        suppressNavListener = false
+        webView.evaluateJavascript(
+            "window.__nativeSetSearch && window.__nativeSetSearch(${JSONObject.quote(symbol)});",
+            null,
+        )
     }
 
     private fun configureWebSettings() {
@@ -241,6 +336,8 @@ class MainActivity : AppCompatActivity() {
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
                 swipeRefresh.isRefreshing = false
+                mainFrameLoadFailed = false
+                offlineOverlay.visibility = View.GONE
                 syncThemeWithSystem(view)
                 injectDownloadBridgeScript(view)
                 // Root-caused fix #2, the actual chart/table rendering fix:
@@ -250,6 +347,7 @@ class MainActivity : AppCompatActivity() {
                 // settles its viewport/zoom slightly after onPageFinished.
                 forceReflow(view)
                 view.postDelayed({ forceReflow(view) }, 400)
+                applyPendingDeepLinkIfReady()
             }
 
             override fun onReceivedError(
@@ -260,6 +358,9 @@ class MainActivity : AppCompatActivity() {
                 super.onReceivedError(view, request, error)
                 if (request.isForMainFrame) {
                     Log.e(TAG, "Main frame load error: ${error.description} (${error.errorCode}) for ${request.url}")
+                    mainFrameLoadFailed = true
+                    swipeRefresh.isRefreshing = false
+                    offlineOverlay.visibility = View.VISIBLE
                 }
             }
         }
@@ -492,12 +593,10 @@ class MainActivity : AppCompatActivity() {
     // only being visible while the app is open and in the foreground.
     // ------------------------------------------------------------------
     private fun configureNotifications() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                NOTIF_CHANNEL_ID, "Market Alerts", NotificationManager.IMPORTANCE_DEFAULT,
-            ).apply { description = "Breakouts, volume spikes, VWAP crosses and other screener alerts" }
-            (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
-        }
+        // One channel per alert category (breakout/volume/technical/
+        // general), not one generic "Market Alerts" channel -- see
+        // NotificationChannels' own doc comment for why.
+        NotificationChannels.createAll(this)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -531,13 +630,32 @@ class MainActivity : AppCompatActivity() {
             Log.w(TAG, "Not posting notification for $symbol -- POST_NOTIFICATIONS not granted")
             return // user hasn't granted it (or declined the prompt) -- nothing to post
         }
-        val notification = NotificationCompat.Builder(this, NOTIF_CHANNEL_ID)
+        // Tapping the notification jumps straight to that symbol via the
+        // same deep link AlertsWorker's background notifications and the
+        // home screen widget use -- see handleIntent(). MainActivity is
+        // itself the app's root/launcher activity (launchMode="singleTask"
+        // in the manifest, no parent activity), so a plain PendingIntent
+        // targeting it is enough -- no TaskStackBuilder synthetic back
+        // stack needed (and none is available: that API requires a
+        // declared parentActivityName, which a root activity doesn't have).
+        val deepLinkIntent = Intent(this, MainActivity::class.java).apply {
+            action = Intent.ACTION_VIEW
+            data = Uri.parse("nse500://symbol/$symbol")
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        val pendingIntent = android.app.PendingIntent.getActivity(
+            this, symbol.hashCode(), deepLinkIntent,
+            android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_IMMUTABLE,
+        )
+
+        val notification = NotificationCompat.Builder(this, NotificationChannels.channelIdForAlertType(type))
             .setSmallIcon(R.drawable.ic_launcher_monochrome)
             .setContentTitle("$symbol · ${type.replace('_', ' ')}")
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
             .build()
         try {
             val id = alertNotificationId.incrementAndGet()
@@ -599,6 +717,9 @@ class MainActivity : AppCompatActivity() {
     private fun configureDrawer() {
         toolbar.setNavigationOnClickListener { drawerLayout.openDrawer(GravityCompat.START) }
 
+        navView.menu.findItem(R.id.drawer_app_lock).isChecked =
+            appSettingsPrefs.getBoolean(KEY_APP_LOCK_ENABLED, false)
+
         navView.setNavigationItemSelectedListener { item ->
             when {
                 DRAWER_TOOL_KEYS.containsKey(item.itemId) -> {
@@ -613,6 +734,19 @@ class MainActivity : AppCompatActivity() {
                 }
                 item.itemId == R.id.drawer_refresh -> {
                     webView.reload()
+                }
+                item.itemId == R.id.drawer_app_lock -> {
+                    val enabled = !item.isChecked
+                    item.isChecked = enabled
+                    appSettingsPrefs.edit().putBoolean(KEY_APP_LOCK_ENABLED, enabled).apply()
+                    // Don't lock the user out of the session they just used
+                    // to turn this on -- it takes effect the next time the
+                    // whole app returns to the foreground (see
+                    // appLockObserver).
+                    if (!enabled) {
+                        appLockUnlockedForSession = false
+                        lockOverlay.visibility = View.GONE
+                    }
                 }
             }
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -683,6 +817,111 @@ class MainActivity : AppCompatActivity() {
                 toolbar.animate().translationY(0f).setDuration(150).start()
             }
         }
+    }
+
+    // ------------------------------------------------------------------
+    // Offline handling. The WebView had no native fallback at all before
+    // this: a failed main-frame load (no network, or the Render backend
+    // asleep/cold-starting) just left a blank white page with no
+    // explanation and no way to retry short of manually pulling to refresh.
+    // A ConnectivityManager.NetworkCallback additionally auto-retries the
+    // instant connectivity actually comes back, rather than making the user
+    // notice and tap Retry themselves.
+    // ------------------------------------------------------------------
+    private fun configureOfflineHandling() {
+        offlineRetry.setOnClickListener {
+            offlineOverlay.visibility = View.GONE
+            webView.reload()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val request = NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                if (mainFrameLoadFailed) {
+                    runOnUiThread { webView.reload() }
+                }
+            }
+        }
+        networkCallback = callback
+        connectivityManager.registerNetworkCallback(request, callback)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        networkCallback?.let {
+            try {
+                connectivityManager.unregisterNetworkCallback(it)
+            } catch (e: IllegalArgumentException) {
+                // Already unregistered -- harmless, ConnectivityManager
+                // throws rather than no-ops for a stale callback.
+            }
+        }
+        networkCallback = null
+    }
+
+    // ------------------------------------------------------------------
+    // App Lock (drawer toggle, see configureDrawer): an optional
+    // BiometricPrompt gate shown at cold start and whenever the whole app
+    // process (not just this Activity) returns to the foreground, matching
+    // what a finance app's users would expect from a broker app's own PIN/
+    // biometric lock. Skipped silently when the device has no usable
+    // biometric/device-credential enrollment -- this is a convenience lock,
+    // not the app's real security boundary (that's the account/session on
+    // the deployed backend itself), so there's nothing to strand the user
+    // behind if the hardware can't support it.
+    // ------------------------------------------------------------------
+    private fun configureAppLock() {
+        lockUnlockButton.setOnClickListener { promptBiometric() }
+        ProcessLifecycleOwner.get().lifecycle.addObserver(appLockObserver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ProcessLifecycleOwner.get().lifecycle.removeObserver(appLockObserver)
+    }
+
+    private fun showLockOverlayAndPrompt() {
+        lockOverlay.visibility = View.VISIBLE
+        promptBiometric()
+    }
+
+    private fun promptBiometric() {
+        val biometricManager = BiometricManager.from(this)
+        val allowed = BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+        if (biometricManager.canAuthenticate(allowed) != BiometricManager.BIOMETRIC_SUCCESS) {
+            // No usable lock method enrolled -- don't strand the user
+            // behind a lock screen they have no way to pass.
+            Log.w(TAG, "App Lock enabled but no biometric/device credential available -- skipping prompt")
+            appLockUnlockedForSession = true
+            lockOverlay.visibility = View.GONE
+            return
+        }
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(getString(R.string.biometric_prompt_title))
+            .setSubtitle(getString(R.string.biometric_prompt_subtitle))
+            .setAllowedAuthenticators(allowed)
+            .build()
+        val prompt = BiometricPrompt(
+            this,
+            ContextCompat.getMainExecutor(this),
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    appLockUnlockedForSession = true
+                    lockOverlay.visibility = View.GONE
+                }
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    Log.w(TAG, "Biometric auth error $errorCode: $errString")
+                    // Overlay stays up -- lockUnlockButton lets the user
+                    // retry (e.g. after "too many attempts" cooldowns).
+                }
+            },
+        )
+        prompt.authenticate(promptInfo)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

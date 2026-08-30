@@ -6,3 +6,9 @@ local.properties
 .idea/
 captures/
 .cxx/
+
+# Release signing secrets -- never committed. See build.gradle.kts's
+# keystore.properties / ANDROID_RELEASE_* env var handling.
+keystore.properties
+*.jks
+*.keystore

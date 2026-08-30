@@ -92,6 +92,99 @@ This was implemented and CI-verified to compile and package correctly, but
 was no physical device or emulator available to reproduce the original bug
 on. If it recurs, the console log pipe above will show the actual error.
 
+## What's new in v3.0.0
+
+Native-app depth beyond the WebView shell, plus real Play Store readiness --
+the app was previously debug-build-only.
+
+- **Background alert notifications.** Previously, `window.AndroidAlerts.
+  postAlert(...)` only fired while the page's own JS was actually running,
+  so alerts stopped the instant the app was backgrounded or killed by the
+  OS -- a real gap for an app whose whole feature is market alerts.
+  `AlertsWorker` (a `CoroutineWorker`, scheduled via `WorkManager.
+  enqueueUniquePeriodicWork`) now polls the deployed backend's own
+  `GET /api/alerts` endpoint independently of the WebView and posts
+  notifications for anything new, whether or not the app is open. Stated
+  plainly: `PeriodicWorkRequest`'s minimum interval is **15 minutes** -- a
+  WorkManager/JobScheduler platform floor, not a choice made here -- so
+  this is "alerts survive the app being backgrounded or killed", not
+  "real-time in the background"; the in-app ticker is still the real-time
+  path while the app is actually open. On first-ever run the worker seeds
+  its "already seen" set silently instead of replaying the existing alert
+  history as a burst of new notifications.
+- **Per-category notification channels** (`NotificationChannels.kt`):
+  breakouts, volume alerts, technical alerts (VWAP/RSI/momentum), and
+  everything else are now four separate channels instead of one "Market
+  Alerts" channel -- a user who only cares about breakouts can mute volume
+  noise from Android's own per-channel settings, which wasn't possible
+  before.
+- **Notification tap deep links** (`nse500://symbol/<SYMBOL>`, declared on
+  `MainActivity`'s manifest intent-filter): tapping an alert notification
+  (foreground or background) now opens straight to the screener with that
+  symbol already typed into its search box, via a new
+  `window.__nativeSetSearch` bridge in `App.jsx` (same pattern as the
+  existing `window.__nativeSetView`) -- previously a notification tap just
+  opened the app to whatever state it happened to be in.
+- **Home screen widget** (`AlertsWidgetProvider.kt` + `widget_alerts.xml`):
+  shows the last-seen market status and the 3 most recent alerts. It has no
+  update schedule of its own (`updatePeriodMillis="0"`) -- it's refreshed by
+  `AlertsWorker` after every poll, so there's exactly one network poller
+  feeding both notifications and the widget, not two drifting out of sync.
+  A refresh button forces an immediate one-off poll rather than waiting for
+  the next scheduled run.
+- **Offline handling.** A failed main-frame load (no network, or the Render
+  backend cold-starting) previously just left a blank page with no
+  explanation. `MainActivity` now shows a native "You're offline" screen
+  with a Retry button, and a `ConnectivityManager.NetworkCallback`
+  auto-reloads the instant connectivity actually comes back rather than
+  waiting for the user to notice and tap Retry themselves.
+- **Optional biometric App Lock** (drawer toggle, `androidx.biometric`):
+  prompts for fingerprint/face/device credential at cold start and whenever
+  the whole app process (not just this Activity -- via
+  `ProcessLifecycleOwner`, so returning from the in-app browser doesn't
+  spuriously re-lock) returns to the foreground. Skipped silently on
+  devices with no enrolled biometric/credential, since this is a
+  convenience lock, not the app's real security boundary.
+- **Play Store readiness**: `compileSdk`/`targetSdk` bumped to 35, R8
+  minification + resource shrinking turned on for release builds (was
+  entirely off), and a real release signing config wired up. The signing
+  config is sourced from an untracked `android-app/keystore.properties`
+  file or `ANDROID_RELEASE_KEYSTORE`/`_KEYSTORE_PASSWORD`/`_KEY_ALIAS`/
+  `_KEY_PASSWORD` env vars -- **no keystore is or should ever be committed
+  to this repo**. Without either, `assembleRelease` still falls back to
+  debug signing (same as before), so nothing about the existing debug-APK
+  release flow changes; real Play signing is a drop-in the moment real
+  credentials exist. Because R8 is now on, `proguard-rules.pro` explicitly
+  keeps every `@JavascriptInterface`-annotated bridge method (R8 can't see
+  the WebView calling into them, since that happens from JS, not Kotlin) --
+  without this, minified release builds would have silently broken the
+  download bridge, connection-status bridge, and alerts bridge.
+- **Instrumented smoke tests** (`androidTest/…/MainActivityTest.kt`) for
+  the native chrome (bottom nav, drawer, toolbar) using Espresso -- CI now
+  also runs `assembleDebugAndroidTest` to prove they at least compile
+  against the current code (there's no emulator in that job to actually run
+  them; that needs `connectedAndroidTest` on a device/emulator).
+- **Dependabot** (`.github/dependabot.yml`) now watches this module's
+  Gradle dependencies and the repo's GitHub Actions workflows weekly.
+
+### Setting up real release signing (optional)
+
+Only needed for an actual Play Store / signed release build -- everything
+above works and CI stays green without this.
+
+```properties
+# android-app/keystore.properties (untracked -- see .gitignore)
+storeFile=/absolute/path/to/release.jks
+storePassword=...
+keyAlias=...
+keyPassword=...
+```
+
+Or, for CI, the equivalent `ANDROID_RELEASE_KEYSTORE` (a path the workflow
+writes the secret keystore file to), `ANDROID_RELEASE_KEYSTORE_PASSWORD`,
+`ANDROID_RELEASE_KEY_ALIAS`, `ANDROID_RELEASE_KEY_PASSWORD` environment
+variables.
+
 ## What's new in v2.2.1
 
 Fixes two real bugs found in v2.2.0's own new features, plus one more
@@ -252,3 +345,15 @@ overflow bug found by direct measurement:
   charting library's source and known WebView behavior, not a confirmed
   before/after on real hardware. Use the console log pipe above if it needs
   further diagnosis.
+- **Background alerts poll at most every 15 minutes** (see v3.0.0 above) —
+  a WorkManager/JobScheduler platform floor, not a tunable setting. Real-time
+  alerts still require the app open in the foreground.
+- **App Lock is a convenience lock, not a real security boundary** — it
+  gates the native UI, not the backend session/data itself, and is skipped
+  entirely on devices with no enrolled biometric or device credential.
+- The v3.0.0 native features above (`AlertsWorker`, `AlertsWidgetProvider`,
+  the offline screen, App Lock) were implemented and CI-verified to compile
+  and package correctly, but **not verified on a real device or emulator**
+  from this environment (same constraint as the chart fix above — no
+  device/emulator available here). `assembleDebugAndroidTest` proves the
+  instrumented smoke tests compile; it doesn't run them.

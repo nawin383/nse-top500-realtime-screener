@@ -31,6 +31,12 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --stacktrace
 
+      - name: Compile-check instrumented tests
+        # No emulator in this job, so this only proves the androidTest
+        # source set (MainActivityTest) actually compiles against the
+        # current app code -- it doesn't run the tests.
+        run: ./gradlew assembleDebugAndroidTest --stacktrace
+
       - name: Upload APK as workflow artifact
         uses: actions/upload-artifact@v4
         with:

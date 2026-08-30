@@ -63,6 +63,74 @@
                 android:clickable="false"
                 android:focusable="false" />
 
+            <!-- Shown instead of a blank WebView when there's no network and
+                 the main-frame load has actually failed (see MainActivity's
+                 ConnectivityManager.NetworkCallback + onReceivedError) --
+                 covers the real "offline = blank page" gap the WebView had
+                 no native handling for before. -->
+            <LinearLayout
+                android:id="@+id/offline_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/chrome_bg"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/offline_title"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/offline_message"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/offline_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/offline_retry" />
+
+            </LinearLayout>
+
+            <!-- App Lock scrim (drawer toggle, see MainActivity's biometric
+                 lock handling): shown at cold start and whenever the whole
+                 app process returns to the foreground while the toggle is
+                 on, until BiometricPrompt succeeds. -->
+            <LinearLayout
+                android:id="@+id/lock_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/chrome_bg"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="32dp"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lock_overlay_message"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/lock_unlock_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/unlock_button" />
+
+            </LinearLayout>
+
         </FrameLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
