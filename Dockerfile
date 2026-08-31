@@ -1,11 +1,11 @@
-FROM python:3.11-slim as backend
+FROM python:3.11.11-slim as backend
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential curl && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt .python-version runtime.txt ./
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 COPY backend ./backend
 COPY config ./config
@@ -19,7 +19,7 @@ CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000", "
 FROM node:18-alpine as frontend-build
 WORKDIR /frontend
 COPY frontend/package.json frontend/package-lock.json* ./
-RUN npm install
+RUN npm ci
 COPY frontend ./
 RUN npm run build
 

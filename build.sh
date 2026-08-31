@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
-pip install -r requirements.txt
+echo "Python $(python --version) pip $(pip --version)"
+pip install --upgrade pip
+pip install --no-cache-dir -r requirements.txt
+echo "Backend deps OK"
 if [ -d "frontend" ]; then
   echo "Building frontend..."
   cd frontend
@@ -9,7 +12,7 @@ if [ -d "frontend" ]; then
     curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
     apt-get install -y nodejs
   fi
-  npm install
+  npm ci
   npm run build
   cd ..
   echo "Frontend built to frontend/dist"
