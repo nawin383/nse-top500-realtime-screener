@@ -5,13 +5,13 @@ import { fmtPrice, fmtPct, fmtVol } from '../utils/format.js'
 
 export default function DetailPanel({ symbol, onClose, liveState, theme='dark' }){
   const [detail, setDetail] = useState(null)
-  const [interval, setInterval] = useState('1m')
+  const [intervalKey, setIntervalKey] = useState('1m')
 
   useEffect(()=>{
     if(!symbol) return
     fetchStockDetail(symbol).then(d=> setDetail(d)).catch(()=> setDetail(liveState))
-    const id=setInterval(()=> fetchStockDetail(symbol).then(d=> setDetail(d)).catch(()=>{}), 8000)
-    return ()=> clearInterval(id)
+    const id=window.setInterval(()=> fetchStockDetail(symbol).then(d=> setDetail(d)).catch(()=>{}), 8000)
+    return ()=> window.clearInterval(id)
   }, [symbol])
 
   const stateRaw = liveState || detail
@@ -33,7 +33,7 @@ export default function DetailPanel({ symbol, onClose, liveState, theme='dark' }
   if(!state) return <div className="detail-panel" style={{padding:20}}>Loading {symbol}...</div>
 
   const getCandles = (src, iv)=> src ? (src[iv] || src[iv.replace('m','')] || []) : []
-  const candles = getCandles(detail?.candles, interval) || []
+  const candles = getCandles(detail?.candles, intervalKey) || []
   const candleCount = candles.length
   const warming = candleCount < 14
   const isPos = (state.changePercent||0) >=0
@@ -84,7 +84,7 @@ export default function DetailPanel({ symbol, onClose, liveState, theme='dark' }
 
       <div style={{display:'flex', gap:6}}>
         {['1m','3m','5m','15m','30m'].map(it=>(
-          <button key={it} className={`btn sm ${interval===it?'active':''}`} onClick={()=> setInterval(it)} style={{flex:1, borderRadius:10, fontWeight:800, fontFamily:'JetBrains Mono'}}>{it}</button>
+          <button key={it} className={`btn sm ${intervalKey===it?'active':''}`} onClick={()=> setIntervalKey(it)} style={{flex:1, borderRadius:10, fontWeight:800, fontFamily:'JetBrains Mono'}}>{it}</button>
         ))}
       </div>
 
