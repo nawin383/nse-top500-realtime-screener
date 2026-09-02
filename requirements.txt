@@ -35,7 +35,9 @@ scikit-learn>=1.4.1
 numpy>=1.26.1
 pandas>=2.2.1
 scipy>=1.11.1
-ta>=0.11.1
+# FIX 2026-08-31: ta 0.11.1 does not exist on PyPI (latest is 0.11.0). Pip on Python 3.14
+# fails with "No matching distribution found for ta>=0.11.1". Pin to known good.
+ta==0.11.0
 
 # Elite quant scan (backend/app/analytics/elite_quant.py) -- runs once/day
 # in the background, never on the request path. curl_cffi gives yfinance
@@ -44,12 +46,17 @@ ta>=0.11.1
 # dependency, since yfinance silently falls back to a weaker plain-requests
 # client if this fails to install, with no crash, just worse odds against
 # Yahoo's anti-bot checks.
+# Both packages are optional on Python 3.14+ where wheels may lag; Render is
+# pinned to Python 3.11.11 via runtime.txt/.python-version, so they install
+# normally there. Marker keeps 3.14 builds from hard-failing.
 yfinance>=0.2.41
-curl_cffi>=0.15.1
+curl_cffi>=0.11.4; python_version < "3.14"
 
 # Security
 python-jose[cryptography]>=3.3.0
 passlib[bcrypt]>=1.7.4
+# passlib 1.7.4 is incompatible with bcrypt >=4.1 (missing __about__); pin to last compatible
+bcrypt==4.0.1
 
 # Database support
 sqlalchemy>=2.0.1
