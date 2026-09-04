@@ -60,8 +60,8 @@
         </receiver>
 
         <!-- Optional "lock screen" gesture target. Disabled until the user
-             explicitly turns it on in system Accessibility settings --
-             Settings > Advanced only deep-links there, it never self-grants. -->
+             explicitly turns it on in system Accessibility settings:
+             Settings, then Advanced, only deep-links there, it never self-grants. -->
         <service
             android:name=".gestures.LockAccessibilityService"
             android:exported="true"

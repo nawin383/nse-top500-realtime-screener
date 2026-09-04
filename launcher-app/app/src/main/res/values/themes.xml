@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Plain AOSP theme, not a Material Components one -- this app never
+    <!-- Plain AOSP theme, not a Material Components one: this app never
          pulls in the material-components-android library, so nothing here
          can accidentally introduce a colored default scheme. Compose owns
          all real theming; this only fixes the pre-Compose frame (window
