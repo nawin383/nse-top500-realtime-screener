@@ -156,6 +156,92 @@ class ConfigStore(context: Context) {
         s.copy(recentApps = updated)
     }
 
+    // --- Book Mode: pages ------------------------------------------------------
+
+    suspend fun addPage(name: String) = update { s ->
+        val trimmed = name.trim().ifEmpty { "Page ${s.book.pages.size + 1}" }
+        val page = BookPage(id = java.util.UUID.randomUUID().toString(), name = trimmed)
+        s.copy(book = s.book.copy(pages = s.book.pages + page))
+    }
+
+    suspend fun renamePage(pageId: String, newName: String) = update { s ->
+        val trimmed = newName.trim()
+        if (trimmed.isEmpty()) return@update s
+        s.copy(book = s.book.copy(pages = s.book.pages.map { if (it.id == pageId) it.copy(name = trimmed) else it }))
+    }
+
+    suspend fun deletePage(pageId: String) = update { s ->
+        s.copy(book = s.book.copy(pages = s.book.pages.filterNot { it.id == pageId }))
+    }
+
+    suspend fun setPageHidden(pageId: String, hidden: Boolean) = update { s ->
+        s.copy(book = s.book.copy(pages = s.book.pages.map { if (it.id == pageId) it.copy(hidden = hidden) else it }))
+    }
+
+    suspend fun movePage(pageId: String, delta: Int) = update { s ->
+        val list = s.book.pages.toMutableList()
+        val idx = list.indexOfFirst { it.id == pageId }
+        if (idx < 0) return@update s
+        val newIdx = (idx + delta).coerceIn(0, list.lastIndex)
+        if (newIdx == idx) return@update s
+        val page = list.removeAt(idx)
+        list.add(newIdx, page)
+        s.copy(book = s.book.copy(pages = list))
+    }
+
+    suspend fun addAppToPage(pageId: String, appKey: String) = update { s ->
+        s.copy(
+            book = s.book.copy(
+                pages = s.book.pages.map { page ->
+                    if (page.id == pageId && appKey !in page.appKeys) page.copy(appKeys = page.appKeys + appKey) else page
+                },
+            ),
+        )
+    }
+
+    suspend fun removeAppFromPage(pageId: String, appKey: String) = update { s ->
+        s.copy(
+            book = s.book.copy(
+                pages = s.book.pages.map { page ->
+                    if (page.id == pageId) page.copy(appKeys = page.appKeys.filterNot { it == appKey }) else page
+                },
+            ),
+        )
+    }
+
+    suspend fun moveAppInPage(pageId: String, appKey: String, delta: Int) = update { s ->
+        s.copy(
+            book = s.book.copy(
+                pages = s.book.pages.map { page ->
+                    if (page.id != pageId) return@map page
+                    val list = page.appKeys.toMutableList()
+                    val idx = list.indexOf(appKey)
+                    if (idx < 0) return@map page
+                    val newIdx = (idx + delta).coerceIn(0, list.lastIndex)
+                    if (newIdx == idx) return@map page
+                    list.removeAt(idx)
+                    list.add(newIdx, appKey)
+                    page.copy(appKeys = list)
+                },
+            ),
+        )
+    }
+
+    suspend fun setCover(cover: CoverConfig) = update { s -> s.copy(book = s.book.copy(cover = cover)) }
+
+    suspend fun setBackCover(backCover: BackCoverConfig) = update { s -> s.copy(book = s.book.copy(backCover = backCover)) }
+
+    suspend fun setPageIndicatorEnabled(enabled: Boolean) = update { s ->
+        s.copy(book = s.book.copy(pageIndicatorEnabled = enabled))
+    }
+
+    /** One-time migration: the first time Book Mode is opened with no pages yet, seed one "Home" page from the current favorites so nothing is lost. */
+    suspend fun ensureBookSeeded(favoriteKeys: List<String>) = update { s ->
+        if (s.book.pages.isNotEmpty()) return@update s
+        val seeded = BookPage(id = java.util.UUID.randomUUID().toString(), name = "Home", appKeys = favoriteKeys)
+        s.copy(book = s.book.copy(pages = listOf(seeded)))
+    }
+
     // --- Housekeeping / resets -----------------------------------------------------
 
     suspend fun pruneRemovedPackage(packageName: String) = update { s ->
@@ -165,6 +251,7 @@ class ConfigStore(context: Context) {
             entries = s.entries.filterKeys { !it.startsWith(prefix) },
             recentApps = s.recentApps.filterNot { it.startsWith(prefix) },
             shortcuts = s.shortcuts.filterNot { it.type == ShortcutType.APP && it.target.startsWith(prefix) },
+            book = s.book.copy(pages = s.book.pages.map { it.copy(appKeys = it.appKeys.filterNot { key -> key.startsWith(prefix) }) }),
         )
     }
 
@@ -173,6 +260,7 @@ class ConfigStore(context: Context) {
             appOrder = emptyList(),
             entries = s.entries.mapValues { (_, e) -> e.copy(hidden = false, favorite = false, groupName = null) },
             groups = emptyList(),
+            book = s.book.copy(pages = emptyList()),
         )
     }
 

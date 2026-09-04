@@ -5,7 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.AppSettings
+import com.puretext.launcher.data.BackCoverConfig
+import com.puretext.launcher.data.CoverConfig
 import com.puretext.launcher.data.GestureSettings
+import com.puretext.launcher.data.HomeMode
 import com.puretext.launcher.data.LauncherBackup
 import com.puretext.launcher.data.LauncherShortcut
 import com.puretext.launcher.data.ShortcutLauncher
@@ -92,6 +95,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         ShortcutLauncher.launch(getApplication(), shortcut, appRepository) { key -> uiState.value.appByKey(key) }
 
     fun setGestures(gestures: GestureSettings) = viewModelScope.launch { configStore.setGestures(gestures) }
+
+    // --- Book Mode ---------------------------------------------------------------
+
+    fun setHomeMode(mode: HomeMode) = viewModelScope.launch {
+        if (mode == HomeMode.BOOK) {
+            configStore.ensureBookSeeded(uiState.value.favoriteApps().map { it.key })
+        }
+        settingsStore.update { it.copy(homeMode = mode) }
+    }
+
+    fun addPage(name: String) = viewModelScope.launch { configStore.addPage(name) }
+
+    fun renamePage(pageId: String, newName: String) = viewModelScope.launch { configStore.renamePage(pageId, newName) }
+
+    fun deletePage(pageId: String) = viewModelScope.launch { configStore.deletePage(pageId) }
+
+    fun setPageHidden(pageId: String, hidden: Boolean) = viewModelScope.launch { configStore.setPageHidden(pageId, hidden) }
+
+    fun movePage(pageId: String, delta: Int) = viewModelScope.launch { configStore.movePage(pageId, delta) }
+
+    fun addAppToPage(pageId: String, app: AppInfo) = viewModelScope.launch { configStore.addAppToPage(pageId, app.key) }
+
+    fun removeAppFromPage(pageId: String, app: AppInfo) = viewModelScope.launch { configStore.removeAppFromPage(pageId, app.key) }
+
+    fun moveAppInPage(pageId: String, app: AppInfo, delta: Int) = viewModelScope.launch { configStore.moveAppInPage(pageId, app.key, delta) }
+
+    fun setCover(cover: CoverConfig) = viewModelScope.launch { configStore.setCover(cover) }
+
+    fun setBackCover(backCover: BackCoverConfig) = viewModelScope.launch { configStore.setBackCover(backCover) }
+
+    fun setPageIndicatorEnabled(enabled: Boolean) = viewModelScope.launch { configStore.setPageIndicatorEnabled(enabled) }
 
     fun updateSettings(transform: (AppSettings) -> AppSettings) = viewModelScope.launch { settingsStore.update(transform) }
 

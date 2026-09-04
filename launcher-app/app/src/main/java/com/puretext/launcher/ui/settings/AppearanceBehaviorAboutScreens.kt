@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.puretext.launcher.BuildConfig
 import com.puretext.launcher.LauncherUiState
 import com.puretext.launcher.data.AppSettings
+import com.puretext.launcher.data.HomeMode
 import com.puretext.launcher.data.ThemeStyle
 import com.puretext.launcher.ui.components.CycleRow
 import com.puretext.launcher.ui.components.LauncherText
@@ -23,10 +24,12 @@ import com.puretext.launcher.ui.theme.LocalLauncherColors
 fun AppearanceSettingsScreen(
     uiState: LauncherUiState,
     onUpdate: ((AppSettings) -> AppSettings) -> Unit,
+    onSetHomeMode: (HomeMode) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val settings = uiState.settings
+    val colors = LocalLauncherColors.current
     SettingsScaffold(title = "Appearance", onBack = onBack, modifier = modifier) { contentModifier ->
         Column(modifier = contentModifier.verticalScroll(rememberScrollState())) {
             CycleRow(
@@ -40,6 +43,24 @@ fun AppearanceSettingsScreen(
                 ToggleRow("True AMOLED black", settings.trueAmoled, onToggle = { onUpdate { s -> s.copy(trueAmoled = it) } })
             }
             ToggleRow("Animations", settings.animationsEnabled, onToggle = { onUpdate { s -> s.copy(animationsEnabled = it) } })
+
+            SectionLabel("Home Mode")
+            CycleRow(
+                label = "Mode",
+                valueLabel = if (settings.homeMode == HomeMode.CLASSIC) "Classic" else "Book",
+                onClick = { onSetHomeMode(if (settings.homeMode == HomeMode.CLASSIC) HomeMode.BOOK else HomeMode.CLASSIC) },
+            )
+            LauncherText(
+                text = if (settings.homeMode == HomeMode.CLASSIC) {
+                    "Classic: one flat list of favorite apps."
+                } else {
+                    "Book: swipe through named pages, cover to back cover. Manage pages under Pages in the settings list."
+                },
+                fontSizeSp = 13,
+                color = colors.foreground.copy(alpha = 0.6f),
+                applyCase = false,
+                modifier = Modifier.padding(top = 4.dp),
+            )
         }
     }
 }

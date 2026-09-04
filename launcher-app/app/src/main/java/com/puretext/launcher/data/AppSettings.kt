@@ -9,6 +9,7 @@ enum class TextCase { NORMAL, UPPERCASE, LOWERCASE, CAPITALIZED }
 enum class HomeAlignment { START, CENTER, END }
 enum class VerticalPosition { TOP, CENTER, BOTTOM }
 enum class DatePreset { LONG, SHORT, NUMERIC, ISO }
+enum class HomeMode { CLASSIC, BOOK }
 
 /**
  * Every scalar (non-list, non-map) preference. Persisted field-by-field in
@@ -25,6 +26,9 @@ data class AppSettings(
     val theme: ThemeStyle = ThemeStyle.BLACK,
     val trueAmoled: Boolean = true,
     val animationsEnabled: Boolean = true,
+    // V1's flat favorites list stays the default -- Book Mode is opt-in
+    // until it's been used on a real device.
+    val homeMode: HomeMode = HomeMode.CLASSIC,
 
     // Typography
     val fontFamily: FontFamilyOption = FontFamilyOption.SANS,

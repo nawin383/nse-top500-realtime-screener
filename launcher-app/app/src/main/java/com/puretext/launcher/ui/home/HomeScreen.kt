@@ -28,11 +28,12 @@ import androidx.core.content.ContextCompat
 import com.puretext.launcher.LauncherUiState
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.DatePreset
-import com.puretext.launcher.data.HomeAlignment
 import com.puretext.launcher.data.VerticalPosition
 import com.puretext.launcher.ui.components.AppRow
 import com.puretext.launcher.ui.components.LauncherText
 import com.puretext.launcher.ui.theme.LocalLauncherColors
+import com.puretext.launcher.ui.theme.toHorizontalAlignment
+import com.puretext.launcher.ui.theme.toTextAlign
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -60,16 +61,8 @@ fun HomeScreen(
         VerticalPosition.CENTER -> Arrangement.Center
         VerticalPosition.BOTTOM -> Arrangement.Bottom
     }
-    val horizontalAlignment = when (settings.homeAlignment) {
-        HomeAlignment.START -> Alignment.Start
-        HomeAlignment.CENTER -> Alignment.CenterHorizontally
-        HomeAlignment.END -> Alignment.End
-    }
-    val textAlign = when (settings.homeAlignment) {
-        HomeAlignment.START -> TextAlign.Start
-        HomeAlignment.CENTER -> TextAlign.Center
-        HomeAlignment.END -> TextAlign.End
-    }
+    val horizontalAlignment = settings.homeAlignment.toHorizontalAlignment()
+    val textAlign = settings.homeAlignment.toTextAlign()
 
     val favorites = remember(uiState) { uiState.favoriteApps() }
 

@@ -24,9 +24,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.puretext.launcher.data.GestureAction
 import com.puretext.launcher.data.GestureBinding
+import com.puretext.launcher.data.HomeMode
 import com.puretext.launcher.data.ThemeStyle
 import com.puretext.launcher.gestures.LockAccessibilityService
 import com.puretext.launcher.gestures.SystemPanels
+import com.puretext.launcher.ui.home.BookHomeScreen
 import com.puretext.launcher.ui.home.HomeScreen
 import com.puretext.launcher.ui.navigation.Router
 import com.puretext.launcher.ui.navigation.Screen
@@ -44,6 +46,7 @@ import com.puretext.launcher.ui.settings.GesturesSettingsScreen
 import com.puretext.launcher.ui.settings.HomeSettingsScreen
 import com.puretext.launcher.ui.settings.LayoutSettingsScreen
 import com.puretext.launcher.ui.settings.NotificationsSettingsScreen
+import com.puretext.launcher.ui.settings.PagesSettingsScreen
 import com.puretext.launcher.ui.settings.SearchSettingsScreen
 import com.puretext.launcher.ui.settings.SettingsRootScreen
 import com.puretext.launcher.ui.settings.ShortcutsSettingsScreen
@@ -143,16 +146,28 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
             )
 
             else -> when (val screen = router.current) {
-                is Screen.Home -> HomeScreen(
-                    uiState = uiState,
-                    onLaunch = { viewModel.launchApp(it) },
-                    onSwipeUp = { activity.dispatchGesture(uiState.state.gestures.swipeUp) },
-                    onSwipeDown = { activity.dispatchGesture(uiState.state.gestures.swipeDown) },
-                    onSwipeLeft = { activity.dispatchGesture(uiState.state.gestures.swipeLeft) },
-                    onSwipeRight = { activity.dispatchGesture(uiState.state.gestures.swipeRight) },
-                    onDoubleTap = { activity.dispatchGesture(uiState.state.gestures.doubleTap) },
-                    onLongPress = { activity.dispatchGesture(uiState.state.gestures.longPress) },
-                )
+                is Screen.Home -> if (uiState.settings.homeMode == HomeMode.BOOK) {
+                    BookHomeScreen(
+                        uiState = uiState,
+                        onLaunch = { viewModel.launchApp(it) },
+                        onSwipeUp = { activity.dispatchGesture(uiState.state.gestures.swipeUp) },
+                        onSwipeDown = { activity.dispatchGesture(uiState.state.gestures.swipeDown) },
+                        onDoubleTap = { activity.dispatchGesture(uiState.state.gestures.doubleTap) },
+                        onLongPress = { activity.dispatchGesture(uiState.state.gestures.longPress) },
+                        onOpenSettings = { router.push(Screen.SettingsRoot) },
+                    )
+                } else {
+                    HomeScreen(
+                        uiState = uiState,
+                        onLaunch = { viewModel.launchApp(it) },
+                        onSwipeUp = { activity.dispatchGesture(uiState.state.gestures.swipeUp) },
+                        onSwipeDown = { activity.dispatchGesture(uiState.state.gestures.swipeDown) },
+                        onSwipeLeft = { activity.dispatchGesture(uiState.state.gestures.swipeLeft) },
+                        onSwipeRight = { activity.dispatchGesture(uiState.state.gestures.swipeRight) },
+                        onDoubleTap = { activity.dispatchGesture(uiState.state.gestures.doubleTap) },
+                        onLongPress = { activity.dispatchGesture(uiState.state.gestures.longPress) },
+                    )
+                }
 
                 is Screen.Search -> SearchScreen(
                     uiState = uiState,
@@ -200,6 +215,22 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                     onBack = { router.pop() },
                 )
 
+                Screen.SettingsPages -> PagesSettingsScreen(
+                    uiState = uiState,
+                    onAddPage = viewModel::addPage,
+                    onRenamePage = viewModel::renamePage,
+                    onDeletePage = viewModel::deletePage,
+                    onSetPageHidden = viewModel::setPageHidden,
+                    onMovePage = viewModel::movePage,
+                    onAddAppToPage = viewModel::addAppToPage,
+                    onRemoveAppFromPage = viewModel::removeAppFromPage,
+                    onMoveAppInPage = viewModel::moveAppInPage,
+                    onSetCover = viewModel::setCover,
+                    onSetBackCover = viewModel::setBackCover,
+                    onSetPageIndicatorEnabled = viewModel::setPageIndicatorEnabled,
+                    onBack = { router.pop() },
+                )
+
                 Screen.SettingsTypography -> TypographySettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
                 Screen.SettingsLayout -> LayoutSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
                 Screen.SettingsClock -> ClockSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
@@ -214,7 +245,12 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                     onBack = { router.pop() },
                 )
 
-                Screen.SettingsAppearance -> AppearanceSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
+                Screen.SettingsAppearance -> AppearanceSettingsScreen(
+                    uiState = uiState,
+                    onUpdate = viewModel::updateSettings,
+                    onSetHomeMode = viewModel::setHomeMode,
+                    onBack = { router.pop() },
+                )
                 Screen.SettingsBehavior -> BehaviorSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
                 Screen.SettingsNotifications -> NotificationsSettingsScreen(uiState.settings, viewModel::updateSettings, onBack = { router.pop() })
 

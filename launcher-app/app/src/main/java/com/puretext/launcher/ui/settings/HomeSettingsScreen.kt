@@ -28,6 +28,7 @@ fun HomeSettingsScreen(
 
             SectionLabel("Manage")
             NavRow("Apps on home screen", "Favorites, order, hidden apps", onClick = { onNavigate(Screen.SettingsApps) })
+            NavRow("Pages", "Book Mode pages, cover, back cover", onClick = { onNavigate(Screen.SettingsPages) })
             NavRow("Clock", "Format, seconds", onClick = { onNavigate(Screen.SettingsClock) })
             NavRow("Date", "Format", onClick = { onNavigate(Screen.SettingsDate) })
             NavRow("Layout", "Position, margins, spacing", onClick = { onNavigate(Screen.SettingsLayout) })

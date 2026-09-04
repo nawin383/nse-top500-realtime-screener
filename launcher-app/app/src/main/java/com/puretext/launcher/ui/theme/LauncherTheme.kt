@@ -3,11 +3,14 @@ package com.puretext.launcher.ui.theme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import com.puretext.launcher.data.AppSettings
 import com.puretext.launcher.data.FontFamilyOption
+import com.puretext.launcher.data.HomeAlignment
 import com.puretext.launcher.data.TextCase
 import com.puretext.launcher.data.TextWeight
 import com.puretext.launcher.data.ThemeStyle
@@ -38,6 +41,18 @@ fun TextWeight.toComposeFontWeight(): FontWeight = when (this) {
     TextWeight.REGULAR -> FontWeight.Normal
     TextWeight.MEDIUM -> FontWeight.Medium
     TextWeight.BOLD -> FontWeight.Bold
+}
+
+fun HomeAlignment.toHorizontalAlignment(): Alignment.Horizontal = when (this) {
+    HomeAlignment.START -> Alignment.Start
+    HomeAlignment.CENTER -> Alignment.CenterHorizontally
+    HomeAlignment.END -> Alignment.End
+}
+
+fun HomeAlignment.toTextAlign(): TextAlign = when (this) {
+    HomeAlignment.START -> TextAlign.Start
+    HomeAlignment.CENTER -> TextAlign.Center
+    HomeAlignment.END -> TextAlign.End
 }
 
 fun applyTextCase(text: String, case: TextCase): String = when (case) {

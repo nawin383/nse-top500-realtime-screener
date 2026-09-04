@@ -54,6 +54,7 @@ class SettingsStore(context: Context) {
         val d = AppSettings()
         it.copy(
             theme = d.theme,
+            homeMode = d.homeMode,
             trueAmoled = d.trueAmoled,
             animationsEnabled = d.animationsEnabled,
             fontFamily = d.fontFamily,
@@ -98,6 +99,7 @@ class SettingsStore(context: Context) {
     private object Keys {
         val ONBOARDING = booleanPreferencesKey("onboarding_completed")
         val THEME = stringPreferencesKey("theme")
+        val HOME_MODE = stringPreferencesKey("home_mode")
         val AMOLED = booleanPreferencesKey("true_amoled")
         val ANIMATIONS = booleanPreferencesKey("animations_enabled")
         val FONT_FAMILY = stringPreferencesKey("font_family")
@@ -137,6 +139,7 @@ class SettingsStore(context: Context) {
         return AppSettings(
             onboardingCompleted = this[Keys.ONBOARDING] ?: d.onboardingCompleted,
             theme = safeEnumOf(this[Keys.THEME], d.theme),
+            homeMode = safeEnumOf(this[Keys.HOME_MODE], d.homeMode),
             trueAmoled = this[Keys.AMOLED] ?: d.trueAmoled,
             animationsEnabled = this[Keys.ANIMATIONS] ?: d.animationsEnabled,
             fontFamily = safeEnumOf(this[Keys.FONT_FAMILY], d.fontFamily),
@@ -175,6 +178,7 @@ class SettingsStore(context: Context) {
     private fun androidx.datastore.preferences.core.MutablePreferences.writeAppSettings(s: AppSettings) {
         this[Keys.ONBOARDING] = s.onboardingCompleted
         this[Keys.THEME] = s.theme.name
+        this[Keys.HOME_MODE] = s.homeMode.name
         this[Keys.AMOLED] = s.trueAmoled
         this[Keys.ANIMATIONS] = s.animationsEnabled
         this[Keys.FONT_FAMILY] = s.fontFamily.name

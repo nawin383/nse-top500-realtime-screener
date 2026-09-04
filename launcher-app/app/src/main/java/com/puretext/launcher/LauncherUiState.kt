@@ -2,6 +2,7 @@ package com.puretext.launcher
 
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.AppSettings
+import com.puretext.launcher.data.BookPage
 import com.puretext.launcher.data.LauncherState
 
 /**
@@ -47,6 +48,12 @@ data class LauncherUiState(
         visibleApps(includeHidden).filter { groupOf(it) == null }
 
     fun appByKey(key: String): AppInfo? = byKey[key]
+
+    /** Book Mode content pages, in order, optionally including hidden ones. Uninstalled apps drop out automatically. */
+    fun bookPages(includeHidden: Boolean = false): List<BookPage> =
+        state.book.pages.filter { includeHidden || !it.hidden }
+
+    fun appsInPage(page: BookPage): List<AppInfo> = page.appKeys.mapNotNull { byKey[it] }
 
     fun search(query: String, includeHidden: Boolean = false, byPackageName: Boolean = true): List<AppInfo> {
         if (query.isBlank()) return visibleApps(includeHidden)

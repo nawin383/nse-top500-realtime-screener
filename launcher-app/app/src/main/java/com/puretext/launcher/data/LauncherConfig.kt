@@ -85,6 +85,7 @@ data class LauncherState(
     val shortcuts: List<LauncherShortcut> = emptyList(),
     val gestures: GestureSettings = GestureSettings(),
     val recentApps: List<String> = emptyList(),
+    val book: BookState = BookState(),
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1

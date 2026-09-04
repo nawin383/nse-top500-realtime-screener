@@ -10,6 +10,7 @@ sealed interface Screen {
     data object SettingsRoot : Screen
     data object SettingsHome : Screen
     data object SettingsApps : Screen
+    data object SettingsPages : Screen
     data object SettingsTypography : Screen
     data object SettingsLayout : Screen
     data object SettingsClock : Screen
