@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -19,6 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.graphicsLayer
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,9 +38,13 @@ import com.puretext.launcher.ui.theme.toTextAlign
 
 /**
  * Book Mode's home screen: cover, then one page per [BookPage], then a back
- * cover, navigated with a native HorizontalPager (cheap, smooth, no 3D/page
- * -curl rendering cost). Vertical swipe/tap gestures still work via
- * [bookVerticalGestures] on the surrounding Box; left/right is reserved
+ * cover, navigated with a native HorizontalPager. The optional 3D page-turn
+ * ([pageFlip]) is a pure graphicsLayer rotation driven by the pager's own
+ * offset -- GPU-composited, no bitmap/texture cost, so it's cheap enough to
+ * leave the pager's normal swipe/fling physics completely untouched; true
+ * page-curl geometry was deliberately skipped for that same reason. Vertical
+ * swipe/tap gestures still work via [bookVerticalGestures] on the
+ * surrounding Box; left/right is reserved
  * entirely for the pager.
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -99,33 +106,39 @@ fun BookHomeScreen(
             ),
     ) {
         HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { index ->
-            when (index) {
-                0 -> CoverPageContent(
-                    title = uiState.state.book.cover.title,
-                    subtitle = uiState.state.book.cover.subtitle,
-                    settings = settings,
-                    horizontalAlignment = horizontalAlignment,
-                    textAlign = textAlign,
-                )
-                totalPages - 1 -> BackCoverPageContent(
-                    text = uiState.state.book.backCover.text,
-                    settings = settings,
-                    horizontalAlignment = horizontalAlignment,
-                    textAlign = textAlign,
-                    onOpenSettings = onOpenSettings,
-                )
-                else -> {
-                    val page = pages[index - 1]
-                    ContentPageContent(
-                        page = page,
-                        uiState = uiState,
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .then(if (settings.bookPageFlipEnabled) Modifier.pageFlip(pagerState, index) else Modifier),
+            ) {
+                when (index) {
+                    0 -> CoverPageContent(
+                        title = uiState.state.book.cover.title,
+                        subtitle = uiState.state.book.cover.subtitle,
                         settings = settings,
                         horizontalAlignment = horizontalAlignment,
                         textAlign = textAlign,
-                        onLaunch = onLaunch,
-                        focusActive = focusActive,
-                        now = now,
                     )
+                    totalPages - 1 -> BackCoverPageContent(
+                        text = uiState.state.book.backCover.text,
+                        settings = settings,
+                        horizontalAlignment = horizontalAlignment,
+                        textAlign = textAlign,
+                        onOpenSettings = onOpenSettings,
+                    )
+                    else -> {
+                        val page = pages[index - 1]
+                        ContentPageContent(
+                            page = page,
+                            uiState = uiState,
+                            settings = settings,
+                            horizontalAlignment = horizontalAlignment,
+                            textAlign = textAlign,
+                            onLaunch = onLaunch,
+                            focusActive = focusActive,
+                            now = now,
+                        )
+                    }
                 }
             }
         }
@@ -290,4 +303,17 @@ private fun ContentPageContent(
             }
         }
     }
+}
+
+/**
+ * Rotates a page around its trailing edge as it slides toward/away from
+ * center, like a page turning in a book -- purely a per-frame graphicsLayer
+ * property (rotationY/cameraDistance/transformOrigin), so it costs nothing
+ * beyond what the pager's own drag/fling already recomputes each frame.
+ */
+private fun Modifier.pageFlip(pagerState: PagerState, page: Int): Modifier = this.graphicsLayer {
+    val pageOffset = ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).coerceIn(-1f, 1f)
+    rotationY = pageOffset * 90f
+    cameraDistance = 12f * density
+    transformOrigin = TransformOrigin(if (pageOffset < 0f) 1f else 0f, 0.5f)
 }

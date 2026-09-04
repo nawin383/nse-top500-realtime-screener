@@ -261,6 +261,7 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                     onSetCover = viewModel::setCover,
                     onSetBackCover = viewModel::setBackCover,
                     onSetPageIndicatorEnabled = viewModel::setPageIndicatorEnabled,
+                    onSetPageFlipEnabled = { enabled -> viewModel.updateSettings { s -> s.copy(bookPageFlipEnabled = enabled) } },
                     onSetPageCustomStyleEnabled = viewModel::setPageCustomStyleEnabled,
                     onSetPageStyle = viewModel::setPageStyle,
                     onBack = { router.pop() },

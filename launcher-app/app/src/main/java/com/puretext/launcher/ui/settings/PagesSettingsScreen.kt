@@ -55,6 +55,7 @@ fun PagesSettingsScreen(
     onSetCover: (CoverConfig) -> Unit,
     onSetBackCover: (BackCoverConfig) -> Unit,
     onSetPageIndicatorEnabled: (Boolean) -> Unit,
+    onSetPageFlipEnabled: (Boolean) -> Unit,
     onSetPageCustomStyleEnabled: (String, Boolean) -> Unit,
     onSetPageStyle: (String, BookPageStyle) -> Unit,
     onBack: () -> Unit,
@@ -92,6 +93,11 @@ fun PagesSettingsScreen(
                 "Show page indicator",
                 uiState.state.book.pageIndicatorEnabled,
                 onToggle = onSetPageIndicatorEnabled,
+            )
+            ToggleRow(
+                "3D page flip animation",
+                uiState.settings.bookPageFlipEnabled,
+                onToggle = onSetPageFlipEnabled,
             )
 
             SectionLabel("Cover")

@@ -88,6 +88,11 @@ data class AppSettings(
     // app-op check, these only reflect whether the user turned the feature on)
     val agendaEnabled: Boolean = false,
     val usageStatsEnabled: Boolean = false,
+
+    // Book Mode: an optional 3D page-turn transform on the pager, driven purely
+    // by a graphicsLayer rotation (GPU-composited, no bitmap/texture cost) --
+    // off by default like every other opt-in animation flourish.
+    val bookPageFlipEnabled: Boolean = false,
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1

@@ -57,6 +57,7 @@ class SettingsStore(context: Context) {
             homeMode = d.homeMode,
             trueAmoled = d.trueAmoled,
             animationsEnabled = d.animationsEnabled,
+            bookPageFlipEnabled = d.bookPageFlipEnabled,
             fontFamily = d.fontFamily,
             fontWeight = d.fontWeight,
             textCase = d.textCase,
@@ -142,6 +143,7 @@ class SettingsStore(context: Context) {
         val NOTIFICATION_COUNT_ENABLED = booleanPreferencesKey("notification_count_enabled")
         val AGENDA_ENABLED = booleanPreferencesKey("agenda_enabled")
         val USAGE_STATS_ENABLED = booleanPreferencesKey("usage_stats_enabled")
+        val BOOK_PAGE_FLIP_ENABLED = booleanPreferencesKey("book_page_flip_enabled")
     }
 
     private fun Preferences.toAppSettings(): AppSettings {
@@ -187,6 +189,7 @@ class SettingsStore(context: Context) {
             notificationCountEnabled = this[Keys.NOTIFICATION_COUNT_ENABLED] ?: d.notificationCountEnabled,
             agendaEnabled = this[Keys.AGENDA_ENABLED] ?: d.agendaEnabled,
             usageStatsEnabled = this[Keys.USAGE_STATS_ENABLED] ?: d.usageStatsEnabled,
+            bookPageFlipEnabled = this[Keys.BOOK_PAGE_FLIP_ENABLED] ?: d.bookPageFlipEnabled,
         )
     }
 
@@ -231,5 +234,6 @@ class SettingsStore(context: Context) {
         this[Keys.NOTIFICATION_COUNT_ENABLED] = s.notificationCountEnabled
         this[Keys.AGENDA_ENABLED] = s.agendaEnabled
         this[Keys.USAGE_STATS_ENABLED] = s.usageStatsEnabled
+        this[Keys.BOOK_PAGE_FLIP_ENABLED] = s.bookPageFlipEnabled
     }
 }
