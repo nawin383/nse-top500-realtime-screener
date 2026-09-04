@@ -4,6 +4,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -313,8 +315,8 @@ fun AppPickerDialog(
                 .heightIn(max = 480.dp),
         ) {
             LauncherText(text = "Choose App", fontSizeSp = 18, color = colors.foreground, modifier = Modifier.padding(bottom = 12.dp))
-            androidx.compose.foundation.lazy.LazyColumn {
-                androidx.compose.foundation.lazy.items(apps, key = { it.key }) { app ->
+            LazyColumn {
+                items(apps, key = { it.key }) { app ->
                     LauncherText(
                         text = displayName(app),
                         fontSizeSp = 15,
@@ -340,8 +342,8 @@ fun <T> PickerDialog(title: String, options: List<Pair<String, T>>, onSelect: (T
                 .heightIn(max = 480.dp),
         ) {
             LauncherText(text = title, fontSizeSp = 18, color = colors.foreground, modifier = Modifier.padding(bottom = 12.dp))
-            androidx.compose.foundation.lazy.LazyColumn {
-                androidx.compose.foundation.lazy.items(options) { (label, value) ->
+            LazyColumn {
+                items(options) { (label, value) ->
                     LauncherText(
                         text = label,
                         fontSizeSp = 15,
