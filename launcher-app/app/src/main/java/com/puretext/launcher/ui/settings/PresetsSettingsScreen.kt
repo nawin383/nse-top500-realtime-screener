@@ -63,8 +63,8 @@ fun PresetsSettingsScreen(
                 )
             }
 
-            SectionLabel("Custom (${uiState.state.presets.size})")
-            if (uiState.state.presets.isEmpty()) {
+            SectionLabel("Custom (${uiState.presets.size})")
+            if (uiState.presets.isEmpty()) {
                 LauncherText(
                     text = "None yet.",
                     fontSizeSp = 13,
@@ -72,7 +72,7 @@ fun PresetsSettingsScreen(
                     applyCase = false,
                 )
             }
-            uiState.state.presets.forEach { preset ->
+            uiState.presets.forEach { preset ->
                 PresetRow(
                     name = preset.name,
                     onApply = { onApply(preset) },

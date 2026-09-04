@@ -48,6 +48,7 @@ import com.puretext.launcher.ui.settings.LayoutSettingsScreen
 import com.puretext.launcher.ui.settings.NotificationsSettingsScreen
 import com.puretext.launcher.ui.settings.PagesSettingsScreen
 import com.puretext.launcher.ui.settings.PresetsSettingsScreen
+import com.puretext.launcher.ui.settings.ProfilesSettingsScreen
 import com.puretext.launcher.ui.settings.SearchSettingsScreen
 import com.puretext.launcher.ui.settings.SettingsRootScreen
 import com.puretext.launcher.ui.settings.ShortcutsSettingsScreen
@@ -202,6 +203,16 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                     uiState = uiState,
                     onUpdate = viewModel::updateSettings,
                     onNavigate = { router.push(it) },
+                    onBack = { router.pop() },
+                )
+
+                Screen.SettingsProfiles -> ProfilesSettingsScreen(
+                    uiState = uiState,
+                    onAdd = viewModel::addProfile,
+                    onSwitch = viewModel::switchProfile,
+                    onRename = viewModel::renameProfile,
+                    onDuplicate = viewModel::duplicateProfile,
+                    onDelete = viewModel::deleteProfile,
                     onBack = { router.pop() },
                 )
 

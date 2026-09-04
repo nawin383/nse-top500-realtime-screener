@@ -46,9 +46,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val uiState: StateFlow<LauncherUiState> = combine(
         appRepository.apps,
         settingsStore.settings,
-        configStore.state,
-    ) { apps, settings, state ->
-        LauncherUiState(allApps = apps, settings = settings, state = state, loading = false)
+        configStore.collection,
+    ) { apps, settings, collection ->
+        LauncherUiState(
+            allApps = apps,
+            settings = settings,
+            state = collection.activeState(),
+            profiles = collection.profiles,
+            activeProfileId = collection.activeProfileId,
+            presets = collection.presets,
+            loading = false,
+        )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), LauncherUiState())
 
     fun refreshApps() = viewModelScope.launch { appRepository.refresh() }
@@ -165,6 +173,30 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deletePreset(id: String) = viewModelScope.launch { configStore.deletePreset(id) }
 
+    // --- Profiles --------------------------------------------------------------------
+
+    fun addProfile(name: String) = viewModelScope.launch { configStore.addProfile(name) }
+
+    fun renameProfile(id: String, newName: String) = viewModelScope.launch { configStore.renameProfile(id, newName) }
+
+    fun duplicateProfile(id: String, newName: String) = viewModelScope.launch { configStore.duplicateProfile(id, newName) }
+
+    /** No-op if [id] is the last remaining profile -- ConfigStore itself refuses that, this just avoids switching to a profile that never changed. */
+    fun deleteProfile(id: String) = viewModelScope.launch { configStore.deleteProfile(id) }
+
+    /**
+     * Switching profiles can change Home Mode's meaning (Book Mode needs a
+     * seeded page), so this reads config fresh rather than off [uiState] --
+     * a stale cached value here could seed the wrong profile's pages.
+     */
+    fun switchProfile(id: String) = viewModelScope.launch {
+        configStore.switchProfile(id)
+        if (settingsStore.current().homeMode == HomeMode.BOOK) {
+            val favorites = configStore.current().appOrder
+            configStore.ensureBookSeeded(favorites)
+        }
+    }
+
     fun updateSettings(transform: (AppSettings) -> AppSettings) = viewModelScope.launch { settingsStore.update(transform) }
 
     fun completeOnboarding(selectedFavorites: List<AppInfo>) = viewModelScope.launch {
@@ -197,20 +229,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     // --- Backup ----------------------------------------------------------------------
 
     suspend fun exportBackupJson(): String {
-        val backup = LauncherBackup(settings = settingsStore.current(), state = configStore.current())
+        val backup = LauncherBackup(settings = settingsStore.current(), state = configStore.currentCollection())
         return backupJson.encodeToString(LauncherBackup.serializer(), backup)
     }
 
-    /** Never throws: malformed/corrupt/foreign JSON returns false and leaves current config untouched. */
+    /** Never throws: malformed/corrupt/foreign JSON (including a pre-Profiles export) returns false and leaves current config untouched. */
     suspend fun importBackupJson(raw: String): Boolean {
         val backup = try {
             backupJson.decodeFromString(LauncherBackup.serializer(), raw)
         } catch (e: Exception) {
             return false
         }
+        if (backup.state.profiles.isEmpty()) return false
         val onboarded = settingsStore.current().onboardingCompleted
         settingsStore.replaceAll(backup.settings.copy(onboardingCompleted = onboarded))
-        configStore.replaceAll(backup.state)
+        configStore.replaceCollection(backup.state)
         return true
     }
 }

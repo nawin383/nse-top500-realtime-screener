@@ -14,6 +14,7 @@ sealed interface Screen {
     data object SettingsTypography : Screen
     data object SettingsLayout : Screen
     data object SettingsPresets : Screen
+    data object SettingsProfiles : Screen
     data object SettingsClock : Screen
     data object SettingsDate : Screen
     data object SettingsSearch : Screen

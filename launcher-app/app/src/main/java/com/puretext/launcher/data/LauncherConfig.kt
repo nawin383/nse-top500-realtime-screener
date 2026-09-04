@@ -99,9 +99,39 @@ data class LauncherState(
     val recentApps: List<String> = emptyList(),
     val book: BookState = BookState(),
     val searchLearning: SearchLearning = SearchLearning(),
-    val presets: List<StylePreset> = emptyList(),
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1
     }
 }
+
+/** One named context: its own pages, apps, groups, gestures, shortcuts, recents. */
+@Serializable
+data class Profile(
+    val id: String,
+    val name: String,
+    val state: LauncherState = LauncherState(),
+)
+
+/**
+ * The top-level persisted blob: every [Profile] plus which one is active,
+ * plus [presets] -- presets bundle *global* typography/layout (AppSettings
+ * fields), so they live here rather than inside a per-profile LauncherState.
+ * Every install starts with exactly one profile and can never be left with
+ * zero (see ConfigStore.deleteProfile).
+ */
+@Serializable
+data class ProfileCollection(
+    val schemaVersion: Int = CURRENT_SCHEMA_VERSION,
+    val profiles: List<Profile> = listOf(Profile(id = DEFAULT_PROFILE_ID, name = "Personal")),
+    val activeProfileId: String = DEFAULT_PROFILE_ID,
+    val presets: List<StylePreset> = emptyList(),
+) {
+    companion object {
+        const val CURRENT_SCHEMA_VERSION = 1
+        const val DEFAULT_PROFILE_ID = "default"
+    }
+}
+
+fun ProfileCollection.activeState(): LauncherState =
+    profiles.find { it.id == activeProfileId }?.state ?: profiles.firstOrNull()?.state ?: LauncherState()

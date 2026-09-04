@@ -5,6 +5,8 @@ import com.puretext.launcher.data.AppSettings
 import com.puretext.launcher.data.AutoLaunchLevel
 import com.puretext.launcher.data.BookPage
 import com.puretext.launcher.data.LauncherState
+import com.puretext.launcher.data.Profile
+import com.puretext.launcher.data.StylePreset
 
 /**
  * One combined, always-consistent snapshot of everything the UI reads:
@@ -19,6 +21,10 @@ data class LauncherUiState(
     val allApps: List<AppInfo> = emptyList(),
     val settings: AppSettings = AppSettings(),
     val state: LauncherState = LauncherState(),
+    /** Every profile, for the Profiles settings screen -- [state] above is always just the active one's. */
+    val profiles: List<Profile> = emptyList(),
+    val activeProfileId: String = "",
+    val presets: List<StylePreset> = emptyList(),
     val loading: Boolean = true,
 ) {
     private val byKey: Map<String, AppInfo> by lazy { allApps.associateBy { it.key } }

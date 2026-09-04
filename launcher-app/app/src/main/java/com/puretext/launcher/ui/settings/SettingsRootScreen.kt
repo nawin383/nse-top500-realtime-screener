@@ -19,6 +19,7 @@ private data class SettingsCategory(val label: String, val description: String, 
 
 private val CATEGORIES = listOf(
     SettingsCategory("Home", "What shows on your home screen", Screen.SettingsHome),
+    SettingsCategory("Profiles", "Separate app sets and pages, e.g. Work / Personal", Screen.SettingsProfiles),
     SettingsCategory("Apps", "Show, hide, rename, reorder, group", Screen.SettingsApps),
     SettingsCategory("Pages", "Book Mode pages, cover, back cover", Screen.SettingsPages),
     SettingsCategory("Typography", "Font, size, spacing, case", Screen.SettingsTypography),

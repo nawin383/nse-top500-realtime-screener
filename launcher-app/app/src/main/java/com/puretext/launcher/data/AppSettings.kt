@@ -89,14 +89,14 @@ data class AppSettings(
     }
 }
 
-/** The full backup payload: scalar settings + the list/map config blob. */
+/** The full backup payload: scalar settings + every profile + presets. */
 @Serializable
 data class LauncherBackup(
     val backupVersion: Int = CURRENT_BACKUP_VERSION,
     val settings: AppSettings = AppSettings(),
-    val state: LauncherState = LauncherState(),
+    val state: ProfileCollection = ProfileCollection(),
 ) {
     companion object {
-        const val CURRENT_BACKUP_VERSION = 1
+        const val CURRENT_BACKUP_VERSION = 2
     }
 }
