@@ -51,6 +51,8 @@ fun BookHomeScreen(
     onLongPress: () -> Unit,
     onOpenSettings: () -> Unit,
     onOpenFocus: () -> Unit,
+    pendingOpenPageId: String? = null,
+    onConsumePendingOpenPage: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val settings = uiState.settings
@@ -70,6 +72,16 @@ fun BookHomeScreen(
     val pages = remember(uiState) { uiState.bookPages() }
     val totalPages = pages.size + 2
     val pagerState = rememberPagerState(pageCount = { totalPages })
+
+    // An "Open Page" automation rule sets this; jump there once, then clear it -- a page
+    // rename/reorder or a rule that outlives the page it targets should never re-trigger.
+    LaunchedEffect(pendingOpenPageId, pages) {
+        if (pendingOpenPageId != null) {
+            val index = pages.indexOfFirst { it.id == pendingOpenPageId }
+            if (index >= 0) pagerState.animateScrollToPage(index + 1)
+            onConsumePendingOpenPage()
+        }
+    }
 
     val horizontalAlignment = settings.homeAlignment.toHorizontalAlignment()
     val textAlign = settings.homeAlignment.toTextAlign()

@@ -143,6 +143,7 @@ data class ProfileCollection(
     val profiles: List<Profile> = listOf(Profile(id = DEFAULT_PROFILE_ID, name = "Personal")),
     val activeProfileId: String = DEFAULT_PROFILE_ID,
     val presets: List<StylePreset> = emptyList(),
+    val automationRules: List<AutomationRule> = emptyList(),
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1

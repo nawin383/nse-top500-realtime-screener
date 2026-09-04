@@ -20,6 +20,7 @@ sealed interface Screen {
     data object SettingsProductivity : Screen
     data object Agenda : Screen
     data object UsageStats : Screen
+    data object SettingsAutomation : Screen
     data object SettingsClock : Screen
     data object SettingsDate : Screen
     data object SettingsSearch : Screen

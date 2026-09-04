@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.AppSettings
+import com.puretext.launcher.data.AutomationRule
 import com.puretext.launcher.data.BackCoverConfig
 import com.puretext.launcher.data.CoverConfig
 import com.puretext.launcher.data.GestureSettings
@@ -12,6 +13,8 @@ import com.puretext.launcher.data.HomeMode
 import com.puretext.launcher.data.LauncherBackup
 import com.puretext.launcher.data.BookPageStyle
 import com.puretext.launcher.data.LauncherShortcut
+import com.puretext.launcher.data.RuleAction
+import com.puretext.launcher.data.RuleTrigger
 import com.puretext.launcher.data.ShortcutLauncher
 import com.puretext.launcher.data.StylePreset
 import com.puretext.launcher.data.activeState
@@ -56,15 +59,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             profiles = collection.profiles,
             activeProfileId = collection.activeProfileId,
             presets = collection.presets,
+            automationRules = collection.automationRules,
             loading = false,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), LauncherUiState())
 
+    /** Set by an "Open Page" automation rule; BookHomeScreen consumes it and jumps the pager there. */
+    private val _pendingOpenPageId = kotlinx.coroutines.flow.MutableStateFlow<String?>(null)
+    val pendingOpenPageId: StateFlow<String?> = _pendingOpenPageId
+
+    fun consumePendingOpenPage() {
+        _pendingOpenPageId.value = null
+    }
+
     init {
-        // Focus sessions expire on their own -- no AlarmManager/exact-alarm permission needed,
-        // just a lightweight periodic check for as long as the app process is alive. The Home
-        // screen itself also checks the clock directly, so the UI unblocks immediately even if
-        // this loop hasn't ticked yet; this just keeps the persisted flag (and Settings) in sync.
+        // Focus sessions expire on their own, and TIME_OF_DAY automation rules fire, via one
+        // lightweight periodic check -- no AlarmManager/exact-alarm permission needed, for as
+        // long as the app process is alive. The Home screen itself also checks the clock
+        // directly for Focus, so the UI unblocks immediately even if this loop hasn't ticked yet.
         viewModelScope.launch {
             while (true) {
                 kotlinx.coroutines.delay(20_000)
@@ -73,7 +85,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 if (focus.active && endsAt != null && System.currentTimeMillis() >= endsAt) {
                     configStore.stopFocus()
                 }
+                checkTimeOfDayRules()
             }
+        }
+    }
+
+    private suspend fun checkTimeOfDayRules() {
+        val now = java.time.LocalDateTime.now()
+        val nowMinute = now.hour * 60 + now.minute
+        val today = now.toLocalDate().toEpochDay()
+        val rules = configStore.currentCollection().automationRules
+        for (rule in rules) {
+            if (!rule.enabled || rule.trigger != RuleTrigger.TIME_OF_DAY) continue
+            if (rule.lastFiredEpochDay == today) continue
+            if (nowMinute < rule.triggerMinuteOfDay) continue
+            fireRule(rule)
+            configStore.markAutomationRuleFired(rule.id, today)
+        }
+    }
+
+    private suspend fun fireRule(rule: AutomationRule) {
+        when (rule.action) {
+            RuleAction.SWITCH_PROFILE -> rule.targetProfileId?.let { configStore.switchProfile(it) }
+            RuleAction.OPEN_PAGE -> rule.targetPageId?.let { _pendingOpenPageId.value = it }
         }
     }
 
@@ -179,6 +213,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     /** [durationMinutes] null starts an indefinite session (runs until [stopFocus]). */
     fun startFocus(durationMinutes: Int?, allowedAppKeys: List<AppInfo>) = viewModelScope.launch {
         configStore.startFocus(durationMinutes, allowedAppKeys.map { it.key })
+        val today = java.time.LocalDate.now().toEpochDay()
+        for (rule in configStore.currentCollection().automationRules) {
+            if (rule.enabled && rule.trigger == RuleTrigger.FOCUS_STARTED) {
+                fireRule(rule)
+                configStore.markAutomationRuleFired(rule.id, today)
+            }
+        }
     }
 
     fun stopFocus() = viewModelScope.launch { configStore.stopFocus() }
@@ -201,6 +242,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun renamePreset(id: String, newName: String) = viewModelScope.launch { configStore.renamePreset(id, newName) }
 
     fun deletePreset(id: String) = viewModelScope.launch { configStore.deletePreset(id) }
+
+    // --- Automation Rules --------------------------------------------------------------
+
+    fun addAutomationRule(rule: AutomationRule) = viewModelScope.launch { configStore.addAutomationRule(rule) }
+
+    fun updateAutomationRule(rule: AutomationRule) = viewModelScope.launch { configStore.updateAutomationRule(rule) }
+
+    fun deleteAutomationRule(id: String) = viewModelScope.launch { configStore.deleteAutomationRule(id) }
+
+    fun setAutomationRuleEnabled(id: String, enabled: Boolean) = viewModelScope.launch { configStore.setAutomationRuleEnabled(id, enabled) }
 
     // --- Profiles --------------------------------------------------------------------
 

@@ -3,6 +3,7 @@ package com.puretext.launcher
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.AppSettings
 import com.puretext.launcher.data.AutoLaunchLevel
+import com.puretext.launcher.data.AutomationRule
 import com.puretext.launcher.data.BookPage
 import com.puretext.launcher.data.LauncherState
 import com.puretext.launcher.data.Profile
@@ -25,6 +26,7 @@ data class LauncherUiState(
     val profiles: List<Profile> = emptyList(),
     val activeProfileId: String = "",
     val presets: List<StylePreset> = emptyList(),
+    val automationRules: List<AutomationRule> = emptyList(),
     val loading: Boolean = true,
 ) {
     private val byKey: Map<String, AppInfo> by lazy { allApps.associateBy { it.key } }

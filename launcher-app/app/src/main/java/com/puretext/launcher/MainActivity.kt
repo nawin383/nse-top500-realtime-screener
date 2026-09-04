@@ -41,6 +41,7 @@ import com.puretext.launcher.ui.settings.AboutSettingsScreen
 import com.puretext.launcher.ui.settings.AdvancedSettingsScreen
 import com.puretext.launcher.ui.settings.AppearanceSettingsScreen
 import com.puretext.launcher.ui.settings.AppsSettingsScreen
+import com.puretext.launcher.ui.settings.AutomationSettingsScreen
 import com.puretext.launcher.ui.settings.BackupSettingsScreen
 import com.puretext.launcher.ui.settings.BehaviorSettingsScreen
 import com.puretext.launcher.ui.settings.ClockSettingsScreen
@@ -137,6 +138,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: MainActivity) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val pendingOpenPageId by viewModel.pendingOpenPageId.collectAsStateWithLifecycle()
 
     LauncherTheme(settings = uiState.settings) {
         val colors = LocalLauncherColors.current
@@ -168,6 +170,8 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                         onLongPress = { activity.dispatchGesture(uiState.state.gestures.longPress) },
                         onOpenSettings = { router.push(Screen.SettingsRoot) },
                         onOpenFocus = { router.push(Screen.SettingsFocus) },
+                        pendingOpenPageId = pendingOpenPageId,
+                        onConsumePendingOpenPage = viewModel::consumePendingOpenPage,
                     )
                 } else {
                     HomeScreen(
@@ -330,6 +334,15 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                 )
 
                 Screen.UsageStats -> UsageStatsScreen(onBack = { router.pop() })
+
+                Screen.SettingsAutomation -> AutomationSettingsScreen(
+                    uiState = uiState,
+                    onAdd = viewModel::addAutomationRule,
+                    onUpdate = viewModel::updateAutomationRule,
+                    onDelete = viewModel::deleteAutomationRule,
+                    onSetEnabled = viewModel::setAutomationRuleEnabled,
+                    onBack = { router.pop() },
+                )
 
                 Screen.SettingsBackup -> BackupSettingsScreen(
                     exportJson = { viewModel.exportBackupJson() },

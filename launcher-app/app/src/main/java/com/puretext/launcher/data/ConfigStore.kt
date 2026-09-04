@@ -276,6 +276,24 @@ class ConfigStore(context: Context) {
 
     suspend fun deletePreset(id: String) = updateCollection { c -> c.copy(presets = c.presets.filterNot { it.id == id }) }
 
+    // --- Automation Rules (global, not per-profile) ---------------------------------
+
+    suspend fun addAutomationRule(rule: AutomationRule) = updateCollection { c -> c.copy(automationRules = c.automationRules + rule) }
+
+    suspend fun updateAutomationRule(rule: AutomationRule) = updateCollection { c ->
+        c.copy(automationRules = c.automationRules.map { if (it.id == rule.id) rule else it })
+    }
+
+    suspend fun deleteAutomationRule(id: String) = updateCollection { c -> c.copy(automationRules = c.automationRules.filterNot { it.id == id }) }
+
+    suspend fun setAutomationRuleEnabled(id: String, enabled: Boolean) = updateCollection { c ->
+        c.copy(automationRules = c.automationRules.map { if (it.id == id) it.copy(enabled = enabled) else it })
+    }
+
+    suspend fun markAutomationRuleFired(id: String, epochDay: Long) = updateCollection { c ->
+        c.copy(automationRules = c.automationRules.map { if (it.id == id) it.copy(lastFiredEpochDay = epochDay) else it })
+    }
+
     // --- Profiles ------------------------------------------------------------------
 
     suspend fun addProfile(name: String) = updateCollection { c ->
