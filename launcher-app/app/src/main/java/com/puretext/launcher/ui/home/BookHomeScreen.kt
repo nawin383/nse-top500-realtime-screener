@@ -20,8 +20,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.graphicsLayer
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -311,6 +311,7 @@ private fun ContentPageContent(
  * property (rotationY/cameraDistance/transformOrigin), so it costs nothing
  * beyond what the pager's own drag/fling already recomputes each frame.
  */
+@OptIn(ExperimentalFoundationApi::class)
 private fun Modifier.pageFlip(pagerState: PagerState, page: Int): Modifier = this.graphicsLayer {
     val pageOffset = ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction).coerceIn(-1f, 1f)
     rotationY = pageOffset * 90f
