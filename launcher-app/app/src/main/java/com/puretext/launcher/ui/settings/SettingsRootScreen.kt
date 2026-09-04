@@ -23,6 +23,7 @@ private val CATEGORIES = listOf(
     SettingsCategory("Pages", "Book Mode pages, cover, back cover", Screen.SettingsPages),
     SettingsCategory("Typography", "Font, size, spacing, case", Screen.SettingsTypography),
     SettingsCategory("Layout", "Margins, alignment, position", Screen.SettingsLayout),
+    SettingsCategory("Presets", "Built-in and custom style bundles", Screen.SettingsPresets),
     SettingsCategory("Clock", "Time format, seconds", Screen.SettingsClock),
     SettingsCategory("Date", "Date format", Screen.SettingsDate),
     SettingsCategory("Search", "Keyboard, hidden apps, package search", Screen.SettingsSearch),

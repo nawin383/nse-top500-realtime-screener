@@ -235,6 +235,22 @@ class ConfigStore(context: Context) {
         s.copy(book = s.book.copy(pageIndicatorEnabled = enabled))
     }
 
+    suspend fun setPageStyle(pageId: String, style: BookPageStyle) = update { s ->
+        s.copy(book = s.book.copy(pages = s.book.pages.map { if (it.id == pageId) it.copy(style = style) else it }))
+    }
+
+    // --- Presets -----------------------------------------------------------------
+
+    suspend fun addPreset(preset: StylePreset) = update { s -> s.copy(presets = s.presets + preset) }
+
+    suspend fun renamePreset(id: String, newName: String) = update { s ->
+        val trimmed = newName.trim()
+        if (trimmed.isEmpty()) return@update s
+        s.copy(presets = s.presets.map { if (it.id == id) it.copy(name = trimmed) else it })
+    }
+
+    suspend fun deletePreset(id: String) = update { s -> s.copy(presets = s.presets.filterNot { it.id == id }) }
+
     /** One-time migration: the first time Book Mode is opened with no pages yet, seed one "Home" page from the current favorites so nothing is lost. */
     suspend fun ensureBookSeeded(favoriteKeys: List<String>) = update { s ->
         if (s.book.pages.isNotEmpty()) return@update s

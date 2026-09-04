@@ -10,8 +10,13 @@ import com.puretext.launcher.data.CoverConfig
 import com.puretext.launcher.data.GestureSettings
 import com.puretext.launcher.data.HomeMode
 import com.puretext.launcher.data.LauncherBackup
+import com.puretext.launcher.data.BookPageStyle
 import com.puretext.launcher.data.LauncherShortcut
 import com.puretext.launcher.data.ShortcutLauncher
+import com.puretext.launcher.data.StylePreset
+import com.puretext.launcher.data.applyTo
+import com.puretext.launcher.data.bookPageStyleFromGlobal
+import com.puretext.launcher.data.stylePresetFromSettings
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -134,6 +139,31 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setBackCover(backCover: BackCoverConfig) = viewModelScope.launch { configStore.setBackCover(backCover) }
 
     fun setPageIndicatorEnabled(enabled: Boolean) = viewModelScope.launch { configStore.setPageIndicatorEnabled(enabled) }
+
+    fun setPageStyle(pageId: String, style: BookPageStyle) = viewModelScope.launch { configStore.setPageStyle(pageId, style) }
+
+    /** Turning custom style on seeds it from the current global style so the page starts unchanged; turning it off clears back to "use global." */
+    fun setPageCustomStyleEnabled(pageId: String, enabled: Boolean) = viewModelScope.launch {
+        val style = if (enabled) bookPageStyleFromGlobal(uiState.value.settings) else BookPageStyle()
+        configStore.setPageStyle(pageId, style)
+    }
+
+    // --- Presets -------------------------------------------------------------------
+
+    fun applyPreset(preset: StylePreset) = viewModelScope.launch { settingsStore.update { preset.applyTo(it) } }
+
+    fun saveCurrentAsPreset(name: String) = viewModelScope.launch {
+        val preset = stylePresetFromSettings(java.util.UUID.randomUUID().toString(), name.trim().ifEmpty { "My Style" }, uiState.value.settings)
+        configStore.addPreset(preset)
+    }
+
+    fun duplicatePreset(preset: StylePreset, newName: String) = viewModelScope.launch {
+        configStore.addPreset(preset.copy(id = java.util.UUID.randomUUID().toString(), name = newName.trim().ifEmpty { "${preset.name} Copy" }))
+    }
+
+    fun renamePreset(id: String, newName: String) = viewModelScope.launch { configStore.renamePreset(id, newName) }
+
+    fun deletePreset(id: String) = viewModelScope.launch { configStore.deletePreset(id) }
 
     fun updateSettings(transform: (AppSettings) -> AppSettings) = viewModelScope.launch { settingsStore.update(transform) }
 

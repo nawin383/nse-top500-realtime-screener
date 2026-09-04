@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +24,7 @@ import com.puretext.launcher.data.AppSettings
 import com.puretext.launcher.data.BookPage
 import com.puretext.launcher.ui.components.AppRow
 import com.puretext.launcher.ui.components.LauncherText
+import com.puretext.launcher.ui.theme.LocalAppSettings
 import com.puretext.launcher.ui.theme.LocalLauncherColors
 import com.puretext.launcher.ui.theme.toHorizontalAlignment
 import com.puretext.launcher.ui.theme.toTextAlign
@@ -181,45 +183,67 @@ private fun ContentPageContent(
 ) {
     val colors = LocalLauncherColors.current
     val apps = remember(page, uiState) { uiState.appsInPage(page) }
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                top = settings.marginTopDp.dp,
-                bottom = settings.marginBottomDp.dp,
-                start = settings.marginHorizontalDp.dp,
-                end = settings.marginHorizontalDp.dp,
-            ),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = horizontalAlignment,
-    ) {
-        if (page.name.isNotBlank()) {
-            LauncherText(
-                text = page.name,
-                fontSizeSp = settings.secondaryTextSizeSp,
-                textAlign = textAlign,
-                color = colors.foreground.copy(alpha = 0.55f),
-                modifier = Modifier.padding(bottom = settings.dateAppsSpacingDp.dp),
+    val style = page.style
+
+    // A page with a custom style gets its own family/weight/case pushed
+    // through LocalAppSettings -- every LauncherText/AppRow below picks it
+    // up automatically, no separate "styled text" component needed.
+    val effectiveSettings = remember(settings, style) {
+        if (!style.isCustom) {
+            settings
+        } else {
+            settings.copy(
+                fontFamily = style.fontFamily ?: settings.fontFamily,
+                fontWeight = style.fontWeight ?: settings.fontWeight,
+                textCase = style.textCase ?: settings.textCase,
             )
         }
-        if (apps.isEmpty()) {
-            LauncherText(
-                text = "No apps on this page yet.",
-                fontSizeSp = settings.secondaryTextSizeSp,
-                textAlign = textAlign,
-                color = colors.foreground.copy(alpha = 0.4f),
-                applyCase = false,
-            )
-        }
-        apps.forEachIndexed { index, app ->
-            AppRow(
-                name = uiState.displayName(app),
-                onClick = { onLaunch(app) },
-                fontSizeSp = settings.appTextSizeSp,
-                textAlign = textAlign,
-            )
-            if (index != apps.lastIndex) {
-                Box(Modifier.padding(top = settings.appSpacingDp.dp))
+    }
+    val effectiveHorizontalAlignment = style.homeAlignment?.toHorizontalAlignment() ?: horizontalAlignment
+    val effectiveTextAlign = style.homeAlignment?.toTextAlign() ?: textAlign
+    val effectiveAppSpacingDp = style.appSpacingDp ?: settings.appSpacingDp
+
+    CompositionLocalProvider(LocalAppSettings provides effectiveSettings) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    top = settings.marginTopDp.dp,
+                    bottom = settings.marginBottomDp.dp,
+                    start = settings.marginHorizontalDp.dp,
+                    end = settings.marginHorizontalDp.dp,
+                ),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = effectiveHorizontalAlignment,
+        ) {
+            if (page.name.isNotBlank()) {
+                LauncherText(
+                    text = page.name,
+                    fontSizeSp = settings.secondaryTextSizeSp,
+                    textAlign = effectiveTextAlign,
+                    color = colors.foreground.copy(alpha = 0.55f),
+                    modifier = Modifier.padding(bottom = settings.dateAppsSpacingDp.dp),
+                )
+            }
+            if (apps.isEmpty()) {
+                LauncherText(
+                    text = "No apps on this page yet.",
+                    fontSizeSp = settings.secondaryTextSizeSp,
+                    textAlign = effectiveTextAlign,
+                    color = colors.foreground.copy(alpha = 0.4f),
+                    applyCase = false,
+                )
+            }
+            apps.forEachIndexed { index, app ->
+                AppRow(
+                    name = uiState.displayName(app),
+                    onClick = { onLaunch(app) },
+                    fontSizeSp = settings.appTextSizeSp,
+                    textAlign = effectiveTextAlign,
+                )
+                if (index != apps.lastIndex) {
+                    Box(Modifier.padding(top = effectiveAppSpacingDp.dp))
+                }
             }
         }
     }

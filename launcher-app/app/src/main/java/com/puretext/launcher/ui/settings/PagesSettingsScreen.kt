@@ -21,16 +21,25 @@ import com.puretext.launcher.LauncherUiState
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.BackCoverConfig
 import com.puretext.launcher.data.BookPage
+import com.puretext.launcher.data.BookPageStyle
 import com.puretext.launcher.data.CoverConfig
+import com.puretext.launcher.data.FontFamilyOption
+import com.puretext.launcher.data.HomeAlignment
+import com.puretext.launcher.data.TextCase
+import com.puretext.launcher.data.TextWeight
+import com.puretext.launcher.data.VerticalPosition
 import com.puretext.launcher.ui.components.AppPickerDialog
 import com.puretext.launcher.ui.components.ConfirmDialog
 import com.puretext.launcher.ui.components.CycleRow
 import com.puretext.launcher.ui.components.LauncherText
 import com.puretext.launcher.ui.components.SectionLabel
 import com.puretext.launcher.ui.components.SettingsScaffold
+import com.puretext.launcher.ui.components.StepperRow
 import com.puretext.launcher.ui.components.TextInputDialog
 import com.puretext.launcher.ui.components.ToggleRow
 import com.puretext.launcher.ui.theme.LocalLauncherColors
+import com.puretext.launcher.util.next
+import com.puretext.launcher.util.titleCase
 
 @Composable
 fun PagesSettingsScreen(
@@ -46,6 +55,8 @@ fun PagesSettingsScreen(
     onSetCover: (CoverConfig) -> Unit,
     onSetBackCover: (BackCoverConfig) -> Unit,
     onSetPageIndicatorEnabled: (Boolean) -> Unit,
+    onSetPageCustomStyleEnabled: (String, Boolean) -> Unit,
+    onSetPageStyle: (String, BookPageStyle) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -67,6 +78,8 @@ fun PagesSettingsScreen(
             onAddApp = { onAddAppToPage(editingPage.id, it) },
             onRemoveApp = { onRemoveAppFromPage(editingPage.id, it) },
             onMoveApp = { app, delta -> onMoveAppInPage(editingPage.id, app, delta) },
+            onSetCustomStyleEnabled = { onSetPageCustomStyleEnabled(editingPage.id, it) },
+            onSetStyle = { onSetPageStyle(editingPage.id, it) },
             onBack = { editingPageId = null },
             modifier = modifier,
         )
@@ -223,6 +236,8 @@ private fun PageEditorScreen(
     onAddApp: (AppInfo) -> Unit,
     onRemoveApp: (AppInfo) -> Unit,
     onMoveApp: (AppInfo, Int) -> Unit,
+    onSetCustomStyleEnabled: (Boolean) -> Unit,
+    onSetStyle: (BookPageStyle) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -277,6 +292,50 @@ private fun PageEditorScreen(
                 applyCase = false,
                 modifier = Modifier.fillMaxWidth().clickable { addAppDialog = true }.padding(vertical = 12.dp),
             )
+
+            SectionLabel("Style")
+            ToggleRow(
+                "Custom style for this page",
+                page.style.isCustom,
+                onToggle = onSetCustomStyleEnabled,
+            )
+            if (page.style.isCustom) {
+                val style = page.style
+                CycleRow(
+                    label = "Font Family",
+                    valueLabel = titleCase((style.fontFamily ?: FontFamilyOption.SANS).name),
+                    onClick = { onSetStyle(style.copy(fontFamily = (style.fontFamily ?: FontFamilyOption.SANS).next())) },
+                )
+                CycleRow(
+                    label = "Weight",
+                    valueLabel = titleCase((style.fontWeight ?: TextWeight.REGULAR).name),
+                    onClick = { onSetStyle(style.copy(fontWeight = (style.fontWeight ?: TextWeight.REGULAR).next())) },
+                )
+                CycleRow(
+                    label = "Case",
+                    valueLabel = titleCase((style.textCase ?: TextCase.NORMAL).name),
+                    onClick = { onSetStyle(style.copy(textCase = (style.textCase ?: TextCase.NORMAL).next())) },
+                )
+                CycleRow(
+                    label = "Alignment",
+                    valueLabel = titleCase((style.homeAlignment ?: HomeAlignment.START).name),
+                    onClick = { onSetStyle(style.copy(homeAlignment = (style.homeAlignment ?: HomeAlignment.START).next())) },
+                )
+                CycleRow(
+                    label = "Vertical Position",
+                    valueLabel = titleCase((style.verticalPosition ?: VerticalPosition.CENTER).name),
+                    onClick = { onSetStyle(style.copy(verticalPosition = (style.verticalPosition ?: VerticalPosition.CENTER).next())) },
+                )
+                StepperRow(
+                    label = "App Spacing",
+                    value = style.appSpacingDp ?: 14,
+                    onChange = { onSetStyle(style.copy(appSpacingDp = it)) },
+                    step = 2,
+                    min = 0,
+                    max = 48,
+                    suffix = " dp",
+                )
+            }
             Box(Modifier.padding(bottom = 32.dp))
         }
     }

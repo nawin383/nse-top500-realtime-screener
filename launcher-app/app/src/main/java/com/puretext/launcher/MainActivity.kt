@@ -47,6 +47,7 @@ import com.puretext.launcher.ui.settings.HomeSettingsScreen
 import com.puretext.launcher.ui.settings.LayoutSettingsScreen
 import com.puretext.launcher.ui.settings.NotificationsSettingsScreen
 import com.puretext.launcher.ui.settings.PagesSettingsScreen
+import com.puretext.launcher.ui.settings.PresetsSettingsScreen
 import com.puretext.launcher.ui.settings.SearchSettingsScreen
 import com.puretext.launcher.ui.settings.SettingsRootScreen
 import com.puretext.launcher.ui.settings.ShortcutsSettingsScreen
@@ -232,11 +233,23 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                     onSetCover = viewModel::setCover,
                     onSetBackCover = viewModel::setBackCover,
                     onSetPageIndicatorEnabled = viewModel::setPageIndicatorEnabled,
+                    onSetPageCustomStyleEnabled = viewModel::setPageCustomStyleEnabled,
+                    onSetPageStyle = viewModel::setPageStyle,
                     onBack = { router.pop() },
                 )
 
                 Screen.SettingsTypography -> TypographySettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
                 Screen.SettingsLayout -> LayoutSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
+
+                Screen.SettingsPresets -> PresetsSettingsScreen(
+                    uiState = uiState,
+                    onApply = viewModel::applyPreset,
+                    onSave = viewModel::saveCurrentAsPreset,
+                    onDuplicate = viewModel::duplicatePreset,
+                    onRename = viewModel::renamePreset,
+                    onDelete = viewModel::deletePreset,
+                    onBack = { router.pop() },
+                )
                 Screen.SettingsClock -> ClockSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
                 Screen.SettingsDate -> DateSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
                 Screen.SettingsSearch -> SearchSettingsScreen(

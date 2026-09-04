@@ -99,6 +99,7 @@ data class LauncherState(
     val recentApps: List<String> = emptyList(),
     val book: BookState = BookState(),
     val searchLearning: SearchLearning = SearchLearning(),
+    val presets: List<StylePreset> = emptyList(),
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1

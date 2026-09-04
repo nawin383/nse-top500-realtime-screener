@@ -9,6 +9,7 @@ data class BookPage(
     val name: String,
     val appKeys: List<String> = emptyList(),
     val hidden: Boolean = false,
+    val style: BookPageStyle = BookPageStyle(),
 )
 
 @Serializable
