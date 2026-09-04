@@ -26,7 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -34,18 +37,24 @@ import androidx.compose.ui.unit.sp
 import com.puretext.launcher.LauncherUiState
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.LauncherShortcut
+import com.puretext.launcher.data.SearchCommand
+import com.puretext.launcher.data.SearchCommands
+import com.puretext.launcher.data.runWebSearch
 import com.puretext.launcher.ui.components.AppActionsDialog
 import com.puretext.launcher.ui.components.AppRow
 import com.puretext.launcher.ui.components.LauncherText
 import com.puretext.launcher.ui.components.SectionLabel
 import com.puretext.launcher.ui.components.TextInputDialog
 import com.puretext.launcher.ui.theme.LocalLauncherColors
+import com.puretext.launcher.util.Calculator
+import kotlinx.coroutines.delay
 
 @Composable
 fun SearchScreen(
     uiState: LauncherUiState,
     autoFocusKeyboard: Boolean,
     onLaunch: (AppInfo) -> Unit,
+    onLaunchFromSearch: (AppInfo, String) -> Unit,
     onLaunchShortcut: (LauncherShortcut) -> Unit,
     onBack: () -> Unit,
     onToggleFavorite: (AppInfo, Boolean) -> Unit,
@@ -56,6 +65,8 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
 ) {
     val colors = LocalLauncherColors.current
+    val context = LocalContext.current
+    val clipboard = LocalClipboardManager.current
     val settings = uiState.settings
     var query by remember { mutableStateOf("") }
     var actionsApp by remember { mutableStateOf<AppInfo?>(null) }
@@ -77,14 +88,40 @@ fun SearchScreen(
         }
     }
 
-    val results = remember(uiState, query, settings.searchIncludeHidden, settings.searchByPackageName) {
-        uiState.search(query, includeHidden = settings.searchIncludeHidden, byPackageName = settings.searchByPackageName)
+    val results = remember(uiState, query, settings.searchIncludeHidden, settings.searchByPackageName, settings.searchLearningEnabled) {
+        uiState.search(
+            query,
+            includeHidden = settings.searchIncludeHidden,
+            byPackageName = settings.searchByPackageName,
+            learningEnabled = settings.searchLearningEnabled,
+        )
     }
     val showRecents = query.isBlank() && settings.recentAppsEnabled
     val recents = remember(uiState, showRecents) { if (showRecents) uiState.recentApps() else emptyList() }
     val matchingShortcuts = remember(uiState, query) {
         val q = query.trim().lowercase()
         uiState.state.shortcuts.filter { q.isEmpty() || it.name.lowercase().contains(q) }
+    }
+    val calcResult = remember(query) {
+        if (Calculator.looksLikeExpression(query)) Calculator.evaluate(query) else null
+    }
+    val matchingCommands = remember(query) { SearchCommands.matching(query) }
+    val webSearchQuery = remember(query) {
+        val trimmed = query.trim()
+        if (trimmed.startsWith("search ", ignoreCase = true)) {
+            trimmed.removePrefix("search ").trim().takeIf { it.isNotEmpty() }
+        } else {
+            null
+        }
+    }
+
+    val predicted = remember(uiState, query, results, settings.autoLaunchLevel) {
+        uiState.predictedApp(query, results, settings.autoLaunchLevel)
+    }
+    LaunchedEffect(predicted, query) {
+        val target = predicted ?: return@LaunchedEffect
+        delay(settings.autoLaunchDelayMs.toLong())
+        onLaunchFromSearch(target, query)
     }
 
     Column(
@@ -111,7 +148,7 @@ fun SearchScreen(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
-                    keyboardActions = KeyboardActions(onGo = { results.firstOrNull()?.let(onLaunch) }),
+                    keyboardActions = KeyboardActions(onGo = { results.firstOrNull()?.let { onLaunchFromSearch(it, query) } }),
                 )
             }
             LauncherText(
@@ -123,9 +160,57 @@ fun SearchScreen(
             )
         }
 
+        if (predicted != null) {
+            LauncherText(
+                text = "→ ${uiState.displayName(predicted)}",
+                fontSizeSp = 14,
+                color = colors.foreground.copy(alpha = 0.6f),
+                applyCase = false,
+                modifier = Modifier.padding(top = 6.dp),
+            )
+        }
+
         Box(Modifier.padding(top = 20.dp))
 
         LazyColumn(modifier = Modifier.weight(1f)) {
+            if (calcResult != null) {
+                item(key = "calc-label") { SectionLabel("Calculator") }
+                item(key = "calc-result") {
+                    val formatted = Calculator.formatResult(calcResult)
+                    LauncherText(
+                        text = "= $formatted",
+                        fontSizeSp = settings.appTextSizeSp,
+                        color = colors.foreground,
+                        applyCase = false,
+                        modifier = Modifier.fillMaxWidth()
+                            .clickable { clipboard.setText(AnnotatedString(formatted)) }
+                            .padding(vertical = 8.dp),
+                    )
+                }
+            }
+
+            if (webSearchQuery != null) {
+                item(key = "websearch-label") { SectionLabel("Web") }
+                item(key = "websearch") {
+                    AppRow(
+                        name = "Search: \"$webSearchQuery\"",
+                        onClick = { runWebSearch(context, webSearchQuery) },
+                        fontSizeSp = settings.appTextSizeSp,
+                    )
+                }
+            }
+
+            if (matchingCommands.isNotEmpty()) {
+                item(key = "commands-label") { SectionLabel("Commands") }
+                items(matchingCommands, key = { "cmd-${it.keyword}" }) { command: SearchCommand ->
+                    AppRow(
+                        name = command.label,
+                        onClick = { command.run(context) },
+                        fontSizeSp = settings.appTextSizeSp,
+                    )
+                }
+            }
+
             if (matchingShortcuts.isNotEmpty()) {
                 item(key = "shortcuts-label") { SectionLabel("Shortcuts") }
                 items(matchingShortcuts, key = { "shortcut-${it.id}" }) { shortcut ->
@@ -151,13 +236,13 @@ fun SearchScreen(
             items(results, key = { it.key }) { app ->
                 AppRow(
                     name = uiState.displayName(app),
-                    onClick = { onLaunch(app) },
+                    onClick = { onLaunchFromSearch(app, query) },
                     onLongClick = { actionsApp = app },
                     fontSizeSp = settings.appTextSizeSp,
                     dimmed = uiState.isHidden(app),
                 )
             }
-            if (results.isEmpty() && !showRecents) {
+            if (results.isEmpty() && !showRecents && calcResult == null && matchingCommands.isEmpty() && matchingShortcuts.isEmpty() && webSearchQuery == null) {
                 item(key = "empty") {
                     LauncherText(
                         text = "No apps found",

@@ -90,6 +90,9 @@ class SettingsStore(context: Context) {
             searchAutoKeyboard = d.searchAutoKeyboard,
             searchIncludeHidden = d.searchIncludeHidden,
             searchByPackageName = d.searchByPackageName,
+            autoLaunchLevel = d.autoLaunchLevel,
+            autoLaunchDelayMs = d.autoLaunchDelayMs,
+            searchLearningEnabled = d.searchLearningEnabled,
             statusBarVisible = d.statusBarVisible,
             recentAppsEnabled = d.recentAppsEnabled,
             notificationCountEnabled = d.notificationCountEnabled,
@@ -129,6 +132,9 @@ class SettingsStore(context: Context) {
         val SEARCH_AUTO_KEYBOARD = booleanPreferencesKey("search_auto_keyboard")
         val SEARCH_INCLUDE_HIDDEN = booleanPreferencesKey("search_include_hidden")
         val SEARCH_BY_PACKAGE = booleanPreferencesKey("search_by_package_name")
+        val AUTO_LAUNCH_LEVEL = stringPreferencesKey("auto_launch_level")
+        val AUTO_LAUNCH_DELAY = intPreferencesKey("auto_launch_delay_ms")
+        val SEARCH_LEARNING_ENABLED = booleanPreferencesKey("search_learning_enabled")
         val STATUS_BAR_VISIBLE = booleanPreferencesKey("status_bar_visible")
         val RECENT_APPS_ENABLED = booleanPreferencesKey("recent_apps_enabled")
         val NOTIFICATION_COUNT_ENABLED = booleanPreferencesKey("notification_count_enabled")
@@ -169,6 +175,9 @@ class SettingsStore(context: Context) {
             searchAutoKeyboard = this[Keys.SEARCH_AUTO_KEYBOARD] ?: d.searchAutoKeyboard,
             searchIncludeHidden = this[Keys.SEARCH_INCLUDE_HIDDEN] ?: d.searchIncludeHidden,
             searchByPackageName = this[Keys.SEARCH_BY_PACKAGE] ?: d.searchByPackageName,
+            autoLaunchLevel = safeEnumOf(this[Keys.AUTO_LAUNCH_LEVEL], d.autoLaunchLevel),
+            autoLaunchDelayMs = this[Keys.AUTO_LAUNCH_DELAY] ?: d.autoLaunchDelayMs,
+            searchLearningEnabled = this[Keys.SEARCH_LEARNING_ENABLED] ?: d.searchLearningEnabled,
             statusBarVisible = this[Keys.STATUS_BAR_VISIBLE] ?: d.statusBarVisible,
             recentAppsEnabled = this[Keys.RECENT_APPS_ENABLED] ?: d.recentAppsEnabled,
             notificationCountEnabled = this[Keys.NOTIFICATION_COUNT_ENABLED] ?: d.notificationCountEnabled,
@@ -208,6 +217,9 @@ class SettingsStore(context: Context) {
         this[Keys.SEARCH_AUTO_KEYBOARD] = s.searchAutoKeyboard
         this[Keys.SEARCH_INCLUDE_HIDDEN] = s.searchIncludeHidden
         this[Keys.SEARCH_BY_PACKAGE] = s.searchByPackageName
+        this[Keys.AUTO_LAUNCH_LEVEL] = s.autoLaunchLevel.name
+        this[Keys.AUTO_LAUNCH_DELAY] = s.autoLaunchDelayMs
+        this[Keys.SEARCH_LEARNING_ENABLED] = s.searchLearningEnabled
         this[Keys.STATUS_BAR_VISIBLE] = s.statusBarVisible
         this[Keys.RECENT_APPS_ENABLED] = s.recentAppsEnabled
         this[Keys.NOTIFICATION_COUNT_ENABLED] = s.notificationCountEnabled

@@ -242,6 +242,20 @@ class ConfigStore(context: Context) {
         s.copy(book = s.book.copy(pages = listOf(seeded)))
     }
 
+    // --- Search learning -------------------------------------------------------
+
+    suspend fun recordSearchLaunch(query: String, appKey: String) = update { s ->
+        val q = query.trim().lowercase()
+        if (q.isEmpty()) return@update s
+        val forQuery = (s.searchLearning.queryAppCounts[q] ?: emptyMap()).toMutableMap()
+        forQuery[appKey] = (forQuery[appKey] ?: 0) + 1
+        val counts = s.searchLearning.queryAppCounts.toMutableMap()
+        counts[q] = forQuery
+        s.copy(searchLearning = s.searchLearning.copy(queryAppCounts = counts))
+    }
+
+    suspend fun resetSearchLearning() = update { it.copy(searchLearning = SearchLearning()) }
+
     // --- Housekeeping / resets -----------------------------------------------------
 
     suspend fun pruneRemovedPackage(packageName: String) = update { s ->

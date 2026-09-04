@@ -176,6 +176,10 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                         viewModel.launchApp(it)
                         router.pop()
                     },
+                    onLaunchFromSearch = { app, query ->
+                        viewModel.launchAppFromSearch(app, query)
+                        router.pop()
+                    },
                     onLaunchShortcut = {
                         viewModel.launchShortcut(it)
                         router.pop()
@@ -235,7 +239,12 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                 Screen.SettingsLayout -> LayoutSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
                 Screen.SettingsClock -> ClockSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
                 Screen.SettingsDate -> DateSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
-                Screen.SettingsSearch -> SearchSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
+                Screen.SettingsSearch -> SearchSettingsScreen(
+                    uiState = uiState,
+                    onUpdate = viewModel::updateSettings,
+                    onResetSearchLearning = viewModel::resetSearchLearning,
+                    onBack = { router.pop() },
+                )
                 Screen.SettingsGestures -> GesturesSettingsScreen(uiState, viewModel::setGestures, onBack = { router.pop() })
 
                 Screen.SettingsShortcuts -> ShortcutsSettingsScreen(

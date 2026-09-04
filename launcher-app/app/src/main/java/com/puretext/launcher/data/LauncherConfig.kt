@@ -71,6 +71,18 @@ fun GestureSettings.updated(slot: GestureSlot, newBinding: GestureBinding): Gest
 }
 
 /**
+ * Which app the user picked for a given typed query, and how often --
+ * lets Search rank the app they always mean to the top, and (combined
+ * with a confidence threshold) drive predictive auto-launch. Keyed by the
+ * exact lowercased query text, not by prefix, to keep the model simple
+ * and easy to reset.
+ */
+@Serializable
+data class SearchLearning(
+    val queryAppCounts: Map<String, Map<String, Int>> = emptyMap(),
+)
+
+/**
  * The full JSON-serialized part of launcher config: everything that isn't a
  * simple scalar preference (see SettingsStore for those). Kept as one
  * versioned blob so backup/export and import are a single, atomic,
@@ -86,6 +98,7 @@ data class LauncherState(
     val gestures: GestureSettings = GestureSettings(),
     val recentApps: List<String> = emptyList(),
     val book: BookState = BookState(),
+    val searchLearning: SearchLearning = SearchLearning(),
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1

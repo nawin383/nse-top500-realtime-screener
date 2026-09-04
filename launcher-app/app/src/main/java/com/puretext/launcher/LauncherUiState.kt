@@ -2,6 +2,7 @@ package com.puretext.launcher
 
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.AppSettings
+import com.puretext.launcher.data.AutoLaunchLevel
 import com.puretext.launcher.data.BookPage
 import com.puretext.launcher.data.LauncherState
 
@@ -55,13 +56,44 @@ data class LauncherUiState(
 
     fun appsInPage(page: BookPage): List<AppInfo> = page.appKeys.mapNotNull { byKey[it] }
 
-    fun search(query: String, includeHidden: Boolean = false, byPackageName: Boolean = true): List<AppInfo> {
+    fun search(query: String, includeHidden: Boolean = false, byPackageName: Boolean = true, learningEnabled: Boolean = false): List<AppInfo> {
         if (query.isBlank()) return visibleApps(includeHidden)
         val q = query.trim().lowercase()
-        return visibleApps(includeHidden).filter { app ->
+        val matches = visibleApps(includeHidden).filter { app ->
             displayName(app).lowercase().contains(q) ||
                 app.label.lowercase().contains(q) ||
                 (byPackageName && app.packageName.lowercase().contains(q))
         }
+        if (!learningEnabled) return matches
+        val learned = state.searchLearning.queryAppCounts[q] ?: return matches
+        return matches.sortedWith(
+            compareByDescending<AppInfo> { learned[it.key] ?: 0 }.thenBy { displayName(it).lowercase() },
+        )
+    }
+
+    /**
+     * The app Predictive Auto-Launch would jump straight to for [query], or
+     * null if it shouldn't (nothing typed, no results, or not confident
+     * enough at the current [level]). Deliberately conservative: with two or
+     * more matches, it only fires once this exact query has a clear, learned
+     * winner -- never a first-time guess.
+     */
+    fun predictedApp(query: String, results: List<AppInfo>, level: AutoLaunchLevel): AppInfo? {
+        if (level == AutoLaunchLevel.OFF || query.isBlank() || results.isEmpty()) return null
+        if (results.size == 1) return results.first()
+        val q = query.trim().lowercase()
+        val learned = state.searchLearning.queryAppCounts[q] ?: return null
+        val ranked = learned.entries.sortedByDescending { it.value }
+        val top = ranked.firstOrNull() ?: return null
+        val topApp = byKey[top.key] ?: return null
+        if (results.none { it.key == topApp.key }) return null
+        val second = ranked.getOrNull(1)?.value ?: 0
+        val minCount = when (level) {
+            AutoLaunchLevel.HIGH -> 2
+            AutoLaunchLevel.MEDIUM -> 3
+            AutoLaunchLevel.LOW -> 5
+            AutoLaunchLevel.OFF -> Int.MAX_VALUE
+        }
+        return if (top.value >= minCount && top.value > second) topApp else null
     }
 }

@@ -60,6 +60,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /** Same as [launchApp], but also feeds Search Learning so this query ranks this app higher next time. */
+    fun launchAppFromSearch(app: AppInfo, query: String) {
+        launchApp(app)
+        if (uiState.value.settings.searchLearningEnabled && query.isNotBlank()) {
+            viewModelScope.launch { configStore.recordSearchLaunch(query, app.key) }
+        }
+    }
+
     fun openAppInfo(app: AppInfo) {
         appRepository.openAppInfo(app)
     }
@@ -145,7 +153,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun resetLauncherMisc() = viewModelScope.launch {
         settingsStore.resetMisc()
         configStore.resetShortcuts()
+        configStore.resetSearchLearning()
     }
+
+    fun resetSearchLearning() = viewModelScope.launch { configStore.resetSearchLearning() }
 
     fun resetEverything() = viewModelScope.launch {
         val onboarded = settingsStore.current().onboardingCompleted

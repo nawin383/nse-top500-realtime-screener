@@ -10,6 +10,7 @@ enum class HomeAlignment { START, CENTER, END }
 enum class VerticalPosition { TOP, CENTER, BOTTOM }
 enum class DatePreset { LONG, SHORT, NUMERIC, ISO }
 enum class HomeMode { CLASSIC, BOOK }
+enum class AutoLaunchLevel { OFF, LOW, MEDIUM, HIGH }
 
 /**
  * Every scalar (non-list, non-map) preference. Persisted field-by-field in
@@ -68,6 +69,11 @@ data class AppSettings(
     val searchAutoKeyboard: Boolean = true,
     val searchIncludeHidden: Boolean = false,
     val searchByPackageName: Boolean = true,
+    // Predictive launch defaults OFF -- an unwanted auto-launch is worse
+    // than typing one extra tap, so this is opt-in.
+    val autoLaunchLevel: AutoLaunchLevel = AutoLaunchLevel.OFF,
+    val autoLaunchDelayMs: Int = 500,
+    val searchLearningEnabled: Boolean = true,
 
     // Behavior
     val statusBarVisible: Boolean = true,
