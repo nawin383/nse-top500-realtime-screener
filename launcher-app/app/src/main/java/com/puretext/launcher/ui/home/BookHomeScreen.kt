@@ -12,7 +12,11 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
@@ -46,12 +50,22 @@ fun BookHomeScreen(
     onDoubleTap: () -> Unit,
     onLongPress: () -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenFocus: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val settings = uiState.settings
     val colors = LocalLauncherColors.current
     val density = LocalDensity.current
     val swipeThresholdPx = with(density) { 48.dp.toPx() }
+
+    var now by remember { mutableStateOf(System.currentTimeMillis()) }
+    LaunchedEffect(Unit) {
+        while (true) {
+            now = System.currentTimeMillis()
+            kotlinx.coroutines.delay(10_000)
+        }
+    }
+    val focusActive = uiState.isFocusActive(now)
 
     val pages = remember(uiState) { uiState.bookPages() }
     val totalPages = pages.size + 2
@@ -97,8 +111,23 @@ fun BookHomeScreen(
                         horizontalAlignment = horizontalAlignment,
                         textAlign = textAlign,
                         onLaunch = onLaunch,
+                        focusActive = focusActive,
+                        now = now,
                     )
                 }
+            }
+        }
+
+        if (focusActive) {
+            val endsAt = uiState.state.focus.endsAtMillis
+            Box(modifier = Modifier.align(Alignment.TopCenter).padding(top = 20.dp)) {
+                LauncherText(
+                    text = if (endsAt == null) "FOCUS · ON" else "FOCUS · ${((endsAt - now) / 60_000L).coerceAtLeast(0)}m LEFT",
+                    fontSizeSp = settings.secondaryTextSizeSp,
+                    color = colors.foreground.copy(alpha = 0.6f),
+                    applyCase = false,
+                    modifier = Modifier.clickable(onClick = onOpenFocus),
+                )
             }
         }
 
@@ -180,9 +209,11 @@ private fun ContentPageContent(
     horizontalAlignment: Alignment.Horizontal,
     textAlign: TextAlign,
     onLaunch: (AppInfo) -> Unit,
+    focusActive: Boolean,
+    now: Long,
 ) {
     val colors = LocalLauncherColors.current
-    val apps = remember(page, uiState) { uiState.appsInPage(page) }
+    val apps = remember(page, uiState, focusActive) { uiState.focusFilter(uiState.appsInPage(page), now) }
     val style = page.style
 
     // A page with a custom style gets its own family/weight/case pushed

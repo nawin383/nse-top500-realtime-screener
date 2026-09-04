@@ -316,6 +316,18 @@ class ConfigStore(context: Context) {
         s.copy(book = s.book.copy(pages = listOf(seeded)))
     }
 
+    // --- Focus Mode --------------------------------------------------------------
+
+    /** [durationMinutes] null means "until turned off manually." */
+    suspend fun startFocus(durationMinutes: Int?, allowedAppKeys: List<String>) = update { s ->
+        val endsAt = durationMinutes?.let { System.currentTimeMillis() + it * 60_000L }
+        s.copy(focus = FocusState(active = true, endsAtMillis = endsAt, allowedAppKeys = allowedAppKeys))
+    }
+
+    suspend fun stopFocus() = update { s -> s.copy(focus = s.focus.copy(active = false, endsAtMillis = null)) }
+
+    suspend fun setFocusAllowedApps(keys: List<String>) = update { s -> s.copy(focus = s.focus.copy(allowedAppKeys = keys)) }
+
     // --- Search learning -------------------------------------------------------
 
     suspend fun recordSearchLaunch(query: String, appKey: String) = update { s ->
@@ -344,6 +356,7 @@ class ConfigStore(context: Context) {
         recentApps = s.recentApps.filterNot { it.startsWith(prefix) },
         shortcuts = s.shortcuts.filterNot { it.type == ShortcutType.APP && it.target.startsWith(prefix) },
         book = s.book.copy(pages = s.book.pages.map { it.copy(appKeys = it.appKeys.filterNot { key -> key.startsWith(prefix) }) }),
+        focus = s.focus.copy(allowedAppKeys = s.focus.allowedAppKeys.filterNot { it.startsWith(prefix) }),
     )
 
     suspend fun resetAppLayout() = update { s ->

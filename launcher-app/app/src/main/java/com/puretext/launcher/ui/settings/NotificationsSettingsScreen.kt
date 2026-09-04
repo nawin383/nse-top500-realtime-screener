@@ -30,6 +30,7 @@ import com.puretext.launcher.ui.theme.LocalLauncherColors
 fun NotificationsSettingsScreen(
     settings: AppSettings,
     onUpdate: ((AppSettings) -> AppSettings) -> Unit,
+    onOpenNotifications: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -54,6 +55,13 @@ fun NotificationsSettingsScreen(
                 "Show notification count on home",
                 settings.notificationCountEnabled,
                 onToggle = { onUpdate { s -> s.copy(notificationCountEnabled = it) } },
+            )
+            LauncherText(
+                text = "View Notifications",
+                fontSizeSp = 15,
+                color = colors.foreground,
+                applyCase = false,
+                modifier = Modifier.fillMaxWidth().clickable(onClick = onOpenNotifications).padding(vertical = 10.dp),
             )
             SectionLabel("Access")
             LauncherText(

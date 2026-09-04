@@ -62,6 +62,20 @@ data class LauncherUiState(
 
     fun appsInPage(page: BookPage): List<AppInfo> = page.appKeys.mapNotNull { byKey[it] }
 
+    /** True while a Focus session is running and hasn't hit its end time yet ("until disabled" sessions never expire on their own). */
+    fun isFocusActive(nowMillis: Long = System.currentTimeMillis()): Boolean {
+        val focus = state.focus
+        if (!focus.active) return false
+        val endsAt = focus.endsAtMillis ?: return true
+        return nowMillis < endsAt
+    }
+
+    fun focusAllowedApps(): List<AppInfo> = state.focus.allowedAppKeys.mapNotNull { byKey[it] }
+
+    /** Apps a Home screen should actually show right now: the Focus allow-list while active, otherwise [apps] unchanged. */
+    fun focusFilter(apps: List<AppInfo>, nowMillis: Long = System.currentTimeMillis()): List<AppInfo> =
+        if (!isFocusActive(nowMillis)) apps else apps.filter { it.key in state.focus.allowedAppKeys }
+
     fun search(query: String, includeHidden: Boolean = false, byPackageName: Boolean = true, learningEnabled: Boolean = false): List<AppInfo> {
         if (query.isBlank()) return visibleApps(includeHidden)
         val q = query.trim().lowercase()

@@ -83,6 +83,22 @@ data class SearchLearning(
 )
 
 /**
+ * A time-boxed home-screen restriction: while [active], Home shows only
+ * [allowedAppKeys] instead of the usual favorites/pages. Search is left
+ * alone -- this nudges away from distraction, it isn't a parental-control
+ * lockdown. Expiry is checked reactively (a UI-side tick plus a periodic
+ * ViewModel check) rather than via AlarmManager, so nothing needs the
+ * exact-alarm permission.
+ */
+@Serializable
+data class FocusState(
+    val active: Boolean = false,
+    /** Null while active means "until turned off manually." */
+    val endsAtMillis: Long? = null,
+    val allowedAppKeys: List<String> = emptyList(),
+)
+
+/**
  * The full JSON-serialized part of launcher config: everything that isn't a
  * simple scalar preference (see SettingsStore for those). Kept as one
  * versioned blob so backup/export and import are a single, atomic,
@@ -99,6 +115,7 @@ data class LauncherState(
     val recentApps: List<String> = emptyList(),
     val book: BookState = BookState(),
     val searchLearning: SearchLearning = SearchLearning(),
+    val focus: FocusState = FocusState(),
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1

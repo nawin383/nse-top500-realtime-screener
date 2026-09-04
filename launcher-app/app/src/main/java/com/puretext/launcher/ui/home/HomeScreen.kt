@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +31,7 @@ import com.puretext.launcher.LauncherUiState
 import com.puretext.launcher.data.AppInfo
 import com.puretext.launcher.data.DatePreset
 import com.puretext.launcher.data.VerticalPosition
+import com.puretext.launcher.gestures.LauncherNotificationListenerService
 import com.puretext.launcher.ui.components.AppRow
 import com.puretext.launcher.ui.components.LauncherText
 import com.puretext.launcher.ui.theme.LocalLauncherColors
@@ -49,6 +52,8 @@ fun HomeScreen(
     onSwipeRight: () -> Unit,
     onDoubleTap: () -> Unit,
     onLongPress: () -> Unit,
+    onOpenFocus: () -> Unit,
+    onOpenNotifications: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val settings = uiState.settings
@@ -64,7 +69,15 @@ fun HomeScreen(
     val horizontalAlignment = settings.homeAlignment.toHorizontalAlignment()
     val textAlign = settings.homeAlignment.toTextAlign()
 
-    val favorites = remember(uiState) { uiState.favoriteApps() }
+    var now by remember { mutableStateOf(System.currentTimeMillis()) }
+    LaunchedEffect(Unit) {
+        while (true) {
+            now = System.currentTimeMillis()
+            delay(10_000)
+        }
+    }
+    val focusActive = uiState.isFocusActive(now)
+    val favorites = remember(uiState, focusActive) { uiState.focusFilter(uiState.favoriteApps(), now) }
 
     Box(
         modifier = modifier
@@ -97,6 +110,32 @@ fun HomeScreen(
                 Box(Modifier.padding(top = settings.dateAppsSpacingDp.dp))
             }
 
+            if (focusActive) {
+                val endsAt = uiState.state.focus.endsAtMillis
+                LauncherText(
+                    text = if (endsAt == null) "FOCUS · ON" else "FOCUS · ${((endsAt - now) / 60_000L).coerceAtLeast(0)}m LEFT",
+                    fontSizeSp = settings.secondaryTextSizeSp,
+                    textAlign = textAlign,
+                    color = colors.foreground.copy(alpha = 0.6f),
+                    applyCase = false,
+                    modifier = Modifier.clickable(onClick = onOpenFocus).padding(bottom = settings.appSpacingDp.dp),
+                )
+            }
+
+            if (settings.notificationCountEnabled) {
+                val count by LauncherNotificationListenerService.notificationCount.collectAsState()
+                if (count > 0) {
+                    LauncherText(
+                        text = "$count NOTIFICATION${if (count == 1) "" else "S"}",
+                        fontSizeSp = settings.secondaryTextSizeSp,
+                        textAlign = textAlign,
+                        color = colors.foreground.copy(alpha = 0.6f),
+                        applyCase = false,
+                        modifier = Modifier.clickable(onClick = onOpenNotifications).padding(bottom = settings.appSpacingDp.dp),
+                    )
+                }
+            }
+
             favorites.forEachIndexed { index, app ->
                 AppRow(
                     name = uiState.displayName(app),
@@ -111,7 +150,7 @@ fun HomeScreen(
 
             if (favorites.isEmpty()) {
                 LauncherText(
-                    text = "No favorite apps yet.\nOpen Search and mark some as favorites.",
+                    text = if (focusActive) "No allowed apps for this Focus session." else "No favorite apps yet.\nOpen Search and mark some as favorites.",
                     fontSizeSp = settings.secondaryTextSizeSp,
                     textAlign = textAlign,
                     color = colors.foreground.copy(alpha = 0.55f),

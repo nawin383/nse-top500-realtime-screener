@@ -14,6 +14,7 @@ import com.puretext.launcher.data.BookPageStyle
 import com.puretext.launcher.data.LauncherShortcut
 import com.puretext.launcher.data.ShortcutLauncher
 import com.puretext.launcher.data.StylePreset
+import com.puretext.launcher.data.activeState
 import com.puretext.launcher.data.applyTo
 import com.puretext.launcher.data.bookPageStyleFromGlobal
 import com.puretext.launcher.data.stylePresetFromSettings
@@ -58,6 +59,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             loading = false,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), LauncherUiState())
+
+    init {
+        // Focus sessions expire on their own -- no AlarmManager/exact-alarm permission needed,
+        // just a lightweight periodic check for as long as the app process is alive. The Home
+        // screen itself also checks the clock directly, so the UI unblocks immediately even if
+        // this loop hasn't ticked yet; this just keeps the persisted flag (and Settings) in sync.
+        viewModelScope.launch {
+            while (true) {
+                kotlinx.coroutines.delay(20_000)
+                val focus = configStore.current().focus
+                val endsAt = focus.endsAtMillis
+                if (focus.active && endsAt != null && System.currentTimeMillis() >= endsAt) {
+                    configStore.stopFocus()
+                }
+            }
+        }
+    }
 
     fun refreshApps() = viewModelScope.launch { appRepository.refresh() }
 
@@ -155,6 +173,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val style = if (enabled) bookPageStyleFromGlobal(uiState.value.settings) else BookPageStyle()
         configStore.setPageStyle(pageId, style)
     }
+
+    // --- Focus Mode --------------------------------------------------------------
+
+    /** [durationMinutes] null starts an indefinite session (runs until [stopFocus]). */
+    fun startFocus(durationMinutes: Int?, allowedAppKeys: List<AppInfo>) = viewModelScope.launch {
+        configStore.startFocus(durationMinutes, allowedAppKeys.map { it.key })
+    }
+
+    fun stopFocus() = viewModelScope.launch { configStore.stopFocus() }
+
+    fun setFocusAllowedApps(apps: List<AppInfo>) = viewModelScope.launch { configStore.setFocusAllowedApps(apps.map { it.key }) }
 
     // --- Presets -------------------------------------------------------------------
 

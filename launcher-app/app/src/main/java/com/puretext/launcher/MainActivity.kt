@@ -32,6 +32,7 @@ import com.puretext.launcher.ui.home.BookHomeScreen
 import com.puretext.launcher.ui.home.HomeScreen
 import com.puretext.launcher.ui.navigation.Router
 import com.puretext.launcher.ui.navigation.Screen
+import com.puretext.launcher.ui.notifications.NotificationsListScreen
 import com.puretext.launcher.ui.onboarding.OnboardingScreen
 import com.puretext.launcher.ui.search.SearchScreen
 import com.puretext.launcher.ui.settings.AboutSettingsScreen
@@ -42,6 +43,7 @@ import com.puretext.launcher.ui.settings.BackupSettingsScreen
 import com.puretext.launcher.ui.settings.BehaviorSettingsScreen
 import com.puretext.launcher.ui.settings.ClockSettingsScreen
 import com.puretext.launcher.ui.settings.DateSettingsScreen
+import com.puretext.launcher.ui.settings.FocusSettingsScreen
 import com.puretext.launcher.ui.settings.GesturesSettingsScreen
 import com.puretext.launcher.ui.settings.HomeSettingsScreen
 import com.puretext.launcher.ui.settings.LayoutSettingsScreen
@@ -157,6 +159,7 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                         onDoubleTap = { activity.dispatchGesture(uiState.state.gestures.doubleTap) },
                         onLongPress = { activity.dispatchGesture(uiState.state.gestures.longPress) },
                         onOpenSettings = { router.push(Screen.SettingsRoot) },
+                        onOpenFocus = { router.push(Screen.SettingsFocus) },
                     )
                 } else {
                     HomeScreen(
@@ -168,6 +171,8 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                         onSwipeRight = { activity.dispatchGesture(uiState.state.gestures.swipeRight) },
                         onDoubleTap = { activity.dispatchGesture(uiState.state.gestures.doubleTap) },
                         onLongPress = { activity.dispatchGesture(uiState.state.gestures.longPress) },
+                        onOpenFocus = { router.push(Screen.SettingsFocus) },
+                        onOpenNotifications = { router.push(Screen.NotificationsList) },
                     )
                 }
 
@@ -285,7 +290,22 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                     onBack = { router.pop() },
                 )
                 Screen.SettingsBehavior -> BehaviorSettingsScreen(uiState, viewModel::updateSettings, onBack = { router.pop() })
-                Screen.SettingsNotifications -> NotificationsSettingsScreen(uiState.settings, viewModel::updateSettings, onBack = { router.pop() })
+                Screen.SettingsNotifications -> NotificationsSettingsScreen(
+                    settings = uiState.settings,
+                    onUpdate = viewModel::updateSettings,
+                    onOpenNotifications = { router.push(Screen.NotificationsList) },
+                    onBack = { router.pop() },
+                )
+
+                Screen.SettingsFocus -> FocusSettingsScreen(
+                    uiState = uiState,
+                    onStart = viewModel::startFocus,
+                    onStop = viewModel::stopFocus,
+                    onSetAllowedApps = viewModel::setFocusAllowedApps,
+                    onBack = { router.pop() },
+                )
+
+                Screen.NotificationsList -> NotificationsListScreen(onBack = { router.pop() })
 
                 Screen.SettingsBackup -> BackupSettingsScreen(
                     exportJson = { viewModel.exportBackupJson() },
