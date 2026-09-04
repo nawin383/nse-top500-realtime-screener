@@ -21,6 +21,7 @@ private val CATEGORIES = listOf(
     SettingsCategory("Home", "What shows on your home screen", Screen.SettingsHome),
     SettingsCategory("Profiles", "Separate app sets and pages, e.g. Work / Personal", Screen.SettingsProfiles),
     SettingsCategory("Focus Mode", "Time-boxed home screen with only allowed apps", Screen.SettingsFocus),
+    SettingsCategory("Productivity", "Today's agenda and app usage, both opt-in", Screen.SettingsProductivity),
     SettingsCategory("Apps", "Show, hide, rename, reorder, group", Screen.SettingsApps),
     SettingsCategory("Pages", "Book Mode pages, cover, back cover", Screen.SettingsPages),
     SettingsCategory("Typography", "Font, size, spacing, case", Screen.SettingsTypography),

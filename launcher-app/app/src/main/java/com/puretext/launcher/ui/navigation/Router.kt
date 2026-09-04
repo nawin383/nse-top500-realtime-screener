@@ -17,6 +17,9 @@ sealed interface Screen {
     data object SettingsProfiles : Screen
     data object SettingsFocus : Screen
     data object NotificationsList : Screen
+    data object SettingsProductivity : Screen
+    data object Agenda : Screen
+    data object UsageStats : Screen
     data object SettingsClock : Screen
     data object SettingsDate : Screen
     data object SettingsSearch : Screen

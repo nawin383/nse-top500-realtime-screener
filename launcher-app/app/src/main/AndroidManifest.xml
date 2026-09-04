@@ -19,6 +19,10 @@
          optional "swipe -> notifications / quick settings" gestures. -->
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
 
+    <!-- Dangerous, runtime-requested permission, only asked for when the
+         user turns on the opt-in Productivity > Today's Agenda feature. -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
     <application
         android:name=".LauncherApplication"
         android:allowBackup="false"

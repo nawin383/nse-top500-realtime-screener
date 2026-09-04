@@ -83,6 +83,11 @@ data class AppSettings(
     // permission check, this only reflects whether the user turned the
     // home-screen item on)
     val notificationCountEnabled: Boolean = false,
+
+    // Productivity (both opt-in; actual access is a live system permission/
+    // app-op check, these only reflect whether the user turned the feature on)
+    val agendaEnabled: Boolean = false,
+    val usageStatsEnabled: Boolean = false,
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 1

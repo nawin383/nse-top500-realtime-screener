@@ -34,6 +34,8 @@ import com.puretext.launcher.ui.navigation.Router
 import com.puretext.launcher.ui.navigation.Screen
 import com.puretext.launcher.ui.notifications.NotificationsListScreen
 import com.puretext.launcher.ui.onboarding.OnboardingScreen
+import com.puretext.launcher.ui.productivity.AgendaScreen
+import com.puretext.launcher.ui.productivity.UsageStatsScreen
 import com.puretext.launcher.ui.search.SearchScreen
 import com.puretext.launcher.ui.settings.AboutSettingsScreen
 import com.puretext.launcher.ui.settings.AdvancedSettingsScreen
@@ -50,6 +52,7 @@ import com.puretext.launcher.ui.settings.LayoutSettingsScreen
 import com.puretext.launcher.ui.settings.NotificationsSettingsScreen
 import com.puretext.launcher.ui.settings.PagesSettingsScreen
 import com.puretext.launcher.ui.settings.PresetsSettingsScreen
+import com.puretext.launcher.ui.settings.ProductivitySettingsScreen
 import com.puretext.launcher.ui.settings.ProfilesSettingsScreen
 import com.puretext.launcher.ui.settings.SearchSettingsScreen
 import com.puretext.launcher.ui.settings.SettingsRootScreen
@@ -69,6 +72,7 @@ class MainActivity : ComponentActivity() {
     private val router = Router(Screen.Home)
 
     private val requestRoleLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
+    private val requestCalendarPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +107,10 @@ class MainActivity : ComponentActivity() {
         } catch (e: Exception) {
             Log.w(TAG, "Could not open default launcher settings", e)
         }
+    }
+
+    fun requestCalendarAccess() {
+        requestCalendarPermission.launch(android.Manifest.permission.READ_CALENDAR)
     }
 
     fun dispatchGesture(binding: GestureBinding) {
@@ -306,6 +314,22 @@ private fun LauncherApp(viewModel: MainViewModel, router: Router, activity: Main
                 )
 
                 Screen.NotificationsList -> NotificationsListScreen(onBack = { router.pop() })
+
+                Screen.SettingsProductivity -> ProductivitySettingsScreen(
+                    settings = uiState.settings,
+                    onUpdate = viewModel::updateSettings,
+                    onRequestCalendarPermission = { activity.requestCalendarAccess() },
+                    onOpenAgenda = { router.push(Screen.Agenda) },
+                    onOpenUsage = { router.push(Screen.UsageStats) },
+                    onBack = { router.pop() },
+                )
+
+                Screen.Agenda -> AgendaScreen(
+                    onRequestPermission = { activity.requestCalendarAccess() },
+                    onBack = { router.pop() },
+                )
+
+                Screen.UsageStats -> UsageStatsScreen(onBack = { router.pop() })
 
                 Screen.SettingsBackup -> BackupSettingsScreen(
                     exportJson = { viewModel.exportBackupJson() },

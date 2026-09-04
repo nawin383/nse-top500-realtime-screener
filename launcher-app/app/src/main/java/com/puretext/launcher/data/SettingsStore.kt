@@ -96,6 +96,8 @@ class SettingsStore(context: Context) {
             statusBarVisible = d.statusBarVisible,
             recentAppsEnabled = d.recentAppsEnabled,
             notificationCountEnabled = d.notificationCountEnabled,
+            agendaEnabled = d.agendaEnabled,
+            usageStatsEnabled = d.usageStatsEnabled,
         )
     }
 
@@ -138,6 +140,8 @@ class SettingsStore(context: Context) {
         val STATUS_BAR_VISIBLE = booleanPreferencesKey("status_bar_visible")
         val RECENT_APPS_ENABLED = booleanPreferencesKey("recent_apps_enabled")
         val NOTIFICATION_COUNT_ENABLED = booleanPreferencesKey("notification_count_enabled")
+        val AGENDA_ENABLED = booleanPreferencesKey("agenda_enabled")
+        val USAGE_STATS_ENABLED = booleanPreferencesKey("usage_stats_enabled")
     }
 
     private fun Preferences.toAppSettings(): AppSettings {
@@ -181,6 +185,8 @@ class SettingsStore(context: Context) {
             statusBarVisible = this[Keys.STATUS_BAR_VISIBLE] ?: d.statusBarVisible,
             recentAppsEnabled = this[Keys.RECENT_APPS_ENABLED] ?: d.recentAppsEnabled,
             notificationCountEnabled = this[Keys.NOTIFICATION_COUNT_ENABLED] ?: d.notificationCountEnabled,
+            agendaEnabled = this[Keys.AGENDA_ENABLED] ?: d.agendaEnabled,
+            usageStatsEnabled = this[Keys.USAGE_STATS_ENABLED] ?: d.usageStatsEnabled,
         )
     }
 
@@ -223,5 +229,7 @@ class SettingsStore(context: Context) {
         this[Keys.STATUS_BAR_VISIBLE] = s.statusBarVisible
         this[Keys.RECENT_APPS_ENABLED] = s.recentAppsEnabled
         this[Keys.NOTIFICATION_COUNT_ENABLED] = s.notificationCountEnabled
+        this[Keys.AGENDA_ENABLED] = s.agendaEnabled
+        this[Keys.USAGE_STATS_ENABLED] = s.usageStatsEnabled
     }
 }
